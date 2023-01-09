@@ -1,11 +1,12 @@
 require 'rails_helper'
 
-RSpec.describe "Users::Registrations", type: :request do
+RSpec.describe Users::RegistrationsController, :type => :request do
 
   let(:user) { build(:user) }
   let(:existing_user) { create(:user) }
+  let(:user_attributes) { attributes_for(:user) }
 
-  describe '#create' do
+  describe '#sign_up' do
     context 'user tries to register with blank data' do
       before do
         post '/users/sign_up',
@@ -22,8 +23,8 @@ RSpec.describe "Users::Registrations", type: :request do
       end
 
       it 'contains error messages' do
-        expect(json_response['errors']).to include(/Password can't be blank/)
         expect(json_response['errors']).to include(/Email can't be blank/)
+        expect(json_response['errors']).to include(/Password can't be blank/)
       end
     end
 
@@ -69,9 +70,24 @@ RSpec.describe "Users::Registrations", type: :request do
   end
 
   describe '#destroy' do
+    context 'when user unauthorized' do
+      before do
+        delete "/users/#{existing_user.id}"
+      end
+
+      it 'returns 401' do
+        expect(response.status).to eq(401)
+      end
+    end
+
     context 'when user tries to destroy not existing user' do
       before do
-        delete '/users/0'
+        existing_user
+        login_with_api(user_attributes)
+        delete '/users/0',
+               headers: {
+                 'Authorization': "Bearer #{json_response['access_token']}"
+               }
       end
 
       it 'returns 400' do
@@ -85,7 +101,12 @@ RSpec.describe "Users::Registrations", type: :request do
 
     context 'when user tries to destroy existing user' do
       before do
-        delete  "/users/#{existing_user.id}"
+        existing_user
+        login_with_api(user_attributes)
+        delete  "/users/#{existing_user.id}",
+                headers: {
+                  'Authorization': "Bearer #{json_response['access_token']}"
+                }
       end
 
       it 'returns 204' do

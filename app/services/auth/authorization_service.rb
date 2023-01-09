@@ -15,7 +15,7 @@ module Auth
     attr_reader :authorization_header
 
     def authorize
-      return OpenStruct.new(success?: false, data: nil, errors: ['Authorization header is not presented.']) if authorization_header.nil?
+      return OpenStruct.new(success?: false, data: nil, errors: ['Authorization header is not presented']) if authorization_header.nil?
 
       token = get_token_from_header
       begin
