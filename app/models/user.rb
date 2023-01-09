@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  has_one :refresh_token
+  has_one :refresh_token, dependent: :destroy
 
   VALID_EMAIL_REGEX = /\A[a-zA-Z0-9_.+\-]+@[a-zA-Z0-9\-]+\.[a-zA-Z0-9\-.]+\z/i
 

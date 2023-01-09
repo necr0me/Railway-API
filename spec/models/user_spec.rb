@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe User, type: :model do
   let(:user) { create(:user) }
+  let(:user_with_token) { create(:user, :with_refresh_token) }
 
   describe 'validations' do
     context '#email' do
@@ -51,6 +52,20 @@ RSpec.describe User, type: :model do
       it 'is valid when password is correct' do
         user.password = 'password'
         expect(user).to be_valid
+      end
+    end
+  end
+
+  describe 'associations' do
+    context 'refresh_token' do
+      it 'user has one refresh_token' do
+        expect(described_class.reflect_on_association(:refresh_token).macro).to eq(:has_one)
+      end
+
+      it 'destroys with user' do
+        user_id = user_with_token.id
+        user_with_token.destroy
+        expect(RefreshToken.find_by(user_id: user_id)).to be_nil
       end
     end
   end
