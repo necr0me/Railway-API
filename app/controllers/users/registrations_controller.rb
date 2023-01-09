@@ -8,15 +8,9 @@ module Users
     def create
       user = User.create(user_params)
       if user.persisted?
-        render json: {
-          status: 201,
-          message: 'You have successfully registered'
-        }
+        render json: { message: 'You have successfully registered' }, status: 201
       else
-        render json: {
-          status: 422,
-          errors: user.errors.full_messages
-        }
+        render json: { errors: user.errors.full_messages }, status: 422
       end
     end
 

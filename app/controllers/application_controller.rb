@@ -3,8 +3,7 @@ class ApplicationController < ActionController::API
 
   def record_not_found(e)
     render json: {
-      status: 400,
       error: e.message
-    }
+    }, status: 400
   end
 end
