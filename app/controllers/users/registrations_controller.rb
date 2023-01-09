@@ -1,9 +1,8 @@
 module Users
   class RegistrationsController < ApplicationController
-    include UserFindable
-    include UserParamable
+    include UserFindable, UserParamable
 
-    before_action :find_user, only: :destroy
+    before_action :authorize!, :find_user, only: :destroy
 
     def create
       user = User.create(user_params)
