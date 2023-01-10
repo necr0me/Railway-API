@@ -10,7 +10,9 @@ class ApplicationController < ActionController::API
     if @result.success?
       current_user
     else
-      render json: { 'message' => 'You\'re not logged in.', 'errors' => @result.errors }, status: 401
+      render json: { message: 'You\'re not logged in.',
+                     errors: @result.errors },
+             status: 401
     end
   end
 
@@ -19,8 +21,7 @@ class ApplicationController < ActionController::API
   end
 
   def record_not_found(e)
-    render json: {
-      error: e.message
-    }, status: 400
+    render json: { error: e.message },
+           status: 400
   end
 end
