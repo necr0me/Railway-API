@@ -3,4 +3,13 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "articles#index"
+  namespace :users do
+    post 'login', to: 'sessions#create'
+    get 'refresh_tokens', to: 'sessions#refresh_tokens'
+    delete 'logout', to: 'sessions#destroy'
+
+    post 'sign_up', to: 'registrations#create'
+    delete ':id', to: 'registrations#destroy'
+  end
+
 end
