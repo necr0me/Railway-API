@@ -22,7 +22,7 @@ module Api
       def update
         if current_user.profile.update(profile_params)
           render json: { profile: current_user.profile },
-                 status: 201
+                 status: 200
         else
           render json: { message: 'Something went wrong',
                          errors: current_user.profile.errors.full_messages },

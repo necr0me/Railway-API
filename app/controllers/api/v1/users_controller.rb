@@ -1,7 +1,7 @@
 module Api
   module V1
     class UsersController < ApplicationController
-      include UserFindable, UserParamable
+      include UserFindable
       before_action :authorize!, :find_user
 
       def show
@@ -9,7 +9,7 @@ module Api
       end
 
       def update
-        if @user.update(user_params)
+        if @user.update(password: params[:user][:password]) # User able to update only his password
           render json: { message: 'You have successfully updated your credentials' },
                  status: 200
         else

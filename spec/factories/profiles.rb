@@ -1,9 +1,12 @@
 FactoryBot.define do
   factory :profile do
-    name { "MyString" }
-    surname { "MyString" }
-    patronymic { "MyString" }
-    phone_number { "MyString" }
-    passport_code { "MyString" }
+    name { "John" }
+    surname { "Doe" }
+    patronymic { "Doehovich" }
+    phone_number { "+375337777777" }
+    passport_code { "kh2321332" }
+    user { association(:user) }
   end
+
+  factory :blank_profile, class: Profile
 end
