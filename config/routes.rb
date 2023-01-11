@@ -7,6 +7,8 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :users, only: %i[show update]
       resource :profile, only: %i[show create update]
+
+      resources :stations
     end
   end
 
