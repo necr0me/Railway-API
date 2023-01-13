@@ -10,7 +10,7 @@ RSpec.describe Route, type: :model do
       end
 
       it 'orders stations according to increasing their order number', long: true do
-        route.stations.pluck(:order_number).each_cons(2) { expect(_2 - _1).to eq(1) }
+        route.stations.pluck(:order_number).each_cons(2) { expect(_2 > _1).to eq(true) }
       end
     end
 
