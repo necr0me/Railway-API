@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Users::SessionsController, :type => :request do
   let(:user) { create(:user) }
-  let(:user_attributes) { attributes_for(:user) }
+  let(:user_credentials) { user; attributes_for(:user) }
 
   describe '#login' do
     context 'when user sends blank credentials' do
@@ -49,8 +49,7 @@ RSpec.describe Users::SessionsController, :type => :request do
 
     context 'when user tries to login with correct data' do
       before do
-        user
-        login_with_api(user_attributes)
+        login_with_api(user_credentials)
       end
 
       it 'returns 201' do
@@ -74,8 +73,7 @@ RSpec.describe Users::SessionsController, :type => :request do
   describe '#refresh_tokens' do
     context 'when refresh token does not match to users refresh token in db' do
       before do
-        user
-        login_with_api(user_attributes)
+        login_with_api(user_credentials)
         user.refresh_token.update(value: 'blah-blah-blah')
         get '/users/refresh_tokens'
       end
@@ -91,8 +89,7 @@ RSpec.describe Users::SessionsController, :type => :request do
 
     context 'when token has been expired' do
       before do
-        user
-        login_with_api(user_attributes)
+        login_with_api(user_credentials)
         decoded = JWT.decode(cookies[:refresh_token],
                              Constants::Jwt::JWT_SECRET_KEYS['refresh']).first
         decoded['iat'] = (Time.now - 30.minutes).to_i
@@ -116,8 +113,7 @@ RSpec.describe Users::SessionsController, :type => :request do
 
     context 'when token has wrong signature' do
       before do
-        user
-        login_with_api(user_attributes)
+        login_with_api(user_credentials)
         cookies[:refresh_token]+='x'
         get '/users/refresh_tokens'
       end
@@ -134,7 +130,7 @@ RSpec.describe Users::SessionsController, :type => :request do
     context 'when there is no refresh token presented' do
       before do
         user
-        login_with_api(user_attributes)
+        login_with_api(user_credentials)
         cookies.delete 'refresh_token'
         get '/users/refresh_tokens'
       end
@@ -150,8 +146,7 @@ RSpec.describe Users::SessionsController, :type => :request do
 
     context 'when refresh token matches to token in db', long: true do
       before do
-        user
-        login_with_api(user_attributes)
+        login_with_api(user_credentials)
         @old_refresh_token = cookies[:refresh_token]
         sleep 1 # to prevent generating same signatures for 2 tokens
         get '/users/refresh_tokens'
@@ -191,8 +186,7 @@ RSpec.describe Users::SessionsController, :type => :request do
 
     context 'when user is authorized' do
       before do
-        user
-        login_with_api(user_attributes)
+        login_with_api(user_credentials)
         delete '/users/logout',
                headers: {
                  'Authorization': "Bearer #{json_response['access_token']}"

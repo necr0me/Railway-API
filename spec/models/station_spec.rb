@@ -1,0 +1,61 @@
+require 'rails_helper'
+
+RSpec.describe Station, type: :model do
+
+  let(:station) { create(:station) }
+  let(:invalid_station) { build(:station, name: ' ') }
+  let(:station_in_route) { create(:station, :with_route) }
+
+  describe 'validations' do
+    context '#name' do
+      it 'invalid when blank' do
+        expect(invalid_station).to_not be_valid
+        expect(invalid_station.errors[:name]).to include("can't be blank")
+      end
+
+      it 'invalid when length of name < 2' do
+        invalid_station.name = 'x'
+        expect(invalid_station).to_not be_valid
+        expect(invalid_station.errors[:name]).to include(/too short/)
+      end
+
+      it 'invalid when length of name > 50' do
+        invalid_station.name = 'x' * 51
+        expect(invalid_station).to_not be_valid
+        expect(invalid_station.errors[:name]).to include(/too long/)
+      end
+
+      it 'invalid when name is not unique' do
+        invalid_station.name = station.name
+        expect(invalid_station).to_not be_valid
+        expect(invalid_station.errors[:name]).to include('has already been taken')
+      end
+
+      it 'valid with valid name' do
+        expect(station).to be_valid
+      end
+    end
+  end
+
+  describe 'associations' do
+    context 'routes' do
+      it 'has many routes' do
+        expect(described_class.reflect_on_association(:routes).macro).to eq(:has_many)
+      end
+    end
+
+    context 'station_order_numbers' do
+      it 'has many station order numbers' do
+        expect(described_class.reflect_on_association(:station_order_numbers).macro).to eq(:has_many)
+      end
+
+      it 'destroys with station' do
+        route_id = station_in_route.routes.first.id
+        station_id = station_in_route.id
+        station_in_route.destroy
+        expect { StationOrderNumber.find_by!(route_id: route_id,
+                                             station_id: station_id) }.to raise_error(ActiveRecord::RecordNotFound)
+      end
+    end
+  end
+end

@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe User, type: :model do
   let(:user) { create(:user) }
   let(:user_with_token) { create(:user, :with_refresh_token) }
+  let(:user_with_profile) { create(:user, :with_profile)}
 
   describe 'validations' do
     context '#email' do
@@ -66,6 +67,18 @@ RSpec.describe User, type: :model do
         user_id = user_with_token.id
         user_with_token.destroy
         expect(RefreshToken.find_by(user_id: user_id)).to be_nil
+      end
+    end
+
+    context 'profile' do
+      it 'user has one profile' do
+        expect(described_class.reflect_on_association(:profile).macro).to eq(:has_one)
+      end
+
+      it 'destroys with user' do
+        user_id = user_with_profile.id
+        user_with_profile.destroy
+        expect(Profile.find_by(user_id: user_id)).to be_nil
       end
     end
   end

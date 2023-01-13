@@ -4,7 +4,7 @@ RSpec.describe Users::RegistrationsController, :type => :request do
 
   let(:user) { build(:user) }
   let(:existing_user) { create(:user) }
-  let(:user_attributes) { attributes_for(:user) }
+  let(:user_credentials) { existing_user; attributes_for(:user) }
 
   describe 'concerns' do
     context 'UserFindable' do
@@ -96,8 +96,7 @@ RSpec.describe Users::RegistrationsController, :type => :request do
 
     context 'when user tries to destroy not existing user' do
       before do
-        existing_user
-        login_with_api(user_attributes)
+        login_with_api(user_credentials)
         delete '/users/0',
                headers: {
                  'Authorization': "Bearer #{json_response['access_token']}"
@@ -115,8 +114,7 @@ RSpec.describe Users::RegistrationsController, :type => :request do
 
     context 'when user tries to destroy existing user' do
       before do
-        existing_user
-        login_with_api(user_attributes)
+        login_with_api(user_credentials)
         delete  "/users/#{existing_user.id}",
                 headers: {
                   'Authorization': "Bearer #{json_response['access_token']}"

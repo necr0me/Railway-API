@@ -66,6 +66,8 @@ GEM
       i18n (>= 1.6, < 2)
       minitest (>= 5.1)
       tzinfo (~> 2.0)
+    auto_strip_attributes (2.6.0)
+      activerecord (>= 4.0)
     bcrypt (3.1.18)
     bootsnap (1.15.0)
       msgpack (~> 1.2)
@@ -191,6 +193,7 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
+  auto_strip_attributes
   bcrypt
   bootsnap
   debug
