@@ -4,6 +4,7 @@ RSpec.describe Station, type: :model do
 
   let(:station) { create(:station) }
   let(:invalid_station) { build(:station, name: ' ') }
+  let(:station_in_route) { create(:station, :with_route) }
 
   describe 'validations' do
     context '#name' do
@@ -32,6 +33,28 @@ RSpec.describe Station, type: :model do
 
       it 'valid with valid name' do
         expect(station).to be_valid
+      end
+    end
+  end
+
+  describe 'associations' do
+    context 'routes' do
+      it 'has many routes' do
+        expect(described_class.reflect_on_association(:routes).macro).to eq(:has_many)
+      end
+    end
+
+    context 'station_order_numbers' do
+      it 'has many station order numbers' do
+        expect(described_class.reflect_on_association(:station_order_numbers).macro).to eq(:has_many)
+      end
+
+      it 'destroys with station' do
+        route_id = station_in_route.routes.first.id
+        station_id = station_in_route.id
+        station_in_route.destroy
+        expect { StationOrderNumber.find_by!(route_id: route_id,
+                                             station_id: station_id) }.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
   end
