@@ -45,8 +45,8 @@ RSpec.describe Api::V1::UsersController, type: :request do
       end
 
       it 'returns correct user' do
-        expect(json_response['id']).to eq(user.id)
-        expect(json_response['email']).to eq(user.email)
+        expect(json_response['user']['id']).to eq(user.id)
+        expect(json_response['user']['email']).to eq(user.email)
       end
     end
   end

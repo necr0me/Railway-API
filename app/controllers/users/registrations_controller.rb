@@ -16,6 +16,7 @@ module Users
     end
 
     def destroy
+      authorize @user
       @user.destroy
       head 204
     end
