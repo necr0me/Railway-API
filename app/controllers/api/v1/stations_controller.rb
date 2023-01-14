@@ -1,7 +1,7 @@
 module Api
   module V1
     class StationsController < ApplicationController
-      before_action :authorize!, except: %i[index show]
+      before_action :authorize!, except: %i[index]
       before_action :find_station, only: %i[show update destroy]
 
       def index

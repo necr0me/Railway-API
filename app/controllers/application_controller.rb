@@ -1,10 +1,11 @@
 class ApplicationController < ActionController::API
   include ActionController::Cookies
+
   # TODO: Rescue from creating record with same id.
+  # TODO: Move error handling in separate concern.
   rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
 
   protected
-
   def authorize!
     @result = Auth::AuthorizationService.call(authorization_header: request.headers['Authorization'])
     if @result.success?
