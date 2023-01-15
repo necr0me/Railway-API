@@ -4,7 +4,7 @@ RSpec.describe Api::V1::StationsController, type: :request do
 
   let(:station) { create(:station) }
 
-  let(:user) { create(:user) }
+  let(:user) { create(:user, role: :moderator) }
   let(:user_credentials) { user; attributes_for(:user) }
 
   describe '#index' do

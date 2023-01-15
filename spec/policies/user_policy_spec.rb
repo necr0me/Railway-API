@@ -8,50 +8,32 @@ RSpec.describe UserPolicy, type: :policy do
   context 'being visitor' do
     let(:user) { nil }
 
-    it 'forbids to #show' do
-      expect(subject).to forbid_action(:show)
-    end
+    it { is_expected.to forbid_action(:show) }
 
-    it 'forbids to #update' do
-      expect(subject).to forbid_action(:update)
-    end
+    it { is_expected.to forbid_action(:update) }
 
-    it 'forbids to #destroy' do
-      expect(subject).to forbid_action(:destroy)
-    end
+    it { is_expected.to forbid_action(:destroy) }
   end
 
   context 'being user' do
     context 'being correct user' do
       let(:user) { resource_user }
 
-      it 'permits to #show' do
-        expect(subject).to permit_action(:show)
-      end
+      it { is_expected.to permit_action(:show) }
 
-      it 'permits to #update' do
-        expect(subject).to permit_action(:update)
-      end
+      it { is_expected.to permit_action(:update) }
 
-      it 'permits to #destroy' do
-        expect(subject).to permit_action(:destroy)
-      end
+      it { is_expected.to permit_action(:destroy) }
     end
 
     context 'being other user' do
       let(:user) { create(:user, email: 'mail@gmail.com', password: 'password') }
 
-      it 'forbids to #show' do
-        expect(subject).to forbid_action(:show)
-      end
+      it { is_expected.to forbid_action(:show) }
 
-      it 'forbids to #update' do
-        expect(subject).to forbid_action(:update)
-      end
+      it { is_expected.to forbid_action(:update) }
 
-      it 'forbids to #destroy' do
-        expect(subject).to forbid_action(:destroy)
-      end
+      it { is_expected.to forbid_action(:destroy) }
     end
   end
 
@@ -61,31 +43,19 @@ RSpec.describe UserPolicy, type: :policy do
     context 'own resources' do
       let(:resource_user) { user }
 
-      it 'permits to #show' do
-        expect(subject).to permit_action(:show)
-      end
+      it { is_expected.to permit_action(:show) }
 
-      it 'permits to #update' do
-        expect(subject).to permit_action(:update)
-      end
+      it { is_expected.to permit_action(:update) }
 
-      it 'permits to #destroy' do
-        expect(subject).to permit_action(:destroy)
-      end
+      it { is_expected.to permit_action(:destroy) }
     end
 
     context 'other users resources' do
-      it 'permits to #show' do
-        expect(subject).to permit_action(:show)
-      end
+      it { is_expected.to permit_action(:show) }
 
-      it 'forbids to #update' do
-        expect(subject).to forbid_action(:update)
-      end
+      it { is_expected.to forbid_action(:update) }
 
-      it 'forbids to #destroy' do
-        expect(subject).to forbid_action(:destroy)
-      end
+      it { is_expected.to forbid_action(:destroy) }
     end
 
   end
@@ -96,31 +66,19 @@ RSpec.describe UserPolicy, type: :policy do
     context 'own resources' do
       let(:resource_user) { user }
 
-      it 'permits to #show' do
-        expect(subject).to permit_action(:show)
-      end
+      it { is_expected.to permit_action(:show) }
 
-      it 'permits to #update' do
-        expect(subject).to permit_action(:update)
-      end
+      it { is_expected.to permit_action(:update) }
 
-      it 'permits to #destroy' do
-        expect(subject).to permit_action(:destroy)
-      end
+      it { is_expected.to permit_action(:destroy) }
     end
 
     context 'other resources' do
-      it 'permits to #show' do
-        expect(subject).to permit_action(:show)
-      end
+      it { is_expected.to permit_action(:show) }
 
-      it 'forbids to #update' do
-        expect(subject).to forbid_action(:update)
-      end
+      it { is_expected.to forbid_action(:update) }
 
-      it 'permits to #destroy' do
-        expect(subject).to permit_action(:destroy)
-      end
+      it { is_expected.to permit_action(:destroy) }
     end
   end
 end

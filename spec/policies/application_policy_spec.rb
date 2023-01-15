@@ -4,33 +4,19 @@ RSpec.describe ApplicationPolicy, type: :policy do
   subject { described_class.new(nil, nil) }
 
   describe 'policy' do
-    it 'forbids to #index' do
-      expect(subject).to forbid_action(:index)
-    end
+    it { is_expected.to forbid_action(:index) }
 
-    it 'forbids to #show' do
-      expect(subject).to forbid_action(:show)
-    end
+    it { is_expected.to forbid_action(:show) }
 
-    it 'forbids to #create' do
-      expect(subject).to forbid_action(:create)
-    end
+    it { is_expected.to forbid_action(:create) }
 
-    it 'forbids to #new' do
-      expect(subject).to forbid_action(:new)
-    end
+    it { is_expected.to forbid_action(:new) }
 
-    it 'forbids to #update' do
-      expect(subject).to forbid_action(:update)
-    end
+    it { is_expected.to forbid_action(:update) }
 
-    it 'forbids to #edit' do
-      expect(subject).to forbid_action(:edit)
-    end
+    it { is_expected.to forbid_action(:edit) }
 
-    it 'forbids to #destroy' do
-      expect(subject).to forbid_action(:destroy)
-    end
+    it { is_expected.to forbid_action(:destroy) }
   end
 
   describe 'scope' do

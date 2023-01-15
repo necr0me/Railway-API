@@ -14,6 +14,7 @@ module Api
 
       def create
         station = Station.create(station_params)
+        authorize station
         if station.persisted?
           render json: { station: station },
                  status: 201
@@ -25,6 +26,7 @@ module Api
       end
 
       def update
+        authorize @station
         if @station.update(station_params)
           render json: { station: @station },
                  status: 200
@@ -36,6 +38,7 @@ module Api
       end
 
       def destroy
+        authorize @station
         @station.destroy
         head 204
       end
