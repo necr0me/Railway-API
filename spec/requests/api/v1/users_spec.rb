@@ -36,7 +36,7 @@ RSpec.describe Api::V1::UsersController, type: :request do
       end
 
       it 'contains message that cant find user with such id' do
-        expect(json_response['error']).to eq("Couldn't find User with 'id'=0")
+        expect(json_response['message']).to eq("Couldn't find User with 'id'=0")
       end
     end
 
@@ -89,7 +89,7 @@ RSpec.describe Api::V1::UsersController, type: :request do
       end
 
       it 'contains error message that cant fund user with such id' do
-        expect(json_response['error']).to eq("Couldn't find User with 'id'=0")
+        expect(json_response['message']).to eq("Couldn't find User with 'id'=0")
       end
     end
 

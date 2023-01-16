@@ -108,7 +108,7 @@ RSpec.describe Users::RegistrationsController, :type => :request do
       end
 
       it 'returns error message' do
-        expect(json_response['error']).to eq("Couldn't find User with 'id'=0")
+        expect(json_response['message']).to eq("Couldn't find User with 'id'=0")
       end
     end
 

@@ -10,7 +10,7 @@ module ErrorHandler
     protected
 
     def record_not_found(e)
-      render json: { error: e.message },
+      render json: { message: e.message },
              status: 404
     end
 

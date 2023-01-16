@@ -4,7 +4,7 @@ RSpec.describe Authorization do
   let(:user) { create(:user) }
   let(:token) { Jwt::EncoderService.call(payload: { user_id: user.id }, type: 'access') }
 
-  controller(ApplicationController) do
+  controller(ActionController::API) do
     include Authorization
 
     def action

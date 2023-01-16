@@ -39,7 +39,7 @@ RSpec.describe Api::V1::RoutesController, type: :request do
       end
 
       it 'contains message that cant find route with such id' do
-        expect(json_response['error']).to eq("Couldn't find Route with 'id'=0")
+        expect(json_response['message']).to eq("Couldn't find Route with 'id'=0")
       end
     end
   end
@@ -122,7 +122,7 @@ RSpec.describe Api::V1::RoutesController, type: :request do
       end
 
       it 'contains error message' do
-        expect(json_response['error']).to eq("Couldn't find Route with 'id'=0")
+        expect(json_response['message']).to eq("Couldn't find Route with 'id'=0")
       end
     end
 
@@ -197,7 +197,7 @@ RSpec.describe Api::V1::RoutesController, type: :request do
       end
 
       it 'contains error message' do
-        expect(json_response['error']).to eq("Couldn't find Route with 'id'=0")
+        expect(json_response['message']).to eq("Couldn't find Route with 'id'=0")
       end
     end
 
@@ -260,7 +260,7 @@ RSpec.describe Api::V1::RoutesController, type: :request do
       end
 
       it 'contains message that cant find route with such id' do
-        expect(json_response['error']).to eq("Couldn't find Route with 'id'=0")
+        expect(json_response['message']).to eq("Couldn't find Route with 'id'=0")
       end
     end
 

@@ -50,7 +50,7 @@ RSpec.describe Api::V1::StationsController, type: :request do
       end
 
       it 'contains error message that cant find station with such id' do
-        expect(json_response['error']).to eq("Couldn't find Station with 'id'=0")
+        expect(json_response['message']).to eq("Couldn't find Station with 'id'=0")
       end
     end
 
@@ -164,7 +164,7 @@ RSpec.describe Api::V1::StationsController, type: :request do
       end
 
       it 'contains error message that cant find station with such id' do
-        expect(json_response['error']).to eq("Couldn't find Station with 'id'=0")
+        expect(json_response['message']).to eq("Couldn't find Station with 'id'=0")
       end
     end
 
@@ -239,7 +239,7 @@ RSpec.describe Api::V1::StationsController, type: :request do
       end
 
       it 'contains error message that cant fund stations with such id' do
-        expect(json_response['error']).to eq("Couldn't find Station with 'id'=0")
+        expect(json_response['message']).to eq("Couldn't find Station with 'id'=0")
       end
     end
 
