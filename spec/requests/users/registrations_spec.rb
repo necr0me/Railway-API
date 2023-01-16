@@ -103,8 +103,8 @@ RSpec.describe Users::RegistrationsController, :type => :request do
                }
       end
 
-      it 'returns 400' do
-        expect(response.status).to eq(400)
+      it 'returns 404' do
+        expect(response.status).to eq(404)
       end
 
       it 'returns error message' do

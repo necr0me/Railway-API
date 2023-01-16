@@ -34,8 +34,8 @@ RSpec.describe Api::V1::RoutesController, type: :request do
         get '/api/v1/routes/0'
       end
 
-      it 'returns 400' do
-        expect(response.status).to eq(400)
+      it 'returns 404' do
+        expect(response.status).to eq(404)
       end
 
       it 'contains message that cant find route with such id' do
@@ -117,8 +117,8 @@ RSpec.describe Api::V1::RoutesController, type: :request do
              }
       end
 
-      it 'returns 400' do
-        expect(response.status).to eq(400)
+      it 'returns 404' do
+        expect(response.status).to eq(404)
       end
 
       it 'contains error message' do
@@ -192,8 +192,8 @@ RSpec.describe Api::V1::RoutesController, type: :request do
         }
       end
 
-      it 'returns 400' do
-        expect(response.status).to eq(400)
+      it 'returns 404' do
+        expect(response.status).to eq(404)
       end
 
       it 'contains error message' do
@@ -255,8 +255,8 @@ RSpec.describe Api::V1::RoutesController, type: :request do
         }
       end
 
-      it 'returns 400' do
-        expect(response.status).to eq(400)
+      it 'returns 404' do
+        expect(response.status).to eq(404)
       end
 
       it 'contains message that cant find route with such id' do

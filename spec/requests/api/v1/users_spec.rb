@@ -23,8 +23,8 @@ RSpec.describe Api::V1::UsersController, type: :request do
         }
       end
 
-      it 'returns 400' do
-        expect(response.status).to eq(400)
+      it 'returns 404' do
+        expect(response.status).to eq(404)
       end
 
       it 'contains message that cant find user with such id' do
@@ -76,8 +76,8 @@ RSpec.describe Api::V1::UsersController, type: :request do
               }
       end
 
-      it 'returns 400' do
-        expect(response.status).to eq(400)
+      it 'returns 404' do
+        expect(response.status).to eq(404)
       end
 
       it 'contains error message that cant fund user with such id' do

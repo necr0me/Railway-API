@@ -45,8 +45,8 @@ RSpec.describe Api::V1::StationsController, type: :request do
         get '/api/v1/stations/0'
       end
 
-      it 'returns 400' do
-        expect(response.status).to eq(400)
+      it 'returns 404' do
+        expect(response.status).to eq(404)
       end
 
       it 'contains error message that cant find station with such id' do
@@ -159,8 +159,8 @@ RSpec.describe Api::V1::StationsController, type: :request do
               }
       end
 
-      it 'returns 400' do
-        expect(response.status).to eq(400)
+      it 'returns 404' do
+        expect(response.status).to eq(404)
       end
 
       it 'contains error message that cant find station with such id' do
@@ -234,8 +234,8 @@ RSpec.describe Api::V1::StationsController, type: :request do
         }
       end
 
-      it 'returns 400' do
-        expect(response.status).to eq(400)
+      it 'returns 404' do
+        expect(response.status).to eq(404)
       end
 
       it 'contains error message that cant fund stations with such id' do
