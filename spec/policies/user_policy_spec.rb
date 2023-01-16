@@ -8,32 +8,20 @@ RSpec.describe UserPolicy, type: :policy do
   context 'being visitor' do
     let(:user) { nil }
 
-    it { is_expected.to forbid_action(:show) }
-
-    it { is_expected.to forbid_action(:update) }
-
-    it { is_expected.to forbid_action(:destroy) }
+    it { is_expected.to forbid_actions(%i[show update destroy]) }
   end
 
   context 'being user' do
     context 'being correct user' do
       let(:user) { resource_user }
 
-      it { is_expected.to permit_action(:show) }
-
-      it { is_expected.to permit_action(:update) }
-
-      it { is_expected.to permit_action(:destroy) }
+      it { is_expected.to permit_actions(%i[show update destroy]) }
     end
 
     context 'being other user' do
       let(:user) { create(:user, email: 'mail@gmail.com', password: 'password') }
 
-      it { is_expected.to forbid_action(:show) }
-
-      it { is_expected.to forbid_action(:update) }
-
-      it { is_expected.to forbid_action(:destroy) }
+      it { is_expected.to forbid_actions(%i[show update destroy]) }
     end
   end
 
@@ -43,19 +31,13 @@ RSpec.describe UserPolicy, type: :policy do
     context 'own resources' do
       let(:resource_user) { user }
 
-      it { is_expected.to permit_action(:show) }
-
-      it { is_expected.to permit_action(:update) }
-
-      it { is_expected.to permit_action(:destroy) }
+      it { is_expected.to permit_actions(%i[show update destroy]) }
     end
 
     context 'other users resources' do
       it { is_expected.to permit_action(:show) }
 
-      it { is_expected.to forbid_action(:update) }
-
-      it { is_expected.to forbid_action(:destroy) }
+      it { is_expected.to forbid_actions(%i[update destroy]) }
     end
 
   end
@@ -66,19 +48,13 @@ RSpec.describe UserPolicy, type: :policy do
     context 'own resources' do
       let(:resource_user) { user }
 
-      it { is_expected.to permit_action(:show) }
-
-      it { is_expected.to permit_action(:update) }
-
-      it { is_expected.to permit_action(:destroy) }
+      it { is_expected.to permit_actions(%i[show update destroy]) }
     end
 
     context 'other resources' do
-      it { is_expected.to permit_action(:show) }
+      it { is_expected.to permit_actions(%i[show destroy]) }
 
       it { is_expected.to forbid_action(:update) }
-
-      it { is_expected.to permit_action(:destroy) }
     end
   end
 end
