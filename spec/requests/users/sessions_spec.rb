@@ -4,6 +4,14 @@ RSpec.describe Users::SessionsController, :type => :request do
   let(:user) { create(:user) }
   let(:user_credentials) { user; attributes_for(:user) }
 
+  describe 'concerns' do
+    context 'UserParamable' do
+      it 'includes UserParamable concern' do
+        expect(described_class.ancestors).to include(UserParamable)
+      end
+    end
+  end
+
   describe '#login' do
     context 'when user sends blank credentials' do
       before do
@@ -179,7 +187,7 @@ RSpec.describe Users::SessionsController, :type => :request do
       end
 
       it 'contains message that you are not logged in' do
-        expect(json_response['message']).to eq('You\'re not logged in.')
+        expect(json_response['message']).to eq('You\'re not logged in')
       end
 
     end

@@ -4,6 +4,14 @@ RSpec.describe Api::V1::UsersController, type: :request do
   let(:user) { create(:user) }
   let(:user_credentials) { user; attributes_for(:user) }
 
+  describe 'concerns' do
+    context 'UserFindable' do
+      it 'includes UserFindable concern' do
+        expect(described_class.ancestors).to include(UserFindable)
+      end
+    end
+  end
+
   describe '#show' do
     context 'when user is unauthorized' do
       before do

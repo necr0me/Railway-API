@@ -9,7 +9,7 @@ module Authorization
       if @result.success?
         current_user
       else
-        render json: { message: 'You\'re not logged in.',
+        render json: { message: 'You\'re not logged in',
                        errors: @result.errors },
                status: 401
       end
