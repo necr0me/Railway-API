@@ -12,8 +12,59 @@ RSpec.describe Profile, type: :model do
     end
   end
 
-  describe 'validations' do
+  describe 'auto_strip_attributes' do
+    context '#name' do
+      it 'removes redundant whitespaces at start and at the end' do
+        profile.name = "   Name with whitespaces    "
+        profile.save
+        expect(profile.name.count(' ')).to eq(2)
+      end
 
+      it 'removes tabulations' do
+        profile.name = "  Name  with  tabulations   "
+        profile.save
+        expect(profile.name.count(' ')).to eq(2)
+      end
+    end
+
+    context '#surname' do
+      it 'removes redundant whitespaces at start and at the end' do
+        profile.surname = "   Surname with whitespaces    "
+        profile.save
+        expect(profile.surname.count(' ')).to eq(2)
+      end
+
+      it 'removes tabulations' do
+        profile.surname = "  Surname  with  tabulations   "
+        profile.save
+        expect(profile.surname.count(' ')).to eq(2)
+      end
+    end
+
+    context '#patronymic' do
+      it 'removes redundant whitespaces at start and at the end' do
+        profile.patronymic = "   Patronymic with whitespaces    "
+        profile.save
+        expect(profile.patronymic.count(' ')).to eq(2)
+      end
+
+      it 'removes tabulations' do
+        profile.patronymic = "  Patronymic  with  tabulations   "
+        profile.save
+        expect(profile.patronymic.count(' ')).to eq(2)
+      end
+    end
+
+    context '#phone_number' do
+      it 'removes any whitespaces' do
+        profile.phone_number = " +3 75 33 7 53   12 111     "
+        profile.save
+        expect(profile.phone_number.count(' ')).to eq(0)
+      end
+    end
+  end
+
+  describe 'validations' do
     context '#name' do
       it 'is not valid when blank' do
         expect(blank_profile).to_not be_valid
