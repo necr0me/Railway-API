@@ -78,8 +78,6 @@ RSpec.describe Api::V1::ProfilesController, type: :request do
       end
     end
 
-    # TODO: test when user creates already existing profile (after rescuing it in ApplicationController)
-
     context 'when user is authorized and his profile already exists' do
       before do
         login_with_api(user_credentials)

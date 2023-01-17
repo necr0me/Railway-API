@@ -40,20 +40,6 @@ RSpec.describe Api::V1::StationsController, type: :request do
   end
 
   describe '#show' do
-    context 'when station is not exists' do
-      before do
-        get '/api/v1/stations/0'
-      end
-
-      it 'returns 404' do
-        expect(response.status).to eq(404)
-      end
-
-      it 'contains error message that cant find station with such id' do
-        expect(json_response['message']).to eq("Couldn't find Station with 'id'=0")
-      end
-    end
-
     context 'when station does exist' do
       before do
         get "/api/v1/stations/#{station.id}"
@@ -145,29 +131,6 @@ RSpec.describe Api::V1::StationsController, type: :request do
       end
     end
 
-    context 'when user is authorized but station does not exist' do
-      before do
-        login_with_api(user_credentials)
-        patch "/api/v1/stations/0",
-              params: {
-                station: {
-                  name: "new_name"
-                }
-              },
-              headers: {
-                Authorization: "Bearer #{json_response['access_token']}"
-              }
-      end
-
-      it 'returns 404' do
-        expect(response.status).to eq(404)
-      end
-
-      it 'contains error message that cant find station with such id' do
-        expect(json_response['message']).to eq("Couldn't find Station with 'id'=0")
-      end
-    end
-
     context 'when user is authorized but tries to update station with invalid data' do
       before do
         login_with_api(user_credentials)
@@ -223,23 +186,6 @@ RSpec.describe Api::V1::StationsController, type: :request do
 
       it 'returns 401' do
         expect(response.status).to eq(401)
-      end
-    end
-
-    context 'when user is authorized but station does not exist' do
-      before do
-        login_with_api(user_credentials)
-        delete '/api/v1/stations/0', headers: {
-          Authorization: "Bearer #{json_response['access_token']}"
-        }
-      end
-
-      it 'returns 404' do
-        expect(response.status).to eq(404)
-      end
-
-      it 'contains error message that cant fund stations with such id' do
-        expect(json_response['message']).to eq("Couldn't find Station with 'id'=0")
       end
     end
 

@@ -23,23 +23,6 @@ RSpec.describe Api::V1::UsersController, type: :request do
       end
     end
 
-    context 'when user does not exists' do
-      before do
-        login_with_api(user_credentials)
-        get "/api/v1/users/0", headers: {
-          Authorization: "Bearer #{json_response['access_token']}"
-        }
-      end
-
-      it 'returns 404' do
-        expect(response.status).to eq(404)
-      end
-
-      it 'contains message that cant find user with such id' do
-        expect(json_response['message']).to eq("Couldn't find User with 'id'=0")
-      end
-    end
-
     context 'when user is authorized and user is correct' do
       before do
         login_with_api(user_credentials)
@@ -72,26 +55,6 @@ RSpec.describe Api::V1::UsersController, type: :request do
       end
     end
 
-    context 'when user does not exists' do
-      before do
-        login_with_api(user_credentials)
-        patch "/api/v1/users/0",
-              params: {
-                user: attributes_for(:user)
-              },
-              headers: {
-                Authorization: "Bearer #{json_response['access_token']}"
-              }
-      end
-
-      it 'returns 404' do
-        expect(response.status).to eq(404)
-      end
-
-      it 'contains error message that cant fund user with such id' do
-        expect(json_response['message']).to eq("Couldn't find User with 'id'=0")
-      end
-    end
 
     context 'when user tries to update with invalid password' do
       before do

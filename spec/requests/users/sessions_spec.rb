@@ -179,7 +179,7 @@ RSpec.describe Users::SessionsController, :type => :request do
   end
 
   describe '#destroy' do
-    context 'when user is not authorized' do
+    context 'when user is unauthorized' do
       before { delete '/users/logout' }
 
       it 'returns 401' do
@@ -189,7 +189,6 @@ RSpec.describe Users::SessionsController, :type => :request do
       it 'contains message that you are not logged in' do
         expect(json_response['message']).to eq('You\'re not logged in')
       end
-
     end
 
     context 'when user is authorized' do
