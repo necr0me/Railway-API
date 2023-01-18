@@ -10,9 +10,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_14_150959) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_18_112435) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "carriage_types", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "description", null: false
+    t.integer "capacity", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "carriages", force: :cascade do |t|
+    t.string "name", null: false
+    t.bigint "carriage_type_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["carriage_type_id"], name: "index_carriages_on_carriage_type_id"
+  end
 
   create_table "profiles", force: :cascade do |t|
     t.string "name", null: false
@@ -39,6 +55,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_14_150959) do
   create_table "routes", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "seats", force: :cascade do |t|
+    t.string "number"
+    t.boolean "is_taken", default: false, null: false
+    t.bigint "carriage_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["carriage_id"], name: "index_seats_on_carriage_id"
   end
 
   create_table "station_order_numbers", force: :cascade do |t|
@@ -68,8 +93,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_14_150959) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  add_foreign_key "carriages", "carriage_types"
   add_foreign_key "profiles", "users"
   add_foreign_key "refresh_tokens", "users"
+  add_foreign_key "seats", "carriages"
   add_foreign_key "station_order_numbers", "routes"
   add_foreign_key "station_order_numbers", "stations"
 end
