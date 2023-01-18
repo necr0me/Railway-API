@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :carriage_type do
-    name { "MyString" }
-    description { "MyString" }
-    capacity { 1 }
+    name { Faker::FunnyName.name }
+    description { Faker::Company.name }
+    capacity { 8 }
   end
 end

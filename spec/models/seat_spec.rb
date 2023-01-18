@@ -1,5 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe Seat, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe 'associations' do
+    context 'Carriage' do
+      it 'belongs to carriage' do
+        expect(described_class.reflect_on_association(:carriage).macro).to eq(:belongs_to)
+      end
+    end
+  end
 end
