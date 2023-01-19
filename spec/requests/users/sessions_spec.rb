@@ -160,19 +160,13 @@ RSpec.describe Users::SessionsController, :type => :request do
         get '/users/refresh_tokens'
       end
 
-      it 'returns 200' do
+      it 'returns 200 and new access token' do
         expect(response.status).to eq(200)
-      end
-
-      it 'returns new access token' do
         expect(json_response['access_token']).to_not be_nil
       end
 
-      it 'generates new refresh token' do
+      it 'generates new refresh token and saves it to db' do
         expect(cookies[:refresh_token]).to_not eq(@old_refresh_token)
-      end
-
-      it 'saves new refresh token to db' do
         expect(cookies[:refresh_token]).to eq(user.refresh_token.value)
       end
     end
