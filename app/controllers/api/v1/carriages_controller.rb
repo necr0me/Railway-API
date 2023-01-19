@@ -38,7 +38,7 @@ module Api
                  status: 200
         else
           render json: { message: 'Something went wrong',
-                         errors: carriage.errors.full_messages },
+                         errors: @carriage.errors.full_messages },
                  status: 422
         end
       end
