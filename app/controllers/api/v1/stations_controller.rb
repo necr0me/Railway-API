@@ -37,6 +37,7 @@ module Api
         end
       end
 
+# TODO: Add 'if-else' block for handling errors during destroy
       def destroy
         authorize @station
         @station.destroy
