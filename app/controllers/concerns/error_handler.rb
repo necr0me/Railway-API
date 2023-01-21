@@ -4,6 +4,7 @@ module ErrorHandler
   included do
     rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
     rescue_from ActiveRecord::RecordNotUnique, with: :record_not_unique
+    # TODO: rescue_from ActiveRecord::InvalidForeignKey
 
     rescue_from Pundit::NotAuthorizedError, with: :access_forbidden
 
