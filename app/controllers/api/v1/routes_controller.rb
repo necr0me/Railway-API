@@ -1,8 +1,8 @@
 module Api
   module V1
     class RoutesController < ApplicationController
-      before_action :authorize!
-      before_action :find_route, only: %i[show destroy]
+      before_action :authorize!, except: %i[show]
+      before_action :find_route, except: %i[create]
 
       def show
         render json: { route: @route,
@@ -12,6 +12,7 @@ module Api
 
       def create
         route = Route.create
+        authorize route
         if route.persisted?
           render json: { message: 'Route was created',
                          route: route },
@@ -24,6 +25,7 @@ module Api
       end
 
       def add_station
+        authorize @route
         result = Routes::StationAdderService.call(route_id: params[:route_id],
                                                  station_id: params[:station_id])
         if result.success?
@@ -38,6 +40,7 @@ module Api
       end
 
       def remove_station
+        authorize @route
         result = Routes::StationRemoverService.call(route_id: params[:route_id],
                                                     station_id: params[:station_id])
         if result.success?
@@ -50,7 +53,9 @@ module Api
         end
       end
 
+      # TODO: Add 'if-else' block for handling errors during destroy
       def destroy
+        authorize @route
         @route.destroy
         head 204
       end

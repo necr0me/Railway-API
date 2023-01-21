@@ -78,7 +78,26 @@ RSpec.describe Api::V1::ProfilesController, type: :request do
       end
     end
 
-    # TODO: test when user creates already existing profile (after rescuing it in ApplicationController)
+    context 'when user is authorized and his profile already exists' do
+      before do
+        login_with_api(user_credentials)
+        post '/api/v1/profile',
+             params: {
+               profile: attributes_for(:profile)
+             },
+             headers: {
+               Authorization: "Bearer #{json_response['access_token']}"
+             }
+      end
+
+      it 'returns 422' do
+        expect(response.status).to eq(422)
+      end
+
+      it 'contains error message' do
+        expect(json_response['message']).to eq('Seems like record with this data already exists')
+      end
+    end
 
     context 'when user is authorized and tries to create profile with valid data' do
       before do

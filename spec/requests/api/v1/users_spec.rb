@@ -4,6 +4,14 @@ RSpec.describe Api::V1::UsersController, type: :request do
   let(:user) { create(:user) }
   let(:user_credentials) { user; attributes_for(:user) }
 
+  describe 'concerns' do
+    context 'UserFindable' do
+      it 'includes UserFindable concern' do
+        expect(described_class.ancestors).to include(UserFindable)
+      end
+    end
+  end
+
   describe '#show' do
     context 'when user is unauthorized' do
       before do
@@ -12,23 +20,6 @@ RSpec.describe Api::V1::UsersController, type: :request do
 
       it 'returns 401' do
         expect(response.status).to eq(401)
-      end
-    end
-
-    context 'when user does not exists' do
-      before do
-        login_with_api(user_credentials)
-        get "/api/v1/users/0", headers: {
-          Authorization: "Bearer #{json_response['access_token']}"
-        }
-      end
-
-      it 'returns 400' do
-        expect(response.status).to eq(400)
-      end
-
-      it 'contains message that cant find user with such id' do
-        expect(json_response['error']).to eq("Couldn't find User with 'id'=0")
       end
     end
 
@@ -45,8 +36,8 @@ RSpec.describe Api::V1::UsersController, type: :request do
       end
 
       it 'returns correct user' do
-        expect(json_response['id']).to eq(user.id)
-        expect(json_response['email']).to eq(user.email)
+        expect(json_response['user']['id']).to eq(user.id)
+        expect(json_response['user']['email']).to eq(user.email)
       end
     end
   end
@@ -64,26 +55,6 @@ RSpec.describe Api::V1::UsersController, type: :request do
       end
     end
 
-    context 'when user does not exists' do
-      before do
-        login_with_api(user_credentials)
-        patch "/api/v1/users/0",
-              params: {
-                user: attributes_for(:user)
-              },
-              headers: {
-                Authorization: "Bearer #{json_response['access_token']}"
-              }
-      end
-
-      it 'returns 400' do
-        expect(response.status).to eq(400)
-      end
-
-      it 'contains error message that cant fund user with such id' do
-        expect(json_response['error']).to eq("Couldn't find User with 'id'=0")
-      end
-    end
 
     context 'when user tries to update with invalid password' do
       before do

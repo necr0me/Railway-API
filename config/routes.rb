@@ -14,6 +14,15 @@ Rails.application.routes.draw do
         post 'add_station', to: 'routes#add_station'
         delete 'remove_station/:station_id', to: 'routes#remove_station'
       end
+
+      resources :carriages
+      resources :carriage_types, except: :show
+
+      resources :trains, param: :train_id
+      resources :trains, only: [] do
+        post 'add_carriage', to: 'trains#add_carriage'
+        delete 'remove_carriage/:carriage_id', to: 'trains#remove_carriage'
+      end
     end
   end
 

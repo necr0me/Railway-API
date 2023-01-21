@@ -1,4 +1,5 @@
 require 'rails_helper'
+# TODO: Unite as much as possible tests (to make them faster)
 
 RSpec.describe Users::RegistrationsController, :type => :request do
 
@@ -84,31 +85,13 @@ RSpec.describe Users::RegistrationsController, :type => :request do
   end
 
   describe '#destroy' do
-    context 'when user unauthorized' do
+    context 'when user is unauthorized' do
       before do
         delete "/users/#{existing_user.id}"
       end
 
       it 'returns 401' do
         expect(response.status).to eq(401)
-      end
-    end
-
-    context 'when user tries to destroy not existing user' do
-      before do
-        login_with_api(user_credentials)
-        delete '/users/0',
-               headers: {
-                 'Authorization': "Bearer #{json_response['access_token']}"
-               }
-      end
-
-      it 'returns 400' do
-        expect(response.status).to eq(400)
-      end
-
-      it 'returns error message' do
-        expect(json_response['error']).to eq("Couldn't find User with 'id'=0")
       end
     end
 

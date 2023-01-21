@@ -6,42 +6,12 @@ RSpec.describe Api::V1::RoutesController, type: :request do
   let(:empty_route) { create(:route) }
   let(:station) { create(:station) }
 
-  let(:user_credentials) { create(:user); attributes_for(:user) }
+  let(:user_credentials) { create(:user, role: :moderator); attributes_for(:user) }
 
   describe '#show' do
     context 'when user is unauthorized' do
       before do
-        get "/api/v1/routes/#{empty_route.id}"
-      end
-
-      it 'returns 401' do
-        expect(response.status).to eq(401)
-      end
-    end
-
-    context 'when user is authorized and route does not exist' do
-      before do
-        login_with_api(user_credentials)
-        get '/api/v1/routes/0', headers: {
-          Authorization: "Bearer #{json_response['access_token']}"
-        }
-      end
-
-      it 'returns 400' do
-        expect(response.status).to eq(400)
-      end
-
-      it 'contains message that cant find route with such id' do
-        expect(json_response['error']).to eq("Couldn't find Route with 'id'=0")
-      end
-    end
-
-    context 'when user is authorized and route does exist' do
-      before do
-        login_with_api(user_credentials)
-        get "/api/v1/routes/#{route.id}", headers: {
-          Authorization: "Bearer #{json_response['access_token']}"
-        }
+        get "/api/v1/routes/#{route.id}"
       end
 
       it 'returns 200' do
@@ -133,12 +103,12 @@ RSpec.describe Api::V1::RoutesController, type: :request do
              }
       end
 
-      it 'returns 422' do
-        expect(response.status).to eq(422)
+      it 'returns 404' do
+        expect(response.status).to eq(404)
       end
 
       it 'contains error message' do
-        expect(json_response['errors']).to include(/Route must exist/)
+        expect(json_response['message']).to eq("Couldn't find Route with 'id'=0")
       end
     end
 
@@ -208,12 +178,12 @@ RSpec.describe Api::V1::RoutesController, type: :request do
         }
       end
 
-      it 'returns 422' do
-        expect(response.status).to eq(422)
+      it 'returns 404' do
+        expect(response.status).to eq(404)
       end
 
       it 'contains error message' do
-        expect(json_response['errors']).to include(/Couldn't find StationOrderNumber/)
+        expect(json_response['message']).to eq("Couldn't find Route with 'id'=0")
       end
     end
 
@@ -260,23 +230,6 @@ RSpec.describe Api::V1::RoutesController, type: :request do
 
       it 'returns 401' do
         expect(response.status).to eq(401)
-      end
-    end
-
-    context 'when user is authorized and route does not exist' do
-      before do
-        login_with_api(user_credentials)
-        delete '/api/v1/routes/0', headers: {
-          Authorization: "Bearer #{json_response['access_token']}"
-        }
-      end
-
-      it 'returns 400' do
-        expect(response.status).to eq(400)
-      end
-
-      it 'contains message that cant find route with such id' do
-        expect(json_response['error']).to eq("Couldn't find Route with 'id'=0")
       end
     end
 

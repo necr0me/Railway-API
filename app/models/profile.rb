@@ -5,7 +5,7 @@ class Profile < ApplicationRecord
 
   VALID_PASSPORT_CODE_REGEX = /[A-Za-zА-Яа-я]{2}\d{7}/i
 
-  auto_strip_attributes :name, :surname, :surname, squish: true
+  auto_strip_attributes :name, :surname, :patronymic, squish: true
   auto_strip_attributes :phone_number, delete_whitespaces: true
 
   validates_presence_of :name, :surname, :patronymic, :phone_number, :passport_code

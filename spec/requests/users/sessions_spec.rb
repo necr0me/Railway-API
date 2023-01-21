@@ -4,6 +4,14 @@ RSpec.describe Users::SessionsController, :type => :request do
   let(:user) { create(:user) }
   let(:user_credentials) { user; attributes_for(:user) }
 
+  describe 'concerns' do
+    context 'UserParamable' do
+      it 'includes UserParamable concern' do
+        expect(described_class.ancestors).to include(UserParamable)
+      end
+    end
+  end
+
   describe '#login' do
     context 'when user sends blank credentials' do
       before do
@@ -152,26 +160,20 @@ RSpec.describe Users::SessionsController, :type => :request do
         get '/users/refresh_tokens'
       end
 
-      it 'returns 200' do
+      it 'returns 200 and new access token' do
         expect(response.status).to eq(200)
-      end
-
-      it 'returns new access token' do
         expect(json_response['access_token']).to_not be_nil
       end
 
-      it 'generates new refresh token' do
+      it 'generates new refresh token and saves it to db' do
         expect(cookies[:refresh_token]).to_not eq(@old_refresh_token)
-      end
-
-      it 'saves new refresh token to db' do
         expect(cookies[:refresh_token]).to eq(user.refresh_token.value)
       end
     end
   end
 
   describe '#destroy' do
-    context 'when user is not authorized' do
+    context 'when user is unauthorized' do
       before { delete '/users/logout' }
 
       it 'returns 401' do
@@ -179,9 +181,8 @@ RSpec.describe Users::SessionsController, :type => :request do
       end
 
       it 'contains message that you are not logged in' do
-        expect(json_response['message']).to eq('You\'re not logged in.')
+        expect(json_response['message']).to eq('You\'re not logged in')
       end
-
     end
 
     context 'when user is authorized' do
