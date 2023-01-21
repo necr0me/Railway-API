@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_18_112435) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_21_161505) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -27,7 +27,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_18_112435) do
     t.bigint "carriage_type_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "order_number"
+    t.bigint "train_id"
     t.index ["carriage_type_id"], name: "index_carriages_on_carriage_type_id"
+    t.index ["train_id"], name: "index_carriages_on_train_id"
   end
 
   create_table "profiles", force: :cascade do |t|
@@ -84,6 +87,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_18_112435) do
     t.index ["name"], name: "index_stations_on_name", unique: true
   end
 
+  create_table "trains", force: :cascade do |t|
+    t.bigint "route_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["route_id"], name: "index_trains_on_route_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", null: false
     t.string "password_digest", null: false
@@ -94,9 +104,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_18_112435) do
   end
 
   add_foreign_key "carriages", "carriage_types"
+  add_foreign_key "carriages", "trains"
   add_foreign_key "profiles", "users"
   add_foreign_key "refresh_tokens", "users"
   add_foreign_key "seats", "carriages"
   add_foreign_key "station_order_numbers", "routes"
   add_foreign_key "station_order_numbers", "stations"
+  add_foreign_key "trains", "routes"
 end

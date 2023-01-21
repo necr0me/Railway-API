@@ -21,6 +21,16 @@ RSpec.describe Carriage, type: :model do
         expect(described_class.reflect_on_association(:type).macro).to eq(:belongs_to)
       end
     end
+
+    context 'Train' do
+      it 'belongs to train' do
+        expect(described_class.reflect_on_association(:train).macro).to eq(:belongs_to)
+      end
+
+      it 'train is optional' do
+        expect { carriage.save }.to_not raise_error
+      end
+    end
   end
 
   describe 'auto_strip_attributes' do
