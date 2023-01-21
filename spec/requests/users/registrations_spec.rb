@@ -1,4 +1,5 @@
 require 'rails_helper'
+# TODO: Unite as much as possible tests (to make them faster)
 
 RSpec.describe Users::RegistrationsController, :type => :request do
 

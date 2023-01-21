@@ -17,6 +17,7 @@ module Api
                status: 200
       end
 
+      # TODO: Create train without route?
       def create
         train = Train.create(train_params)
         authorize train

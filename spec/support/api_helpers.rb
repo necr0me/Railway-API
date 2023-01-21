@@ -9,4 +9,6 @@ module ApiHelpers
            user: credentials
          }
   end
+
+  # TODO: create method that builds authorization headers
 end
