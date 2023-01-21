@@ -29,4 +29,10 @@ RSpec.describe Train, type: :model do
       end
     end
   end
+
+  describe 'callbacks' do
+    context '#nullify_carriages_order_numbers' do
+      it 'when destroying train sets order_number to nil for all relevant carriages'
+    end
+  end
 end

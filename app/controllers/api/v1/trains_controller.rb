@@ -5,17 +5,21 @@ module Api
       before_action :find_train, except: %i[index create]
 
       def index
+        trains = Train.all
+        authorize trains
         render json: { trains: Train.all },
                status: 200
       end
 
       def show
+        authorize @train
         render json: { train: @train },
                status: 200
       end
 
       def create
         train = Train.create(train_params)
+        authorize train
         if train.persisted?
           render json: { message: 'Train was successfully created',
                          train: train },
@@ -28,6 +32,7 @@ module Api
       end
 
       def update
+        authorize @train
         if @train.update(train_params)
           render json: { message: 'Train was successfully updated',
                          train: @train },
@@ -40,6 +45,7 @@ module Api
       end
 
       def add_carriage
+        authorize @train
         result = Trains::CarriageAdderService.call(train: @train,
                                                    carriage_id: params[:carriage_id])
         if result.success?
@@ -54,6 +60,7 @@ module Api
       end
 
       def remove_carriage
+        authorize @train
         result = Trains::CarriageRemoverService.call(train: @train,
                                                      carriage_id: params[:carriage_id])
         if result.success?
@@ -67,6 +74,7 @@ module Api
       end
 
       def destroy
+        authorize @train
         @train.destroy
         head 204
       end
