@@ -270,6 +270,23 @@ RSpec.describe Api::V1::TrainsController, type: :request do
       end
     end
 
+    context 'when error occurs during destroying of train' do
+      before do
+        allow_any_instance_of(Train).to receive(:destroy).and_return(false)
+        allow_any_instance_of(ActiveModel::Errors).to receive(:full_messages).and_return(['Error message'])
+
+        login_with_api(user_credentials)
+        delete "/api/v1/trains/#{train.id}", headers: {
+          Authorization: "Bearer #{json_response['access_token']}"
+        }
+      end
+
+      it 'returns 422 and error message' do
+        expect(response).to have_http_status(422)
+        expect(json_response['errors']).to include('Error message')
+      end
+    end
+
     context 'when user is authorized' do
       before do
         login_with_api(user_credentials)

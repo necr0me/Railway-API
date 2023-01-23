@@ -15,11 +15,15 @@ module Users
       end
     end
 
-    # TODO: Add 'if-else' block for handling errors during destroy
     def destroy
       authorize @user
-      @user.destroy
-      head 204
+      if @user.destroy
+        head 204
+      else
+        render json: { message: 'Something went wrong',
+                       errors: @user.errors.full_messages },
+               status: 422
+      end
     end
   end
 end

@@ -76,8 +76,13 @@ module Api
 
       def destroy
         authorize @train
-        @train.destroy
-        head 204
+        if  @train.destroy
+          head 204
+        else
+          render json: { message: 'Something went wrong',
+                         errors: @train.errors.full_messages },
+                 status: 422
+        end
       end
 
       private

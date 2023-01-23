@@ -43,11 +43,15 @@ module Api
         end
       end
 
-      # TODO: Add 'if-else' block for handling errors during destroy
       def destroy
         authorize @carriage
-        @carriage.destroy
-        head 204
+        if @carriage.destroy
+          head 204
+        else
+          render json: { message: 'Something went wrong',
+                         errors: @carriage.errors.full_messages },
+                 status: 422
+        end
       end
 
       private
