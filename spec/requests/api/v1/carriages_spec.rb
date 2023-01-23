@@ -23,9 +23,7 @@ RSpec.describe Api::V1::CarriagesController, type: :request do
       before do
         create_list(:carriage, 2)
         login_with_api(user_credentials)
-        get '/api/v1/carriages', headers: {
-          Authorization: "Bearer #{json_response['access_token']}"
-        }
+        get '/api/v1/carriages', headers: auth_header
       end
 
       it 'returns 200' do
@@ -52,9 +50,7 @@ RSpec.describe Api::V1::CarriagesController, type: :request do
     context 'when user is authorized' do
       before do
         login_with_api(user_credentials)
-        get "/api/v1/carriages/#{carriage.id}", headers: {
-          Authorization: "Bearer #{json_response['access_token']}"
-        }
+        get "/api/v1/carriages/#{carriage.id}", headers: auth_header
       end
 
       it 'returns 200' do
@@ -90,9 +86,7 @@ RSpec.describe Api::V1::CarriagesController, type: :request do
                  carriage_type_id: carriage_type.id
                }
              },
-             headers: {
-               Authorization: "Bearer #{json_response['access_token']}"
-        }
+             headers: auth_header
       end
 
       it 'returns 422' do
@@ -114,9 +108,7 @@ RSpec.describe Api::V1::CarriagesController, type: :request do
                  carriage_type_id: carriage_type.id
                }
              },
-             headers: {
-               Authorization: "Bearer #{json_response['access_token']}"
-             }
+             headers: auth_header
       end
 
       it 'returns 201' do
@@ -153,9 +145,7 @@ RSpec.describe Api::V1::CarriagesController, type: :request do
                   name: 'x'
                 }
               },
-              headers: {
-                Authorization: "Bearer #{json_response['access_token']}"
-              }
+              headers: auth_header
       end
 
       it 'returns 422' do
@@ -176,9 +166,7 @@ RSpec.describe Api::V1::CarriagesController, type: :request do
                   name: 'New_name'
                 }
               },
-              headers: {
-                Authorization: "Bearer #{json_response['access_token']}"
-              }
+              headers: auth_header
       end
 
       it 'returns 200' do
@@ -209,9 +197,7 @@ RSpec.describe Api::V1::CarriagesController, type: :request do
         allow_any_instance_of(ActiveModel::Errors).to receive(:full_messages).and_return(['Error message'])
 
         login_with_api(user_credentials)
-        delete "/api/v1/carriages/#{carriage.id}", headers: {
-          Authorization: "Bearer #{json_response['access_token']}"
-        }
+        delete "/api/v1/carriages/#{carriage.id}", headers: auth_header
       end
 
       it 'returns 422 and error message' do
@@ -223,9 +209,7 @@ RSpec.describe Api::V1::CarriagesController, type: :request do
     context 'when user is authorized and tries to destroy carriage' do
       before do
         login_with_api(user_credentials)
-        delete "/api/v1/carriages/#{carriage.id}", headers: {
-          Authorization: "Bearer #{json_response['access_token']}"
-        }
+        delete "/api/v1/carriages/#{carriage.id}", headers: auth_header
       end
 
       it 'returns 204' do

@@ -78,9 +78,7 @@ RSpec.describe Api::V1::StationsController, type: :request do
                  name: ' '
                }
              },
-             headers: {
-               Authorization: "Bearer #{json_response['access_token']}"
-             }
+             headers: auth_header
       end
 
       it 'returns 422' do
@@ -101,9 +99,7 @@ RSpec.describe Api::V1::StationsController, type: :request do
                  name: 'some_name'
                }
              },
-             headers: {
-               Authorization: "Bearer #{json_response['access_token']}"
-             }
+             headers: auth_header
       end
 
       it 'returns 201' do
@@ -140,9 +136,7 @@ RSpec.describe Api::V1::StationsController, type: :request do
                   name: ' '
                 }
               },
-              headers: {
-                Authorization: "Bearer #{json_response['access_token']}"
-              }
+              headers: auth_header
       end
 
       it 'returns 422' do
@@ -163,9 +157,7 @@ RSpec.describe Api::V1::StationsController, type: :request do
                   name: 'new_name'
                 }
               },
-              headers: {
-                Authorization: "Bearer #{json_response['access_token']}"
-              }
+              headers: auth_header
       end
 
       it 'returns 200' do
@@ -195,9 +187,7 @@ RSpec.describe Api::V1::StationsController, type: :request do
         allow_any_instance_of(ActiveModel::Errors).to receive(:full_messages).and_return(['Error message'])
 
         login_with_api(user_credentials)
-        delete "/api/v1/stations/#{station.id}", headers: {
-          Authorization: "Bearer #{json_response['access_token']}"
-        }
+        delete "/api/v1/stations/#{station.id}", headers: auth_header
       end
 
       it 'returns 422 and error message' do
@@ -209,9 +199,7 @@ RSpec.describe Api::V1::StationsController, type: :request do
     context 'when user is authorized and station does exist' do
       before do
         login_with_api(user_credentials)
-        delete "/api/v1/stations/#{station.id}", headers: {
-          Authorization: "Bearer #{json_response['access_token']}"
-        }
+        delete "/api/v1/stations/#{station.id}", headers: auth_header
       end
 
       it 'returns 204' do

@@ -22,9 +22,7 @@ RSpec.describe Api::V1::CarriageTypesController, type: :request do
       before do
         create_list(:carriage_type, 2)
         login_with_api(user_credentials)
-        get '/api/v1/carriage_types', headers: {
-          Authorization: "Bearer #{json_response['access_token']}"
-        }
+        get '/api/v1/carriage_types', headers: auth_header
       end
 
       it 'returns 200' do
@@ -59,9 +57,7 @@ RSpec.describe Api::V1::CarriageTypesController, type: :request do
                  capacity: -1
                }
              },
-             headers: {
-               Authorization: "Bearer #{json_response['access_token']}"
-             }
+             headers: auth_header
       end
 
       it 'returns 422' do
@@ -82,9 +78,7 @@ RSpec.describe Api::V1::CarriageTypesController, type: :request do
              params: {
                carriage_type: attributes_for(:carriage_type)
              },
-             headers: {
-               Authorization: "Bearer #{json_response['access_token']}"
-             }
+             headers: auth_header
       end
 
       it 'returns 201' do
@@ -119,9 +113,7 @@ RSpec.describe Api::V1::CarriageTypesController, type: :request do
                   capacity: -1
                 }
               },
-              headers: {
-                Authorization: "Bearer #{json_response['access_token']}"
-              }
+              headers: auth_header
       end
 
       it 'returns 422' do
@@ -144,9 +136,7 @@ RSpec.describe Api::V1::CarriageTypesController, type: :request do
                   capacity: 2
                 }
               },
-              headers: {
-                Authorization: "Bearer #{json_response['access_token']}"
-              }
+              headers: auth_header
       end
 
       it 'returns 200' do
@@ -174,9 +164,7 @@ RSpec.describe Api::V1::CarriageTypesController, type: :request do
     context 'when user is authorized and tries to destroy type with carriages' do
       before do
         login_with_api(user_credentials)
-        delete "/api/v1/carriage_types/#{carriage_type_with_carriage.id}", headers: {
-          Authorization: "Bearer #{json_response['access_token']}"
-        }
+        delete "/api/v1/carriage_types/#{carriage_type_with_carriage.id}", headers: auth_header
       end
 
       it 'returns 422' do
@@ -191,9 +179,7 @@ RSpec.describe Api::V1::CarriageTypesController, type: :request do
     context 'when user is authorize and tries to destroy type without any carriages' do
       before do
         login_with_api(user_credentials)
-        delete "/api/v1/carriage_types/#{carriage_type.id}", headers: {
-          Authorization: "Bearer #{json_response['access_token']}"
-        }
+        delete "/api/v1/carriage_types/#{carriage_type.id}", headers: auth_header
       end
 
       it 'returns 204' do

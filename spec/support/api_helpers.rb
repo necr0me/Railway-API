@@ -10,5 +10,7 @@ module ApiHelpers
          }
   end
 
-  # TODO: create method that builds authorization headers
+  def auth_header
+    { Authorization: "Bearer #{json_response['access_token']}" }
+  end
 end

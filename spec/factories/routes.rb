@@ -1,7 +1,5 @@
 FactoryBot.define do
   factory :route do
-    # TODO: rename traits to 'factoryname_name'.
-    # For example, instead of :with_stations you need to write :route_with_stations
     trait :route_with_stations do
       after :create do |route|
         create_list(:station, 3, :station_sequence_with_three_stations).each do |station|

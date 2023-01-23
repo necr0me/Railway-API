@@ -26,9 +26,7 @@ RSpec.describe Api::V1::UsersController, type: :request do
     context 'when user is authorized and user is correct' do
       before do
         login_with_api(user_credentials)
-        get "/api/v1/users/#{user.id}", headers: {
-          Authorization: "Bearer #{json_response['access_token']}"
-        }
+        get "/api/v1/users/#{user.id}", headers: auth_header
       end
 
       it 'returns 200' do
@@ -65,9 +63,7 @@ RSpec.describe Api::V1::UsersController, type: :request do
                   password: 'x'
                 }
               },
-              headers: {
-                Authorization: "Bearer #{json_response['access_token']}"
-              }
+              headers: auth_header
       end
 
       it 'returns 422' do
@@ -88,9 +84,7 @@ RSpec.describe Api::V1::UsersController, type: :request do
                   password: 'new_password'
                 }
               },
-              headers: {
-                Authorization: "Bearer #{json_response['access_token']}"
-              }
+              headers: auth_header
       end
 
       it 'returns 200' do

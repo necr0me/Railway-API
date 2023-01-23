@@ -101,10 +101,7 @@ RSpec.describe Users::RegistrationsController, :type => :request do
         allow_any_instance_of(ActiveModel::Errors).to receive(:full_messages).and_return(['Error message'])
 
         login_with_api(user_credentials)
-        delete  "/users/#{existing_user.id}",
-                headers: {
-                  'Authorization': "Bearer #{json_response['access_token']}"
-                }
+        delete "/users/#{existing_user.id}", headers: auth_header
       end
 
       it 'returns 422 and error message' do
@@ -116,10 +113,7 @@ RSpec.describe Users::RegistrationsController, :type => :request do
     context 'when user tries to destroy existing user' do
       before do
         login_with_api(user_credentials)
-        delete  "/users/#{existing_user.id}",
-                headers: {
-                  'Authorization': "Bearer #{json_response['access_token']}"
-                }
+        delete "/users/#{existing_user.id}", headers: auth_header
       end
 
       it 'returns 204' do

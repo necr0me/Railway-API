@@ -23,9 +23,7 @@ RSpec.describe Api::V1::ProfilesController, type: :request do
     context 'when user is authorized' do
       before do
         login_with_api(user_credentials)
-        get '/api/v1/profile', headers: {
-          Authorization: "Bearer #{json_response['access_token']}"
-        }
+        get '/api/v1/profile', headers: auth_header
       end
 
       it 'returns 200' do
@@ -64,9 +62,7 @@ RSpec.describe Api::V1::ProfilesController, type: :request do
                  passport_code: 'x'
                }
              },
-             headers: {
-               Authorization: "Bearer #{json_response['access_token']}"
-             }
+             headers: auth_header
       end
 
       it 'returns 400' do
@@ -85,9 +81,7 @@ RSpec.describe Api::V1::ProfilesController, type: :request do
              params: {
                profile: attributes_for(:profile)
              },
-             headers: {
-               Authorization: "Bearer #{json_response['access_token']}"
-             }
+             headers: auth_header
       end
 
       it 'returns 422' do
@@ -106,9 +100,7 @@ RSpec.describe Api::V1::ProfilesController, type: :request do
              params: {
                profile: attributes_for(:profile)
              },
-             headers: {
-               Authorization: "Bearer #{json_response['access_token']}"
-             }
+             headers: auth_header
       end
 
       it 'returns 201' do
@@ -144,9 +136,7 @@ RSpec.describe Api::V1::ProfilesController, type: :request do
                   name: 'x'
                 }
               },
-              headers: {
-                Authorization: "Bearer #{json_response['access_token']}"
-              }
+              headers: auth_header
       end
 
       it 'returns 422' do
@@ -169,9 +159,7 @@ RSpec.describe Api::V1::ProfilesController, type: :request do
                   surname: 'Choma'
                 }
               },
-              headers: {
-                Authorization: "Bearer #{json_response['access_token']}"
-              }
+              headers: auth_header
       end
 
       it 'returns 200' do

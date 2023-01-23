@@ -188,10 +188,7 @@ RSpec.describe Users::SessionsController, :type => :request do
     context 'when user is authorized' do
       before do
         login_with_api(user_credentials)
-        delete '/users/logout',
-               headers: {
-                 'Authorization': "Bearer #{json_response['access_token']}"
-               }
+        delete '/users/logout', headers: auth_header
       end
 
       it 'returns 200' do
