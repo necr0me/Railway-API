@@ -25,6 +25,7 @@ module Trains
                .update_counters(order_number: -1)
           carriage.update!(train_id: nil,
                            order_number: nil)
+          carriage.seats.destroy_all
         end
         return OpenStruct.new(success?: true, errors: nil)
       rescue => e

@@ -71,6 +71,11 @@ RSpec.describe Trains::CarriageAdderService do
         expect(subject.errors).to be_nil
       end
 
+      it 'creates seats for carriage' do
+        subject
+        expect(carriage.seats.count).to eq(carriage.capacity)
+      end
+
       it 'sets train id to train#id and correct order number' do
         subject
         expect(carriage.reload.train_id).to eq(train.id)

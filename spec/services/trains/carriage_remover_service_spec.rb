@@ -82,6 +82,11 @@ RSpec.describe Trains::CarriageRemoverService do
         expect(carriage.train_id).to be_nil
       end
 
+      it 'deletes all seats of carriage' do
+        subject
+        expect(carriage.seats.count).to eq(0)
+      end
+
       it 'decrements order_numbers of carriages that after removed carriage' do
         subject
         expect(train.reload.carriages.pluck(:order_number)).to eq((1..train.carriages.count).to_a)
