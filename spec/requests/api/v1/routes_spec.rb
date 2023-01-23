@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Api::V1::RoutesController, type: :request do
 
-  let(:route) { create(:route, :with_stations) }
+  let(:route) { create(:route, :route_with_stations) }
   let(:empty_route) { create(:route) }
   let(:station) { create(:station) }
 

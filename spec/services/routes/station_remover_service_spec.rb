@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Routes::StationRemoverService do
-  let(:route) { create(:route, :with_stations) }
+  let(:route) { create(:route, :route_with_stations) }
   let(:first_station) { route.stations.first }
 
   describe '#call' do

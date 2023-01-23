@@ -10,7 +10,7 @@ RSpec.describe Api::V1::StationsController, type: :request do
   describe '#index' do
     context 'when query params presented' do
       before do
-        create_list(:station, 3, :with_three_stations)
+        create_list(:station, 3, :station_sequence_with_three_stations)
         get '/api/v1/stations?station=Mo'
       end
 
@@ -25,7 +25,7 @@ RSpec.describe Api::V1::StationsController, type: :request do
 
     context 'without query params' do
       before do
-        create_list(:station, 3, :with_three_stations)
+        create_list(:station, 3, :station_sequence_with_three_stations)
         get '/api/v1/stations'
       end
 

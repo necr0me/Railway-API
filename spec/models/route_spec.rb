@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Route, type: :model do
-  let(:route) { create(:route, :with_many_stations) }
+  let(:route) { create(:route, :route_with_many_stations) }
   let(:route_with_trains) { create(:route, :route_with_trains) }
 
   describe 'associations' do

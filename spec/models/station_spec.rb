@@ -4,7 +4,7 @@ RSpec.describe Station, type: :model do
 
   let(:station) { create(:station) }
   let(:invalid_station) { build(:station, name: ' ') }
-  let(:station_in_route) { create(:station, :with_route) }
+  let(:station_in_route) { create(:station, :station_with_route) }
 
   describe 'associations' do
     context 'routes' do

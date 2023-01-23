@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Jwt::TokensGeneratorService do
   let(:user) { create(:user) }
-  let(:user_with_token) { create(:user, :with_refresh_token) }
+  let(:user_with_token) { create(:user, :user_with_refresh_token) }
 
   let(:generate_tokens_for_user) { described_class.call(user_id: user.id) }
   let(:generate_tokens_for_user_with_token) { described_class.call(user_id: user_with_token.id) }

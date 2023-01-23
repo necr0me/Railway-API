@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Jwt::TokensRefresherService do
-  let(:user) { create(:user, :with_refresh_token) }
+  let(:user) { create(:user, :user_with_refresh_token) }
   let(:secret_key) { Constants::Jwt::JWT_SECRET_KEYS['refresh'] }
   let(:secret_access_key) { Constants::Jwt::JWT_SECRET_KEYS['access'] }
   let(:algorithm) { Constants::Jwt::JWT_ALGORITHM }

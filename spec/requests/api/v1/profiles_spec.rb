@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Api::V1::ProfilesController, type: :request do
 
-  let(:user) { create(:user, :with_profile) }
+  let(:user) { create(:user, :user_with_profile) }
   let(:user_credentials) { user; attributes_for(:user) }
 
   let(:user_without_profile) { create(:user) }

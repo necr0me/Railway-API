@@ -3,7 +3,7 @@ FactoryBot.define do
     name { Faker::Ancient.god }
     type { association(:carriage_type) }
 
-    trait :with_seats do
+    trait :carriage_with_seats do
       after :create do |carriage|
         carriage.capacity.times do |i|
           create(:seat, number: i, carriage_id: carriage.id)
