@@ -28,18 +28,16 @@ RSpec.describe Station, type: :model do
     end
   end
 
-  # TODO: Replace ' ' with \s and tabulations with \t
-
   describe 'auto_strip_attributes' do
     context '#name' do
       it 'removes redundant whitespaces at start and at the end' do
-        invalid_station.name = "   Name With Whitespaces     "
+        invalid_station.name = "\s\s\sName With Whitespaces\s\s\s"
         invalid_station.save
         expect(invalid_station.name.count(' ')).to eq(2)
       end
 
       it 'removes tabulations' do
-        invalid_station.name = "Name    With      Tabulations"
+        invalid_station.name = "Name\t\t\tWith\t\t\tTabulations"
         invalid_station.save
         expect(invalid_station.name.count(' ')).to eq(2)
       end

@@ -12,18 +12,16 @@ RSpec.describe Profile, type: :model do
     end
   end
 
-  # TODO: Replace whitespaces with \s and tabulations with \t
-
   describe 'auto_strip_attributes' do
     context '#name' do
       it 'removes redundant whitespaces at start and at the end' do
-        profile.name = "   Name with whitespaces    "
+        profile.name = "\s\s\sName with whitespaces\s\s\s"
         profile.save
         expect(profile.name.count(' ')).to eq(2)
       end
 
       it 'removes tabulations' do
-        profile.name = "  Name  with  tabulations   "
+        profile.name = "\t\t\tName\t\t\twith\t\t\ttabulations\t\t\t"
         profile.save
         expect(profile.name.count(' ')).to eq(2)
       end
@@ -31,13 +29,13 @@ RSpec.describe Profile, type: :model do
 
     context '#surname' do
       it 'removes redundant whitespaces at start and at the end' do
-        profile.surname = "   Surname with whitespaces    "
+        profile.surname = "\s\s\sSurname with whitespaces\s\s\s"
         profile.save
         expect(profile.surname.count(' ')).to eq(2)
       end
 
       it 'removes tabulations' do
-        profile.surname = "  Surname  with  tabulations   "
+        profile.surname = "\t\t\tSurname\t\t\twith\t\t\ttabulations\t\t\t"
         profile.save
         expect(profile.surname.count(' ')).to eq(2)
       end
@@ -45,13 +43,13 @@ RSpec.describe Profile, type: :model do
 
     context '#patronymic' do
       it 'removes redundant whitespaces at start and at the end' do
-        profile.patronymic = "   Patronymic with whitespaces    "
+        profile.patronymic = "\s\s\sPatronymic with whitespaces\s\s\s"
         profile.save
         expect(profile.patronymic.count(' ')).to eq(2)
       end
 
       it 'removes tabulations' do
-        profile.patronymic = "  Patronymic  with  tabulations   "
+        profile.patronymic = "\t\t\tPatronymic\t\t\twith\t\t\ttabulations\t\t\t"
         profile.save
         expect(profile.patronymic.count(' ')).to eq(2)
       end
@@ -59,7 +57,7 @@ RSpec.describe Profile, type: :model do
 
     context '#phone_number' do
       it 'removes any whitespaces' do
-        profile.phone_number = " +3 75 33 7 53   12 111     "
+        profile.phone_number = "\s+3\s75\s33\s7\s53\s\s12\s111\s\s\s"
         profile.save
         expect(profile.phone_number.count(' ')).to eq(0)
       end
