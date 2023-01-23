@@ -47,6 +47,29 @@ RSpec.describe ErrorHandler do
     end
   end
 
+  describe '#invalid_foreign_key' do
+    controller(ApplicationController) do
+      include ErrorHandler
+
+      def action
+        raise ActiveRecord::InvalidForeignKey
+      end
+    end
+
+    before do
+      routes.draw { get :action, to: 'anonymous#action' }
+      get :action
+    end
+
+    it 'returns 422' do
+      expect(response).to have_http_status(422)
+    end
+
+    it 'contains message that entity with this foreign key does not exist' do
+      expect(json_response['message']).to eq('Seems like this entity does not exist')
+    end
+  end
+
   describe '#access_forbidden' do
     controller(ApplicationController) do
       include ErrorHandler
