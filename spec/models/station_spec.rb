@@ -28,6 +28,8 @@ RSpec.describe Station, type: :model do
     end
   end
 
+  # TODO: Replace ' ' with \s and tabulations with \t
+
   describe 'auto_strip_attributes' do
     context '#name' do
       it 'removes redundant whitespaces at start and at the end' do

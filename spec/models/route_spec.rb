@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Route, type: :model do
   let(:route) { create(:route, :with_many_stations) }
+  let(:route_with_trains) { create(:route, :route_with_trains) }
 
   describe 'associations' do
     context 'stations' do
@@ -25,6 +26,17 @@ RSpec.describe Route, type: :model do
         route.destroy
         expect(StationOrderNumber.where(route_id: route_id,
                                         station_id: stations_ids).count).to eq(0)
+      end
+    end
+
+    context 'train' do
+      it 'has many trains' do
+        expect(described_class.reflect_on_association(:trains).macro).to eq(:has_many)
+      end
+
+      it 'nullifies route_id attribute of related trains when destroying' do
+        route_with_trains.destroy
+        expect(route_with_trains.trains.reload.pluck(:route_id).all?(:nil?)).to be_truthy
       end
     end
   end
