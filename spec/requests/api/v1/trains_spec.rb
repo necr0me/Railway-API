@@ -80,8 +80,21 @@ RSpec.describe Api::V1::TrainsController, type: :request do
       end
     end
 
-    context 'when user is authorized and tries to create train with not existing route' do
-      # after rescuing from ActiveRecord::InvalidForeignKey
+    context 'when user is authorized and error occurs during creating of train' do
+      before do
+        allow_any_instance_of(Train).to receive(:persisted?).and_return(false)
+        allow_any_instance_of(ActiveModel::Errors).to receive(:full_messages).and_return(['Error message'])
+
+        login_with_api(user_credentials)
+        post '/api/v1/trains', headers: {
+          Authorization: "Bearer #{json_response['access_token']}"
+        }
+      end
+
+      it 'returns 422 and error message' do
+        expect(response).to have_http_status(422)
+        expect(json_response['errors']).to include('Error message')
+      end
     end
 
     context 'when user is authorized and tries to create train with route' do

@@ -17,9 +17,8 @@ module Api
                status: 200
       end
 
-      # TODO: Create train without route?
       def create
-        train = Train.create(train_params)
+        train = Train.create(route_id: params.dig(:train, :route_id))
         authorize train
         if train.persisted?
           render json: { message: 'Train was successfully created',
