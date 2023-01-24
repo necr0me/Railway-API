@@ -14,11 +14,8 @@ RSpec.describe Api::V1::StationsController, type: :request do
         get '/api/v1/stations?station=Mo'
       end
 
-      it 'returns 200' do
+      it 'returns 200 and list of found stations' do
         expect(response.status).to eq(200)
-      end
-
-      it 'returns list of found stations' do
         expect(json_response.count).to eq(Station.where('name LIKE ?', "#{request.params[:station]}%").count)
       end
     end
@@ -29,11 +26,8 @@ RSpec.describe Api::V1::StationsController, type: :request do
         get '/api/v1/stations'
       end
 
-      it 'returns 200' do
+      it 'returns 200 and list of all stations' do
         expect(response.status).to eq(200)
-      end
-
-      it 'returns list of all stations' do
         expect(json_response.count).to eq(Station.count)
       end
     end
@@ -45,11 +39,9 @@ RSpec.describe Api::V1::StationsController, type: :request do
         get "/api/v1/stations/#{station.id}"
       end
 
-      it 'returns 200' do
+      it 'returns 200 and proper station' do
         expect(response.status).to eq(200)
-      end
 
-      it 'returns correct station' do
         expect(json_response['id']).to eq(station.id)
         expect(json_response['name']).to eq(station.name)
       end
@@ -81,11 +73,8 @@ RSpec.describe Api::V1::StationsController, type: :request do
              headers: auth_header
       end
 
-      it 'returns 422' do
+      it 'returns 422 and contains error messages' do
         expect(response.status).to eq(422)
-      end
-
-      it 'contains error messages' do
         expect(json_response['errors']).to_not be_nil
       end
     end
@@ -102,11 +91,9 @@ RSpec.describe Api::V1::StationsController, type: :request do
              headers: auth_header
       end
 
-      it 'returns 201' do
+      it 'returns 201 and creates station' do
         expect(response.status).to eq(201)
-      end
 
-      it 'creates station' do
         expect(Station.last.name).to eq('some_name')
       end
     end
@@ -139,11 +126,8 @@ RSpec.describe Api::V1::StationsController, type: :request do
               headers: auth_header
       end
 
-      it 'returns 422' do
+      it 'returns 422 and contains error messages' do
         expect(response.status).to eq(422)
-      end
-
-      it 'contains error messages' do
         expect(json_response).to_not be_nil
       end
     end
@@ -160,11 +144,8 @@ RSpec.describe Api::V1::StationsController, type: :request do
               headers: auth_header
       end
 
-      it 'returns 200' do
+      it 'returns 200 and updates station attribute' do
         expect(response.status).to eq(200)
-      end
-
-      it 'updates station attributes' do
         expect(Station.last.name).to eq('new_name')
       end
     end
@@ -202,11 +183,8 @@ RSpec.describe Api::V1::StationsController, type: :request do
         delete "/api/v1/stations/#{station.id}", headers: auth_header
       end
 
-      it 'returns 204' do
+      it 'returns 204 and destroys station' do
         expect(response.status).to eq(204)
-      end
-
-      it 'destroys station' do
         expect { station.reload }.to raise_error(ActiveRecord::RecordNotFound)
       end
     end

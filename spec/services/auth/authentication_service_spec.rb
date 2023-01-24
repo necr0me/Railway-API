@@ -4,51 +4,39 @@ RSpec.describe Auth::AuthenticationService do
   let(:user) { create(:user) }
 
   describe 'when email is invalid' do
-    subject { described_class.call(user_params: { email: ' ', password: ' '}) }
+    it 'success? value is false, contains error and doesnt return user' do
+      result = described_class.call(user_params: { email: ' ', password: ' '})
 
-    it 'success? value is false' do
-      expect(subject.success?).to eq(false)
-    end
+      expect(result.success?).to eq(false)
 
-    it 'contains error message that can\'t find user with such email' do
-      expect(subject.errors).to include('Can\'t find user with such email')
-    end
+      expect(result.errors).to include('Can\'t find user with such email')
 
-    it 'doesn\'t return user' do
-      expect(subject.user).to be_nil
+      expect(result.user).to be_nil
     end
   end
 
   describe 'when password is invalid' do
-    subject { described_class.call(user_params: { email: user.email, password: ' '}) }
+     it 'success? value is false, contains error message and does not return user' do
+       result = described_class.call(user_params: { email: user.email, password: ' '})
 
-    it 'success? value is false' do
-      expect(subject.success?).to eq(false)
-    end
+       expect(result.success?).to eq(false)
 
-    it 'contains error message that password is invalid' do
-      expect(subject.errors).to include('Invalid password')
-    end
+       expect(result.errors).to include('Invalid password')
 
-    it 'doesn\'t return user' do
-      expect(subject.user).to be_nil
+       expect(result.user).to be_nil
     end
   end
 
   describe 'when credentials are correct' do
-    subject { described_class.call(user_params: { email: user.email, password: user.password } ) }
+    it 'success? value is true, does not contains any errors and returns correct user' do
+      result = described_class.call(user_params: { email: user.email, password: user.password } )
 
-    it 'success? value is true' do
-      expect(subject.success?).to eq(true)
-    end
+      expect(result.success?).to eq(true)
 
-    it 'doesn\'t contains any errors' do
-      expect(subject.errors).to be_nil
-    end
+      expect(result.errors).to be_nil
 
-    it 'returns correct user' do
-      expect(subject.user).to_not be_nil
-      expect(subject.user.id).to eq(user.id)
+      expect(result.user).to_not be_nil
+      expect(result.user.id).to eq(user.id)
     end
   end
 end

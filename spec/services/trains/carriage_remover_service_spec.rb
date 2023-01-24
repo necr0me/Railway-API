@@ -4,12 +4,10 @@ RSpec.describe Trains::CarriageRemoverService do
   let(:train) { create(:train) }
   let(:carriage) { create(:carriage) }
 
-  subject { described_class.call(train: train, carriage_id: carriage.id) }
-
   describe '#call' do
     it 'call #remove_carriage method' do
       allow_any_instance_of(described_class).to receive(:remove_carriage).with(no_args)
-      subject
+      described_class.call(train: train, carriage_id: carriage.id)
     end
   end
 
@@ -17,46 +15,40 @@ RSpec.describe Trains::CarriageRemoverService do
     context 'when carriage doesnt exist' do
       let(:carriage) { build(:carriage) }
 
-      it 'returns OpenStruct object' do
-        expect(subject).to be_kind_of(OpenStruct)
-      end
+      it 'returns OpenStruct object, success? is false and contains error message' do
+        result = described_class.call(train: train, carriage_id: carriage.id)
 
-      it 'success? value is false' do
-        expect(subject.success?).to be_falsey
-      end
+        expect(result).to be_kind_of(OpenStruct)
 
-      it 'contains error message that cant find carriage with such id' do
-        expect(subject.errors).to include("Couldn't find Carriage without an ID")
+        expect(result.success?).to be_falsey
+
+        expect(result.errors).to include("Couldn't find Carriage without an ID")
       end
     end
 
     context 'when carriage not in train' do
-      it 'returns OpenStruct object' do
-        expect(subject).to be_kind_of(OpenStruct)
-      end
+      it 'returns OpenStruct object, success? is false and contains error' do
+        result = described_class.call(train: train, carriage_id: carriage.id)
 
-      it 'success? value is false' do
-        expect(subject.success?).to be_falsey
-      end
+        expect(result).to be_kind_of(OpenStruct)
 
-      it 'contains error that cant remove carriage that not in train' do
-        expect(subject.errors).to include("Can't remove carriage that not in train")
+        expect(result.success?).to be_falsey
+
+        expect(result.errors).to include("Can't remove carriage that not in train")
       end
     end
 
     context 'when carriage in different train' do
       let(:carriage) { create(:carriage, train_id: create(:train).id) }
 
-      it 'returns OpenStruct object' do
-        expect(subject).to be_kind_of(OpenStruct)
-      end
+      it 'returns OpenStruct object, success? is false and contains error' do
+        result = described_class.call(train: train, carriage_id: carriage.id)
 
-      it 'success? value is false' do
-        expect(subject.success?).to be_falsey
-      end
+        expect(result).to be_kind_of(OpenStruct)
 
-      it 'contains error that cant remove carriage from different train' do
-        expect(subject.errors).to include("Can't remove carriage from different train")
+        expect(result.success?).to be_falsey
+
+        expect(result.errors).to include("Can't remove carriage from different train")
       end
     end
 
@@ -64,31 +56,20 @@ RSpec.describe Trains::CarriageRemoverService do
       let(:train) { create(:train, :train_with_carriages) }
       let(:carriage) { train.carriages.first }
 
-      it 'returns OpenStruct object' do
-        expect(subject).to be_kind_of(OpenStruct)
-      end
+      it 'returns OpenStruct object, success? is true, no errors and updates data in db' do
+        result = described_class.call(train: train, carriage_id: carriage.id)
 
-      it 'success? value is true' do
-        expect(subject.success?).to be_truthy
-      end
+        expect(result).to be_kind_of(OpenStruct)
 
-      it 'errors is nil' do
-        expect(subject.errors).to be_nil
-      end
+        expect(result.success?).to be_truthy
 
-      it 'nullifies train_id and order_number' do
-        subject
+        expect(result.errors).to be_nil
+
         expect(carriage.reload.order_number).to be_nil
         expect(carriage.train_id).to be_nil
-      end
 
-      it 'deletes all seats of carriage' do
-        subject
         expect(carriage.seats.count).to eq(0)
-      end
 
-      it 'decrements order_numbers of carriages that after removed carriage' do
-        subject
         expect(train.reload.carriages.pluck(:order_number)).to eq((1..train.carriages.count).to_a)
       end
     end

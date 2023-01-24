@@ -29,11 +29,9 @@ RSpec.describe Api::V1::UsersController, type: :request do
         get "/api/v1/users/#{user.id}", headers: auth_header
       end
 
-      it 'returns 200' do
+      it 'returns 200 and proper user' do
         expect(response.status).to eq(200)
-      end
 
-      it 'returns correct user' do
         expect(json_response['user']['id']).to eq(user.id)
         expect(json_response['user']['email']).to eq(user.email)
       end
@@ -66,11 +64,8 @@ RSpec.describe Api::V1::UsersController, type: :request do
               headers: auth_header
       end
 
-      it 'returns 422' do
+      it 'returns 422 and contains error message' do
         expect(response.status).to eq(422)
-      end
-
-      it 'contains error message' do
         expect(json_response['errors']).to_not be_nil
       end
     end
@@ -87,11 +82,8 @@ RSpec.describe Api::V1::UsersController, type: :request do
               headers: auth_header
       end
 
-      it 'returns 200' do
+      it 'returns 200 and updates user password' do
         expect(response.status).to eq(200)
-      end
-
-      it 'updates user password' do
         expect(user.reload.authenticate('new_password')).to be_kind_of(User)
       end
     end

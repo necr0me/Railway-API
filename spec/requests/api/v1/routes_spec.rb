@@ -14,17 +14,11 @@ RSpec.describe Api::V1::RoutesController, type: :request do
         get "/api/v1/routes/#{route.id}"
       end
 
-      it 'returns 200' do
+      it 'returns 200, route and stations in route' do
         expect(response.status).to eq(200)
-      end
 
-      it 'returns route' do
-        expect(json_response['route']).to_not be_nil
         expect(json_response['route']['id']).to eq(route.id)
-      end
 
-      it 'returns stations in route' do
-        expect(json_response['stations']).to_not be_nil
         expect(json_response['stations'].map { _1.send(:[], 'id') }).to eq(route.stations.pluck(:id))
       end
     end
@@ -49,11 +43,8 @@ RSpec.describe Api::V1::RoutesController, type: :request do
         post '/api/v1/routes', headers: auth_header
       end
 
-      it 'returns 422' do
+      it 'returns 422 and error message' do
         expect(response.status).to eq(422)
-      end
-
-      it 'contains error message' do
         expect(json_response['errors']).to_not be_nil
       end
     end
@@ -64,11 +55,8 @@ RSpec.describe Api::V1::RoutesController, type: :request do
         post '/api/v1/routes', headers: auth_header
       end
 
-      it 'returns 201' do
+      it 'returns 201 and creates route in db' do
         expect(response.status).to eq(201)
-      end
-
-      it 'creates route in db' do
         expect(json_response['route']['id']).to eq(Route.last.id)
       end
     end
@@ -97,11 +85,8 @@ RSpec.describe Api::V1::RoutesController, type: :request do
              headers: auth_header
       end
 
-      it 'returns 404' do
+      it 'returns 404 and contains error message' do
         expect(response.status).to eq(404)
-      end
-
-      it 'contains error message' do
         expect(json_response['message']).to eq("Couldn't find Route with 'id'=0")
       end
     end
@@ -116,11 +101,8 @@ RSpec.describe Api::V1::RoutesController, type: :request do
              headers: auth_header
       end
 
-      it 'returns 422' do
+      it 'returns 422 and contains error message that station must exist' do
         expect(response.status).to eq(422)
-      end
-
-      it 'contains error message' do
         expect(json_response['errors']).to include(/Station must exist/)
       end
     end
@@ -135,15 +117,11 @@ RSpec.describe Api::V1::RoutesController, type: :request do
              headers: auth_header
       end
 
-      it 'returns 201' do
+      it 'returns 201, adds station to route and response contains added station' do
         expect(response.status).to eq(201)
-      end
 
-      it 'adds station to route' do
         expect(empty_route.reload.stations).to include(station)
-      end
 
-      it 'response contains added station' do
         expect(json_response['station']['id']).to eq(station.id)
       end
     end
@@ -166,11 +144,8 @@ RSpec.describe Api::V1::RoutesController, type: :request do
         delete "/api/v1/routes/0/remove_station/#{route.stations.first.id}", headers: auth_header
       end
 
-      it 'returns 404' do
+      it 'returns 404 and contains error message' do
         expect(response.status).to eq(404)
-      end
-
-      it 'contains error message' do
         expect(json_response['message']).to eq("Couldn't find Route with 'id'=0")
       end
     end
@@ -181,11 +156,8 @@ RSpec.describe Api::V1::RoutesController, type: :request do
         delete "/api/v1/routes/#{route.id}/remove_station/0", headers: auth_header
       end
 
-      it 'returns 422' do
+      it 'returns 422 and contains error message' do
         expect(response.status).to eq(422)
-      end
-
-      it 'contains error message' do
         expect(json_response['errors']).to include(/Couldn't find StationOrderNumber/)
       end
     end
@@ -196,11 +168,8 @@ RSpec.describe Api::V1::RoutesController, type: :request do
         delete "/api/v1/routes/#{route.id}/remove_station/#{route.stations.first.id}", headers: auth_header
       end
 
-      it 'returns 200' do
+      it 'returns 200 and removes stations from route' do
         expect(response.status).to eq(200)
-      end
-
-      it 'removes station from route' do
         expect(route.reload.stations.pluck(:id)).to_not include(request.params[:station_id])
       end
     end
@@ -238,11 +207,8 @@ RSpec.describe Api::V1::RoutesController, type: :request do
         delete "/api/v1/routes/#{route.id}", headers: auth_header
       end
 
-      it 'returns 204' do
+      it 'returns 204 and destroys route' do
         expect(response.status).to eq(204)
-      end
-
-      it 'destroys route' do
         expect { route.reload }.to raise_error(ActiveRecord::RecordNotFound)
       end
     end

@@ -33,11 +33,8 @@ RSpec.describe Users::RegistrationsController, :type => :request do
              }
       end
 
-      it 'returns 422' do
-        expect(response.status).to eq(422)
-      end
-
-      it 'contains error messages' do
+      it 'returns 422 and contains error messages' do
+        expect(response).to have_http_status(422)
         expect(json_response['errors']).to include(/Email can't be blank/)
         expect(json_response['errors']).to include(/Password can't be blank/)
       end
@@ -54,11 +51,8 @@ RSpec.describe Users::RegistrationsController, :type => :request do
              }
       end
 
-      it 'returns 422' do
-        expect(response.status).to eq(422)
-      end
-
-      it 'contains error message' do
+      it 'returns 422 and contains error message' do
+        expect(response).to have_http_status(422)
         expect(json_response['errors']).to include(/Email has already been taken/)
       end
     end
@@ -74,11 +68,8 @@ RSpec.describe Users::RegistrationsController, :type => :request do
              }
       end
 
-      it 'returns 201' do
-        expect(response.status).to eq(201)
-      end
-
-      it 'creates user in db' do
+      it 'returns 201 and creates user in db' do
+        expect(response).to have_http_status(201)
         expect(User.find_by(email: user.email).email).to eq(user.email)
       end
     end
@@ -116,11 +107,8 @@ RSpec.describe Users::RegistrationsController, :type => :request do
         delete "/users/#{existing_user.id}", headers: auth_header
       end
 
-      it 'returns 204' do
+      it 'returns 204 and deletes user from db' do
         expect(response).to have_http_status(204)
-      end
-
-      it 'deletes user from db' do
         expect { existing_user.reload }.to raise_error(ActiveRecord::RecordNotFound)
       end
     end

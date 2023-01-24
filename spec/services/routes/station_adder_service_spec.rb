@@ -24,43 +24,29 @@ RSpec.describe Routes::StationAdderService do
     end
 
     context 'when any error occurs' do
-      subject { described_class.call(route_id: 0, station_id: station.id) }
+      it 'success? value is false, data is nil and contains error' do
+        result = described_class.call(route_id: 0, station_id: station.id)
 
-      it 'success? value is false' do
-        expect(subject.success?).to eq(false)
-      end
+        expect(result.success?).to eq(false)
 
-      it 'data value is nil' do
-        expect(subject.data).to be_nil
-      end
+        expect(result.data).to be_nil
 
-      it 'contains error' do
-        expect(subject.errors).to_not be_nil
+        expect(result.errors).to_not be_nil
       end
     end
 
     context 'when no any errors occurs' do
-      subject { described_class.call(route_id: route.id, station_id: station.id) }
+      it 'success? value is true, returns added station, no errors and adds station to route' do
+        result = described_class.call(route_id: route.id, station_id: station.id)
 
-      it 'success? value is true' do
-        expect(subject.success?).to be(true)
-      end
+        expect(result.success?).to be(true)
 
-      it 'data value is added station' do
-        expect(subject.data.id).to eq(station.id)
-      end
+        expect(result.data.id).to eq(station.id)
 
-      it 'errors value is nil' do
-        expect(subject.errors).to be_nil
-      end
+        expect(result.errors).to be_nil
 
-      it 'adds station to route' do
-        subject
         expect(route.reload.stations).to include(station)
-      end
 
-      it 'sets correct order number' do
-        subject
         expect(route.station_order_numbers.last.order_number).to eq(route.stations.count)
       end
     end

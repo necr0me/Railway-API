@@ -10,20 +10,16 @@ RSpec.describe Jwt::TokensGeneratorService do
 
   describe '#call' do
     context 'no matter if refresh token exists or not' do
-      it 'generates two tokens' do
+      it 'generates two tokens, first one is access, second one is refresh' do
+        tokens = generate_tokens_for_user
+        access_token, refresh_token = tokens
         expect(generate_tokens_for_user.count).to eq(2)
-      end
 
-      it 'generates access token' do
-        access_token = generate_tokens_for_user.first
         expect { JWT.decode(access_token,
                             Constants::Jwt::JWT_SECRET_KEYS['access'],
                             true,
                             { algorithm: Constants::Jwt::JWT_ALGORITHM})}.to_not raise_error
-      end
 
-      it 'generates refresh token' do
-        refresh_token = generate_tokens_for_user.last
         expect { JWT.decode(refresh_token,
                             Constants::Jwt::JWT_SECRET_KEYS['refresh'],
                             true,

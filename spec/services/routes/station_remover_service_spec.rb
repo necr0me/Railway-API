@@ -20,35 +20,25 @@ RSpec.describe Routes::StationRemoverService do
     end
 
     context 'when error occurs' do
-      subject { described_class.call(route_id: route.id, station_id: 0) }
+      it 'success? is false, contains errors' do
+        result = described_class.call(route_id: route.id, station_id: 0)
 
-      it 'success? value is false' do
-        expect(subject.success?).to eq(false)
-      end
+        expect(result.success?).to eq(false)
 
-      it 'errors value is not nil' do
-        expect(subject.errors).to_not be_nil
+        expect(result.errors).to_not be_nil
       end
     end
 
     context 'when any error doesn\'t occur' do
-      subject { described_class.call(route_id: route.id, station_id: first_station.id) }
+      it 'success? is true, contains no errors and removes station from route' do
+        result = described_class.call(route_id: route.id, station_id: first_station.id)
 
-      it 'success? value is true' do
-        expect(subject.success?).to eq(true)
-      end
+        expect(result.success?).to eq(true)
 
-      it 'errors value is nil' do
-        expect(subject.errors).to be_nil
-      end
+        expect(result.errors).to be_nil
 
-      it 'decrements order numbers of stations after removed station' do
-        subject
         expect(route.reload.stations.pluck(:order_number)).to eq((1..route.stations.count).to_a)
-      end
 
-      it 'removes station from route' do
-        subject
         expect(route.reload.stations).to_not include(first_station)
       end
     end

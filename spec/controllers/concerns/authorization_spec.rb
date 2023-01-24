@@ -38,11 +38,8 @@ RSpec.describe Authorization do
         get :action
       end
 
-      it 'returns 401' do
+      it 'returns 401 and contains message that you are not logged in' do
         expect(response.status).to eq(401)
-      end
-
-      it 'contains message that you are not logged in' do
         expect(json_response['message']).to eq("You're not logged in")
       end
     end

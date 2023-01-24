@@ -26,11 +26,8 @@ RSpec.describe Api::V1::ProfilesController, type: :request do
         get '/api/v1/profile', headers: auth_header
       end
 
-      it 'returns 200' do
+      it 'returns 200 and proper profile' do
         expect(response.status).to eq(200)
-      end
-
-      it 'returns proper profile' do
         expect(json_response['user_id']).to eq(user.id)
       end
     end
@@ -65,11 +62,8 @@ RSpec.describe Api::V1::ProfilesController, type: :request do
              headers: auth_header
       end
 
-      it 'returns 400' do
+      it 'returns 400 and error messages' do
         expect(response.status).to eq(422)
-      end
-
-      it 'contains error messages' do
         expect(json_response['errors']).to_not be_nil
       end
     end
@@ -84,11 +78,8 @@ RSpec.describe Api::V1::ProfilesController, type: :request do
              headers: auth_header
       end
 
-      it 'returns 422' do
+      it 'returns 422 and error message' do
         expect(response.status).to eq(422)
-      end
-
-      it 'contains error message' do
         expect(json_response['message']).to eq('Seems like record with this data already exists')
       end
     end
@@ -103,11 +94,8 @@ RSpec.describe Api::V1::ProfilesController, type: :request do
              headers: auth_header
       end
 
-      it 'returns 201' do
+      it 'returns 201 and creates profile' do
         expect(response.status).to eq(201)
-      end
-
-      it 'creates profile' do
         expect(user_without_profile.reload.profile).to_not be_nil
         expect(Profile.last.user_id).to eq(user_without_profile.id)
       end
@@ -139,11 +127,8 @@ RSpec.describe Api::V1::ProfilesController, type: :request do
               headers: auth_header
       end
 
-      it 'returns 422' do
+      it 'returns 422 and error messages' do
         expect(response.status).to eq(422)
-      end
-
-      it 'contains error messages' do
         expect(json_response['errors']).to_not be_nil
         expect(json_response['errors']).to include(/Name is too short/)
       end
@@ -162,11 +147,8 @@ RSpec.describe Api::V1::ProfilesController, type: :request do
               headers: auth_header
       end
 
-      it 'returns 200' do
+      it 'returns 200 and updates user profile' do
         expect(response.status).to eq(200)
-      end
-
-      it 'updates user profile' do
         expect(user.profile.name).to eq('Bogdan')
         expect(user.profile.surname).to eq('Choma')
       end

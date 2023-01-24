@@ -13,82 +13,62 @@ RSpec.describe Auth::AuthorizationService do
                                    Constants::Jwt::JWT_ALGORITHM) }
 
   describe 'when authorization header is not presented' do
-    subject { described_class.call(authorization_header: nil) }
+    it 'success? value is false, contains error message and does not returns decoded token ' do
+      result = described_class.call(authorization_header: nil)
 
-    it 'success? value is false' do
-      expect(subject.success?).to eq(false)
-    end
+      expect(result.success?).to eq(false)
 
-    it 'contains error message that header is not presented' do
-      expect(subject.errors).to include('Authorization header is not presented')
-    end
+      expect(result.errors).to include('Authorization header is not presented')
 
-    it 'doesn\'t returns decoded token' do
-      expect(subject.data).to be_nil
+      expect(result.data).to be_nil
     end
   end
 
   describe 'when refresh token presented instead of access token' do
-    subject { described_class.call(authorization_header: "Bearer #{refresh_token}")}
+    it 'success? value is false, contains error message and does not returns decoded token' do
+      result = described_class.call(authorization_header: "Bearer #{refresh_token}")
 
-    it 'success? value is false' do
-      expect(subject.success?).to eq(false)
-    end
+      expect(result.success?).to eq(false)
 
-    it 'contains error message' do
-      expect(subject.errors).to include('Signature verification failed')
-    end
+      expect(result.errors).to include('Signature verification failed')
 
-    it 'doesn\'t returns decoded token' do
-      expect(subject.data).to be_nil
+      expect(result.data).to be_nil
     end
   end
 
   describe 'when access token is expired' do
-    subject { described_class.call(authorization_header: "Bearer #{expired_access_token}") }
+    it 'success? value is false, contains error message and does not returns decoded token' do
+      result = described_class.call(authorization_header: "Bearer #{expired_access_token}")
 
-    it 'success? value is false' do
-      expect(subject.success?).to eq(false)
-    end
+      expect(result.success?).to eq(false)
 
-    it 'contains error message' do
-      expect(subject.errors).to include('Signature has expired')
-    end
+      expect(result.errors).to include('Signature has expired')
 
-    it 'doesn\'t returns decoded token' do
-      expect(subject.data).to be_nil
+      expect(result.data).to be_nil
     end
   end
 
   describe 'when access token is not presented' do
-    subject { described_class.call(authorization_header: "Bearer") }
+    it 'success? value is false, contains error message and does not returns decoded token' do
+      result = described_class.call(authorization_header: "Bearer")
 
-    it 'success? value is false' do
-      expect(subject.success?).to eq(false)
-    end
+      expect(result.success?).to eq(false)
 
-    it 'contains error message' do
-      expect(subject.errors).to include('Nil JSON web token')
-    end
+      expect(result.errors).to include('Nil JSON web token')
 
-    it 'doesn\'t returns decoded token' do
-      expect(subject.data).to be_nil
+      expect(result.data).to be_nil
     end
   end
 
   describe 'when access token is presented' do
-    subject { described_class.call(authorization_header: "Bearer #{access_token}") }
-
     it 'success? value is true' do
-      expect(subject.success?).to eq(true)
-    end
+      result = described_class.call(authorization_header: "Bearer #{access_token}")
 
-    it 'doesn\'t contains any error message' do
-      expect(subject.errors).to be_nil
-    end
+      expect(result.success?).to eq(true)
 
-    it 'returns decoded token' do
-      expect(subject.data['user_id']).to eq(user.id)
+      expect(result.errors).to be_nil
+
+      expect(result.data['user_id']).to eq(user.id)
     end
   end
 end
