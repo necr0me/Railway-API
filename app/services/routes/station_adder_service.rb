@@ -14,13 +14,11 @@ module Routes
     attr_reader :route_id, :station_id
 
     def add_station!
-      begin
-        station_order_number = StationOrderNumber.create!(route_id: route_id,
-                                                          station_id: station_id)
-        return OpenStruct.new(success?: true, data: station_order_number.station, errors: nil)
-      rescue => e
-        return OpenStruct.new(success?: false, data: nil, errors: [e.message])
-      end
+      station_order_number = StationOrderNumber.create!(route_id: route_id,
+                                                        station_id: station_id)
+      success!(data: station_order_number.station)
+    rescue => e
+      fail!(error: e.message)
     end
   end
 end

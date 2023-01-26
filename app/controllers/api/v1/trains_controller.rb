@@ -54,7 +54,7 @@ module Api
                  status: 200
         else
           render json: { message: 'Something went wrong',
-                         errors: result.errors },
+                         errors: [result.error] },
                  status: 422
         end
       end
@@ -68,7 +68,7 @@ module Api
                  status: 200
         else
           render json: { message: 'Something went wrong',
-                         errors: result.errors },
+                         errors: [result.error] },
                  status: 422
         end
       end

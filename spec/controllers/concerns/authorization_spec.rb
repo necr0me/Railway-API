@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Authorization do
   let(:user) { create(:user) }
-  let(:token) { Jwt::EncoderService.call(payload: { user_id: user.id }, type: 'access') }
+  let(:token) { Jwt::EncoderService.call(payload: { user_id: user.id }, type: 'access').data }
 
   controller(ActionController::API) do
     include Authorization
@@ -16,9 +16,6 @@ RSpec.describe Authorization do
   before do
     routes.draw { get :action, to: 'anonymous#action' }
   end
-
-  let(:user) { create(:user) }
-  let(:token) { Jwt::EncoderService.call(payload: { user_id: user.id }, type: 'access') }
 
   describe '#authorize!' do
     context 'with valid token' do

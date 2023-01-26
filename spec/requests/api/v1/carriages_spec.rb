@@ -8,6 +8,8 @@ RSpec.describe Api::V1::CarriagesController, type: :request do
 
   let(:carriage) { create(:carriage) }
 
+  # TODO: try to increase speed of tests by moving access_token in variable instead of performing login_with_api
+
   describe '#index' do
     context 'when user is unauthorized' do
       before do

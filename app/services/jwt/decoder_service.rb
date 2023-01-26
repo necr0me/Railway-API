@@ -16,7 +16,10 @@ module Jwt
     attr_reader :token, :type
 
     def decode(token, type)
-      JWT.decode(token, JWT_SECRET_KEYS[type], true, { alg: JWT_ALGORITHM })
+      decoded = JWT.decode(token, JWT_SECRET_KEYS[type], true, { alg: JWT_ALGORITHM })
+      success!(data: decoded)
+    rescue => e
+      fail!(error: e.message)
     end
   end
 end

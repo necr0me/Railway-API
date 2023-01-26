@@ -24,13 +24,8 @@ RSpec.describe CarriageTypes::UpdaterService do
         result = described_class.call(carriage_type: carriage_type,
                                       carriage_type_params: params)
 
-        expect(result).to be_kind_of(OpenStruct)
-
-        expect(result.success?).to be_falsey
-
         expect(result.data).to be_nil
-
-        expect(result.errors).to include("Can't update carriage type capacity that has any carriages")
+        expect(result.error).to eq("Can't update carriage type capacity that has any carriages")
 
         expect(carriage_type.name).to_not eq(params[:capacity])
       end
@@ -43,17 +38,12 @@ RSpec.describe CarriageTypes::UpdaterService do
         capacity: -1
       } }
 
-      it 'returns OpenStruct object, success? is false, data is nil, contains error and doesnt update type' do
+      it 'data is nil, contains error and doesnt update type' do
         result = described_class.call(carriage_type: carriage_type,
                                       carriage_type_params: params)
 
-        expect(result).to be_kind_of(OpenStruct)
-
-        expect(result.success?).to be_falsey
-
         expect(result.data).to be_nil
-
-        expect(result.errors).to include(/Validation failed/)
+        expect(result.error).to match(/Validation failed/)
 
         expect(carriage_type.reload.name).to_not eq(params[:name])
       end
@@ -67,17 +57,12 @@ RSpec.describe CarriageTypes::UpdaterService do
         capacity: carriage_type.capacity
       } }
 
-      it 'returns OpenStruct object, success? is true, data is updated type, no errors and updates type' do
+      it 'data is updated type, does not contains errors and updates type' do
         result = described_class.call(carriage_type: carriage_type,
                                       carriage_type_params: params)
 
-        expect(result).to be_kind_of(OpenStruct)
-
-        expect(result.success?).to be_truthy
-
         expect(result.data.id).to eq(carriage_type.id)
-
-        expect(result.errors).to be_nil
+        expect(result.error).to be_nil
 
         expect(carriage_type.name).to eq(params[:name])
         expect(carriage_type.description).to eq(params[:description])
@@ -86,17 +71,12 @@ RSpec.describe CarriageTypes::UpdaterService do
     end
 
     context 'when trying to update type without carriages with valid data' do
-      it 'returns OpenStruct object, success? is true, data is updated type, no errors and updates type' do
+      it 'data is updated type, does not contains error and updates type' do
         result = described_class.call(carriage_type: carriage_type,
                                       carriage_type_params: params)
 
-        expect(result).to be_kind_of(OpenStruct)
-
-        expect(result.success?).to be_truthy
-
         expect(result.data.id).to eq(carriage_type.id)
-
-        expect(result.errors).to be_nil
+        expect(result.error).to be_nil
 
         expect(carriage_type.name).to eq(params[:name])
         expect(carriage_type.description).to eq(params[:description])

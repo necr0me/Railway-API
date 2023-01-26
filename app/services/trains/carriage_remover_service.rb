@@ -14,23 +14,19 @@ module Trains
     attr_reader :train, :carriage_id
 
     def remove_carriage
-      begin
-        carriage = Carriage.find(carriage_id)
-        return OpenStruct.new(success?: false,
-                              errors: ["Can't remove carriage that not in train"]) if carriage.train_id.nil?
-        return OpenStruct.new(success?: false,
-                              errors: ["Can't remove carriage from different train"]) if carriage.train_id != train.id
-        ActiveRecord::Base.transaction do
-          train.carriages.where("order_number > ?", carriage.order_number)
-               .update_counters(order_number: -1)
-          carriage.update!(train_id: nil,
-                           order_number: nil)
-          carriage.seats.destroy_all
-        end
-        return OpenStruct.new(success?: true, errors: nil)
-      rescue => e
-        return OpenStruct.new(success?: false, errors: [e.message])
+      carriage = Carriage.find(carriage_id)
+      return fail!(error: "Can't remove carriage that not in train") if carriage.train_id.nil?
+      return fail!(error: "Can't remove carriage from different train") if carriage.train_id != train.id
+      ActiveRecord::Base.transaction do
+        train.carriages.where("order_number > ?", carriage.order_number)
+             .update_counters(order_number: -1)
+        carriage.update!(train_id: nil,
+                         order_number: nil)
+        carriage.seats.destroy_all
       end
+      success!
+    rescue => e
+      fail!(error: e.message)
     end
   end
 end
