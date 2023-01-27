@@ -1,14 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe Api::V1::CarriagesController, type: :request do
+
   let(:user) { create(:user, role: :admin) }
-  let(:user_credentials) { user; attributes_for(:user) }
 
   let(:carriage_type) { create(:carriage_type) }
 
   let(:carriage) { create(:carriage) }
-
-  # TODO: try to increase speed of tests by moving access_token in variable instead of performing login_with_api
 
   describe '#index' do
     context 'when user is unauthorized' do
@@ -24,7 +22,6 @@ RSpec.describe Api::V1::CarriagesController, type: :request do
     context 'when user is authorized' do
       before do
         create_list(:carriage, 2)
-        login_with_api(user_credentials)
         get '/api/v1/carriages', headers: auth_header
       end
 
@@ -48,7 +45,6 @@ RSpec.describe Api::V1::CarriagesController, type: :request do
 
     context 'when user is authorized' do
       before do
-        login_with_api(user_credentials)
         get "/api/v1/carriages/#{carriage.id}", headers: auth_header
       end
 
@@ -74,7 +70,6 @@ RSpec.describe Api::V1::CarriagesController, type: :request do
 
     context 'when user is authorized and tries to create carriage with invalid data' do
       before do
-        login_with_api(user_credentials)
         post '/api/v1/carriages',
              params: {
                carriage: {
@@ -93,7 +88,6 @@ RSpec.describe Api::V1::CarriagesController, type: :request do
 
     context 'when user is authorized and tries to create carriage with valid data' do
       before do
-        login_with_api(user_credentials)
         post '/api/v1/carriages',
              params: {
                carriage: {
@@ -128,7 +122,6 @@ RSpec.describe Api::V1::CarriagesController, type: :request do
 
     context 'when user is authorized and tries to update carriage with invalid data' do
       before do
-        login_with_api(user_credentials)
         patch "/api/v1/carriages/#{carriage.id}",
               params: {
                 carriage: {
@@ -146,7 +139,6 @@ RSpec.describe Api::V1::CarriagesController, type: :request do
 
     context 'when user is authorized and tries to update carriage with valid data' do
       before do
-        login_with_api(user_credentials)
         patch "/api/v1/carriages/#{carriage.id}",
               params: {
                 carriage: {
@@ -180,7 +172,6 @@ RSpec.describe Api::V1::CarriagesController, type: :request do
         allow_any_instance_of(Carriage).to receive(:destroy).and_return(false)
         allow_any_instance_of(ActiveModel::Errors).to receive(:full_messages).and_return(['Error message'])
 
-        login_with_api(user_credentials)
         delete "/api/v1/carriages/#{carriage.id}", headers: auth_header
       end
 
@@ -192,7 +183,6 @@ RSpec.describe Api::V1::CarriagesController, type: :request do
 
     context 'when user is authorized and tries to destroy carriage' do
       before do
-        login_with_api(user_credentials)
         delete "/api/v1/carriages/#{carriage.id}", headers: auth_header
       end
 

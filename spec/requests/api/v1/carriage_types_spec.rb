@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Api::V1::CarriageTypesController, type: :request do
+
   let(:user) { create(:user, role: :admin) }
-  let(:user_credentials) { user; attributes_for(:user) }
 
   let(:carriage_type) { create(:carriage_type) }
   let(:carriage_type_with_carriage) { create(:carriage_type, :type_with_carriage) }
@@ -21,7 +21,6 @@ RSpec.describe Api::V1::CarriageTypesController, type: :request do
     context 'when user is authorized' do
       before do
         create_list(:carriage_type, 2)
-        login_with_api(user_credentials)
         get '/api/v1/carriage_types', headers: auth_header
       end
 
@@ -45,7 +44,6 @@ RSpec.describe Api::V1::CarriageTypesController, type: :request do
 
     context 'when user is authorized and tries to create type with invalid data' do
       before do
-        login_with_api(user_credentials)
         post '/api/v1/carriage_types',
              params: {
                carriage_type: {
@@ -67,7 +65,6 @@ RSpec.describe Api::V1::CarriageTypesController, type: :request do
 
     context 'when user is authorized and tries to create type with valid data' do
       before do
-        login_with_api(user_credentials)
         post '/api/v1/carriage_types',
              params: {
                carriage_type: attributes_for(:carriage_type)
@@ -95,7 +92,6 @@ RSpec.describe Api::V1::CarriageTypesController, type: :request do
 
     context 'when user is authorized and tries to update type with invalid data' do
       before do
-        login_with_api(user_credentials)
         patch "/api/v1/carriage_types/#{carriage_type.id}",
               params: {
                 carriage_type: {
@@ -115,7 +111,6 @@ RSpec.describe Api::V1::CarriageTypesController, type: :request do
 
     context 'when user is authorized and tries to update type with valid data' do
       before do
-        login_with_api(user_credentials)
         patch "/api/v1/carriage_types/#{carriage_type.id}",
               params: {
                 carriage_type: {
@@ -148,7 +143,6 @@ RSpec.describe Api::V1::CarriageTypesController, type: :request do
 
     context 'when user is authorized and tries to destroy type with carriages' do
       before do
-        login_with_api(user_credentials)
         delete "/api/v1/carriage_types/#{carriage_type_with_carriage.id}", headers: auth_header
       end
 
@@ -160,7 +154,6 @@ RSpec.describe Api::V1::CarriageTypesController, type: :request do
 
     context 'when user is authorize and tries to destroy type without any carriages' do
       before do
-        login_with_api(user_credentials)
         delete "/api/v1/carriage_types/#{carriage_type.id}", headers: auth_header
       end
 

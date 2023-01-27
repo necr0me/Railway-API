@@ -4,7 +4,6 @@ RSpec.describe Users::RegistrationsController, :type => :request do
 
   let(:user) { build(:user) }
   let(:existing_user) { create(:user) }
-  let(:user_credentials) { existing_user; attributes_for(:user) }
 
   describe 'concerns' do
     context 'UserFindable' do
@@ -90,8 +89,7 @@ RSpec.describe Users::RegistrationsController, :type => :request do
         allow_any_instance_of(User).to receive(:destroy).and_return(false)
         allow_any_instance_of(ActiveModel::Errors).to receive(:full_messages).and_return(['Error message'])
 
-        login_with_api(user_credentials)
-        delete "/users/#{existing_user.id}", headers: auth_header
+        delete "/users/#{existing_user.id}", headers: auth_header_for(existing_user)
       end
 
       it 'returns 422 and error message' do
@@ -102,8 +100,7 @@ RSpec.describe Users::RegistrationsController, :type => :request do
 
     context 'when user tries to destroy existing user' do
       before do
-        login_with_api(user_credentials)
-        delete "/users/#{existing_user.id}", headers: auth_header
+        delete "/users/#{existing_user.id}", headers: auth_header_for(existing_user)
       end
 
       it 'returns 204 and deletes user from db' do

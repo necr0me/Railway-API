@@ -6,7 +6,7 @@ RSpec.describe Api::V1::RoutesController, type: :request do
   let(:empty_route) { create(:route) }
   let(:station) { create(:station) }
 
-  let(:user_credentials) { create(:user, role: :moderator); attributes_for(:user) }
+  let(:user) { create(:user, role: :moderator) }
 
   describe '#show' do
     context 'when user is unauthorized' do
@@ -39,7 +39,6 @@ RSpec.describe Api::V1::RoutesController, type: :request do
       before do
         allow_any_instance_of(Route).to receive(:persisted?).and_return(false)
 
-        login_with_api(user_credentials)
         post '/api/v1/routes', headers: auth_header
       end
 
@@ -51,7 +50,6 @@ RSpec.describe Api::V1::RoutesController, type: :request do
 
     context 'when user is authorized' do
       before do
-        login_with_api(user_credentials)
         post '/api/v1/routes', headers: auth_header
       end
 
@@ -77,7 +75,6 @@ RSpec.describe Api::V1::RoutesController, type: :request do
 
     context 'when user is authorized and route does not exist' do
       before do
-        login_with_api(user_credentials)
         post "/api/v1/routes/0/add_station",
              params: {
                station_id: station.id
@@ -93,7 +90,6 @@ RSpec.describe Api::V1::RoutesController, type: :request do
 
     context 'when user is authorized and station does not exist' do
       before do
-        login_with_api(user_credentials)
         post "/api/v1/routes/#{empty_route.id}/add_station",
              params: {
                station_id: 0
@@ -109,7 +105,6 @@ RSpec.describe Api::V1::RoutesController, type: :request do
 
     context 'when user is authorized, route and station do exist' do
       before do
-        login_with_api(user_credentials)
         post "/api/v1/routes/#{empty_route.id}/add_station",
              params: {
                station_id: station.id
@@ -140,7 +135,6 @@ RSpec.describe Api::V1::RoutesController, type: :request do
 
     context 'when user is authorized and route does not exist' do
       before do
-        login_with_api(user_credentials)
         delete "/api/v1/routes/0/remove_station/#{route.stations.first.id}", headers: auth_header
       end
 
@@ -152,7 +146,6 @@ RSpec.describe Api::V1::RoutesController, type: :request do
 
     context 'when user is authorized and station does not exist' do
       before do
-        login_with_api(user_credentials)
         delete "/api/v1/routes/#{route.id}/remove_station/0", headers: auth_header
       end
 
@@ -164,7 +157,6 @@ RSpec.describe Api::V1::RoutesController, type: :request do
 
     context 'when user is authorized, route and station do exist' do
       before do
-        login_with_api(user_credentials)
         delete "/api/v1/routes/#{route.id}/remove_station/#{route.stations.first.id}", headers: auth_header
       end
 
@@ -191,7 +183,6 @@ RSpec.describe Api::V1::RoutesController, type: :request do
         allow_any_instance_of(Route).to receive(:destroy).and_return(false)
         allow_any_instance_of(ActiveModel::Errors).to receive(:full_messages).and_return(['Error message'])
 
-        login_with_api(user_credentials)
         delete "/api/v1/routes/#{route.id}", headers: auth_header
       end
 
@@ -203,7 +194,6 @@ RSpec.describe Api::V1::RoutesController, type: :request do
 
     context 'when user is authorized and route does exist' do
       before do
-        login_with_api(user_credentials)
         delete "/api/v1/routes/#{route.id}", headers: auth_header
       end
 

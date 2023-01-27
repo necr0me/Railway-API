@@ -5,7 +5,6 @@ RSpec.describe Api::V1::StationsController, type: :request do
   let(:station) { create(:station) }
 
   let(:user) { create(:user, role: :moderator) }
-  let(:user_credentials) { user; attributes_for(:user) }
 
   describe '#index' do
     context 'when query params presented' do
@@ -63,7 +62,6 @@ RSpec.describe Api::V1::StationsController, type: :request do
 
     context 'when user is authorized but tries to create station with invalid data' do
       before do
-        login_with_api(user_credentials)
         post '/api/v1/stations',
              params: {
                station: {
@@ -81,7 +79,6 @@ RSpec.describe Api::V1::StationsController, type: :request do
 
     context 'when user is authorized and tries to create station with valid data' do
       before do
-        login_with_api(user_credentials)
         post '/api/v1/stations',
              params: {
                station: {
@@ -116,7 +113,6 @@ RSpec.describe Api::V1::StationsController, type: :request do
 
     context 'when user is authorized but tries to update station with invalid data' do
       before do
-        login_with_api(user_credentials)
         patch "/api/v1/stations/#{station.id}",
               params: {
                 station: {
@@ -134,7 +130,6 @@ RSpec.describe Api::V1::StationsController, type: :request do
 
     context 'when user is authorized and tries to update station with valid data' do
       before do
-        login_with_api(user_credentials)
         patch "/api/v1/stations/#{station.id}",
               params: {
                 station: {
@@ -167,7 +162,6 @@ RSpec.describe Api::V1::StationsController, type: :request do
         allow_any_instance_of(Station).to receive(:destroy).and_return(false)
         allow_any_instance_of(ActiveModel::Errors).to receive(:full_messages).and_return(['Error message'])
 
-        login_with_api(user_credentials)
         delete "/api/v1/stations/#{station.id}", headers: auth_header
       end
 
@@ -179,7 +173,6 @@ RSpec.describe Api::V1::StationsController, type: :request do
 
     context 'when user is authorized and station does exist' do
       before do
-        login_with_api(user_credentials)
         delete "/api/v1/stations/#{station.id}", headers: auth_header
       end
 

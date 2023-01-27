@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Api::V1::UsersController, type: :request do
+
   let(:user) { create(:user) }
-  let(:user_credentials) { user; attributes_for(:user) }
 
   describe 'concerns' do
     context 'UserFindable' do
@@ -25,7 +25,6 @@ RSpec.describe Api::V1::UsersController, type: :request do
 
     context 'when user is authorized and user is correct' do
       before do
-        login_with_api(user_credentials)
         get "/api/v1/users/#{user.id}", headers: auth_header
       end
 
@@ -54,7 +53,6 @@ RSpec.describe Api::V1::UsersController, type: :request do
 
     context 'when user tries to update with invalid password' do
       before do
-        login_with_api(user_credentials)
         patch "/api/v1/users/#{user.id}",
               params: {
                 user: {
@@ -72,7 +70,6 @@ RSpec.describe Api::V1::UsersController, type: :request do
 
     context 'when user tries to update with correct data' do
       before do
-        login_with_api(user_credentials)
         patch "/api/v1/users/#{user.id}",
               params: {
                 user: {
