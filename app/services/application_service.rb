@@ -7,15 +7,17 @@ class ApplicationService
     instance
   end
 
+  def success?
+    error.nil?
+  end
+
+  protected
+
   def success(data: nil)
     @data = data
   end
 
   alias success! success
-
-  def success?
-    error.nil?
-  end
 
   def fail(data: nil, error: )
     @data = data
