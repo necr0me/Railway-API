@@ -25,8 +25,6 @@ module Trains
         carriage.seats.destroy_all
       end
       success!
-    rescue => e
-      fail!(error: e.message)
     end
   end
 end

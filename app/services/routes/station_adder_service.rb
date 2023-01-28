@@ -17,8 +17,6 @@ module Routes
       station_order_number = StationOrderNumber.create!(route_id: route_id,
                                                         station_id: station_id)
       success!(data: station_order_number.station)
-    rescue => e
-      fail!(error: e.message)
     end
   end
 end

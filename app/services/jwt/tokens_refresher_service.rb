@@ -25,8 +25,6 @@ module Jwt
       tokens_result = TokensGeneratorService.call(user_id: decoded_token['user_id'])
 
       tokens_result.success? ? success!(data: tokens_result.data) : fail!(error: tokens_result.error)
-    rescue => e
-      fail!(error: e.message)
     end
   end
 end

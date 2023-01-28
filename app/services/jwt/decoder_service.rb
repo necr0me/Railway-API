@@ -18,8 +18,6 @@ module Jwt
     def decode(token, type)
       decoded = JWT.decode(token, JWT_SECRET_KEYS[type], true, { alg: JWT_ALGORITHM })
       success!(data: decoded)
-    rescue => e
-      fail!(error: e.message)
     end
   end
 end

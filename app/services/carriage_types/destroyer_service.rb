@@ -19,8 +19,6 @@ module CarriageTypes
       else
         fail!(error: "Can't destroy carriage type that has any carriages")
       end
-    rescue => e
-      fail!(error: e.message)
     end
   end
 end

@@ -24,8 +24,6 @@ module CarriageTypes
       else
         fail!(error: "Can't update carriage type capacity that has any carriages")
       end
-    rescue => e
-      fail!(error: e.message)
     end
   end
 end

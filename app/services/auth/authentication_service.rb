@@ -19,8 +19,6 @@ module Auth
       return fail!(error: 'Can\'t find user with such email') if user.nil?
 
       user.authenticate(password) ? success!(data: user) : fail!(error: 'Invalid password')
-    rescue => e
-      fail!(error: e.message)
     end
 
   end

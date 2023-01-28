@@ -18,8 +18,6 @@ module Jwt
     def encode(payload, type)
       payload = payload.merge(jwt_data)
       success!(data: JWT.encode(payload, JWT_SECRET_KEYS[type], JWT_ALGORITHM))
-    rescue => e
-      fail!(error: e.message)
     end
 
     def jwt_data

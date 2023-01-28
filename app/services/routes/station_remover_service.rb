@@ -21,8 +21,6 @@ module Routes
         station.destroy!
       end
       success!
-    rescue => e
-      fail!(error: e.message)
     end
   end
 end

@@ -25,8 +25,6 @@ module Trains
         end
       end
       success!(data: carriage)
-    rescue => e
-      fail!(error: e.message)
     end
   end
 end

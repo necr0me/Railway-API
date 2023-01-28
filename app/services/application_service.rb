@@ -5,6 +5,9 @@ class ApplicationService
     instance = new(...)
     instance.call
     instance
+  rescue => e
+    instance.send(:fail!, error: e.message)
+    instance
   end
 
   def success?
