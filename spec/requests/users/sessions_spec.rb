@@ -18,11 +18,8 @@ RSpec.describe Users::SessionsController, :type => :request do
         login_with_api( { email: '', password: ''} )
       end
 
-      it 'returns 400' do
-        expect(response.status).to eq(400)
-      end
-
-      it 'contains error message' do
+      it 'returns 400 and contains error message' do
+        expect(response).to have_http_status(400)
         expect(json_response['errors']).to_not be_nil
       end
     end
@@ -32,11 +29,8 @@ RSpec.describe Users::SessionsController, :type => :request do
         login_with_api( { email: '', password: ''} )
       end
 
-      it 'returns 400' do
-        expect(response.status).to eq(400)
-      end
-
-      it 'contains error message that can not find user with such email' do
+      it 'returns 400 and contains error message that can not find user with such email' do
+        expect(response).to have_http_status(400)
         expect(json_response['errors']).to include(/Can't find user with such email/)
       end
     end
@@ -46,11 +40,8 @@ RSpec.describe Users::SessionsController, :type => :request do
         login_with_api( { email: user.email, password: user.email} )
       end
 
-      it 'returns 400' do
-        expect(response.status).to eq(400)
-      end
-
-      it 'contains error message that password is invalid' do
+      it 'returns 400 and contains error message that password is invalid' do
+        expect(response).to have_http_status(400)
         expect(json_response['errors']).to include(/Invalid password/)
       end
     end
@@ -60,19 +51,10 @@ RSpec.describe Users::SessionsController, :type => :request do
         login_with_api(user_credentials)
       end
 
-      it 'returns 201' do
-        expect(response.status).to eq(201)
-      end
-
-      it 'generates access token' do
+      it 'returns 201, generates access token, saves refresh token into cookies and in db' do
+        expect(response).to have_http_status(201)
         expect(json_response['access_token']).to_not be_nil
-      end
-
-      it 'sets refresh token into cookies' do
         expect(cookies[:refresh_token]).to_not be_nil
-      end
-
-      it 'generates refresh token for user' do
         expect(cookies[:refresh_token]).to eq(user.refresh_token.value)
       end
     end
@@ -86,11 +68,8 @@ RSpec.describe Users::SessionsController, :type => :request do
         get '/users/refresh_tokens'
       end
 
-      it 'returns 401' do
-        expect(response.status).to eq(401)
-      end
-
-      it 'contains error message that tokens are not matching' do
+      it 'returns 401 and contains error message that tokens are not matching' do
+        expect(response).to have_http_status(401)
         expect(json_response['errors']).to include(/Tokens aren't matching/)
       end
     end
@@ -110,11 +89,8 @@ RSpec.describe Users::SessionsController, :type => :request do
         get '/users/refresh_tokens'
       end
 
-      it 'returns 401' do
-        expect(response.status).to eq(401)
-      end
-
-      it 'contains error message that token has been expired' do
+      it 'returns 401 and contains error message that token has been expired' do
+        expect(response).to have_http_status(401)
         expect(json_response['errors']).to include(/has expired/)
       end
     end
@@ -126,11 +102,8 @@ RSpec.describe Users::SessionsController, :type => :request do
         get '/users/refresh_tokens'
       end
 
-      it 'returns 401' do
-        expect(response.status).to eq(401)
-      end
-
-      it 'contains error message that token verification failed' do
+      it 'returns 401 and contains error message that token verification failed' do
+        expect(response).to have_http_status(401)
         expect(json_response['errors']).to include(/verification failed/)
       end
     end
@@ -143,11 +116,8 @@ RSpec.describe Users::SessionsController, :type => :request do
         get '/users/refresh_tokens'
       end
 
-      it 'returns 401' do
-        expect(response.status).to eq(401)
-      end
-
-      it 'contains error message that nil json web token' do
+      it 'returns 401 and contains error message that nil json web token' do
+        expect(response).to have_http_status(401)
         expect(json_response['errors']).to include(/Nil JSON/)
       end
     end
@@ -161,7 +131,7 @@ RSpec.describe Users::SessionsController, :type => :request do
       end
 
       it 'returns 200 and new access token' do
-        expect(response.status).to eq(200)
+        expect(response).to have_http_status(200)
         expect(json_response['access_token']).to_not be_nil
       end
 
@@ -177,36 +147,20 @@ RSpec.describe Users::SessionsController, :type => :request do
       before { delete '/users/logout' }
 
       it 'returns 401' do
-        expect(response.status).to eq(401)
-      end
-
-      it 'contains message that you are not logged in' do
-        expect(json_response['message']).to eq('You\'re not logged in')
+        expect(response).to have_http_status(401)
       end
     end
 
     context 'when user is authorized' do
       before do
         login_with_api(user_credentials)
-        delete '/users/logout',
-               headers: {
-                 'Authorization': "Bearer #{json_response['access_token']}"
-               }
+        delete '/users/logout', headers: auth_header
       end
 
-      it 'returns 200' do
-        expect(response.status).to eq(200)
-      end
-
-      it 'destroys refresh token' do
+      it 'returns 200, destroys refresh token and clears cookies' do
+        expect(response).to have_http_status(200)
         expect(user.reload.refresh_token).to be_nil
-      end
-
-      it 'clears cookies' do
         expect(cookies[:refresh_token]).to be_blank
-      end
-
-      it 'contains message that you are logged out' do
         expect(json_response['message']).to eq('You have successfully logged out.')
       end
     end

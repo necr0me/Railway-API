@@ -10,7 +10,7 @@ module Authorization
         current_user
       else
         render json: { message: 'You\'re not logged in',
-                       errors: @result.errors },
+                       errors: [@result.error] },
                status: 401
       end
     end

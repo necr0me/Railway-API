@@ -16,18 +16,13 @@ module CarriageTypes
     attr_reader :type, :name, :description, :capacity
 
     def update
-      begin
-        if type.capacity == capacity || type.carriages.count.zero?
-          type.update!(name: name,
-                       description: description,
-                       capacity: capacity)
-          return OpenStruct.new(success?: true, data: type, errors: nil)
-        else
-          return OpenStruct.new(success?: false, data: nil,
-                                errors: ["Can't update carriage type capacity that has any carriages"])
-        end
-      rescue => e
-        return OpenStruct.new(success?: false, data: nil, errors: [e.message])
+      if type.capacity == capacity || type.carriages.count.zero?
+        type.update!(name: name,
+                     description: description,
+                     capacity: capacity)
+        success!(data: type)
+      else
+        fail!(error: "Can't update carriage type capacity that has any carriages")
       end
     end
   end

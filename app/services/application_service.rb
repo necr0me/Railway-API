@@ -1,7 +1,33 @@
 class ApplicationService
+  attr_reader :error, :data
+
   def self.call(...)
-    self.new(...).call
+    instance = new(...)
+    instance.call
+    instance
+  rescue => e
+    instance.send(:fail!, error: e.message)
+    instance
   end
 
-  # TODO: return self as result of service work. Add methods like 'success?', 'errors', 'fail!' etc...
+  def success?
+    error.nil?
+  end
+
+  protected
+
+  def success(data: nil)
+    @data = data
+  end
+
+  alias success! success
+
+  def fail(data: nil, error: )
+    @data = data
+    @error = error
+  end
+
+  alias fail! fail
+
+  # TODO: try another time to test this class
 end

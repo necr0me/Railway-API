@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Api::V1::TrainsController, type: :request do
+
   let(:user) { create(:user, role: :admin) }
-  let(:user_credentials) { user; attributes_for(:user) }
 
   let(:train) { create(:train) }
   let(:train_with_carriages) { create(:train, :train_with_carriages) }
@@ -26,10 +26,7 @@ RSpec.describe Api::V1::TrainsController, type: :request do
     context 'when user is authorized' do
       before do
         create_list(:train, 2)
-        login_with_api(user_credentials)
-        get '/api/v1/trains', headers: {
-          Authorization: "Bearer #{json_response['access_token']}"
-        }
+        get '/api/v1/trains', headers: auth_header
       end
 
       it 'returns list of trains' do
@@ -52,10 +49,7 @@ RSpec.describe Api::V1::TrainsController, type: :request do
 
     context 'when user is authorized' do
       before do
-        login_with_api(user_credentials)
-        get "/api/v1/trains/#{train.id}", headers: {
-          Authorization: "Bearer #{json_response['access_token']}"
-        }
+        get "/api/v1/trains/#{train.id}", headers: auth_header
       end
 
       it 'returns proper train' do
@@ -80,20 +74,27 @@ RSpec.describe Api::V1::TrainsController, type: :request do
       end
     end
 
-    context 'when user is authorized and tries to create train with not existing route' do
-      # after rescuing from ActiveRecord::InvalidForeignKey
+    context 'when user is authorized and error occurs during creating of train' do
+      before do
+        allow_any_instance_of(Train).to receive(:persisted?).and_return(false)
+        allow_any_instance_of(ActiveModel::Errors).to receive(:full_messages).and_return(['Error message'])
+
+        post '/api/v1/trains', headers: auth_header
+      end
+
+      it 'returns 422 and error message' do
+        expect(response).to have_http_status(422)
+        expect(json_response['errors']).to include('Error message')
+      end
     end
 
     context 'when user is authorized and tries to create train with route' do
       before do
-        login_with_api(user_credentials)
         post '/api/v1/trains', params: {
           train: {
             route_id: route.id
           }
-        }, headers: {
-          Authorization: "Bearer #{json_response['access_token']}"
-        }
+        }, headers: auth_header
       end
 
       it 'creates train and returns it to user' do
@@ -124,14 +125,11 @@ RSpec.describe Api::V1::TrainsController, type: :request do
         allow_any_instance_of(Train).to receive(:update).and_return(false)
         allow_any_instance_of(ActiveModel::Errors).to receive(:full_messages).and_return(['Error message'])
 
-        login_with_api(user_credentials)
         patch "/api/v1/trains/#{train.id}", params: {
           train: {
             route_id: route.id
           }
-        }, headers: {
-          Authorization: "Bearer #{json_response['access_token']}"
-        }
+        }, headers: auth_header
       end
 
       it 'returns 422 and errors' do
@@ -143,14 +141,11 @@ RSpec.describe Api::V1::TrainsController, type: :request do
 
     context 'when user is authorized and updates with correct data' do
       before do
-        login_with_api(user_credentials)
         patch "/api/v1/trains/#{train.id}", params: {
           train: {
             route_id: route.id
           }
-        }, headers: {
-          Authorization: "Bearer #{json_response['access_token']}"
-        }
+        }, headers: auth_header
       end
 
       it 'updates train attributes and returns updated train' do
@@ -176,14 +171,11 @@ RSpec.describe Api::V1::TrainsController, type: :request do
 
     context 'when user is authorized but error occurs during service work' do
       before do
-        login_with_api(user_credentials)
         post "/api/v1/trains/#{train.id}/add_carriage",
              params: {
                carriage_id: carriage_with_train.id
              },
-             headers: {
-               Authorization: "Bearer #{json_response['access_token']}"
-             }
+             headers: auth_header
       end
 
       it 'returns 422 and contains error message' do
@@ -195,14 +187,11 @@ RSpec.describe Api::V1::TrainsController, type: :request do
 
     context 'when user is authorized and no errors occurs during service work' do
       before do
-        login_with_api(user_credentials)
         post "/api/v1/trains/#{train.id}/add_carriage",
              params: {
                carriage_id: carriage.id
              },
-             headers: {
-               Authorization: "Bearer #{json_response['access_token']}"
-             }
+             headers: auth_header
       end
 
       it 'returns 200 and added carriage' do
@@ -229,10 +218,7 @@ RSpec.describe Api::V1::TrainsController, type: :request do
     context 'when user is authorized but error occurs during service work' do
       before do
         carriage_id = train_with_carriages.carriages.first.id
-        login_with_api(user_credentials)
-        delete "/api/v1/trains/#{train.id}/remove_carriage/#{carriage_id}", headers: {
-          Authorization: "Bearer #{json_response['access_token']}"
-        }
+        delete "/api/v1/trains/#{train.id}/remove_carriage/#{carriage_id}", headers: auth_header
       end
 
       it 'returns 422 and error message' do
@@ -245,10 +231,7 @@ RSpec.describe Api::V1::TrainsController, type: :request do
     context 'when user is authorized and no errors occurs during service work' do
       before do
         @carriage_id = train_with_carriages.carriages.first.id
-        login_with_api(user_credentials)
-        delete "/api/v1/trains/#{train_with_carriages.id}/remove_carriage/#{@carriage_id}", headers: {
-          Authorization: "Bearer #{json_response['access_token']}"
-        }
+        delete "/api/v1/trains/#{train_with_carriages.id}/remove_carriage/#{@carriage_id}", headers: auth_header
       end
 
       it 'returns 200 and removes carriage from train' do
@@ -270,12 +253,23 @@ RSpec.describe Api::V1::TrainsController, type: :request do
       end
     end
 
+    context 'when error occurs during destroying of train' do
+      before do
+        allow_any_instance_of(Train).to receive(:destroy).and_return(false)
+        allow_any_instance_of(ActiveModel::Errors).to receive(:full_messages).and_return(['Error message'])
+
+        delete "/api/v1/trains/#{train.id}", headers: auth_header
+      end
+
+      it 'returns 422 and error message' do
+        expect(response).to have_http_status(422)
+        expect(json_response['errors']).to include('Error message')
+      end
+    end
+
     context 'when user is authorized' do
       before do
-        login_with_api(user_credentials)
-        delete "/api/v1/trains/#{train.id}", headers: {
-          Authorization: "Bearer #{json_response['access_token']}"
-        }
+        delete "/api/v1/trains/#{train.id}", headers: auth_header
       end
 
       it 'returns 204 and destroys train' do

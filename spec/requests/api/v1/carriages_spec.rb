@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Api::V1::CarriagesController, type: :request do
+
   let(:user) { create(:user, role: :admin) }
-  let(:user_credentials) { user; attributes_for(:user) }
 
   let(:carriage_type) { create(:carriage_type) }
 
@@ -15,24 +15,18 @@ RSpec.describe Api::V1::CarriagesController, type: :request do
       end
 
       it 'returns 401' do
-        expect(response.status).to eq(401)
+        expect(response).to have_http_status(401)
       end
     end
 
     context 'when user is authorized' do
       before do
         create_list(:carriage, 2)
-        login_with_api(user_credentials)
-        get '/api/v1/carriages', headers: {
-          Authorization: "Bearer #{json_response['access_token']}"
-        }
+        get '/api/v1/carriages', headers: auth_header
       end
 
-      it 'returns 200' do
-        expect(response.status).to eq(200)
-      end
-
-      it 'returns list of carriages' do
+      it 'returns 200 and list of carriages' do
+        expect(response).to have_http_status(200)
         expect(json_response['carriages'].count).to eq(Carriage.all.count)
       end
     end
@@ -45,23 +39,17 @@ RSpec.describe Api::V1::CarriagesController, type: :request do
       end
 
       it 'returns 401' do
-        expect(response.status).to eq(401)
+        expect(response).to have_http_status(401)
       end
     end
 
     context 'when user is authorized' do
       before do
-        login_with_api(user_credentials)
-        get "/api/v1/carriages/#{carriage.id}", headers: {
-          Authorization: "Bearer #{json_response['access_token']}"
-        }
+        get "/api/v1/carriages/#{carriage.id}", headers: auth_header
       end
 
-      it 'returns 200' do
-        expect(response.status).to eq(200)
-      end
-
-      it 'returns proper carriage' do
+      it 'returns 200 and proper carriage' do
+        expect(response).to have_http_status(200)
         expect(json_response['carriage']['id']).to eq(carriage.id)
       end
     end
@@ -76,13 +64,12 @@ RSpec.describe Api::V1::CarriagesController, type: :request do
       end
 
       it 'returns 401' do
-        expect(response.status).to eq(401)
+        expect(response).to have_http_status(401)
       end
     end
 
     context 'when user is authorized and tries to create carriage with invalid data' do
       before do
-        login_with_api(user_credentials)
         post '/api/v1/carriages',
              params: {
                carriage: {
@@ -90,23 +77,17 @@ RSpec.describe Api::V1::CarriagesController, type: :request do
                  carriage_type_id: carriage_type.id
                }
              },
-             headers: {
-               Authorization: "Bearer #{json_response['access_token']}"
-        }
+             headers: auth_header
       end
 
-      it 'returns 422' do
-        expect(response.status).to eq(422)
-      end
-
-      it 'returns error message that name is too short' do
+      it 'returns 422 and error message that name is too short' do
+        expect(response).to have_http_status(422)
         expect(json_response['errors']).to include(/Name is too short/)
       end
     end
 
     context 'when user is authorized and tries to create carriage with valid data' do
       before do
-        login_with_api(user_credentials)
         post '/api/v1/carriages',
              params: {
                carriage: {
@@ -114,16 +95,11 @@ RSpec.describe Api::V1::CarriagesController, type: :request do
                  carriage_type_id: carriage_type.id
                }
              },
-             headers: {
-               Authorization: "Bearer #{json_response['access_token']}"
-             }
+             headers: auth_header
       end
 
-      it 'returns 201' do
-        expect(response.status).to eq(201)
-      end
-
-      it 'returns created carriage' do
+      it 'returns 201 and created carriage' do
+        expect(response).to have_http_status(201)
         expect(json_response['carriage']['id']).to eq(Carriage.last.id)
       end
     end
@@ -140,52 +116,40 @@ RSpec.describe Api::V1::CarriagesController, type: :request do
       end
 
       it 'returns 401' do
-        expect(response.status).to eq(401)
+        expect(response).to have_http_status(401)
       end
     end
 
     context 'when user is authorized and tries to update carriage with invalid data' do
       before do
-        login_with_api(user_credentials)
         patch "/api/v1/carriages/#{carriage.id}",
               params: {
                 carriage: {
                   name: 'x'
                 }
               },
-              headers: {
-                Authorization: "Bearer #{json_response['access_token']}"
-              }
+              headers: auth_header
       end
 
-      it 'returns 422' do
-        expect(response.status).to eq(422)
-      end
-
-      it 'contains error message that name is too short' do
+      it 'returns 422 and contains error message that name is too short' do
+        expect(response).to have_http_status(422)
         expect(json_response['errors']).to include(/Name is too short/)
       end
     end
 
     context 'when user is authorized and tries to update carriage with valid data' do
       before do
-        login_with_api(user_credentials)
         patch "/api/v1/carriages/#{carriage.id}",
               params: {
                 carriage: {
                   name: 'New_name'
                 }
               },
-              headers: {
-                Authorization: "Bearer #{json_response['access_token']}"
-              }
+              headers: auth_header
       end
 
-      it 'returns 200' do
-        expect(response.status).to eq(200)
-      end
-
-      it 'returns updated carriage' do
+      it 'returns 200 and updated carriage' do
+        expect(response).to have_http_status(200)
         expect(json_response['carriage']['id']).to eq(carriage.id)
         expect(carriage.reload.name).to eq('New_name')
       end
@@ -199,23 +163,31 @@ RSpec.describe Api::V1::CarriagesController, type: :request do
       end
 
       it 'returns 401' do
-        expect(response.status).to eq(401)
+        expect(response).to have_http_status(401)
+      end
+    end
+
+    context 'when error occurs during destroy of carriage' do
+      before do
+        allow_any_instance_of(Carriage).to receive(:destroy).and_return(false)
+        allow_any_instance_of(ActiveModel::Errors).to receive(:full_messages).and_return(['Error message'])
+
+        delete "/api/v1/carriages/#{carriage.id}", headers: auth_header
+      end
+
+      it 'returns 422 and error message' do
+        expect(response).to have_http_status(422)
+        expect(json_response['errors']).to include('Error message')
       end
     end
 
     context 'when user is authorized and tries to destroy carriage' do
       before do
-        login_with_api(user_credentials)
-        delete "/api/v1/carriages/#{carriage.id}", headers: {
-          Authorization: "Bearer #{json_response['access_token']}"
-        }
+        delete "/api/v1/carriages/#{carriage.id}", headers: auth_header
       end
 
-      it 'returns 204' do
-        expect(response.status).to eq(204)
-      end
-
-      it 'deletes carriage from db' do
+      it 'returns 204 and deleted carriage from db' do
+        expect(response).to have_http_status(204)
         expect { carriage.reload }.to raise_error(ActiveRecord::RecordNotFound)
       end
     end

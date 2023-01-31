@@ -13,15 +13,11 @@ module CarriageTypes
     attr_reader :type
 
     def destroy
-      begin
-        if type.carriages.count.zero?
-          type.destroy!
-          return OpenStruct.new(success?: true, errors: nil)
-        else
-          return OpenStruct.new(success?: false, errors: ["Can't destroy carriage type that has any carriages"])
-        end
-      rescue => e
-        return OpenStruct.new(success?: false, errors: [e.message])
+      if type.carriages.count.zero?
+        type.destroy!
+        success!
+      else
+        fail!(error: "Can't destroy carriage type that has any carriages")
       end
     end
   end

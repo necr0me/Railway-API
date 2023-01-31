@@ -7,7 +7,7 @@ module Users
     def create
       result = Auth::AuthenticationService.call(user_params: user_params)
       if result.success?
-        access_token, refresh_token = Jwt::TokensGeneratorService.call(user_id: result.user.id)
+        access_token, refresh_token = Jwt::TokensGeneratorService.call(user_id: result.data.id).data
         cookies['refresh_token'] = {
           value: refresh_token,
           expires: Constants::Jwt::JWT_EXPIRATION_TIMES['refresh'],
@@ -15,7 +15,7 @@ module Users
         render json: { access_token: access_token },
                status: 201
       else
-        render json: { errors: result.errors  },
+        render json: { errors: [result.error]  },
                status: 400
       end
     end
@@ -23,7 +23,7 @@ module Users
     def refresh_tokens
       result = Jwt::TokensRefresherService.call(refresh_token: cookies['refresh_token'])
       if result.success?
-        access_token, refresh_token = result.tokens
+        access_token, refresh_token = result.data
         cookies['refresh_token'] = {
           value: refresh_token,
           expires: Constants::Jwt::JWT_EXPIRATION_TIMES['refresh'],
@@ -31,7 +31,7 @@ module Users
         render json: { access_token: access_token },
                status: 200
       else
-        render json: { errors: result.errors },
+        render json: { errors: [result.error] },
                status: 401
       end
     end

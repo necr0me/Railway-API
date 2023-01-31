@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe StationOrderNumber, type: :model do
-  let(:route) { create(:route, :with_stations) }
+  let(:route) { create(:route, :route_with_stations) }
   let(:station) { create(:station) }
   let(:station_order_number) { build(:station_order_number,
                                      route_id: route.id,

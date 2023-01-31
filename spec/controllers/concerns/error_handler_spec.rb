@@ -16,7 +16,7 @@ RSpec.describe ErrorHandler do
     end
 
     it 'returns 404' do
-      expect(response.status).to eq(404)
+      expect(response).to have_http_status(404)
     end
 
     it 'contains error message' do
@@ -39,11 +39,34 @@ RSpec.describe ErrorHandler do
     end
 
     it 'returns 422' do
-      expect(response.status).to eq(422)
+      expect(response).to have_http_status(422)
     end
 
     it 'contains message that record already exists' do
       expect(json_response['message']).to eq("Seems like record with this data already exists")
+    end
+  end
+
+  describe '#invalid_foreign_key' do
+    controller(ApplicationController) do
+      include ErrorHandler
+
+      def action
+        raise ActiveRecord::InvalidForeignKey
+      end
+    end
+
+    before do
+      routes.draw { get :action, to: 'anonymous#action' }
+      get :action
+    end
+
+    it 'returns 422' do
+      expect(response).to have_http_status(422)
+    end
+
+    it 'contains message that entity with this foreign key does not exist' do
+      expect(json_response['message']).to eq('Seems like this entity does not exist')
     end
   end
 
@@ -62,7 +85,7 @@ RSpec.describe ErrorHandler do
     end
 
     it 'returns 403' do
-      expect(response.status).to eq(403)
+      expect(response).to have_http_status(403)
     end
 
     it 'contains message that you are not allowed to do this action' do

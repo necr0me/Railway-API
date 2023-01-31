@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Authorization do
   let(:user) { create(:user) }
-  let(:token) { Jwt::EncoderService.call(payload: { user_id: user.id }, type: 'access') }
+  let(:token) { Jwt::EncoderService.call(payload: { user_id: user.id }, type: 'access').data }
 
   controller(ActionController::API) do
     include Authorization
@@ -16,9 +16,6 @@ RSpec.describe Authorization do
   before do
     routes.draw { get :action, to: 'anonymous#action' }
   end
-
-  let(:user) { create(:user) }
-  let(:token) { Jwt::EncoderService.call(payload: { user_id: user.id }, type: 'access') }
 
   describe '#authorize!' do
     context 'with valid token' do
@@ -38,11 +35,8 @@ RSpec.describe Authorization do
         get :action
       end
 
-      it 'returns 401' do
-        expect(response.status).to eq(401)
-      end
-
-      it 'contains message that you are not logged in' do
+      it 'returns 401 and contains message that you are not logged in' do
+        expect(response).to have_http_status(401)
         expect(json_response['message']).to eq("You're not logged in")
       end
     end

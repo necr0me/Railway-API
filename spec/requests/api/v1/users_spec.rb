@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Api::V1::UsersController, type: :request do
+
   let(:user) { create(:user) }
-  let(:user_credentials) { user; attributes_for(:user) }
 
   describe 'concerns' do
     context 'UserFindable' do
@@ -19,23 +19,18 @@ RSpec.describe Api::V1::UsersController, type: :request do
       end
 
       it 'returns 401' do
-        expect(response.status).to eq(401)
+        expect(response).to have_http_status(401)
       end
     end
 
     context 'when user is authorized and user is correct' do
       before do
-        login_with_api(user_credentials)
-        get "/api/v1/users/#{user.id}", headers: {
-          Authorization: "Bearer #{json_response['access_token']}"
-        }
+        get "/api/v1/users/#{user.id}", headers: auth_header
       end
 
-      it 'returns 200' do
-        expect(response.status).to eq(200)
-      end
+      it 'returns 200 and proper user' do
+        expect(response).to have_http_status(200)
 
-      it 'returns correct user' do
         expect(json_response['user']['id']).to eq(user.id)
         expect(json_response['user']['email']).to eq(user.email)
       end
@@ -51,53 +46,41 @@ RSpec.describe Api::V1::UsersController, type: :request do
       end
 
       it 'returns 401' do
-        expect(response.status).to eq(401)
+        expect(response).to have_http_status(401)
       end
     end
 
 
     context 'when user tries to update with invalid password' do
       before do
-        login_with_api(user_credentials)
         patch "/api/v1/users/#{user.id}",
               params: {
                 user: {
                   password: 'x'
                 }
               },
-              headers: {
-                Authorization: "Bearer #{json_response['access_token']}"
-              }
+              headers: auth_header
       end
 
-      it 'returns 422' do
-        expect(response.status).to eq(422)
-      end
-
-      it 'contains error message' do
+      it 'returns 422 and contains error message' do
+        expect(response).to have_http_status(422)
         expect(json_response['errors']).to_not be_nil
       end
     end
 
     context 'when user tries to update with correct data' do
       before do
-        login_with_api(user_credentials)
         patch "/api/v1/users/#{user.id}",
               params: {
                 user: {
                   password: 'new_password'
                 }
               },
-              headers: {
-                Authorization: "Bearer #{json_response['access_token']}"
-              }
+              headers: auth_header
       end
 
-      it 'returns 200' do
-        expect(response.status).to eq(200)
-      end
-
-      it 'updates user password' do
+      it 'returns 200 and updates user password' do
+        expect(response).to have_http_status(200)
         expect(user.reload.authenticate('new_password')).to be_kind_of(User)
       end
     end

@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Api::V1::CarriageTypesController, type: :request do
+
   let(:user) { create(:user, role: :admin) }
-  let(:user_credentials) { user; attributes_for(:user) }
 
   let(:carriage_type) { create(:carriage_type) }
   let(:carriage_type_with_carriage) { create(:carriage_type, :type_with_carriage) }
@@ -14,24 +14,18 @@ RSpec.describe Api::V1::CarriageTypesController, type: :request do
       end
 
       it 'returns 401' do
-        expect(response.status).to eq(401)
+        expect(response).to have_http_status(401)
       end
     end
 
     context 'when user is authorized' do
       before do
         create_list(:carriage_type, 2)
-        login_with_api(user_credentials)
-        get '/api/v1/carriage_types', headers: {
-          Authorization: "Bearer #{json_response['access_token']}"
-        }
+        get '/api/v1/carriage_types', headers: auth_header
       end
 
-      it 'returns 200' do
-        expect(response.status).to eq(200)
-      end
-
-      it 'returns list of carriage types' do
+      it 'returns 200 and returns list of carraige types' do
+        expect(response).to have_http_status(200)
         expect(json_response['carriage_types'].count).to eq(CarriageType.count)
       end
     end
@@ -44,13 +38,12 @@ RSpec.describe Api::V1::CarriageTypesController, type: :request do
       end
 
       it 'returns 401' do
-        expect(response.status).to eq(401)
+        expect(response).to have_http_status(401)
       end
     end
 
     context 'when user is authorized and tries to create type with invalid data' do
       before do
-        login_with_api(user_credentials)
         post '/api/v1/carriage_types',
              params: {
                carriage_type: {
@@ -59,16 +52,11 @@ RSpec.describe Api::V1::CarriageTypesController, type: :request do
                  capacity: -1
                }
              },
-             headers: {
-               Authorization: "Bearer #{json_response['access_token']}"
-             }
+             headers: auth_header
       end
 
-      it 'returns 422' do
-        expect(response.status).to eq(422)
-      end
-
-      it 'contains error messages' do
+      it 'returns 422 and contains error messages'  do
+        expect(response).to have_http_status(422)
         expect(json_response['errors']).to include(/Name is too short/,
                                                    /Description is too long/,
                                                    /Capacity must be greater than or equal to 0/)
@@ -77,21 +65,15 @@ RSpec.describe Api::V1::CarriageTypesController, type: :request do
 
     context 'when user is authorized and tries to create type with valid data' do
       before do
-        login_with_api(user_credentials)
         post '/api/v1/carriage_types',
              params: {
                carriage_type: attributes_for(:carriage_type)
              },
-             headers: {
-               Authorization: "Bearer #{json_response['access_token']}"
-             }
+             headers: auth_header
       end
 
-      it 'returns 201' do
-        expect(response.status).to eq(201)
-      end
-
-      it 'returns created carriage type' do
+      it 'returns 201 and created carriage type' do
+        expect(response).to have_http_status(201)
         expect(json_response['carriage_type']['id']).to eq(CarriageType.last.id)
       end
     end
@@ -104,13 +86,12 @@ RSpec.describe Api::V1::CarriageTypesController, type: :request do
       end
 
       it 'returns 401' do
-        expect(response.status).to eq(401)
+        expect(response).to have_http_status(401)
       end
     end
 
     context 'when user is authorized and tries to update type with invalid data' do
       before do
-        login_with_api(user_credentials)
         patch "/api/v1/carriage_types/#{carriage_type.id}",
               params: {
                 carriage_type: {
@@ -119,23 +100,17 @@ RSpec.describe Api::V1::CarriageTypesController, type: :request do
                   capacity: -1
                 }
               },
-              headers: {
-                Authorization: "Bearer #{json_response['access_token']}"
-              }
+              headers: auth_header
       end
 
-      it 'returns 422' do
-        expect(response.status).to eq(422)
-      end
-
-      it 'contains error message that validation failed' do
+      it 'returns 422 and contains error message that validation failed' do
+        expect(response).to have_http_status(422)
         expect(json_response['errors']).to include(/Validation failed/)
       end
     end
 
     context 'when user is authorized and tries to update type with valid data' do
       before do
-        login_with_api(user_credentials)
         patch "/api/v1/carriage_types/#{carriage_type.id}",
               params: {
                 carriage_type: {
@@ -144,16 +119,11 @@ RSpec.describe Api::V1::CarriageTypesController, type: :request do
                   capacity: 2
                 }
               },
-              headers: {
-                Authorization: "Bearer #{json_response['access_token']}"
-              }
+              headers: auth_header
       end
 
-      it 'returns 200' do
-        expect(response.status).to eq(200)
-      end
-
-      it 'returns updated carriage type' do
+      it 'returns 200 and updated carriage type' do
+        expect(response).to have_http_status(200)
         expect(json_response['carriage_type']['id']).to eq(carriage_type.id)
         expect(json_response['carriage_type']['capacity']).to eq(2)
       end
@@ -167,40 +137,28 @@ RSpec.describe Api::V1::CarriageTypesController, type: :request do
       end
 
       it 'returns 401' do
-        expect(response.status).to eq(401)
+        expect(response).to have_http_status(401)
       end
     end
 
     context 'when user is authorized and tries to destroy type with carriages' do
       before do
-        login_with_api(user_credentials)
-        delete "/api/v1/carriage_types/#{carriage_type_with_carriage.id}", headers: {
-          Authorization: "Bearer #{json_response['access_token']}"
-        }
+        delete "/api/v1/carriage_types/#{carriage_type_with_carriage.id}", headers: auth_header
       end
 
-      it 'returns 422' do
-        expect(response.status).to eq(422)
-      end
-
-      it 'contains error message that cant delete type that has any carriages' do
+      it 'returns 422 and contains error message that cant delete type that has any carriages' do
+        expect(response).to have_http_status(422)
         expect(json_response['errors']).to include("Can't destroy carriage type that has any carriages")
       end
     end
 
     context 'when user is authorize and tries to destroy type without any carriages' do
       before do
-        login_with_api(user_credentials)
-        delete "/api/v1/carriage_types/#{carriage_type.id}", headers: {
-          Authorization: "Bearer #{json_response['access_token']}"
-        }
+        delete "/api/v1/carriage_types/#{carriage_type.id}", headers: auth_header
       end
 
-      it 'returns 204' do
-        expect(response.status).to eq(204)
-      end
-
-      it 'destroys type from db' do
+      it 'returns 204 and destroys type from db' do
+        expect(response).to have_http_status(204)
         expect { carriage_type.reload }.to raise_error(ActiveRecord::RecordNotFound)
       end
     end

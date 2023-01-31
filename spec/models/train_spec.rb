@@ -32,7 +32,12 @@ RSpec.describe Train, type: :model do
 
   describe 'callbacks' do
     context '#nullify_carriages_order_numbers' do
-      it 'when destroying train sets order_number to nil for all relevant carriages'
+      it 'when destroying train sets order_number to nil for all relevant carriages' do
+        carriages = train.carriages
+        train.destroy
+        expect(carriages.reload.pluck(:train_id).all?(:nil?)).to be_truthy
+        expect(carriages.pluck(:order_number).all?(:nil?)).to be_truthy
+      end
     end
   end
 end

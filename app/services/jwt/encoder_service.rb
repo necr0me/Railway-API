@@ -2,8 +2,6 @@ module Jwt
   class EncoderService < ApplicationService
     include Constants::Jwt
 
-    include Constants::Jwt
-
     def initialize(payload:, type:)
       @payload = payload
       @type = type
@@ -19,7 +17,7 @@ module Jwt
 
     def encode(payload, type)
       payload = payload.merge(jwt_data)
-      JWT.encode(payload, JWT_SECRET_KEYS[type], JWT_ALGORITHM)
+      success!(data: JWT.encode(payload, JWT_SECRET_KEYS[type], JWT_ALGORITHM))
     end
 
     def jwt_data

@@ -37,11 +37,15 @@ module Api
         end
       end
 
-# TODO: Add 'if-else' block for handling errors during destroy
       def destroy
         authorize @station
-        @station.destroy
-        head 204
+        if @station.destroy
+          head 204
+        else
+          render json: { message: 'Something went wrong',
+                         errors: @station.errors.full_messages },
+                 status: 422
+        end
       end
 
       private
