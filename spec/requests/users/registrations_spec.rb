@@ -80,7 +80,7 @@ RSpec.describe Users::RegistrationsController, :type => :request do
       end
 
       it 'returns 401' do
-        expect(response.status).to eq(401)
+        expect(response).to have_http_status(401)
       end
     end
 

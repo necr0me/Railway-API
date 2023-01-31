@@ -19,7 +19,7 @@ RSpec.describe Api::V1::UsersController, type: :request do
       end
 
       it 'returns 401' do
-        expect(response.status).to eq(401)
+        expect(response).to have_http_status(401)
       end
     end
 
@@ -29,7 +29,7 @@ RSpec.describe Api::V1::UsersController, type: :request do
       end
 
       it 'returns 200 and proper user' do
-        expect(response.status).to eq(200)
+        expect(response).to have_http_status(200)
 
         expect(json_response['user']['id']).to eq(user.id)
         expect(json_response['user']['email']).to eq(user.email)
@@ -46,7 +46,7 @@ RSpec.describe Api::V1::UsersController, type: :request do
       end
 
       it 'returns 401' do
-        expect(response.status).to eq(401)
+        expect(response).to have_http_status(401)
       end
     end
 
@@ -63,7 +63,7 @@ RSpec.describe Api::V1::UsersController, type: :request do
       end
 
       it 'returns 422 and contains error message' do
-        expect(response.status).to eq(422)
+        expect(response).to have_http_status(422)
         expect(json_response['errors']).to_not be_nil
       end
     end
@@ -80,7 +80,7 @@ RSpec.describe Api::V1::UsersController, type: :request do
       end
 
       it 'returns 200 and updates user password' do
-        expect(response.status).to eq(200)
+        expect(response).to have_http_status(200)
         expect(user.reload.authenticate('new_password')).to be_kind_of(User)
       end
     end

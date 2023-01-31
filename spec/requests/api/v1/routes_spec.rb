@@ -15,7 +15,7 @@ RSpec.describe Api::V1::RoutesController, type: :request do
       end
 
       it 'returns 200, route and stations in route' do
-        expect(response.status).to eq(200)
+        expect(response).to have_http_status(200)
 
         expect(json_response['route']['id']).to eq(route.id)
 
@@ -31,7 +31,7 @@ RSpec.describe Api::V1::RoutesController, type: :request do
       end
 
       it 'returns 401' do
-        expect(response.status).to eq(401)
+        expect(response).to have_http_status(401)
       end
     end
 
@@ -43,7 +43,7 @@ RSpec.describe Api::V1::RoutesController, type: :request do
       end
 
       it 'returns 422 and error message' do
-        expect(response.status).to eq(422)
+        expect(response).to have_http_status(422)
         expect(json_response['errors']).to_not be_nil
       end
     end
@@ -54,7 +54,7 @@ RSpec.describe Api::V1::RoutesController, type: :request do
       end
 
       it 'returns 201 and creates route in db' do
-        expect(response.status).to eq(201)
+        expect(response).to have_http_status(201)
         expect(json_response['route']['id']).to eq(Route.last.id)
       end
     end
@@ -69,7 +69,7 @@ RSpec.describe Api::V1::RoutesController, type: :request do
       end
 
       it 'returns 401' do
-        expect(response.status).to eq(401)
+        expect(response).to have_http_status(401)
       end
     end
 
@@ -83,7 +83,7 @@ RSpec.describe Api::V1::RoutesController, type: :request do
       end
 
       it 'returns 404 and contains error message' do
-        expect(response.status).to eq(404)
+        expect(response).to have_http_status(404)
         expect(json_response['message']).to eq("Couldn't find Route with 'id'=0")
       end
     end
@@ -98,7 +98,7 @@ RSpec.describe Api::V1::RoutesController, type: :request do
       end
 
       it 'returns 422 and contains error message that station must exist' do
-        expect(response.status).to eq(422)
+        expect(response).to have_http_status(422)
         expect(json_response['errors']).to include(/Station must exist/)
       end
     end
@@ -113,7 +113,7 @@ RSpec.describe Api::V1::RoutesController, type: :request do
       end
 
       it 'returns 201, adds station to route and response contains added station' do
-        expect(response.status).to eq(201)
+        expect(response).to have_http_status(201)
 
         expect(empty_route.reload.stations).to include(station)
 
@@ -129,7 +129,7 @@ RSpec.describe Api::V1::RoutesController, type: :request do
       end
 
       it 'returns 401' do
-        expect(response.status).to eq(401)
+        expect(response).to have_http_status(401)
       end
     end
 
@@ -139,7 +139,7 @@ RSpec.describe Api::V1::RoutesController, type: :request do
       end
 
       it 'returns 404 and contains error message' do
-        expect(response.status).to eq(404)
+        expect(response).to have_http_status(404)
         expect(json_response['message']).to eq("Couldn't find Route with 'id'=0")
       end
     end
@@ -150,7 +150,7 @@ RSpec.describe Api::V1::RoutesController, type: :request do
       end
 
       it 'returns 422 and contains error message' do
-        expect(response.status).to eq(422)
+        expect(response).to have_http_status(422)
         expect(json_response['errors']).to include(/Couldn't find StationOrderNumber/)
       end
     end
@@ -161,7 +161,7 @@ RSpec.describe Api::V1::RoutesController, type: :request do
       end
 
       it 'returns 200 and removes stations from route' do
-        expect(response.status).to eq(200)
+        expect(response).to have_http_status(200)
         expect(route.reload.stations.pluck(:id)).to_not include(request.params[:station_id])
       end
     end
@@ -174,7 +174,7 @@ RSpec.describe Api::V1::RoutesController, type: :request do
       end
 
       it 'returns 401' do
-        expect(response.status).to eq(401)
+        expect(response).to have_http_status(401)
       end
     end
 
@@ -198,7 +198,7 @@ RSpec.describe Api::V1::RoutesController, type: :request do
       end
 
       it 'returns 204 and destroys route' do
-        expect(response.status).to eq(204)
+        expect(response).to have_http_status(204)
         expect { route.reload }.to raise_error(ActiveRecord::RecordNotFound)
       end
     end

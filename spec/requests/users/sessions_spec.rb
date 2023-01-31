@@ -19,7 +19,7 @@ RSpec.describe Users::SessionsController, :type => :request do
       end
 
       it 'returns 400 and contains error message' do
-        expect(response.status).to eq(400)
+        expect(response).to have_http_status(400)
         expect(json_response['errors']).to_not be_nil
       end
     end
@@ -90,7 +90,7 @@ RSpec.describe Users::SessionsController, :type => :request do
       end
 
       it 'returns 401 and contains error message that token has been expired' do
-        expect(response.status).to eq(401)
+        expect(response).to have_http_status(401)
         expect(json_response['errors']).to include(/has expired/)
       end
     end
@@ -131,7 +131,7 @@ RSpec.describe Users::SessionsController, :type => :request do
       end
 
       it 'returns 200 and new access token' do
-        expect(response.status).to eq(200)
+        expect(response).to have_http_status(200)
         expect(json_response['access_token']).to_not be_nil
       end
 
@@ -147,7 +147,7 @@ RSpec.describe Users::SessionsController, :type => :request do
       before { delete '/users/logout' }
 
       it 'returns 401' do
-        expect(response.status).to eq(401)
+        expect(response).to have_http_status(401)
       end
     end
 
@@ -158,7 +158,7 @@ RSpec.describe Users::SessionsController, :type => :request do
       end
 
       it 'returns 200, destroys refresh token and clears cookies' do
-        expect(response.status).to eq(200)
+        expect(response).to have_http_status(200)
         expect(user.reload.refresh_token).to be_nil
         expect(cookies[:refresh_token]).to be_blank
         expect(json_response['message']).to eq('You have successfully logged out.')

@@ -14,7 +14,7 @@ RSpec.describe Api::V1::CarriageTypesController, type: :request do
       end
 
       it 'returns 401' do
-        expect(response.status).to eq(401)
+        expect(response).to have_http_status(401)
       end
     end
 
@@ -25,7 +25,7 @@ RSpec.describe Api::V1::CarriageTypesController, type: :request do
       end
 
       it 'returns 200 and returns list of carraige types' do
-        expect(response.status).to eq(200)
+        expect(response).to have_http_status(200)
         expect(json_response['carriage_types'].count).to eq(CarriageType.count)
       end
     end
@@ -38,7 +38,7 @@ RSpec.describe Api::V1::CarriageTypesController, type: :request do
       end
 
       it 'returns 401' do
-        expect(response.status).to eq(401)
+        expect(response).to have_http_status(401)
       end
     end
 
@@ -56,7 +56,7 @@ RSpec.describe Api::V1::CarriageTypesController, type: :request do
       end
 
       it 'returns 422 and contains error messages'  do
-        expect(response.status).to eq(422)
+        expect(response).to have_http_status(422)
         expect(json_response['errors']).to include(/Name is too short/,
                                                    /Description is too long/,
                                                    /Capacity must be greater than or equal to 0/)
@@ -73,7 +73,7 @@ RSpec.describe Api::V1::CarriageTypesController, type: :request do
       end
 
       it 'returns 201 and created carriage type' do
-        expect(response.status).to eq(201)
+        expect(response).to have_http_status(201)
         expect(json_response['carriage_type']['id']).to eq(CarriageType.last.id)
       end
     end
@@ -86,7 +86,7 @@ RSpec.describe Api::V1::CarriageTypesController, type: :request do
       end
 
       it 'returns 401' do
-        expect(response.status).to eq(401)
+        expect(response).to have_http_status(401)
       end
     end
 
@@ -104,7 +104,7 @@ RSpec.describe Api::V1::CarriageTypesController, type: :request do
       end
 
       it 'returns 422 and contains error message that validation failed' do
-        expect(response.status).to eq(422)
+        expect(response).to have_http_status(422)
         expect(json_response['errors']).to include(/Validation failed/)
       end
     end
@@ -123,7 +123,7 @@ RSpec.describe Api::V1::CarriageTypesController, type: :request do
       end
 
       it 'returns 200 and updated carriage type' do
-        expect(response.status).to eq(200)
+        expect(response).to have_http_status(200)
         expect(json_response['carriage_type']['id']).to eq(carriage_type.id)
         expect(json_response['carriage_type']['capacity']).to eq(2)
       end
@@ -137,7 +137,7 @@ RSpec.describe Api::V1::CarriageTypesController, type: :request do
       end
 
       it 'returns 401' do
-        expect(response.status).to eq(401)
+        expect(response).to have_http_status(401)
       end
     end
 
@@ -147,7 +147,7 @@ RSpec.describe Api::V1::CarriageTypesController, type: :request do
       end
 
       it 'returns 422 and contains error message that cant delete type that has any carriages' do
-        expect(response.status).to eq(422)
+        expect(response).to have_http_status(422)
         expect(json_response['errors']).to include("Can't destroy carriage type that has any carriages")
       end
     end
@@ -158,7 +158,7 @@ RSpec.describe Api::V1::CarriageTypesController, type: :request do
       end
 
       it 'returns 204 and destroys type from db' do
-        expect(response.status).to eq(204)
+        expect(response).to have_http_status(204)
         expect { carriage_type.reload }.to raise_error(ActiveRecord::RecordNotFound)
       end
     end

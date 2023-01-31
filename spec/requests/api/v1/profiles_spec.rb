@@ -12,7 +12,7 @@ RSpec.describe Api::V1::ProfilesController, type: :request do
       end
 
       it 'returns 401' do
-        expect(response.status).to eq(401)
+        expect(response).to have_http_status(401)
       end
     end
 
@@ -23,7 +23,7 @@ RSpec.describe Api::V1::ProfilesController, type: :request do
       end
 
       it 'returns 200 and proper profile' do
-        expect(response.status).to eq(200)
+        expect(response).to have_http_status(200)
         expect(json_response['user_id']).to eq(user.id)
       end
     end
@@ -38,7 +38,7 @@ RSpec.describe Api::V1::ProfilesController, type: :request do
       end
 
       it 'returns 401' do
-        expect(response.status).to eq(401)
+        expect(response).to have_http_status(401)
       end
     end
 
@@ -58,7 +58,7 @@ RSpec.describe Api::V1::ProfilesController, type: :request do
       end
 
       it 'returns 400 and error messages' do
-        expect(response.status).to eq(422)
+        expect(response).to have_http_status(422)
         expect(json_response['errors']).to_not be_nil
       end
     end
@@ -73,7 +73,7 @@ RSpec.describe Api::V1::ProfilesController, type: :request do
       end
 
       it 'returns 422 and error message' do
-        expect(response.status).to eq(422)
+        expect(response).to have_http_status(422)
         expect(json_response['message']).to eq('Seems like record with this data already exists')
       end
     end
@@ -88,7 +88,7 @@ RSpec.describe Api::V1::ProfilesController, type: :request do
       end
 
       it 'returns 201 and creates profile' do
-        expect(response.status).to eq(201)
+        expect(response).to have_http_status(201)
         expect(user_without_profile.reload.profile).to_not be_nil
         expect(Profile.last.user_id).to eq(user_without_profile.id)
       end
@@ -104,7 +104,7 @@ RSpec.describe Api::V1::ProfilesController, type: :request do
       end
 
       it 'returns 401' do
-        expect(response.status).to eq(401)
+        expect(response).to have_http_status(401)
       end
     end
 
@@ -120,7 +120,7 @@ RSpec.describe Api::V1::ProfilesController, type: :request do
       end
 
       it 'returns 422 and error messages' do
-        expect(response.status).to eq(422)
+        expect(response).to have_http_status(422)
         expect(json_response['errors']).to_not be_nil
         expect(json_response['errors']).to include(/Name is too short/)
       end
@@ -139,7 +139,7 @@ RSpec.describe Api::V1::ProfilesController, type: :request do
       end
 
       it 'returns 200 and updates user profile' do
-        expect(response.status).to eq(200)
+        expect(response).to have_http_status(200)
         expect(user.profile.name).to eq('Bogdan')
         expect(user.profile.surname).to eq('Choma')
       end

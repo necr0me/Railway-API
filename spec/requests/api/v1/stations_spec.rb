@@ -14,7 +14,7 @@ RSpec.describe Api::V1::StationsController, type: :request do
       end
 
       it 'returns 200 and list of found stations' do
-        expect(response.status).to eq(200)
+        expect(response).to have_http_status(200)
         expect(json_response.count).to eq(Station.where('name LIKE ?', "#{request.params[:station]}%").count)
       end
     end
@@ -26,7 +26,7 @@ RSpec.describe Api::V1::StationsController, type: :request do
       end
 
       it 'returns 200 and list of all stations' do
-        expect(response.status).to eq(200)
+        expect(response).to have_http_status(200)
         expect(json_response.count).to eq(Station.count)
       end
     end
@@ -39,7 +39,7 @@ RSpec.describe Api::V1::StationsController, type: :request do
       end
 
       it 'returns 200 and proper station' do
-        expect(response.status).to eq(200)
+        expect(response).to have_http_status(200)
 
         expect(json_response['id']).to eq(station.id)
         expect(json_response['name']).to eq(station.name)
@@ -56,7 +56,7 @@ RSpec.describe Api::V1::StationsController, type: :request do
       end
 
       it 'returns 401' do
-        expect(response.status).to eq(401)
+        expect(response).to have_http_status(401)
       end
     end
 
@@ -72,7 +72,7 @@ RSpec.describe Api::V1::StationsController, type: :request do
       end
 
       it 'returns 422 and contains error messages' do
-        expect(response.status).to eq(422)
+        expect(response).to have_http_status(422)
         expect(json_response['errors']).to_not be_nil
       end
     end
@@ -89,7 +89,7 @@ RSpec.describe Api::V1::StationsController, type: :request do
       end
 
       it 'returns 201 and creates station' do
-        expect(response.status).to eq(201)
+        expect(response).to have_http_status(201)
 
         expect(Station.last.name).to eq('some_name')
       end
@@ -107,7 +107,7 @@ RSpec.describe Api::V1::StationsController, type: :request do
       end
 
       it 'returns 401' do
-        expect(response.status).to eq(401)
+        expect(response).to have_http_status(401)
       end
     end
 
@@ -123,7 +123,7 @@ RSpec.describe Api::V1::StationsController, type: :request do
       end
 
       it 'returns 422 and contains error messages' do
-        expect(response.status).to eq(422)
+        expect(response).to have_http_status(422)
         expect(json_response).to_not be_nil
       end
     end
@@ -140,7 +140,7 @@ RSpec.describe Api::V1::StationsController, type: :request do
       end
 
       it 'returns 200 and updates station attribute' do
-        expect(response.status).to eq(200)
+        expect(response).to have_http_status(200)
         expect(Station.last.name).to eq('new_name')
       end
     end
@@ -153,7 +153,7 @@ RSpec.describe Api::V1::StationsController, type: :request do
       end
 
       it 'returns 401' do
-        expect(response.status).to eq(401)
+        expect(response).to have_http_status(401)
       end
     end
 
@@ -177,7 +177,7 @@ RSpec.describe Api::V1::StationsController, type: :request do
       end
 
       it 'returns 204 and destroys station' do
-        expect(response.status).to eq(204)
+        expect(response).to have_http_status(204)
         expect { station.reload }.to raise_error(ActiveRecord::RecordNotFound)
       end
     end

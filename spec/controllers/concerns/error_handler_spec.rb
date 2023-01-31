@@ -16,7 +16,7 @@ RSpec.describe ErrorHandler do
     end
 
     it 'returns 404' do
-      expect(response.status).to eq(404)
+      expect(response).to have_http_status(404)
     end
 
     it 'contains error message' do
@@ -39,7 +39,7 @@ RSpec.describe ErrorHandler do
     end
 
     it 'returns 422' do
-      expect(response.status).to eq(422)
+      expect(response).to have_http_status(422)
     end
 
     it 'contains message that record already exists' do
@@ -85,7 +85,7 @@ RSpec.describe ErrorHandler do
     end
 
     it 'returns 403' do
-      expect(response.status).to eq(403)
+      expect(response).to have_http_status(403)
     end
 
     it 'contains message that you are not allowed to do this action' do

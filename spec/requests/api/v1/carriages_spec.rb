@@ -15,7 +15,7 @@ RSpec.describe Api::V1::CarriagesController, type: :request do
       end
 
       it 'returns 401' do
-        expect(response.status).to eq(401)
+        expect(response).to have_http_status(401)
       end
     end
 
@@ -26,7 +26,7 @@ RSpec.describe Api::V1::CarriagesController, type: :request do
       end
 
       it 'returns 200 and list of carriages' do
-        expect(response.status).to eq(200)
+        expect(response).to have_http_status(200)
         expect(json_response['carriages'].count).to eq(Carriage.all.count)
       end
     end
@@ -39,7 +39,7 @@ RSpec.describe Api::V1::CarriagesController, type: :request do
       end
 
       it 'returns 401' do
-        expect(response.status).to eq(401)
+        expect(response).to have_http_status(401)
       end
     end
 
@@ -49,7 +49,7 @@ RSpec.describe Api::V1::CarriagesController, type: :request do
       end
 
       it 'returns 200 and proper carriage' do
-        expect(response.status).to eq(200)
+        expect(response).to have_http_status(200)
         expect(json_response['carriage']['id']).to eq(carriage.id)
       end
     end
@@ -64,7 +64,7 @@ RSpec.describe Api::V1::CarriagesController, type: :request do
       end
 
       it 'returns 401' do
-        expect(response.status).to eq(401)
+        expect(response).to have_http_status(401)
       end
     end
 
@@ -81,7 +81,7 @@ RSpec.describe Api::V1::CarriagesController, type: :request do
       end
 
       it 'returns 422 and error message that name is too short' do
-        expect(response.status).to eq(422)
+        expect(response).to have_http_status(422)
         expect(json_response['errors']).to include(/Name is too short/)
       end
     end
@@ -99,7 +99,7 @@ RSpec.describe Api::V1::CarriagesController, type: :request do
       end
 
       it 'returns 201 and created carriage' do
-        expect(response.status).to eq(201)
+        expect(response).to have_http_status(201)
         expect(json_response['carriage']['id']).to eq(Carriage.last.id)
       end
     end
@@ -116,7 +116,7 @@ RSpec.describe Api::V1::CarriagesController, type: :request do
       end
 
       it 'returns 401' do
-        expect(response.status).to eq(401)
+        expect(response).to have_http_status(401)
       end
     end
 
@@ -132,7 +132,7 @@ RSpec.describe Api::V1::CarriagesController, type: :request do
       end
 
       it 'returns 422 and contains error message that name is too short' do
-        expect(response.status).to eq(422)
+        expect(response).to have_http_status(422)
         expect(json_response['errors']).to include(/Name is too short/)
       end
     end
@@ -149,7 +149,7 @@ RSpec.describe Api::V1::CarriagesController, type: :request do
       end
 
       it 'returns 200 and updated carriage' do
-        expect(response.status).to eq(200)
+        expect(response).to have_http_status(200)
         expect(json_response['carriage']['id']).to eq(carriage.id)
         expect(carriage.reload.name).to eq('New_name')
       end
@@ -163,7 +163,7 @@ RSpec.describe Api::V1::CarriagesController, type: :request do
       end
 
       it 'returns 401' do
-        expect(response.status).to eq(401)
+        expect(response).to have_http_status(401)
       end
     end
 
@@ -187,7 +187,7 @@ RSpec.describe Api::V1::CarriagesController, type: :request do
       end
 
       it 'returns 204 and deleted carriage from db' do
-        expect(response.status).to eq(204)
+        expect(response).to have_http_status(204)
         expect { carriage.reload }.to raise_error(ActiveRecord::RecordNotFound)
       end
     end

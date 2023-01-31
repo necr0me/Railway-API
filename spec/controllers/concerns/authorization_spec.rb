@@ -36,7 +36,7 @@ RSpec.describe Authorization do
       end
 
       it 'returns 401 and contains message that you are not logged in' do
-        expect(response.status).to eq(401)
+        expect(response).to have_http_status(401)
         expect(json_response['message']).to eq("You're not logged in")
       end
     end
