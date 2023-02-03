@@ -5,9 +5,17 @@ class ApplicationService
     instance = new(...)
     instance.call
     instance
-  rescue => e
+  rescue StandardError => e
     instance.send(:fail!, error: e.message)
     instance
+  end
+
+  def initialize(...)
+    raise NotImplementedError
+  end
+
+  def call
+    raise NotImplementedError
   end
 
   def success?
@@ -22,7 +30,7 @@ class ApplicationService
 
   alias success! success
 
-  def fail(data: nil, error: )
+  def fail(error:, data: nil)
     @data = data
     @error = error
   end

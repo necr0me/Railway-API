@@ -14,7 +14,7 @@ RSpec.describe Auth::AuthorizationService do
   describe '#authorize' do
     context 'when error occurs' do
       before do
-        allow_any_instance_of(described_class).to receive(:get_token_from_header).and_raise('Some error')
+        allow_any_instance_of(described_class).to receive(:token_from_header).and_raise('Some error')
       end
 
       it 'contains error message' do

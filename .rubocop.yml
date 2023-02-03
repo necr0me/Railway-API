@@ -13,14 +13,12 @@ Style/FrozenStringLiteralComment:
 Style/Documentation:
   Enabled: false
 
+Style/HashSyntax:
+  EnforcedShorthandSyntax: never
+
 Metrics/AbcSize:
   CountRepeatedAttributes: false
 
 Lint/MissingSuper:
   Exclude:
     - 'app/services/**/**'
-
-Rails/SkipsModelValidations:
-  Exclude:
-    - 'app/services/routes/*'
-    - 'app/services/trains/*'

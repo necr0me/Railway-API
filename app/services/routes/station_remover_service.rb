@@ -16,11 +16,15 @@ module Routes
     def remove_station!
       station = StationOrderNumber.includes(:route).find_by!(route_id: route_id, station_id: station_id)
       ActiveRecord::Base.transaction do
-        station.route.station_order_numbers.where('order_number > ?', station.order_number)
-               .update_counters(order_number: -1)
+        update_order_numbers_after(station)
         station.destroy!
       end
       success!
+    end
+
+    def update_order_numbers_after(station)
+      station.route.station_order_numbers.where('order_number > ?', station.order_number)
+             .each { _1.update(order_number: _1.order_number - 1) }
     end
   end
 end

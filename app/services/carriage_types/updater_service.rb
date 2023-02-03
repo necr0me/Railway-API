@@ -17,9 +17,11 @@ module CarriageTypes
 
     def update
       if type.capacity == capacity || type.carriages.count.zero?
-        type.update!(name: name,
-                     description: description,
-                     capacity: capacity)
+        type.update!(
+          name: name,
+          description: description,
+          capacity: capacity
+        )
         success!(data: type)
       else
         fail!(error: "Can't update carriage type capacity that has any carriages")
