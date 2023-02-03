@@ -1,0 +1,26 @@
+require: rubocop-rails
+
+AllCops:
+  Exclude:
+    - 'coverage/**/**'
+    - 'bin/**/**'
+    - 'config/**/**'
+    - 'lib/**/**'
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+Metrics/AbcSize:
+  CountRepeatedAttributes: false
+
+Lint/MissingSuper:
+  Exclude:
+    - 'app/services/**/**'
+
+Rails/SkipsModelValidations:
+  Exclude:
+    - 'app/services/routes/*'
+    - 'app/services/trains/*'

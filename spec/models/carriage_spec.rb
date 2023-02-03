@@ -69,6 +69,26 @@ RSpec.describe Carriage, type: :model do
         expect(carriage.errors[:name]).to include(/too long/)
       end
     end
+
+    context '#order_number' do
+      it 'allows to be_nil' do
+        carriage.order_number = nil
+        expect(carriage).to be_valid
+      end
+
+      it 'is invalid when order number is less than 1' do
+        carriage.order_number = -1
+        expect(carriage).to_not be_valid
+      end
+
+      it 'is valid when order number is greater than or equal to 1' do
+        carriage.order_number = 1
+        expect(carriage).to be_valid
+
+        carriage.order_number = 10
+        expect(carriage).to be_valid
+      end
+    end
   end
 
   describe '#capacity' do

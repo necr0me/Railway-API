@@ -5,7 +5,8 @@ class Carriage < ApplicationRecord
 
   auto_strip_attributes :name, squish: true
 
-  validates :name, presence: true, length: { minimum: 3, maximum: 32}
+  validates :name, presence: true, length: { minimum: 3, maximum: 32 }
+  validates :order_number, allow_nil: true, comparison: { greater_than_or_equal_to: 1 }
 
   def capacity
     self.type.capacity

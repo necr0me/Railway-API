@@ -6,7 +6,7 @@ FactoryBot.define do
     trait :carriage_with_seats do
       after :create do |carriage|
         carriage.capacity.times do |i|
-          create(:seat, number: i, carriage_id: carriage.id)
+          create(:seat, number: i + 1, carriage_id: carriage.id)
         end
       end
     end
