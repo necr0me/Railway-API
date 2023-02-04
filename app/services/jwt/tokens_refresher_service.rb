@@ -1,6 +1,6 @@
 module Jwt
   class TokensRefresherService < ApplicationService
-    def initialize(refresh_token: )
+    def initialize(refresh_token:)
       @refresh_token = refresh_token
     end
 

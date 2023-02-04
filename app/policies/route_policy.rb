@@ -1,5 +1,4 @@
 class RoutePolicy < ApplicationPolicy
-
   def show?
     true
   end
@@ -15,6 +14,7 @@ class RoutePolicy < ApplicationPolicy
   def remove_station?
     moderator_or_admin?
   end
+
   def destroy?
     moderator_or_admin?
   end

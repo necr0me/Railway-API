@@ -1,6 +1,6 @@
 module CarriageTypes
   class UpdaterService < ApplicationService
-    def initialize(carriage_type:, carriage_type_params: )
+    def initialize(carriage_type:, carriage_type_params:)
       @type = carriage_type
       @name = carriage_type_params[:name]
       @description = carriage_type_params[:description]

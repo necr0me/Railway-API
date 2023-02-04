@@ -17,11 +17,11 @@ module Api
         authorize station
         if station.persisted?
           render json: { station: station },
-                 status: 201
+                 status: :created
         else
           render json: { message: 'Something went wrong',
                          errors: station.errors.full_messages },
-                 status: 422
+                 status: :unprocessable_entity
         end
       end
 
@@ -29,22 +29,22 @@ module Api
         authorize @station
         if @station.update(station_params)
           render json: { station: @station },
-                 status: 200
+                 status: :ok
         else
           render json: { message: 'Something went wrong',
                          errors: @station.errors.full_messages },
-                 status: 422
+                 status: :unprocessable_entity
         end
       end
 
       def destroy
         authorize @station
         if @station.destroy
-          head 204
+          head :no_content
         else
           render json: { message: 'Something went wrong',
                          errors: @station.errors.full_messages },
-                 status: 422
+                 status: :unprocessable_entity
         end
       end
 
@@ -55,7 +55,7 @@ module Api
       end
 
       def find_station
-        @station ||= Station.find(params[:id])
+        @station = Station.find(params[:id])
       end
     end
   end

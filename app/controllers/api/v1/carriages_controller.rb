@@ -8,25 +8,25 @@ module Api
         carriages = Carriage.all
         authorize carriages
         render json: { carriages: carriages },
-               status: 200
+               status: :ok
       end
 
       def show
         authorize @carriage
         render json: { carriage: @carriage },
-               status: 200
+               status: :ok
       end
 
       def create
         carriage = Carriage.create(carriage_params)
         if carriage.persisted?
           render json: { message: 'Carriage was successfully created',
-                         carriage: carriage},
-                 status: 201
+                         carriage: carriage },
+                 status: :created
         else
           render json: { message: 'Something went wrong',
                          errors: carriage.errors.full_messages },
-                 status: 422
+                 status: :unprocessable_entity
         end
       end
 
@@ -35,22 +35,22 @@ module Api
         if @carriage.update(name: params.dig(:carriage, :name))
           render json: { message: 'Carriage name was successfully updated',
                          carriage: @carriage },
-                 status: 200
+                 status: :ok
         else
           render json: { message: 'Something went wrong',
                          errors: @carriage.errors.full_messages },
-                 status: 422
+                 status: :unprocessable_entity
         end
       end
 
       def destroy
         authorize @carriage
         if @carriage.destroy
-          head 204
+          head :no_content
         else
           render json: { message: 'Something went wrong',
                          errors: @carriage.errors.full_messages },
-                 status: 422
+                 status: :unprocessable_entity
         end
       end
 
@@ -61,9 +61,8 @@ module Api
       end
 
       def find_carriage
-        @carriage ||= Carriage.find(params[:id])
+        @carriage = Carriage.find(params[:id])
       end
     end
   end
 end
-

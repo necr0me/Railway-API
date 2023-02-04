@@ -1,6 +1,5 @@
 module Auth
   class AuthenticationService < ApplicationService
-
     def initialize(user_params:)
       @email = user_params[:email]
       @password = user_params[:password]
@@ -20,6 +19,5 @@ module Auth
 
       user.authenticate(password) ? success!(data: user) : fail!(error: 'Invalid password')
     end
-
   end
 end

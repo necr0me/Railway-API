@@ -7,16 +7,17 @@ module Users
     def create
       result = Auth::AuthenticationService.call(user_params: user_params)
       if result.success?
-        access_token, refresh_token = Jwt::TokensGeneratorService.call(user_id: result.data.id).data
+        access_token, refresh_token = Jwt::TokensGeneratorService.call(user_id: result.data&.id).data
         cookies['refresh_token'] = {
           value: refresh_token,
           expires: Constants::Jwt::JWT_EXPIRATION_TIMES['refresh'],
-          httponly: true }
+          httponly: true
+        }
         render json: { access_token: access_token },
-               status: 201
+               status: :created
       else
-        render json: { errors: [result.error]  },
-               status: 400
+        render json: { errors: [result.error] },
+               status: :bad_request
       end
     end
 
@@ -27,12 +28,13 @@ module Users
         cookies['refresh_token'] = {
           value: refresh_token,
           expires: Constants::Jwt::JWT_EXPIRATION_TIMES['refresh'],
-          httponly: true }
+          httponly: true
+        }
         render json: { access_token: access_token },
-               status: 200
+               status: :ok
       else
         render json: { errors: [result.error] },
-               status: 401
+               status: :unauthorized
       end
     end
 
@@ -40,7 +42,7 @@ module Users
       current_user.refresh_token.destroy
       cookies.delete :refresh_token
       render json: { message: 'You have successfully logged out.' },
-             status: 200
+             status: :ok
     end
   end
 end

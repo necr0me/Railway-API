@@ -7,21 +7,20 @@ module Api
       def show
         authorize @user
         render json: { user: @user },
-               status: 200
+               status: :ok
       end
 
       def update
         authorize @user
         if @user.update(password: params[:user][:password]) # User able to update only his password
           render json: { message: 'You have successfully updated your credentials' },
-                 status: 200
+                 status: :ok
         else
           render json: { message: 'Something went wrong',
                          errors: @user.errors.full_messages },
-                 status: 422
+                 status: :unprocessable_entity
         end
       end
     end
   end
 end
-

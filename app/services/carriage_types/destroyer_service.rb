@@ -1,6 +1,6 @@
 module CarriageTypes
   class DestroyerService < ApplicationService
-    def initialize(carriage_type: )
+    def initialize(carriage_type:)
       @type = carriage_type
     end
 
