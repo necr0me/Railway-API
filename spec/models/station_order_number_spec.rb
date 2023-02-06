@@ -21,6 +21,14 @@ RSpec.describe StationOrderNumber, type: :model do
     end
   end
 
+  describe 'scopes' do
+    before { create(:route, :route_with_stations) }
+
+    it 'by default sorts according to increasing order number' do
+      StationOrderNumber.all.pluck(:order_number).each_cons(2) { expect(_1 <= _2).to be_truthy }
+    end
+  end
+
   describe 'validations' do
     context '#order_number' do
       before { station_order_number.save }

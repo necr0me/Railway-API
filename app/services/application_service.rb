@@ -34,6 +34,4 @@ class ApplicationService
   end
 
   alias fail! fail
-
-  # TODO: try another time to test this class
 end

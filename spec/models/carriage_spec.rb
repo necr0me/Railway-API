@@ -33,6 +33,14 @@ RSpec.describe Carriage, type: :model do
     end
   end
 
+  describe 'scopes' do
+    before { create_list(:carriage, 10) }
+
+    it 'by default sorting according to increasing order number' do
+      Carriage.all.pluck(:order_number).each_cons(2) { expect(_1 <= _2).to be_truthy }
+    end
+  end
+
   describe 'auto_strip_attributes' do
     context '#name' do
       it 'removes redundant whitespaces' do

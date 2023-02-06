@@ -4,9 +4,15 @@ RSpec.describe CarriageType, type: :model do
   let(:carriage_type) { build(:carriage_type) }
 
   describe 'associations' do
+    let(:carriage_type) { create(:carriage_type, :type_with_carriage) }
+
     context 'Carriage' do
       it 'has many carriages' do
         expect(described_class.reflect_on_association(:carriages).macro).to eq(:has_many)
+      end
+
+      it 'raises exception when trying to destroy type with carriages' do
+        expect { carriage_type.destroy }.to raise_exception(ActiveRecord::DeleteRestrictionError)
       end
     end
   end

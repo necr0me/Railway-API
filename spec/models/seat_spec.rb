@@ -11,6 +11,14 @@ RSpec.describe Seat, type: :model do
     end
   end
 
+  describe 'scopes' do
+    before { create_list(:seat, 10) }
+
+    it 'by default sorts according to increasing #number' do
+      Seat.all.pluck(:number).each_cons(2) { expect(_1 <= _2).to be_truthy }
+    end
+  end
+
   describe 'validations' do
     context '#number' do
       it 'is invalid when number is less then 1 or blank' do
