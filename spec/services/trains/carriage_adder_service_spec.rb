@@ -49,4 +49,12 @@ RSpec.describe Trains::CarriageAdderService do
       end
     end
   end
+
+  describe '#create_seats_for' do
+    it 'creates seats for carriage' do
+      service = described_class.new(train: train, carriage_id: carriage.id)
+      service.send(:create_seats_for, carriage)
+      expect(carriage.reload.capacity).to eq(carriage.seats.count)
+    end
+  end
 end

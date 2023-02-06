@@ -25,10 +25,7 @@ module Trains
     end
 
     def create_seats_for(carriage)
-      carriage.capacity.times do |i|
-        Seat.create!(number: i + 1,
-                     carriage_id: carriage.id)
-      end
+      carriage.capacity.times { |i| Seat.create!(number: i + 1, carriage_id: carriage.id) }
     end
   end
 end

@@ -5,17 +5,15 @@ class ApplicationService
     instance = new(...)
     instance.call
     instance
-  rescue StandardError => e
+  rescue StandardError, NotImplementedError => e
     instance.send(:fail!, error: e.message)
     instance
   end
 
-  def initialize(...)
-    raise NotImplementedError
-  end
+  def initialize(...); end
 
   def call
-    raise NotImplementedError
+    raise NotImplementedError, "You should define ##{__method__} first"
   end
 
   def success?

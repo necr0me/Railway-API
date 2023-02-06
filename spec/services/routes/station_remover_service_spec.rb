@@ -6,7 +6,7 @@ RSpec.describe Routes::StationRemoverService do
 
   describe '#call' do
     it 'calls remove_station! method' do
-      expect_any_instance_of(described_class).to receive(:remove_station!).with(no_args)
+      expect_any_instance_of(described_class).to receive(:remove_station).with(no_args)
       described_class.call(route_id: route.id, station_id: first_station.id)
     end
   end
@@ -28,6 +28,20 @@ RSpec.describe Routes::StationRemoverService do
 
         expect(route.reload.stations.pluck(:order_number)).to eq((1..route.stations.count).to_a)
         expect(route.reload.stations).to_not include(first_station)
+      end
+    end
+  end
+
+  describe '#decrement_order_numbers_after' do
+    it 'decrements order numbers of stations that going after some station in route' do
+      after_station = first_station.station_order_numbers.first
+      service = described_class.new(route_id: route.id, station_id: first_station.id)
+      old_order_numbers = route.station_order_numbers.group_by(&:id).except(after_station.id)
+      service.send(:decrement_order_numbers_after, after_station)
+      new_order_numbers = route.reload.station_order_numbers.group_by(&:id).except(after_station.id)
+
+      old_order_numbers.each do |k, v|
+        expect(v.first.order_number - new_order_numbers[k].first.order_number).to eq(1)
       end
     end
   end
