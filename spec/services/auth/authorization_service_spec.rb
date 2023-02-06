@@ -14,7 +14,7 @@ RSpec.describe Auth::AuthorizationService do
   describe '#authorize' do
     context 'when error occurs' do
       before do
-        allow_any_instance_of(described_class).to receive(:get_token_from_header).and_raise('Some error')
+        allow_any_instance_of(described_class).to receive(:token_from_header).and_raise('Some error')
       end
 
       it 'contains error message' do
@@ -66,6 +66,13 @@ RSpec.describe Auth::AuthorizationService do
         expect(result.error).to be_nil
         expect(result.data['user_id']).to eq(user.id)
       end
+    end
+  end
+
+  describe '#token_from_header' do
+    it 'returns token from auth header' do
+      service = described_class.new(authorization_header: "Bearer #{access_token}")
+      expect(service.send(:token_from_header)).to eq(access_token)
     end
   end
 end

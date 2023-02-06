@@ -8,13 +8,13 @@ module Api
         trains = Train.all
         authorize trains
         render json: { trains: Train.all },
-               status: 200
+               status: :ok
       end
 
       def show
         authorize @train
         render json: { train: @train },
-               status: 200
+               status: :ok
       end
 
       def create
@@ -23,11 +23,11 @@ module Api
         if train.persisted?
           render json: { message: 'Train was successfully created',
                          train: train },
-                 status: 201
+                 status: :created
         else
           render json: { message: 'Something went wrong',
                          errors: train.errors.full_messages },
-                 status: 422
+                 status: :unprocessable_entity
         end
       end
 
@@ -36,51 +36,55 @@ module Api
         if @train.update(train_params)
           render json: { message: 'Train was successfully updated',
                          train: @train },
-                 status: 200
+                 status: :ok
         else
           render json: { message: 'Something went wrong',
                          errors: @train.errors.full_messages },
-                 status: 422
+                 status: :unprocessable_entity
         end
       end
 
       def add_carriage
         authorize @train
-        result = Trains::CarriageAdderService.call(train: @train,
-                                                   carriage_id: params[:carriage_id])
+        result = Trains::CarriageAdderService.call(
+          train: @train,
+          carriage_id: params[:carriage_id]
+        )
         if result.success?
           render json: { message: 'Carriage was successfully added to train',
                          carriage: result.data },
-                 status: 200
+                 status: :ok
         else
           render json: { message: 'Something went wrong',
                          errors: [result.error] },
-                 status: 422
+                 status: :unprocessable_entity
         end
       end
 
       def remove_carriage
         authorize @train
-        result = Trains::CarriageRemoverService.call(train: @train,
-                                                     carriage_id: params[:carriage_id])
+        result = Trains::CarriageRemoverService.call(
+          train: @train,
+          carriage_id: params[:carriage_id]
+        )
         if result.success?
           render json: { message: 'Carriage was successfully removed from train' },
-                 status: 200
+                 status: :ok
         else
           render json: { message: 'Something went wrong',
                          errors: [result.error] },
-                 status: 422
+                 status: :unprocessable_entity
         end
       end
 
       def destroy
         authorize @train
-        if  @train.destroy
-          head 204
+        if @train.destroy
+          head :no_content
         else
           render json: { message: 'Something went wrong',
                          errors: @train.errors.full_messages },
-                 status: 422
+                 status: :unprocessable_entity
         end
       end
 
@@ -91,9 +95,8 @@ module Api
       end
 
       def find_train
-        @train ||= Train.find(params[:train_id])
+        @train = Train.find(params[:train_id])
       end
     end
   end
 end
-

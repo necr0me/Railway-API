@@ -1,6 +1,6 @@
 module CarriageTypes
   class DestroyerService < ApplicationService
-    def initialize(carriage_type: )
+    def initialize(carriage_type:)
       @type = carriage_type
     end
 
@@ -13,12 +13,10 @@ module CarriageTypes
     attr_reader :type
 
     def destroy
-      if type.carriages.count.zero?
-        type.destroy!
-        success!
-      else
-        fail!(error: "Can't destroy carriage type that has any carriages")
-      end
+      return fail!(error: "Can't destroy carriage type that has any carriages") if type.carriages.count.nonzero?
+
+      type.destroy!
+      success!
     end
   end
 end

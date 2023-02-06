@@ -58,4 +58,19 @@ RSpec.describe Trains::CarriageRemoverService do
       end
     end
   end
+
+  describe '#decrement_order_numbers_after' do
+    let(:train) { create(:train, :train_with_carriages) }
+    let(:carriage) { train.carriages.first }
+
+    it 'decrements order numbers of carriages after removed carriage in train' do
+      service = described_class.new(train: train, carriage_id: carriage.id)
+      old_order_numbers = train.carriages.group_by(&:id).except(carriage.id)
+      service.send(:decrement_order_numbers_after, carriage)
+      new_order_numbers = train.reload.carriages.group_by(&:id).except(carriage.id)
+      old_order_numbers.each do |k, v|
+        expect(v.first.order_number - new_order_numbers[k].first.order_number).to eq(1)
+      end
+    end
+  end
 end

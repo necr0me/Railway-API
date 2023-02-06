@@ -6,6 +6,6 @@ class Station < ApplicationRecord
 
   validates :name,
             presence: true,
-            length: { minimum: 2, maximum: 50},
+            length: { minimum: 2, maximum: 50 },
             uniqueness: true
 end

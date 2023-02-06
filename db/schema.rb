@@ -61,7 +61,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_21_161505) do
   end
 
   create_table "seats", force: :cascade do |t|
-    t.string "number"
+    t.integer "number"
     t.boolean "is_taken", default: false, null: false
     t.bigint "carriage_id", null: false
     t.datetime "created_at", null: false

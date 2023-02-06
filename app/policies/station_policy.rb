@@ -1,5 +1,4 @@
 class StationPolicy < ApplicationPolicy
-
   def index?
     true
   end

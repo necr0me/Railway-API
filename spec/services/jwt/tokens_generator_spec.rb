@@ -65,4 +65,44 @@ RSpec.describe Jwt::TokensGeneratorService do
       end
     end
   end
+
+  describe '#create_or_update_refresh_token' do
+    let(:token) { OpenStruct.new(data: 'token') }
+
+    context "when user hasn't refresh token in db" do
+      it 'creates refresh token in db' do
+        service = described_class.new(user_id: user.id)
+        expect_any_instance_of(User).to receive(:create_refresh_token)
+        service.send(:create_or_update_refresh_token, token)
+      end
+    end
+
+    context 'when user has refresh token in db' do
+      it 'updates refresh token in db' do
+        service = described_class.new(user_id: user_with_token.id)
+        expect_any_instance_of(RefreshToken).to receive(:update)
+        service.send(:create_or_update_refresh_token, token)
+      end
+    end
+  end
+
+  describe '#user' do
+    context 'using method first time' do
+      it 'finds correct user' do
+        service = described_class.new(user_id: user.id)
+        # TODO: test with expect.to receive(:find)
+        expect(service.send(:user)&.id).to eq(user.id)
+      end
+    end
+
+    context 'using method not first time' do
+      it 'returns memoized user' do
+        service = described_class.new(user_id: user.id)
+        service.instance_variable_set '@user', user
+
+        expect(User).to_not receive(:find)
+        expect(service.send(:user).id).to eq(user.id)
+      end
+    end
+  end
 end

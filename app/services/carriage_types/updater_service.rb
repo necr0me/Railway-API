@@ -1,6 +1,6 @@
 module CarriageTypes
   class UpdaterService < ApplicationService
-    def initialize(carriage_type:, carriage_type_params: )
+    def initialize(carriage_type:, carriage_type_params:)
       @type = carriage_type
       @name = carriage_type_params[:name]
       @description = carriage_type_params[:description]
@@ -17,9 +17,11 @@ module CarriageTypes
 
     def update
       if type.capacity == capacity || type.carriages.count.zero?
-        type.update!(name: name,
-                     description: description,
-                     capacity: capacity)
+        type.update!(
+          name: name,
+          description: description,
+          capacity: capacity
+        )
         success!(data: type)
       else
         fail!(error: "Can't update carriage type capacity that has any carriages")

@@ -4,6 +4,8 @@ class StationOrderNumber < ApplicationRecord
   belongs_to :station
   belongs_to :route
 
+  validates :order_number, comparison: { greater_than_or_equal_to: 1 }, on: :update
+
   default_scope -> { order(:order_number) }
 
   private

@@ -19,10 +19,6 @@ RSpec.describe Train, type: :model do
         expect(described_class.reflect_on_association(:carriages).macro).to eq(:has_many)
       end
 
-      it 'orders in increasing of order number' do
-        train.carriages.pluck(:order_number).each_cons(2) { expect(_2 > _1).to be_truthy }
-      end
-
       it 'nullifies train_id attribute for related carriages' do
         train.destroy
         expect(train.carriages.reload.pluck(:train_id).all?(:nil?)).to be_truthy

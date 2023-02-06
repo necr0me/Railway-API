@@ -33,6 +33,14 @@ RSpec.describe Carriage, type: :model do
     end
   end
 
+  describe 'scopes' do
+    before { create_list(:carriage, 10) }
+
+    it 'by default sorting according to increasing order number' do
+      Carriage.all.pluck(:order_number).each_cons(2) { expect(_1 <= _2).to be_truthy }
+    end
+  end
+
   describe 'auto_strip_attributes' do
     context '#name' do
       it 'removes redundant whitespaces' do
@@ -67,6 +75,26 @@ RSpec.describe Carriage, type: :model do
         carriage.name = 'x' * 33
         expect(carriage).to_not be_valid
         expect(carriage.errors[:name]).to include(/too long/)
+      end
+    end
+
+    context '#order_number' do
+      it 'allows to be_nil' do
+        carriage.order_number = nil
+        expect(carriage).to be_valid
+      end
+
+      it 'is invalid when order number is less than 1' do
+        carriage.order_number = -1
+        expect(carriage).to_not be_valid
+      end
+
+      it 'is valid when order number is greater than or equal to 1' do
+        carriage.order_number = 1
+        expect(carriage).to be_valid
+
+        carriage.order_number = 10
+        expect(carriage).to be_valid
       end
     end
   end

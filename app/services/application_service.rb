@@ -5,9 +5,15 @@ class ApplicationService
     instance = new(...)
     instance.call
     instance
-  rescue => e
+  rescue StandardError, NotImplementedError => e
     instance.send(:fail!, error: e.message)
     instance
+  end
+
+  def initialize(...); end
+
+  def call
+    raise NotImplementedError, "You should define ##{__method__} first"
   end
 
   def success?
@@ -22,12 +28,10 @@ class ApplicationService
 
   alias success! success
 
-  def fail(data: nil, error: )
+  def fail(error:, data: nil)
     @data = data
     @error = error
   end
 
   alias fail! fail
-
-  # TODO: try another time to test this class
 end

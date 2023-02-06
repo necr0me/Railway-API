@@ -10,24 +10,24 @@ module ErrorHandler
 
     protected
 
-    def record_not_found(e)
-      render json: { message: e.message },
-             status: 404
+    def record_not_found(error)
+      render json: { message: error.message },
+             status: :not_found
     end
 
     def record_not_unique
       render json: { message: 'Seems like record with this data already exists' },
-             status: 422
+             status: :unprocessable_entity
     end
 
     def invalid_foreign_key
       render json: { message: 'Seems like this entity does not exist' },
-             status: 422
+             status: :unprocessable_entity
     end
 
     def access_forbidden
       render json: { message: 'You are not allowed to do this action' },
-             status: 403
+             status: :forbidden
     end
   end
 end

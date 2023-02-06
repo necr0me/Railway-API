@@ -11,7 +11,7 @@ module Authorization
       else
         render json: { message: 'You\'re not logged in',
                        errors: [@result.error] },
-               status: 401
+               status: :unauthorized
       end
     end
 
