@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Carriage, type: :model do
   let(:carriage) { build(:carriage) }
-  let(:carriage_with_seats) { create(:carriage, :carriage_with_seats)}
+  let(:carriage_with_seats) { create(:carriage, :carriage_with_seats) }
 
   describe 'associations' do
     context 'Seat' do
@@ -33,7 +33,7 @@ RSpec.describe Carriage, type: :model do
     end
   end
 
-  describe 'scopes' do
+  describe 'scopes', long: true do
     before { create_list(:carriage, 10) }
 
     it 'by default sorting according to increasing order number' do

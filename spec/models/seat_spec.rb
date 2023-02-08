@@ -11,7 +11,7 @@ RSpec.describe Seat, type: :model do
     end
   end
 
-  describe 'scopes' do
+  describe 'scopes', long: true do
     before { create_list(:seat, 10) }
 
     it 'by default sorts according to increasing #number' do
