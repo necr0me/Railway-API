@@ -5,6 +5,220 @@ info:
   version: v1
   description: Railway-API documentation
 paths:
+  "/api/v1/carriage_types":
+    get:
+      summary: Retrieves all carriage types. By necr0me
+      tags:
+      - Carriage types
+      produces:
+      - application/json
+      security:
+      - Bearer: {}
+      responses:
+        '200':
+          description: Carriage types found
+          examples:
+            application/json:
+              carriage_types:
+              - id: 6001
+                name: Rob Banks
+                description: Jacobson-Weissnat
+                capacity: 8
+                created_at: '2023-02-15T21:05:45.584Z'
+                updated_at: '2023-02-15T21:05:45.584Z'
+              - id: 6002
+                name: Dan Deline
+                description: Hudson, Murphy and Kohler
+                capacity: 8
+                created_at: '2023-02-15T21:05:45.588Z'
+                updated_at: '2023-02-15T21:05:45.588Z'
+              - id: 6003
+                name: Polly Dent
+                description: Funk, Oberbrunner and Macejkovic
+                capacity: 8
+                created_at: '2023-02-15T21:05:45.590Z'
+                updated_at: '2023-02-15T21:05:45.590Z'
+        '401':
+          description: You are unauthorized
+          examples:
+            application/json:
+              message: You're not logged in
+              errors:
+              - Nil JSON web token
+        '403':
+          description: You are forbidden to perform this action
+          examples:
+            application/json:
+              message: You are not allowed to do this action
+    post:
+      summary: Creates new carriage type. By necr0me
+      tags:
+      - Carriage types
+      consumes:
+      - application/json
+      parameters:
+      - name: params
+        in: body
+        schema:
+          type: object
+          properties:
+            name:
+              type: string
+            description:
+              type: string
+            capacity:
+              type: integer
+          require:
+          - name
+          - capacity
+          - description
+      produces:
+      - application/json
+      security:
+      - Bearer: {}
+      responses:
+        '201':
+          description: Carriage type successfully created
+          examples:
+            application/json:
+              message: Carriage type successfully created
+              carriage_type:
+                id: 6004
+                name: Clara Nett
+                description: Murphy Inc
+                capacity: 8
+                created_at: '2023-02-15T21:05:45.662Z'
+                updated_at: '2023-02-15T21:05:45.662Z'
+        '401':
+          description: You are unauthorized
+          examples:
+            application/json:
+              message: You're not logged in
+              errors:
+              - Nil JSON web token
+        '403':
+          description: You are forbiden to perform this action
+          examples:
+            application/json:
+              message: You are not allowed to do this action
+        '422':
+          description: Error occurred during carriage type create
+          examples:
+            application/json:
+              message: Something went wrong
+              errors:
+              - Name is too short (minimum is 3 characters)
+              - Capacity must be greater than or equal to 0
+  "/api/v1/carriage_types/{carriage_type_id}":
+    put:
+      summary: Updates carriage type. By necr0me
+      tags:
+      - Carriage types
+      consumes:
+      - application/json
+      parameters:
+      - name: carriage_type_id
+        in: path
+        type: string
+        required: true
+        description: Id of carriage type that you want to update
+      - name: params
+        in: body
+        schema:
+          type: object
+          properties:
+            name:
+              type: string
+            description:
+              type: string
+            capacity:
+              type: integer
+          require:
+          - name
+          - capacity
+          - description
+      produces:
+      - application/json
+      security:
+      - Bearer: {}
+      responses:
+        '200':
+          description: Carriage type successfully updated
+          examples:
+            application/json:
+              message: Carriage type successfully updated
+              carriage_type:
+                name: New name
+                description: New description
+                capacity: 4
+                id: 6006
+                created_at: '2023-02-15T21:05:45.697Z'
+                updated_at: '2023-02-15T21:05:45.720Z'
+        '401':
+          description: You are unauthorized
+          examples:
+            application/json:
+              message: You're not logged in
+              errors:
+              - Nil JSON web token
+        '403':
+          description: You are forbidden to perform this action
+          examples:
+            application/json:
+              message: You are not allowed to do this action
+        '404':
+          description: Carriage type not found
+          examples:
+            application/json:
+              message: Couldn't find CarriageType with 'id'=-1
+        '422':
+          description: Error occurred during carriage type update
+          examples:
+            application/json:
+              message: Something went wrong
+              errors:
+              - Can't update carriage type capacity that has any carriages
+    delete:
+      summary: Deletes carriage type. By necr0me
+      tags:
+      - Carriage types
+      parameters:
+      - name: carriage_type_id
+        in: path
+        type: string
+        required: true
+        description: Id of carriage type that you want to destroy
+      produces:
+      - application/json
+      security:
+      - Bearer: {}
+      responses:
+        '204':
+          description: Carriage type successfully destroyed
+        '401':
+          description: You are unauthorized
+          examples:
+            application/json:
+              message: You're not logged in
+              errors:
+              - Nil JSON web token
+        '403':
+          description: You are forbidden to perform this action
+          examples:
+            application/json:
+              message: You are not allowed to do this action
+        '404':
+          description: Carriage type not found
+          examples:
+            application/json:
+              message: Couldn't find CarriageType with 'id'=-1
+        '422':
+          description: Error occurred during carriage type destroy
+          examples:
+            application/json:
+              message: Something went wrong
+              errors:
+              - Can't destroy carriage type that has any carriages
   "/api/v1/routes":
     post:
       summary: Creates empty route. By necr0me
@@ -21,9 +235,9 @@ paths:
             application/json:
               message: Route was created
               route:
-                id: 2855
-                created_at: '2023-02-15T16:24:12.686Z'
-                updated_at: '2023-02-15T16:24:12.686Z'
+                id: 3240
+                created_at: '2023-02-15T21:05:45.889Z'
+                updated_at: '2023-02-15T21:05:45.889Z'
         '401':
           description: You are unauthorized
           examples:
@@ -62,22 +276,22 @@ paths:
           examples:
             application/json:
               route:
-                id: 2858
-                created_at: '2023-02-15T16:24:12.741Z'
-                updated_at: '2023-02-15T16:24:12.741Z'
+                id: 3243
+                created_at: '2023-02-15T21:05:45.928Z'
+                updated_at: '2023-02-15T21:05:45.928Z'
               stations:
-              - id: 8178
+              - id: 9234
                 name: Mogilev
-                created_at: '2023-02-15T16:24:12.756Z'
-                updated_at: '2023-02-15T16:24:12.756Z'
-              - id: 8179
+                created_at: '2023-02-15T21:05:45.940Z'
+                updated_at: '2023-02-15T21:05:45.940Z'
+              - id: 9235
                 name: Mosty
-                created_at: '2023-02-15T16:24:12.760Z'
-                updated_at: '2023-02-15T16:24:12.760Z'
-              - id: 8180
+                created_at: '2023-02-15T21:05:45.944Z'
+                updated_at: '2023-02-15T21:05:45.944Z'
+              - id: 9236
                 name: Hrodna
-                created_at: '2023-02-15T16:24:12.763Z'
-                updated_at: '2023-02-15T16:24:12.763Z'
+                created_at: '2023-02-15T21:05:45.948Z'
+                updated_at: '2023-02-15T21:05:45.948Z'
         '404':
           description: Route not found
           examples:
@@ -156,10 +370,10 @@ paths:
             application/json:
               message: Station was successfully added to route
               station:
-                id: 8190
+                id: 9246
                 name: Melbourne
-                created_at: '2023-02-15T16:24:13.212Z'
-                updated_at: '2023-02-15T16:24:13.212Z'
+                created_at: '2023-02-15T21:05:46.175Z'
+                updated_at: '2023-02-15T21:05:46.175Z'
         '401':
           description: You are unauthorized
           examples:
@@ -253,14 +467,14 @@ paths:
           description: Stations found (From query "?station=Mo")
           examples:
             application/json:
-            - id: 8219
+            - id: 9275
               name: Mogilev
-              created_at: '2023-02-15T16:24:13.919Z'
-              updated_at: '2023-02-15T16:24:13.919Z'
-            - id: 8220
+              created_at: '2023-02-15T21:05:46.564Z'
+              updated_at: '2023-02-15T21:05:46.564Z'
+            - id: 9276
               name: Mosty
-              created_at: '2023-02-15T16:24:13.923Z'
-              updated_at: '2023-02-15T16:24:13.923Z'
+              created_at: '2023-02-15T21:05:46.567Z'
+              updated_at: '2023-02-15T21:05:46.567Z'
     post:
       summary: Create a new station. By necr0me
       tags:
@@ -286,10 +500,10 @@ paths:
           examples:
             application/json:
               station:
-                id: 8222
+                id: 9278
                 name: Melbourne
-                created_at: '2023-02-15T16:24:13.947Z'
-                updated_at: '2023-02-15T16:24:13.947Z'
+                created_at: '2023-02-15T21:05:46.595Z'
+                updated_at: '2023-02-15T21:05:46.595Z'
         '401':
           description: You are unauthorized
           examples:
@@ -327,10 +541,10 @@ paths:
           description: Station was found
           examples:
             application/json:
-              id: 8224
+              id: 9280
               name: Melbourne
-              created_at: '2023-02-15T16:24:13.992Z'
-              updated_at: '2023-02-15T16:24:13.992Z'
+              created_at: '2023-02-15T21:05:46.629Z'
+              updated_at: '2023-02-15T21:05:46.629Z'
         '404':
           description: Station not found
           examples:
@@ -367,9 +581,9 @@ paths:
             application/json:
               station:
                 name: New name
-                id: 8225
-                created_at: '2023-02-15T16:24:14.014Z'
-                updated_at: '2023-02-15T16:24:14.026Z'
+                id: 9281
+                created_at: '2023-02-15T21:05:46.641Z'
+                updated_at: '2023-02-15T21:05:46.652Z'
         '401':
           description: You are unauthorized
           examples:

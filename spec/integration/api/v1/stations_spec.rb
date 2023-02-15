@@ -5,6 +5,9 @@ RSpec.describe 'api/v1/stations', type: :request do
   let(:Authorization) { "Bearer #{access_token}" }
   let(:station) { create(:station) }
 
+  # TODO: change 'id' on 'station_id'
+  # TODO: move let in common contexts
+
   path '/api/v1/stations' do
     get 'Gets all stations. By necr0me' do
       tags 'Stations'
