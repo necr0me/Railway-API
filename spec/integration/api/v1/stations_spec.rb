@@ -2,6 +2,8 @@ require 'swagger_helper'
 
 RSpec.describe 'api/v1/stations', type: :request do
   let(:user) { create(:user, role: :admin) }
+  let(:Authorization) { "Bearer #{access_token}" }
+  let(:station) { create(:station) }
 
   path '/api/v1/stations' do
     get 'Gets all stations. By necr0me' do
@@ -10,8 +12,9 @@ RSpec.describe 'api/v1/stations', type: :request do
       parameter name: :station, in: :query, type: :string, required: false,
                 description: 'Name of station or first N letters of station name'
 
-      response '200', 'Stations found' do
-        let(:stations) { create_list(:station, 2) }
+      response '200', 'Stations found (From query "?station=Mo")' do
+        let(:station) { 'Mo' }
+        before { create_list(:station, 3, :station_sequence_with_three_stations) }
 
         include_context 'with integration test'
       end
@@ -32,7 +35,6 @@ RSpec.describe 'api/v1/stations', type: :request do
 
       response '201', 'Station created' do
         let(:params) { attributes_for(:station) }
-        let(:Authorization) { "Bearer #{access_token}" }
 
         include_context 'with integration test'
       end
@@ -47,13 +49,11 @@ RSpec.describe 'api/v1/stations', type: :request do
       response '403', 'You are forbidden to perform this action' do
         let(:params) { attributes_for(:station) }
         let(:user) { create(:user) }
-        let(:Authorization) { "Bearer #{access_token_for(user)}" }
 
         include_context 'with integration test'
       end
 
       response '422', 'Errors during station creation' do
-        let(:Authorization) { "Bearer #{access_token}" }
         let(:params) { { station: { name: '1' } } }
 
         include_context 'with integration test'
@@ -68,7 +68,7 @@ RSpec.describe 'api/v1/stations', type: :request do
                   description: 'Id of station'
 
         response '200', 'Station was found' do
-          let(:id) { create(:station).id }
+          let(:id) { station.id }
 
           include_context 'with integration test'
         end
@@ -96,15 +96,14 @@ RSpec.describe 'api/v1/stations', type: :request do
         security [Bearer: {}]
 
         response '200', 'Station updated' do
-          let(:Authorization) { "Bearer #{access_token}" }
-          let(:id) { create(:station).id }
+          let(:id) { station.id }
           let(:params) { { name: 'New name' } }
 
           include_context 'with integration test'
         end
 
         response '401', 'You are unauthorized' do
-          let(:id) { create(:station).id }
+          let(:id) { station.id }
           let(:params) { { name: 'New name' } }
           let(:Authorization) { 'invalid' }
 
@@ -112,16 +111,14 @@ RSpec.describe 'api/v1/stations', type: :request do
         end
 
         response '403', 'You are forbidden to perform this action' do
-          let(:id) { create(:station).id }
+          let(:id) { station.id }
           let(:params) { { name: 'New name' } }
           let(:user) { create(:user) }
-          let(:Authorization) { "Bearer #{access_token}" }
 
           include_context 'with integration test'
         end
 
         response '404', 'Station not found' do
-          let(:Authorization) { "Bearer #{access_token}" }
           let(:id) { -1 }
           let(:params) { { name: 'New name' } }
 
@@ -129,8 +126,7 @@ RSpec.describe 'api/v1/stations', type: :request do
         end
 
         response '422', 'Something went wrong during station update' do
-          let(:Authorization) { "Bearer #{access_token}" }
-          let(:id) { create(:station).id }
+          let(:id) { station.id }
           let(:params) { { name: '' } }
 
           include_context 'with integration test'
@@ -145,29 +141,26 @@ RSpec.describe 'api/v1/stations', type: :request do
         security [Bearer: {}]
 
         response '204', 'Successfully destroyed station' do
-          let(:Authorization) { "Bearer #{access_token}" }
-          let(:id) { create(:station).id }
+          let(:id) { station.id }
 
           run_test!
         end
 
         response '401', 'You are unauthorized' do
           let(:Authorization) { 'invalid' }
-          let(:id) { create(:station).id }
+          let(:id) { station.id }
 
           include_context 'with integration test'
         end
 
         response '403', 'You are forbidden to perform this action' do
           let(:user) { create(:user) }
-          let(:Authorization) { "Bearer #{access_token}" }
-          let(:id) { create(:station).id }
+          let(:id) { station.id }
 
           include_context 'with integration test'
         end
 
         response '404', 'Station not found' do
-          let(:Authorization) { "Bearer #{access_token}" }
           let(:id) { -1 }
 
           include_context 'with integration test'
@@ -179,8 +172,7 @@ RSpec.describe 'api/v1/stations', type: :request do
             allow_any_instance_of(ActiveModel::Errors).to receive(:full_messages).and_return(['Error message'])
           end
 
-          let(:Authorization) { "Bearer #{access_token}" }
-          let(:id) { create(:station).id }
+          let(:id) { station.id }
 
           include_context 'with integration test'
         end

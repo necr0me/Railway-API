@@ -5,6 +5,236 @@ info:
   version: v1
   description: Railway-API documentation
 paths:
+  "/api/v1/routes":
+    post:
+      summary: Creates empty route. By necr0me
+      tags:
+      - Routes
+      produces:
+      - application/json
+      security:
+      - Bearer: {}
+      responses:
+        '201':
+          description: Route successfully created
+          examples:
+            application/json:
+              message: Route was created
+              route:
+                id: 2855
+                created_at: '2023-02-15T16:24:12.686Z'
+                updated_at: '2023-02-15T16:24:12.686Z'
+        '401':
+          description: You are unauthorized
+          examples:
+            application/json:
+              message: You're not logged in
+              errors:
+              - Nil JSON web token
+        '403':
+          description: You are forbidden to perform this action
+          examples:
+            application/json:
+              message: You are not allowed to do this action
+        '422':
+          description: Error occurred during route creation
+          examples:
+            application/json:
+              message: Something went wrong
+              errors:
+              - Error message
+  "/api/v1/routes/{route_id}":
+    get:
+      summary: Find concrete route. By necr0me
+      tags:
+      - Routes
+      parameters:
+      - name: route_id
+        in: path
+        type: string
+        required: true
+        description: Id of route
+      produces:
+      - application/json
+      responses:
+        '200':
+          description: Route found
+          examples:
+            application/json:
+              route:
+                id: 2858
+                created_at: '2023-02-15T16:24:12.741Z'
+                updated_at: '2023-02-15T16:24:12.741Z'
+              stations:
+              - id: 8178
+                name: Mogilev
+                created_at: '2023-02-15T16:24:12.756Z'
+                updated_at: '2023-02-15T16:24:12.756Z'
+              - id: 8179
+                name: Mosty
+                created_at: '2023-02-15T16:24:12.760Z'
+                updated_at: '2023-02-15T16:24:12.760Z'
+              - id: 8180
+                name: Hrodna
+                created_at: '2023-02-15T16:24:12.763Z'
+                updated_at: '2023-02-15T16:24:12.763Z'
+        '404':
+          description: Route not found
+          examples:
+            application/json:
+              message: Couldn't find Route with 'id'=-1
+    delete:
+      summary: Delete concrete route. By necr0me
+      tags:
+      - Routes
+      parameters:
+      - name: route_id
+        in: path
+        type: string
+        required: true
+        description: Id of route
+      produces:
+      - application/json
+      security:
+      - Bearer: {}
+      responses:
+        '204':
+          description: Route successfully destroyed
+        '401':
+          description: You are unauthorized
+          examples:
+            application/json:
+              message: You're not logged in
+              errors:
+              - Nil JSON web token
+        '403':
+          description: You are forbidden to perform this action
+          examples:
+            application/json:
+              message: You are not allowed to do this action
+        '404':
+          description: Route not found
+          examples:
+            application/json:
+              message: Couldn't find Route with 'id'=-1
+        '422':
+          description: Error occurred during route destroying
+          examples:
+            application/json:
+              message: Something went wrong
+              errors:
+              - Error message
+  "/api/v1/routes/{route_id}/add_station":
+    post:
+      summary: Add existing station to existing route. By necr0me
+      tags:
+      - Routes
+      consumes:
+      - application/json
+      parameters:
+      - name: route_id
+        type: integer
+        in: path
+        required: true
+        description: Id of route which to you want add station
+      - name: params
+        in: body
+        schema:
+          type: object
+          properties:
+            station_id:
+              type: string
+          required: station_id
+      produces:
+      - application/json
+      security:
+      - Bearer: {}
+      responses:
+        '201':
+          description: Station successfully added to route
+          examples:
+            application/json:
+              message: Station was successfully added to route
+              station:
+                id: 8190
+                name: Melbourne
+                created_at: '2023-02-15T16:24:13.212Z'
+                updated_at: '2023-02-15T16:24:13.212Z'
+        '401':
+          description: You are unauthorized
+          examples:
+            application/json:
+              message: You're not logged in
+              errors:
+              - Nil JSON web token
+        '403':
+          description: You are forbidden to perform this action
+          examples:
+            application/json:
+              message: You are not allowed to do this action
+        '404':
+          description: Route not found
+          examples:
+            application/json:
+              message: Couldn't find Route with 'id'=-1
+        '422':
+          description: Station does not exist
+          examples:
+            application/json:
+              message: Something went wrong
+              errors:
+              - 'Validation failed: Station must exist'
+  "/api/v1/routes/{route_id}/remove_station/{station_id}":
+    delete:
+      summary: Remove station from route. By necr0me
+      tags:
+      - Routes
+      parameters:
+      - name: route_id
+        in: path
+        type: string
+        required: true
+        description: Id of route where from station removing
+      - name: station_id
+        in: path
+        type: string
+        required: true
+        description: Id of station that removing from route
+      produces:
+      - application/json
+      security:
+      - Bearer: {}
+      responses:
+        '200':
+          description: Successfully remove station from route
+          examples:
+            application/json:
+              message: Station was successfully removed from route
+        '401':
+          description: You are unauthorized
+          examples:
+            application/json:
+              message: You're not logged in
+              errors:
+              - Nil JSON web token
+        '403':
+          description: You are forbidden to perform this action
+          examples:
+            application/json:
+              message: You are not allowed to do this action
+        '404':
+          description: Route not found
+          examples:
+            application/json:
+              message: Couldn't find Route with 'id'=-1
+        '422':
+          description: Station already not in route
+          examples:
+            application/json:
+              message: Something went wrong
+              errors:
+              - Couldn't find StationOrderNumber with [WHERE "station_order_numbers"."route_id"
+                = $1 AND "station_order_numbers"."station_id" = $2]
   "/api/v1/stations":
     get:
       summary: Gets all stations. By necr0me
@@ -20,9 +250,17 @@ paths:
         description: Name of station or first N letters of station name
       responses:
         '200':
-          description: Stations found
+          description: Stations found (From query "?station=Mo")
           examples:
-            application/json: []
+            application/json:
+            - id: 8219
+              name: Mogilev
+              created_at: '2023-02-15T16:24:13.919Z'
+              updated_at: '2023-02-15T16:24:13.919Z'
+            - id: 8220
+              name: Mosty
+              created_at: '2023-02-15T16:24:13.923Z'
+              updated_at: '2023-02-15T16:24:13.923Z'
     post:
       summary: Create a new station. By necr0me
       tags:
@@ -48,10 +286,10 @@ paths:
           examples:
             application/json:
               station:
-                id: 6170
+                id: 8222
                 name: Melbourne
-                created_at: '2023-02-15T13:10:55.257Z'
-                updated_at: '2023-02-15T13:10:55.257Z'
+                created_at: '2023-02-15T16:24:13.947Z'
+                updated_at: '2023-02-15T16:24:13.947Z'
         '401':
           description: You are unauthorized
           examples:
@@ -89,10 +327,10 @@ paths:
           description: Station was found
           examples:
             application/json:
-              id: 6172
+              id: 8224
               name: Melbourne
-              created_at: '2023-02-15T13:10:55.549Z'
-              updated_at: '2023-02-15T13:10:55.549Z'
+              created_at: '2023-02-15T16:24:13.992Z'
+              updated_at: '2023-02-15T16:24:13.992Z'
         '404':
           description: Station not found
           examples:
@@ -129,9 +367,9 @@ paths:
             application/json:
               station:
                 name: New name
-                id: 6173
-                created_at: '2023-02-15T13:10:55.566Z'
-                updated_at: '2023-02-15T13:10:55.580Z'
+                id: 8225
+                created_at: '2023-02-15T16:24:14.014Z'
+                updated_at: '2023-02-15T16:24:14.026Z'
         '401':
           description: You are unauthorized
           examples:
