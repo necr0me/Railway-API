@@ -4,6 +4,8 @@ RSpec.describe 'api/v1/carriage_types', type: :request do
   let(:user) { create(:user, role: :admin) }
   let(:Authorization) { "Bearer #{access_token}" }
 
+  # TODO: edit request spec to common style
+
   path '/api/v1/carriage_types' do
     get 'Retrieves all carriage types. By necr0me' do
       tags 'Carriage types'
@@ -57,7 +59,7 @@ RSpec.describe 'api/v1/carriage_types', type: :request do
         include_context 'with integration test'
       end
 
-      response '403', 'You are forbiden to perform this action' do
+      response '403', 'You are forbidden to perform this action' do
         let(:user) { create(:user) }
         let(:params) { attributes_for(:carriage_type) }
 
