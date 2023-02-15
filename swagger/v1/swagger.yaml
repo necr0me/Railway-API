@@ -1,0 +1,211 @@
+---
+swagger: '2.0'
+info:
+  title: Railway-API
+  version: v1
+  description: Railway-API documentation
+paths:
+  "/api/v1/stations":
+    get:
+      summary: Gets all stations. By necr0me
+      tags:
+      - Stations
+      produces:
+      - application/json
+      parameters:
+      - name: station
+        in: query
+        type: string
+        required: false
+        description: Name of station or first N letters of station name
+      responses:
+        '200':
+          description: Stations found
+          examples:
+            application/json: []
+    post:
+      summary: Create a new station. By necr0me
+      tags:
+      - Stations
+      consumes:
+      - application/json
+      parameters:
+      - name: params
+        in: body
+        schema:
+          type: object
+          properties:
+            name:
+              type: string
+          required: name
+      produces:
+      - application/json
+      security:
+      - Bearer: {}
+      responses:
+        '201':
+          description: Station created
+          examples:
+            application/json:
+              station:
+                id: 6170
+                name: Melbourne
+                created_at: '2023-02-15T13:10:55.257Z'
+                updated_at: '2023-02-15T13:10:55.257Z'
+        '401':
+          description: You are unauthorized
+          examples:
+            application/json:
+              message: You're not logged in
+              errors:
+              - Nil JSON web token
+        '403':
+          description: You are forbidden to perform this action
+          examples:
+            application/json:
+              message: You are not allowed to do this action
+        '422':
+          description: Errors during station creation
+          examples:
+            application/json:
+              message: Something went wrong
+              errors:
+              - Name is too short (minimum is 2 characters)
+  "/api/v1/stations/{id}":
+    get:
+      summary: Get concrete station. By necr0me
+      tags:
+      - Stations
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        type: string
+        required: true
+        description: Id of station
+      responses:
+        '200':
+          description: Station was found
+          examples:
+            application/json:
+              id: 6172
+              name: Melbourne
+              created_at: '2023-02-15T13:10:55.549Z'
+              updated_at: '2023-02-15T13:10:55.549Z'
+        '404':
+          description: Station not found
+          examples:
+            application/json:
+              message: Couldn't find Station with 'id'=-1
+    put:
+      summary: Update concrete station. By necr0me
+      tags:
+      - Stations
+      consumes:
+      - application/json
+      parameters:
+      - name: params
+        in: body
+        schema:
+          type: object
+          properties:
+            name:
+              type: string
+          required: name
+      - name: id
+        in: path
+        type: string
+        required: true
+        description: Id of station
+      produces:
+      - application/json
+      security:
+      - Bearer: {}
+      responses:
+        '200':
+          description: Station updated
+          examples:
+            application/json:
+              station:
+                name: New name
+                id: 6173
+                created_at: '2023-02-15T13:10:55.566Z'
+                updated_at: '2023-02-15T13:10:55.580Z'
+        '401':
+          description: You are unauthorized
+          examples:
+            application/json:
+              message: You're not logged in
+              errors:
+              - Nil JSON web token
+        '403':
+          description: You are forbidden to perform this action
+          examples:
+            application/json:
+              message: You are not allowed to do this action
+        '404':
+          description: Station not found
+          examples:
+            application/json:
+              message: Couldn't find Station with 'id'=-1
+        '422':
+          description: Something went wrong during station update
+          examples:
+            application/json:
+              message: Something went wrong
+              errors:
+              - Name can't be blank
+              - Name is too short (minimum is 2 characters)
+    delete:
+      summary: Delete concrete station. By necr0me
+      tags:
+      - Stations
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        type: string
+        required: true
+        description: Id of station
+      security:
+      - Bearer: {}
+      responses:
+        '204':
+          description: Successfully destroyed station
+        '401':
+          description: You are unauthorized
+          examples:
+            application/json:
+              message: You're not logged in
+              errors:
+              - Nil JSON web token
+        '403':
+          description: You are forbidden to perform this action
+          examples:
+            application/json:
+              message: You are not allowed to do this action
+        '404':
+          description: Station not found
+          examples:
+            application/json:
+              message: Couldn't find Station with 'id'=-1
+        '422':
+          description: Something went wrong during station destroying
+          examples:
+            application/json:
+              message: Something went wrong
+              errors:
+              - Error message
+securityDefinitions:
+  Bearer:
+    description: Authorization header (JWT-token)
+    type: apiKey
+    name: Authorization
+    in: header
+servers:
+- url: http://{defaultHost}/
+  variables:
+    defaultHost:
+      default: localhost:3000

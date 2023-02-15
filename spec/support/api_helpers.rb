@@ -24,6 +24,6 @@ module ApiHelpers
   end
 
   def auth_header_for(user)
-    { Authorization: "Bearer #{access_token_for(user)}"}
+    { Authorization: "Bearer #{access_token_for(user)}" }
   end
 end
