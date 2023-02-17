@@ -9,7 +9,7 @@ RSpec.describe 'api/v1/users', type: :request do
 
     get 'Retrieves concrete user. By necr0me' do
       tags 'Users'
-      parameter name: :user_id, in: :path, type: :string,
+      parameter name: :user_id, in: :path, type: :string, required: true,
                 description: 'Id of user that you want to see'
       produces 'application/json'
       security [Bearer: {}]
@@ -35,7 +35,7 @@ RSpec.describe 'api/v1/users', type: :request do
     put 'Updates user password. By necr0me' do
       tags 'Users'
       consumes 'application/json'
-      parameter name: :user_id, in: :path, type: :string,
+      parameter name: :user_id, in: :path, type: :string, required: true,
                 description: 'Id of user that updates password (ANY user can update only his own password)'
       parameter name: :params, in: :body, schema: {
         type: :object,
