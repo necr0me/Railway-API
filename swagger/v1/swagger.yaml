@@ -20,24 +20,24 @@ paths:
           examples:
             application/json:
               carriage_types:
-              - id: 8977
-                name: Dan Deline
-                description: Konopelski, Macejkovic and Lang
+              - id: 9637
+                name: Ben D. Fender
+                description: Fritsch Inc
                 capacity: 8
-                created_at: '2023-02-15T22:38:36.208Z'
-                updated_at: '2023-02-15T22:38:36.208Z'
-              - id: 8978
-                name: Harry Armand Bach
-                description: Reilly and Sons
+                created_at: '2023-02-17T17:10:11.887Z'
+                updated_at: '2023-02-17T17:10:11.887Z'
+              - id: 9638
+                name: Al Kaholic
+                description: O'Conner LLC
                 capacity: 8
-                created_at: '2023-02-15T22:38:36.214Z'
-                updated_at: '2023-02-15T22:38:36.214Z'
-              - id: 8979
-                name: Billy Rubin
-                description: Pollich-Hills
+                created_at: '2023-02-17T17:10:11.891Z'
+                updated_at: '2023-02-17T17:10:11.891Z'
+              - id: 9639
+                name: Carrie Oakey
+                description: Yost, Zulauf and Parisian
                 capacity: 8
-                created_at: '2023-02-15T22:38:36.220Z'
-                updated_at: '2023-02-15T22:38:36.220Z'
+                created_at: '2023-02-17T17:10:11.894Z'
+                updated_at: '2023-02-17T17:10:11.894Z'
         '401':
           description: You are unauthorized
           examples:
@@ -83,12 +83,12 @@ paths:
             application/json:
               message: Carriage type successfully created
               carriage_type:
-                id: 8980
-                name: Otto Whackew
-                description: Murphy, Bosco and Fritsch
+                id: 9640
+                name: Chad Terbocks
+                description: Reichel, Cronin and Balistreri
                 capacity: 8
-                created_at: '2023-02-15T22:38:36.304Z'
-                updated_at: '2023-02-15T22:38:36.304Z'
+                created_at: '2023-02-17T17:10:11.971Z'
+                updated_at: '2023-02-17T17:10:11.971Z'
         '401':
           description: You are unauthorized
           examples:
@@ -151,9 +151,9 @@ paths:
                 name: New name
                 description: New description
                 capacity: 4
-                id: 8982
-                created_at: '2023-02-15T22:38:36.351Z'
-                updated_at: '2023-02-15T22:38:36.403Z'
+                id: 9642
+                created_at: '2023-02-17T17:10:12.010Z'
+                updated_at: '2023-02-17T17:10:12.056Z'
         '401':
           description: You are unauthorized
           examples:
@@ -234,19 +234,19 @@ paths:
           examples:
             application/json:
               carriages:
-              - id: 6130
-                name: Ares
-                carriage_type_id: 8992
-                created_at: '2023-02-15T22:38:36.570Z'
-                updated_at: '2023-02-15T22:38:36.570Z'
-                order_number: 8
-                train_id: 
-              - id: 6131
-                name: Poseidon
-                carriage_type_id: 8993
-                created_at: '2023-02-15T22:38:36.576Z'
-                updated_at: '2023-02-15T22:38:36.576Z'
+              - id: 6648
+                name: Zeus
+                carriage_type_id: 9653
+                created_at: '2023-02-17T17:10:12.215Z'
+                updated_at: '2023-02-17T17:10:12.215Z'
                 order_number: 27
+                train_id: 
+              - id: 6647
+                name: Ares
+                carriage_type_id: 9652
+                created_at: '2023-02-17T17:10:12.209Z'
+                updated_at: '2023-02-17T17:10:12.209Z'
+                order_number: 28
                 train_id: 
         '401':
           description: You are unauthorized
@@ -290,11 +290,11 @@ paths:
             application/json:
               message: Carriage was successfully created
               carriage:
-                id: 6132
-                name: Poseidon
-                carriage_type_id: 8994
-                created_at: '2023-02-15T22:38:36.622Z'
-                updated_at: '2023-02-15T22:38:36.622Z'
+                id: 6649
+                name: Hera
+                carriage_type_id: 9654
+                created_at: '2023-02-17T17:10:12.254Z'
+                updated_at: '2023-02-17T17:10:12.254Z'
                 order_number: 
                 train_id: 
         '401':
@@ -338,12 +338,12 @@ paths:
           examples:
             application/json:
               carriage:
-                id: 6134
-                name: Ares
-                carriage_type_id: 8998
-                created_at: '2023-02-15T22:38:36.678Z'
-                updated_at: '2023-02-15T22:38:36.678Z'
-                order_number: 12
+                id: 6651
+                name: Artemis
+                carriage_type_id: 9658
+                created_at: '2023-02-17T17:10:12.299Z'
+                updated_at: '2023-02-17T17:10:12.299Z'
+                order_number: 16
                 train_id: 
         '401':
           description: You are unauthorized
@@ -393,11 +393,11 @@ paths:
               message: Carriage name was successfully updated
               carriage:
                 name: New name
-                carriage_type_id: 9000
-                id: 6136
-                created_at: '2023-02-15T22:38:36.727Z'
-                updated_at: '2023-02-15T22:38:36.741Z'
-                order_number: 26
+                carriage_type_id: 9660
+                id: 6653
+                created_at: '2023-02-17T17:10:12.336Z'
+                updated_at: '2023-02-17T17:10:12.347Z'
+                order_number: 10
                 train_id: 
         '401':
           description: You are unauthorized
@@ -465,6 +465,166 @@ paths:
               message: Something went wrong
               errors:
               - Error message
+  "/api/v1/profile":
+    get:
+      summary: Retrieves user profile. By necr0me
+      tags:
+      - Profile
+      produces:
+      - application/json
+      security:
+      - Bearer: {}
+      responses:
+        '200':
+          description: Profile found
+          examples:
+            application/json:
+              id: 1252
+              name: John
+              surname: Doe
+              patronymic: Doehovich
+              phone_number: "+375337777777"
+              passport_code: KH2321332
+              user_id: 16622
+              created_at: '2023-02-17T17:10:12.513Z'
+              updated_at: '2023-02-17T17:10:12.513Z'
+        '401':
+          description: You are unauthorized
+          examples:
+            application/json:
+              message: You're not logged in
+              errors:
+              - Nil JSON web token
+    post:
+      summary: Creates user profile. By necr0me
+      tags:
+      - Profile
+      consumes:
+      - application/json
+      parameters:
+      - name: params
+        in: body
+        schema:
+          type: object
+          properties:
+            name:
+              type: string
+            surname:
+              type: string
+            patronymic:
+              type: string
+            phone_number:
+              type: string
+            passport_code:
+              type: string
+          required:
+          - name
+          - surname
+          - patronymic
+          - phone_number
+          - passport_code
+      produces:
+      - application/json
+      security:
+      - Bearer: {}
+      responses:
+        '201':
+          description: Profile successfully created
+          examples:
+            application/json:
+              profile:
+                id: 1253
+                name: John
+                surname: Doe
+                patronymic: Doehovich
+                phone_number: "+375337777777"
+                passport_code: KH2321332
+                user_id: 16623
+                created_at: '2023-02-17T17:10:12.536Z'
+                updated_at: '2023-02-17T17:10:12.536Z'
+        '401':
+          description: You are unauthorized
+          examples:
+            application/json:
+              message: You're not logged in
+              errors:
+              - Nil JSON web token
+        '422':
+          description: Error occurred during profile create
+          examples:
+            application/json:
+              message: Something went wrong
+              errors:
+              - Surname can't be blank
+              - Patronymic can't be blank
+              - Phone number can't be blank
+              - Passport code can't be blank
+              - Name is too short (minimum is 2 characters)
+              - Surname is too short (minimum is 2 characters)
+              - Patronymic is too short (minimum is 5 characters)
+              - Passport code is invalid
+              - Phone number is too short (minimum is 7 characters)
+    put:
+      summary: Updates user profile. By necr0me
+      tags:
+      - Profile
+      consumes:
+      - application/json
+      parameters:
+      - name: params
+        in: body
+        schema:
+          type: object
+          properties:
+            name:
+              type: string
+            surname:
+              type: string
+            patronymic:
+              type: string
+            phone_number:
+              type: string
+            passport_code:
+              type: string
+          required:
+          - name
+          - surname
+          - patronymic
+          - phone_number
+          - passport_code
+      produces:
+      - application/json
+      security:
+      - Bearer: {}
+      responses:
+        '200':
+          description: Profile found
+          examples:
+            application/json:
+              profile:
+                user_id: 16625
+                name: New name
+                surname: Doe
+                patronymic: Doehovich
+                phone_number: "+375337777777"
+                id: 1254
+                passport_code: KH2321332
+                created_at: '2023-02-17T17:10:12.566Z'
+                updated_at: '2023-02-17T17:10:12.571Z'
+        '401':
+          description: You are unauthorized
+          examples:
+            application/json:
+              message: You're not logged in
+              errors:
+              - Nil JSON web token
+        '422':
+          description: Error occurred during profile update
+          examples:
+            application/json:
+              message: Something went wrong
+              errors:
+              - Name is too short (minimum is 2 characters)
   "/api/v1/routes":
     post:
       summary: Creates empty route. By necr0me
@@ -481,9 +641,9 @@ paths:
             application/json:
               message: Route was created
               route:
-                id: 4785
-                created_at: '2023-02-15T22:38:36.943Z'
-                updated_at: '2023-02-15T22:38:36.943Z'
+                id: 5016
+                created_at: '2023-02-17T17:10:12.608Z'
+                updated_at: '2023-02-17T17:10:12.608Z'
         '401':
           description: You are unauthorized
           examples:
@@ -522,22 +682,22 @@ paths:
           examples:
             application/json:
               route:
-                id: 4788
-                created_at: '2023-02-15T22:38:36.988Z'
-                updated_at: '2023-02-15T22:38:36.988Z'
+                id: 5019
+                created_at: '2023-02-17T17:10:12.641Z'
+                updated_at: '2023-02-17T17:10:12.641Z'
               stations:
-              - id: 13493
+              - id: 14057
                 name: Mogilev
-                created_at: '2023-02-15T22:38:37.001Z'
-                updated_at: '2023-02-15T22:38:37.001Z'
-              - id: 13494
+                created_at: '2023-02-17T17:10:12.655Z'
+                updated_at: '2023-02-17T17:10:12.655Z'
+              - id: 14058
                 name: Mosty
-                created_at: '2023-02-15T22:38:37.005Z'
-                updated_at: '2023-02-15T22:38:37.005Z'
-              - id: 13495
+                created_at: '2023-02-17T17:10:12.660Z'
+                updated_at: '2023-02-17T17:10:12.660Z'
+              - id: 14059
                 name: Hrodna
-                created_at: '2023-02-15T22:38:37.009Z'
-                updated_at: '2023-02-15T22:38:37.009Z'
+                created_at: '2023-02-17T17:10:12.664Z'
+                updated_at: '2023-02-17T17:10:12.664Z'
         '404':
           description: Route not found
           examples:
@@ -616,10 +776,10 @@ paths:
             application/json:
               message: Station was successfully added to route
               station:
-                id: 13505
+                id: 14069
                 name: Melbourne
-                created_at: '2023-02-15T22:38:37.303Z'
-                updated_at: '2023-02-15T22:38:37.303Z'
+                created_at: '2023-02-17T17:10:12.888Z'
+                updated_at: '2023-02-17T17:10:12.888Z'
         '401':
           description: You are unauthorized
           examples:
@@ -713,14 +873,14 @@ paths:
           description: Stations found (From query "?station=Mo")
           examples:
             application/json:
-            - id: 13534
+            - id: 14098
               name: Mogilev
-              created_at: '2023-02-15T22:38:37.773Z'
-              updated_at: '2023-02-15T22:38:37.773Z'
-            - id: 13535
+              created_at: '2023-02-17T17:10:13.254Z'
+              updated_at: '2023-02-17T17:10:13.254Z'
+            - id: 14099
               name: Mosty
-              created_at: '2023-02-15T22:38:37.777Z'
-              updated_at: '2023-02-15T22:38:37.777Z'
+              created_at: '2023-02-17T17:10:13.257Z'
+              updated_at: '2023-02-17T17:10:13.257Z'
     post:
       summary: Create a new station. By necr0me
       tags:
@@ -746,10 +906,10 @@ paths:
           examples:
             application/json:
               station:
-                id: 13537
+                id: 14101
                 name: Melbourne
-                created_at: '2023-02-15T22:38:37.800Z'
-                updated_at: '2023-02-15T22:38:37.800Z'
+                created_at: '2023-02-17T17:10:13.277Z'
+                updated_at: '2023-02-17T17:10:13.277Z'
         '401':
           description: You are unauthorized
           examples:
@@ -787,10 +947,10 @@ paths:
           description: Station was found
           examples:
             application/json:
-              id: 13539
+              id: 14103
               name: Melbourne
-              created_at: '2023-02-15T22:38:37.841Z'
-              updated_at: '2023-02-15T22:38:37.841Z'
+              created_at: '2023-02-17T17:10:13.311Z'
+              updated_at: '2023-02-17T17:10:13.311Z'
         '404':
           description: Station not found
           examples:
@@ -827,9 +987,9 @@ paths:
             application/json:
               station:
                 name: New name
-                id: 13540
-                created_at: '2023-02-15T22:38:37.856Z'
-                updated_at: '2023-02-15T22:38:37.869Z'
+                id: 14104
+                created_at: '2023-02-17T17:10:13.323Z'
+                updated_at: '2023-02-17T17:10:13.333Z'
         '401':
           description: You are unauthorized
           examples:
@@ -911,14 +1071,14 @@ paths:
           examples:
             application/json:
               trains:
-              - id: 3766
+              - id: 4008
                 route_id: 
-                created_at: '2023-02-15T22:38:38.008Z'
-                updated_at: '2023-02-15T22:38:38.008Z'
-              - id: 3767
+                created_at: '2023-02-17T17:10:13.444Z'
+                updated_at: '2023-02-17T17:10:13.444Z'
+              - id: 4009
                 route_id: 
-                created_at: '2023-02-15T22:38:38.011Z'
-                updated_at: '2023-02-15T22:38:38.011Z'
+                created_at: '2023-02-17T17:10:13.447Z'
+                updated_at: '2023-02-17T17:10:13.447Z'
         '401':
           description: You are unauthorized
           examples:
@@ -956,10 +1116,10 @@ paths:
             application/json:
               message: Train was successfully created
               train:
-                id: 3768
-                route_id: 4802
-                created_at: '2023-02-15T22:38:38.057Z'
-                updated_at: '2023-02-15T22:38:38.057Z'
+                id: 4010
+                route_id: 5033
+                created_at: '2023-02-17T17:10:13.480Z'
+                updated_at: '2023-02-17T17:10:13.480Z'
         '401':
           description: You are unauthorized
           examples:
@@ -998,10 +1158,10 @@ paths:
           examples:
             application/json:
               train:
-                id: 3771
+                id: 4013
                 route_id: 
-                created_at: '2023-02-15T22:38:38.102Z'
-                updated_at: '2023-02-15T22:38:38.102Z'
+                created_at: '2023-02-17T17:10:13.515Z'
+                updated_at: '2023-02-17T17:10:13.515Z'
         '401':
           description: You are unauthorized
           examples:
@@ -1049,10 +1209,10 @@ paths:
             application/json:
               message: Train was successfully updated
               train:
-                route_id: 4805
-                id: 3774
-                created_at: '2023-02-15T22:38:38.564Z'
-                updated_at: '2023-02-15T22:38:38.702Z'
+                route_id: 5036
+                id: 4016
+                created_at: '2023-02-17T17:10:13.849Z'
+                updated_at: '2023-02-17T17:10:13.954Z'
         '401':
           description: You are unauthorized
           examples:
@@ -1147,13 +1307,13 @@ paths:
             application/json:
               message: Carriage was successfully added to train
               carriage:
-                train_id: 3782
+                train_id: 4024
                 order_number: 1
-                name: Poseidon
-                carriage_type_id: 9041
-                id: 6177
-                created_at: '2023-02-15T22:38:39.719Z'
-                updated_at: '2023-02-15T22:38:39.730Z'
+                name: Zeus
+                carriage_type_id: 9701
+                id: 6694
+                created_at: '2023-02-17T17:10:14.815Z'
+                updated_at: '2023-02-17T17:10:14.825Z'
         '401':
           description: You are unauthorized
           examples:
