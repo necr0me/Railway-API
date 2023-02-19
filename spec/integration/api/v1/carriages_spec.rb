@@ -38,15 +38,21 @@ RSpec.describe 'api/v1/carriages', type: :request do
       parameter name: :params, in: :body, schema: {
         type: :object,
         properties: {
-          name: { type: :string },
-          carriage_type_id: { type: :integer }
+          carriage: {
+            type: :object,
+            properties: {
+              name: { type: :string },
+              carriage_type_id: { type: :integer }
+            },
+            required: %i[name carriage_type_id]
+          }
         },
-        required: %i[name carriage_type_id]
+        required: %i[carriage]
       }
       produces 'application/json'
       security [Bearer: {}]
 
-      let(:params) { { name: Faker::Ancient.god, carriage_type_id: carriage_type.id } }
+      let(:params) { { carriage: { name: Faker::Ancient.god, carriage_type_id: carriage_type.id } } }
 
       response '201', 'Carriage successfully created' do
         include_context 'with integration test'
@@ -65,7 +71,7 @@ RSpec.describe 'api/v1/carriages', type: :request do
       end
 
       response '422', 'Error occurred during carriage create' do
-        let(:params) { { name: 'x', carriage_type: carriage_type.id } }
+        let(:params) { { carriage: { name: 'x', carriage_type: carriage_type.id } } }
 
         include_context 'with integration test'
       end
@@ -107,15 +113,21 @@ RSpec.describe 'api/v1/carriages', type: :request do
       parameter name: :params, in: :body, schema: {
         type: :object,
         properties: {
-          name: { type: :string },
-          carriage_type_id: { type: :integer }
+          carriage: {
+            type: :object,
+            properties: {
+              name: { type: :string },
+              carriage_type_id: { type: :integer }
+            },
+            required: %i[name carriage_type_id]
+          }
         },
-        required: %i[name carriage_type_id]
+        required: %i[carriage]
       }
       produces 'application/json'
       security [Bearer: {}]
 
-      let(:params) { { name: 'New name' } }
+      let(:params) { { carriage: { name: 'New name' } } }
 
       response '200', 'Carriage successfully updated' do
         include_context 'with integration test'
@@ -140,7 +152,7 @@ RSpec.describe 'api/v1/carriages', type: :request do
       end
 
       response '422', 'Error occurred during carriage update' do
-        let(:params) { { name: 'x' } }
+        let(:params) { { carriage: { name: 'x' } } }
 
         include_context 'with integration test'
       end

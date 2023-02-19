@@ -20,24 +20,24 @@ paths:
           examples:
             application/json:
               carriage_types:
-              - id: 14121
-                name: Igor Beaver
-                description: Cronin-Kutch
+              - id: 15417
+                name: B. A. Ware
+                description: Hahn and Sons
                 capacity: 8
-                created_at: '2023-02-19T11:28:04.150Z'
-                updated_at: '2023-02-19T11:28:04.150Z'
-              - id: 14122
-                name: Gladys Eeya
-                description: Strosin LLC
+                created_at: '2023-02-19T12:51:22.045Z'
+                updated_at: '2023-02-19T12:51:22.045Z'
+              - id: 15418
+                name: Rob Banks
+                description: Gerlach-Murray
                 capacity: 8
-                created_at: '2023-02-19T11:28:04.157Z'
-                updated_at: '2023-02-19T11:28:04.157Z'
-              - id: 14123
-                name: Stu Pitt
-                description: Williamson, Ondricka and Pouros
+                created_at: '2023-02-19T12:51:22.049Z'
+                updated_at: '2023-02-19T12:51:22.049Z'
+              - id: 15419
+                name: Will Power
+                description: Marks, Kiehn and Erdman
                 capacity: 8
-                created_at: '2023-02-19T11:28:04.161Z'
-                updated_at: '2023-02-19T11:28:04.161Z'
+                created_at: '2023-02-19T12:51:22.053Z'
+                updated_at: '2023-02-19T12:51:22.053Z'
         '401':
           description: You are unauthorized
           examples:
@@ -62,16 +62,21 @@ paths:
         schema:
           type: object
           properties:
-            name:
-              type: string
-            description:
-              type: string
-            capacity:
-              type: integer
-          require:
-          - name
-          - capacity
-          - description
+            carriage_type:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+                capacity:
+                  type: integer
+              required:
+              - name
+              - capacity
+              - description
+          required:
+          - carriage_type
       produces:
       - application/json
       security:
@@ -83,12 +88,12 @@ paths:
             application/json:
               message: Carriage type successfully created
               carriage_type:
-                id: 14124
-                name: Didi Reelydoit
-                description: Koss Group
+                id: 15420
+                name: Ben Lyon
+                description: King-Kertzmann
                 capacity: 8
-                created_at: '2023-02-19T11:28:04.247Z'
-                updated_at: '2023-02-19T11:28:04.247Z'
+                created_at: '2023-02-19T12:51:22.136Z'
+                updated_at: '2023-02-19T12:51:22.136Z'
         '401':
           description: You are unauthorized
           examples:
@@ -127,16 +132,21 @@ paths:
         schema:
           type: object
           properties:
-            name:
-              type: string
-            description:
-              type: string
-            capacity:
-              type: integer
-          require:
-          - name
-          - capacity
-          - description
+            carriage_type:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+                capacity:
+                  type: integer
+              required:
+              - name
+              - capacity
+              - description
+          required:
+          - carriage_type
       produces:
       - application/json
       security:
@@ -151,9 +161,9 @@ paths:
                 name: New name
                 description: New description
                 capacity: 4
-                id: 14126
-                created_at: '2023-02-19T11:28:04.316Z'
-                updated_at: '2023-02-19T11:28:04.347Z'
+                id: 15422
+                created_at: '2023-02-19T12:51:22.199Z'
+                updated_at: '2023-02-19T12:51:22.225Z'
         '401':
           description: You are unauthorized
           examples:
@@ -234,19 +244,19 @@ paths:
           examples:
             application/json:
               carriages:
-              - id: 10182
-                name: Athena
-                carriage_type_id: 14137
-                created_at: '2023-02-19T11:28:04.529Z'
-                updated_at: '2023-02-19T11:28:04.529Z'
-                order_number: 8
-                train_id: 
-              - id: 10181
+              - id: 11189
                 name: Hestia
-                carriage_type_id: 14136
-                created_at: '2023-02-19T11:28:04.522Z'
-                updated_at: '2023-02-19T11:28:04.522Z'
-                order_number: 9
+                carriage_type_id: 15433
+                created_at: '2023-02-19T12:51:22.388Z'
+                updated_at: '2023-02-19T12:51:22.388Z'
+                order_number: 29
+                train_id: 
+              - id: 11188
+                name: Apollo
+                carriage_type_id: 15432
+                created_at: '2023-02-19T12:51:22.380Z'
+                updated_at: '2023-02-19T12:51:22.380Z'
+                order_number: 30
                 train_id: 
         '401':
           description: You are unauthorized
@@ -272,13 +282,18 @@ paths:
         schema:
           type: object
           properties:
-            name:
-              type: string
-            carriage_type_id:
-              type: integer
+            carriage:
+              type: object
+              properties:
+                name:
+                  type: string
+                carriage_type_id:
+                  type: integer
+              required:
+              - name
+              - carriage_type_id
           required:
-          - name
-          - carriage_type_id
+          - carriage
       produces:
       - application/json
       security:
@@ -290,11 +305,11 @@ paths:
             application/json:
               message: Carriage was successfully created
               carriage:
-                id: 10183
-                name: Zeus
-                carriage_type_id: 14138
-                created_at: '2023-02-19T11:28:04.579Z'
-                updated_at: '2023-02-19T11:28:04.579Z'
+                id: 11190
+                name: Athena
+                carriage_type_id: 15434
+                created_at: '2023-02-19T12:51:22.446Z'
+                updated_at: '2023-02-19T12:51:22.446Z'
                 order_number: 
                 train_id: 
         '401':
@@ -338,12 +353,12 @@ paths:
           examples:
             application/json:
               carriage:
-                id: 10185
-                name: Hermes
-                carriage_type_id: 14142
-                created_at: '2023-02-19T11:28:04.642Z'
-                updated_at: '2023-02-19T11:28:04.642Z'
-                order_number: 31
+                id: 11192
+                name: Poseidon
+                carriage_type_id: 15438
+                created_at: '2023-02-19T12:51:22.504Z'
+                updated_at: '2023-02-19T12:51:22.504Z'
+                order_number: 10
                 train_id: 
         '401':
           description: You are unauthorized
@@ -374,13 +389,18 @@ paths:
         schema:
           type: object
           properties:
-            name:
-              type: string
-            carriage_type_id:
-              type: integer
+            carriage:
+              type: object
+              properties:
+                name:
+                  type: string
+                carriage_type_id:
+                  type: integer
+              required:
+              - name
+              - carriage_type_id
           required:
-          - name
-          - carriage_type_id
+          - carriage
       produces:
       - application/json
       security:
@@ -393,11 +413,11 @@ paths:
               message: Carriage name was successfully updated
               carriage:
                 name: New name
-                carriage_type_id: 14144
-                id: 10187
-                created_at: '2023-02-19T11:28:04.690Z'
-                updated_at: '2023-02-19T11:28:04.706Z'
-                order_number: 22
+                carriage_type_id: 15440
+                id: 11194
+                created_at: '2023-02-19T12:51:22.555Z'
+                updated_at: '2023-02-19T12:51:22.571Z'
+                order_number: 14
                 train_id: 
         '401':
           description: You are unauthorized
@@ -479,15 +499,15 @@ paths:
           description: Profile found
           examples:
             application/json:
-              id: 1632
+              id: 1732
               name: John
               surname: Doe
               patronymic: Doehovich
               phone_number: "+375337777777"
               passport_code: KH2321332
-              user_id: 22890
-              created_at: '2023-02-19T11:28:04.931Z'
-              updated_at: '2023-02-19T11:28:04.931Z'
+              user_id: 24744
+              created_at: '2023-02-19T12:51:22.761Z'
+              updated_at: '2023-02-19T12:51:22.761Z'
         '401':
           description: You are unauthorized
           examples:
@@ -507,22 +527,27 @@ paths:
         schema:
           type: object
           properties:
-            name:
-              type: string
-            surname:
-              type: string
-            patronymic:
-              type: string
-            phone_number:
-              type: string
-            passport_code:
-              type: string
+            profile:
+              type: object
+              properties:
+                name:
+                  type: string
+                surname:
+                  type: string
+                patronymic:
+                  type: string
+                phone_number:
+                  type: string
+                passport_code:
+                  type: string
+              required:
+              - name
+              - surname
+              - patronymic
+              - phone_number
+              - passport_code
           required:
-          - name
-          - surname
-          - patronymic
-          - phone_number
-          - passport_code
+          - profile
       produces:
       - application/json
       security:
@@ -533,15 +558,15 @@ paths:
           examples:
             application/json:
               profile:
-                id: 1633
+                id: 1733
                 name: John
                 surname: Doe
                 patronymic: Doehovich
                 phone_number: "+375337777777"
                 passport_code: KH2321332
-                user_id: 22891
-                created_at: '2023-02-19T11:28:04.960Z'
-                updated_at: '2023-02-19T11:28:04.960Z'
+                user_id: 24745
+                created_at: '2023-02-19T12:51:22.789Z'
+                updated_at: '2023-02-19T12:51:22.789Z'
         '401':
           description: You are unauthorized
           examples:
@@ -576,22 +601,27 @@ paths:
         schema:
           type: object
           properties:
-            name:
-              type: string
-            surname:
-              type: string
-            patronymic:
-              type: string
-            phone_number:
-              type: string
-            passport_code:
-              type: string
+            profile:
+              type: object
+              properties:
+                name:
+                  type: string
+                surname:
+                  type: string
+                patronymic:
+                  type: string
+                phone_number:
+                  type: string
+                passport_code:
+                  type: string
+              required:
+              - name
+              - surname
+              - patronymic
+              - phone_number
+              - passport_code
           required:
-          - name
-          - surname
-          - patronymic
-          - phone_number
-          - passport_code
+          - profile
       produces:
       - application/json
       security:
@@ -602,15 +632,15 @@ paths:
           examples:
             application/json:
               profile:
-                user_id: 22893
+                user_id: 24747
                 name: New name
                 surname: Doe
                 patronymic: Doehovich
                 phone_number: "+375337777777"
-                id: 1634
+                id: 1734
                 passport_code: KH2321332
-                created_at: '2023-02-19T11:28:05.012Z'
-                updated_at: '2023-02-19T11:28:05.020Z'
+                created_at: '2023-02-19T12:51:22.833Z'
+                updated_at: '2023-02-19T12:51:22.843Z'
         '401':
           description: You are unauthorized
           examples:
@@ -641,9 +671,9 @@ paths:
             application/json:
               message: Route was created
               route:
-                id: 6612
-                created_at: '2023-02-19T11:28:05.066Z'
-                updated_at: '2023-02-19T11:28:05.066Z'
+                id: 7080
+                created_at: '2023-02-19T12:51:22.888Z'
+                updated_at: '2023-02-19T12:51:22.888Z'
         '401':
           description: You are unauthorized
           examples:
@@ -682,22 +712,22 @@ paths:
           examples:
             application/json:
               route:
-                id: 6615
-                created_at: '2023-02-19T11:28:05.108Z'
-                updated_at: '2023-02-19T11:28:05.108Z'
+                id: 7083
+                created_at: '2023-02-19T12:51:22.926Z'
+                updated_at: '2023-02-19T12:51:22.926Z'
               stations:
-              - id: 17705
+              - id: 18938
                 name: Mogilev
-                created_at: '2023-02-19T11:28:05.120Z'
-                updated_at: '2023-02-19T11:28:05.120Z'
-              - id: 17706
+                created_at: '2023-02-19T12:51:22.938Z'
+                updated_at: '2023-02-19T12:51:22.938Z'
+              - id: 18939
                 name: Mosty
-                created_at: '2023-02-19T11:28:05.124Z'
-                updated_at: '2023-02-19T11:28:05.124Z'
-              - id: 17707
+                created_at: '2023-02-19T12:51:22.941Z'
+                updated_at: '2023-02-19T12:51:22.941Z'
+              - id: 18940
                 name: Hrodna
-                created_at: '2023-02-19T11:28:05.127Z'
-                updated_at: '2023-02-19T11:28:05.127Z'
+                created_at: '2023-02-19T12:51:22.944Z'
+                updated_at: '2023-02-19T12:51:22.944Z'
         '404':
           description: Route not found
           examples:
@@ -764,7 +794,8 @@ paths:
           properties:
             station_id:
               type: string
-          required: station_id
+          required:
+          - station_id
       produces:
       - application/json
       security:
@@ -776,10 +807,10 @@ paths:
             application/json:
               message: Station was successfully added to route
               station:
-                id: 17717
+                id: 18956
                 name: Melbourne
-                created_at: '2023-02-19T11:28:05.415Z'
-                updated_at: '2023-02-19T11:28:05.415Z'
+                created_at: '2023-02-19T12:51:23.295Z'
+                updated_at: '2023-02-19T12:51:23.295Z'
         '401':
           description: You are unauthorized
           examples:
@@ -873,14 +904,14 @@ paths:
           description: Stations found (From query "?station=Mo")
           examples:
             application/json:
-            - id: 17746
+            - id: 18985
               name: Mogilev
-              created_at: '2023-02-19T11:28:05.899Z'
-              updated_at: '2023-02-19T11:28:05.899Z'
-            - id: 17747
+              created_at: '2023-02-19T12:51:23.786Z'
+              updated_at: '2023-02-19T12:51:23.786Z'
+            - id: 18986
               name: Mosty
-              created_at: '2023-02-19T11:28:05.903Z'
-              updated_at: '2023-02-19T11:28:05.903Z'
+              created_at: '2023-02-19T12:51:23.790Z'
+              updated_at: '2023-02-19T12:51:23.790Z'
     post:
       summary: Create a new station. By necr0me
       tags:
@@ -893,9 +924,15 @@ paths:
         schema:
           type: object
           properties:
-            name:
-              type: string
-          required: name
+            station:
+              type: object
+              properties:
+                name:
+                  type: string
+              required:
+              - name
+          required:
+          - station
       produces:
       - application/json
       security:
@@ -906,10 +943,10 @@ paths:
           examples:
             application/json:
               station:
-                id: 17749
+                id: 18988
                 name: Melbourne
-                created_at: '2023-02-19T11:28:05.928Z'
-                updated_at: '2023-02-19T11:28:05.928Z'
+                created_at: '2023-02-19T12:51:23.816Z'
+                updated_at: '2023-02-19T12:51:23.816Z'
         '401':
           description: You are unauthorized
           examples:
@@ -929,7 +966,7 @@ paths:
               message: Something went wrong
               errors:
               - Name is too short (minimum is 2 characters)
-  "/api/v1/stations/{id}":
+  "/api/v1/stations/{station_id}":
     get:
       summary: Get concrete station. By necr0me
       tags:
@@ -937,7 +974,7 @@ paths:
       produces:
       - application/json
       parameters:
-      - name: id
+      - name: station_id
         in: path
         type: string
         required: true
@@ -947,10 +984,10 @@ paths:
           description: Station was found
           examples:
             application/json:
-              id: 17751
+              id: 18990
               name: Melbourne
-              created_at: '2023-02-19T11:28:05.971Z'
-              updated_at: '2023-02-19T11:28:05.971Z'
+              created_at: '2023-02-19T12:51:23.868Z'
+              updated_at: '2023-02-19T12:51:23.868Z'
         '404':
           description: Station not found
           examples:
@@ -968,10 +1005,16 @@ paths:
         schema:
           type: object
           properties:
-            name:
-              type: string
-          required: name
-      - name: id
+            station:
+              type: object
+              properties:
+                name:
+                  type: string
+              required:
+              - name
+          required:
+          - station
+      - name: station_id
         in: path
         type: string
         required: true
@@ -987,9 +1030,9 @@ paths:
             application/json:
               station:
                 name: New name
-                id: 17752
-                created_at: '2023-02-19T11:28:05.986Z'
-                updated_at: '2023-02-19T11:28:06.000Z'
+                id: 18991
+                created_at: '2023-02-19T12:51:23.888Z'
+                updated_at: '2023-02-19T12:51:23.904Z'
         '401':
           description: You are unauthorized
           examples:
@@ -1022,7 +1065,7 @@ paths:
       produces:
       - application/json
       parameters:
-      - name: id
+      - name: station_id
         in: path
         type: string
         required: true
@@ -1071,14 +1114,14 @@ paths:
           examples:
             application/json:
               trains:
-              - id: 5680
+              - id: 6129
                 route_id: 
-                created_at: '2023-02-19T11:28:06.144Z'
-                updated_at: '2023-02-19T11:28:06.144Z'
-              - id: 5681
+                created_at: '2023-02-19T12:51:24.060Z'
+                updated_at: '2023-02-19T12:51:24.060Z'
+              - id: 6130
                 route_id: 
-                created_at: '2023-02-19T11:28:06.147Z'
-                updated_at: '2023-02-19T11:28:06.147Z'
+                created_at: '2023-02-19T12:51:24.063Z'
+                updated_at: '2023-02-19T12:51:24.063Z'
         '401':
           description: You are unauthorized
           examples:
@@ -1103,8 +1146,15 @@ paths:
         schema:
           type: object
           properties:
-            route_id:
-              type: integer
+            route:
+              type: object
+              properties:
+                route_id:
+                  type: integer
+              required:
+              - route_id
+          required:
+          - train
       produces:
       - application/json
       security:
@@ -1116,10 +1166,10 @@ paths:
             application/json:
               message: Train was successfully created
               train:
-                id: 5682
-                route_id: 6629
-                created_at: '2023-02-19T11:28:06.194Z'
-                updated_at: '2023-02-19T11:28:06.194Z'
+                id: 6131
+                route_id: 7097
+                created_at: '2023-02-19T12:51:24.114Z'
+                updated_at: '2023-02-19T12:51:24.114Z'
         '401':
           description: You are unauthorized
           examples:
@@ -1158,10 +1208,10 @@ paths:
           examples:
             application/json:
               train:
-                id: 5685
+                id: 6134
                 route_id: 
-                created_at: '2023-02-19T11:28:06.242Z'
-                updated_at: '2023-02-19T11:28:06.242Z'
+                created_at: '2023-02-19T12:51:24.158Z'
+                updated_at: '2023-02-19T12:51:24.158Z'
         '401':
           description: You are unauthorized
           examples:
@@ -1196,8 +1246,15 @@ paths:
         schema:
           type: object
           properties:
-            route_id:
-              type: integer
+            route:
+              type: object
+              properties:
+                route_id:
+                  type: integer
+              required:
+              - route_id
+          required:
+          - train
       produces:
       - application/json
       security:
@@ -1209,10 +1266,10 @@ paths:
             application/json:
               message: Train was successfully updated
               train:
-                route_id: 6632
-                id: 5688
-                created_at: '2023-02-19T11:28:06.691Z'
-                updated_at: '2023-02-19T11:28:06.840Z'
+                route_id: 7100
+                id: 6137
+                created_at: '2023-02-19T12:51:24.751Z'
+                updated_at: '2023-02-19T12:51:24.869Z'
         '401':
           description: You are unauthorized
           examples:
@@ -1307,13 +1364,13 @@ paths:
             application/json:
               message: Carriage was successfully added to train
               carriage:
-                train_id: 5696
+                train_id: 6145
                 order_number: 1
-                name: Aphrodite
-                carriage_type_id: 14185
-                id: 10228
-                created_at: '2023-02-19T11:28:07.917Z'
-                updated_at: '2023-02-19T11:28:07.929Z'
+                name: Hestia
+                carriage_type_id: 15481
+                id: 11235
+                created_at: '2023-02-19T12:51:25.792Z'
+                updated_at: '2023-02-19T12:51:25.802Z'
         '401':
           description: You are unauthorized
           examples:
@@ -1409,11 +1466,11 @@ paths:
           examples:
             application/json:
               user:
-                id: 22945
+                id: 24799
                 email: johndoe@gmail.com
-                password_digest: "$2a$04$glupS4wXqd3qKnCPA1G49ObaC5.ggJ7nZfVmB5EnT4jtyRInSwf/i"
-                created_at: '2023-02-19T11:28:08.786Z'
-                updated_at: '2023-02-19T11:28:08.786Z'
+                password_digest: "$2a$04$9c7Ax7G9pPLSH148C1w9teeF.5/v91z3WX/pBLAyH2EX4zdPK4Lhi"
+                created_at: '2023-02-19T12:51:26.603Z'
+                updated_at: '2023-02-19T12:51:26.603Z'
                 role: admin
         '401':
           description: You are unauthorized
@@ -1445,9 +1502,15 @@ paths:
         schema:
           type: object
           properties:
-            password:
-              type: string
-          required: password
+            user:
+              type: object
+              properties:
+                password:
+                  type: string
+              required:
+              - password
+          required:
+          - user
       produces:
       - application/json
       security:
@@ -1583,10 +1646,11 @@ paths:
                   type: string
                 password:
                   type: string
+              required:
+              - email
+              - password
           required:
           - user
-          - email
-          - password
       produces:
       - application/json
       responses:
@@ -1594,7 +1658,7 @@ paths:
           description: Authenticated successfully
           examples:
             application/json:
-              access_token: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyMjk2MSwiZXhwIjoxNjc2ODA3ODg5LCJpYXQiOjE2NzY4MDYwODl9.JInvr_CLoB8LuQGqycEEfFUEgL36pnFX5RrLyuAt4g8
+              access_token: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyNDgxNSwiZXhwIjoxNjc2ODEyODg2LCJpYXQiOjE2NzY4MTEwODZ9.LyOjwydBVDdFhmR8iH07O733nmLAucy4D9J7-YIepG8
         '400':
           description: Error occurred during authentication
           examples:
@@ -1613,7 +1677,7 @@ paths:
           description: Tokens successfully updated
           examples:
             application/json:
-              access_token: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyMjk2MywiZXhwIjoxNjc2ODA3ODg5LCJpYXQiOjE2NzY4MDYwODl9.1TSyhdcD7HkrLnirY4cLX3w106uhrWowBj2C_k0Mtos
+              access_token: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyNDgxNywiZXhwIjoxNjc2ODEyODg2LCJpYXQiOjE2NzY4MTEwODZ9.FDhMfO2-W3jrt-E6ybsKt1b6bU3vUWdbdfDcEtTF_2g
         '401':
           description: Error occurred during tokens update
           examples:
@@ -1630,10 +1694,8 @@ paths:
         in: header
         type: string
         required: true
-        description: |-
-          Authorization header of user that logouts.
-
-                                        Header looks like this: 'Bearer <access-token>'
+        description: 'Authorization header of user that logouts. Header looks like
+          this: ''Bearer <access-token>'''
       produces:
       - application/json
       security:

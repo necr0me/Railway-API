@@ -30,14 +30,20 @@ RSpec.describe 'api/v1/stations', type: :request do
       parameter name: :params, in: :body, schema: {
         type: :object,
         properties: {
-          name: { type: :string }
+          station: {
+            type: :object,
+            properties: {
+              name: { type: :string }
+            },
+            required: %i[name]
+          }
         },
-        required: :name
+        required: %i[station]
       }
       produces 'application/json'
       security [Bearer: {}]
 
-      let(:params) { attributes_for(:station) }
+      let(:params) { { station: attributes_for(:station) } }
 
       response '201', 'Station created' do
         include_context 'with integration test'
@@ -88,16 +94,22 @@ RSpec.describe 'api/v1/stations', type: :request do
         parameter name: :params, in: :body, schema: {
           type: :object,
           properties: {
-            name: { type: :string }
+            station: {
+              type: :object,
+              properties: {
+                name: { type: :string }
+              },
+              required: %i[name]
+            }
           },
-          required: :name
+          required: %i[station]
         }
         parameter name: :station_id, in: :path, type: :string, required: true,
                   description: 'Id of station'
         produces 'application/json'
         security [Bearer: {}]
 
-        let(:params) { { name: 'New name' } }
+        let(:params) { { station: { name: 'New name' } } }
 
         response '200', 'Station updated' do
           include_context 'with integration test'
@@ -122,7 +134,7 @@ RSpec.describe 'api/v1/stations', type: :request do
         end
 
         response '422', 'Something went wrong during station update' do
-          let(:params) { { name: '' } }
+          let(:params) { { station: { name: '' } } }
 
           include_context 'with integration test'
         end

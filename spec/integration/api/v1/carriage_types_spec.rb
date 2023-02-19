@@ -37,16 +37,22 @@ RSpec.describe 'api/v1/carriage_types', type: :request do
       parameter name: :params, in: :body, schema: {
         type: :object,
         properties: {
-          name: { type: :string },
-          description: { type: :string },
-          capacity: { type: :integer }
+          carriage_type: {
+            type: :object,
+            properties: {
+              name: { type: :string },
+              description: { type: :string },
+              capacity: { type: :integer }
+            },
+            required: %i[name capacity description]
+          }
         },
-        require: %i[name capacity description]
+        required: %i[carriage_type]
       }
       produces 'application/json'
       security [Bearer: {}]
 
-      let(:params) { attributes_for(:carriage_type) }
+      let(:params) { { carriage_type: attributes_for(:carriage_type) } }
 
       response '201', 'Carriage type successfully created' do
         include_context 'with integration test'
@@ -65,7 +71,7 @@ RSpec.describe 'api/v1/carriage_types', type: :request do
       end
 
       response '422', 'Error occurred during carriage type create' do
-        let(:params) { { name: 'x', description: 'x', capacity: -1 } }
+        let(:params) { { carriage_type: { name: 'x', description: 'x', capacity: -1 } } }
 
         include_context 'with integration test'
       end
@@ -83,16 +89,22 @@ RSpec.describe 'api/v1/carriage_types', type: :request do
       parameter name: :params, in: :body, schema: {
         type: :object,
         properties: {
-          name: { type: :string },
-          description: { type: :string },
-          capacity: { type: :integer }
+          carriage_type: {
+            type: :object,
+            properties: {
+              name: { type: :string },
+              description: { type: :string },
+              capacity: { type: :integer }
+            },
+            required: %i[name capacity description]
+          }
         },
-        require: %i[name capacity description]
+        required: %i[carriage_type]
       }
       produces 'application/json'
       security [Bearer: {}]
 
-      let(:params) { { name: 'New name', description: 'New description', capacity: 4 } }
+      let(:params) { { carriage_type: { name: 'New name', description: 'New description', capacity: 4 } } }
 
       response '200', 'Carriage type successfully updated' do
         include_context 'with integration test'

@@ -112,7 +112,7 @@ RSpec.describe 'api/v1/routes', type: :request do
         properties: {
           station_id: { type: :string }
         },
-        required: :station_id
+        required: %i[station_id]
       }
       produces 'application/json'
       security [Bearer: {}]

@@ -14,10 +14,11 @@ RSpec.describe 'users', type: :request do
             properties: {
               email: { type: :string },
               password: { type: :string }
-            }
+            },
+            required: %i[email password]
           }
         },
-        required: %i[user email password]
+        required: %i[user]
       }
       produces 'application/json'
 

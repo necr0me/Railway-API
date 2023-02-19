@@ -40,9 +40,15 @@ RSpec.describe 'api/v1/users', type: :request do
       parameter name: :params, in: :body, schema: {
         type: :object,
         properties: {
-          password: { type: :string }
+          user: {
+            type: :object,
+            properties: {
+              password: { type: :string }
+            },
+            required: %i[password]
+          }
         },
-        required: :password
+        required: %i[user]
       }
       produces 'application/json'
       security [Bearer: {}]

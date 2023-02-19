@@ -35,16 +35,16 @@ RSpec.describe 'users', type: :request do
   end
 
   path '/users/{user_id}' do
+    let(:user) { create(:user) }
+    let(:user_id) { user.id }
+    let(:Authorization) { "Bearer #{access_token}" }
+
     delete 'Destroy user. By becr0me' do
       tags 'Registrations'
       parameter name: :user_id, in: :path, type: :string, required: true,
                 description: 'Id of user that destroys account (user can destroy only own account unless he/she is admin)'
       produces 'application/json'
       security [Bearer: {}]
-
-      let(:user) { create(:user) }
-      let(:user_id) { user.id }
-      let(:Authorization) { "Bearer #{access_token}" }
 
       response '204', 'User successfully destroyed' do
         run_test!

@@ -27,19 +27,25 @@ RSpec.describe 'api/v1/profile', type: :request do
       parameter name: :params, in: :body, schema: {
         type: :object,
         properties: {
-          name: { type: :string },
-          surname: { type: :string },
-          patronymic: { type: :string },
-          phone_number: { type: :string },
-          passport_code: { type: :string }
+          profile: {
+            type: :object,
+            properties: {
+              name: { type: :string },
+              surname: { type: :string },
+              patronymic: { type: :string },
+              phone_number: { type: :string },
+              passport_code: { type: :string }
+            },
+            required: %i[name surname patronymic phone_number passport_code]
+          }
         },
-        required: %i[name surname patronymic phone_number passport_code]
+        required: %i[profile]
       }
       produces 'application/json'
       security [Bearer: {}]
 
       let(:user) { create(:user) }
-      let(:params) { attributes_for(:profile) }
+      let(:params) { { profile: attributes_for(:profile) } }
 
       response '201', 'Profile successfully created' do
         include_context 'with integration test'
@@ -52,7 +58,7 @@ RSpec.describe 'api/v1/profile', type: :request do
       end
 
       response '422', 'Error occurred during profile create' do
-        let(:params) { { name: 'x' } }
+        let(:params) { { profile: { name: 'x' } } }
 
         include_context 'with integration test'
       end
@@ -64,18 +70,24 @@ RSpec.describe 'api/v1/profile', type: :request do
       parameter name: :params, in: :body, schema: {
         type: :object,
         properties: {
-          name: { type: :string },
-          surname: { type: :string },
-          patronymic: { type: :string },
-          phone_number: { type: :string },
-          passport_code: { type: :string }
+          profile: {
+            type: :object,
+            properties: {
+              name: { type: :string },
+              surname: { type: :string },
+              patronymic: { type: :string },
+              phone_number: { type: :string },
+              passport_code: { type: :string }
+            },
+            required: %i[name surname patronymic phone_number passport_code]
+          }
         },
-        required: %i[name surname patronymic phone_number passport_code]
+        required: %i[profile]
       }
       produces 'application/json'
       security [Bearer: {}]
 
-      let(:params) { { name: 'New name' } }
+      let(:params) { { profile: { name: 'New name' } } }
 
       response '200', 'Profile found' do
         include_context 'with integration test'
@@ -88,7 +100,7 @@ RSpec.describe 'api/v1/profile', type: :request do
       end
 
       response '422', 'Error occurred during profile update' do
-        let(:params) { { name: 'x' } }
+        let(:params) { { profile: { name: 'x' } } }
 
         include_context 'with integration test'
       end

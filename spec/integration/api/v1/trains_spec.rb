@@ -37,13 +37,20 @@ RSpec.describe 'api/v1/trains', type: :request do
       parameter name: :params, in: :body, schema: {
         type: :object,
         properties: {
-          route_id: { type: :integer }
-        }
+          route: {
+            type: :object,
+            properties: {
+              route_id: { type: :integer }
+            },
+            required: %i[route_id]
+          }
+        },
+        required: %i[train]
       }
       produces 'application/json'
       security [Bearer: {}]
 
-      let(:params) { { route_id: create(:route).id } }
+      let(:params) { { train: { route_id: create(:route).id } } }
 
       response '201', 'Train successfully created' do
         include_context 'with integration test'
@@ -62,7 +69,7 @@ RSpec.describe 'api/v1/trains', type: :request do
       end
 
       response '422', 'Error occurred during train create' do
-        let(:params) { { route_id: -1 } }
+        let(:params) { { train: { route_id: -1 } } }
 
         include_context 'with integration test'
       end
@@ -110,13 +117,20 @@ RSpec.describe 'api/v1/trains', type: :request do
       parameter name: :params, in: :body, schema: {
         type: :object,
         properties: {
-          route_id: { type: :integer }
-        }
+          route: {
+            type: :object,
+            properties: {
+              route_id: { type: :integer }
+            },
+            required: %i[route_id]
+          }
+        },
+        required: %i[train]
       }
       produces 'application/json'
       security [Bearer: {}]
 
-      let(:params) { { route_id: create(:route).id } }
+      let(:params) { { train: { route_id: create(:route).id } } }
 
       response '200', 'Train successfully updated' do
         include_context 'with integration test'
@@ -141,7 +155,7 @@ RSpec.describe 'api/v1/trains', type: :request do
       end
 
       response '422', 'Error occurred during train update' do
-        let(:params) { { route_id: -1 } }
+        let(:params) { { train: { route_id: -1 } } }
 
         include_context 'with integration test'
       end
