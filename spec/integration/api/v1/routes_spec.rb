@@ -3,6 +3,7 @@ require 'swagger_helper'
 RSpec.describe 'api/v1/routes', type: :request do
   let(:user) { create(:user, role: :admin) }
   let(:Authorization) { "Bearer #{access_token}" }
+
   let(:route) { create(:route, :route_with_stations) }
 
   path '/api/v1/routes' do
@@ -39,6 +40,8 @@ RSpec.describe 'api/v1/routes', type: :request do
   end
 
   path '/api/v1/routes/{route_id}' do
+    let(:route_id) { route.id }
+
     get 'Find concrete route. By necr0me' do
       tags 'Routes'
       parameter name: :route_id, in: :path, type: :string, required: true,
@@ -46,8 +49,6 @@ RSpec.describe 'api/v1/routes', type: :request do
       produces 'application/json'
 
       response '200', 'Route found' do
-        let(:route_id) { route.id }
-
         include_context 'with integration test'
       end
 
@@ -66,21 +67,17 @@ RSpec.describe 'api/v1/routes', type: :request do
       security [Bearer: {}]
 
       response '204', 'Route successfully destroyed' do
-        let(:route_id) { route.id }
-
         run_test!
       end
 
       response '401', 'You are unauthorized' do
         let(:Authorization) { 'invalid' }
-        let(:route_id) { create(:route).id }
 
         include_context 'with integration test'
       end
 
       response '403', 'You are forbidden to perform this action' do
         let(:user) { create(:user) }
-        let(:route_id) { route.id }
 
         include_context 'with integration test'
       end
@@ -97,14 +94,14 @@ RSpec.describe 'api/v1/routes', type: :request do
           allow_any_instance_of(ActiveModel::Errors).to receive(:full_messages).and_return(['Error message'])
         end
 
-        let(:route_id) { route.id }
-
         include_context 'with integration test'
       end
     end
   end
 
   path '/api/v1/routes/{route_id}/add_station' do
+    let(:route_id) { route.id }
+
     post 'Add existing station to existing route. By necr0me' do
       tags 'Routes'
       consumes 'application/json'
@@ -120,38 +117,32 @@ RSpec.describe 'api/v1/routes', type: :request do
       produces 'application/json'
       security [Bearer: {}]
 
-      response '201', 'Station successfully added to route' do
-        let(:route_id) { create(:route).id }
-        let(:params) { { station_id: create(:station).id } }
+      let(:route_id) { route.id }
+      let(:params) { { station_id: create(:station).id } }
 
+      response '201', 'Station successfully added to route' do
         include_context 'with integration test'
       end
 
       response '401', 'You are unauthorized' do
         let(:Authorization) { 'invalid' }
-        let(:route_id) { route.id }
-        let(:params) { { station_id: create(:station).id } }
 
         include_context 'with integration test'
       end
 
       response '403', 'You are forbidden to perform this action' do
         let(:user) { create(:user) }
-        let(:route_id) { route.id }
-        let(:params) { { station_id: create(:station).id } }
 
         include_context 'with integration test'
       end
 
       response '404', 'Route not found' do
         let(:route_id) { -1 }
-        let(:params) { { station_id: create(:station).id } }
 
         include_context 'with integration test'
       end
 
       response '422', 'Station does not exist' do
-        let(:route_id) { route.id }
         let(:params) { { station_id: -1 } }
 
         include_context 'with integration test'
@@ -160,7 +151,9 @@ RSpec.describe 'api/v1/routes', type: :request do
   end
 
   path '/api/v1/routes/{route_id}/remove_station/{station_id}' do
+    let(:route_id) { route.id }
     let(:station) { route.stations.first }
+    let(:station_id) { station.id }
 
     delete 'Remove station from route. By necr0me' do
       tags 'Routes'
@@ -172,37 +165,28 @@ RSpec.describe 'api/v1/routes', type: :request do
       security [Bearer: {}]
 
       response '200', 'Successfully remove station from route' do
-        let(:route_id) { route.id }
-        let(:station_id) { station.id }
-
         include_context 'with integration test'
       end
 
       response '401', 'You are unauthorized' do
         let(:Authorization) { 'invalid' }
-        let(:route_id) { route.id }
-        let(:station_id) { station.id }
 
         include_context 'with integration test'
       end
 
       response '403', 'You are forbidden to perform this action' do
         let(:user) { create(:user) }
-        let(:route_id) { route.id }
-        let(:station_id) { station.id }
 
         include_context 'with integration test'
       end
 
       response '404', 'Route not found' do
         let(:route_id) { -1 }
-        let(:station_id) { station.id }
 
         include_context 'with integration test'
       end
 
       response '422', 'Station already not in route' do
-        let(:route_id) { route.id }
         let(:station_id) { create(:station).id }
 
         include_context 'with integration test'

@@ -3,10 +3,10 @@ require 'swagger_helper'
 RSpec.describe 'api/v1/stations', type: :request do
   let(:user) { create(:user, role: :admin) }
   let(:Authorization) { "Bearer #{access_token}" }
+
   let(:station) { create(:station) }
 
-  # TODO: change 'id' on 'station_id'
-  # TODO: move let in common contexts
+  # TODO: make schemas better (like: { station: { param_1, param_2, ... } })
 
   path '/api/v1/stations' do
     get 'Gets all stations. By necr0me' do
@@ -15,6 +15,7 @@ RSpec.describe 'api/v1/stations', type: :request do
       parameter name: :station, in: :query, type: :string, required: false,
                 description: 'Name of station or first N letters of station name'
 
+      # TODO: add more examples
       response '200', 'Stations found (From query "?station=Mo")' do
         let(:station) { 'Mo' }
         before { create_list(:station, 3, :station_sequence_with_three_stations) }
@@ -36,21 +37,19 @@ RSpec.describe 'api/v1/stations', type: :request do
       produces 'application/json'
       security [Bearer: {}]
 
-      response '201', 'Station created' do
-        let(:params) { attributes_for(:station) }
+      let(:params) { attributes_for(:station) }
 
+      response '201', 'Station created' do
         include_context 'with integration test'
       end
 
       response '401', 'You are unauthorized' do
-        let(:params) { attributes_for(:station) }
         let(:Authorization) { 'invalid' }
 
         include_context 'with integration test'
       end
 
       response '403', 'You are forbidden to perform this action' do
-        let(:params) { attributes_for(:station) }
         let(:user) { create(:user) }
 
         include_context 'with integration test'
@@ -63,21 +62,21 @@ RSpec.describe 'api/v1/stations', type: :request do
       end
     end
 
-    path '/api/v1/stations/{id}' do
+    path '/api/v1/stations/{station_id}' do
+      let(:station_id) { station.id }
+
       get 'Get concrete station. By necr0me' do
         tags 'Stations'
         produces 'application/json'
-        parameter name: :id, in: :path, type: :string, required: true,
+        parameter name: :station_id, in: :path, type: :string, required: true,
                   description: 'Id of station'
 
         response '200', 'Station was found' do
-          let(:id) { station.id }
-
           include_context 'with integration test'
         end
 
         response '404', 'Station not found' do
-          let(:id) { -1 }
+          let(:station_id) { -1 }
 
           include_context 'with integration test'
         end
@@ -93,43 +92,36 @@ RSpec.describe 'api/v1/stations', type: :request do
           },
           required: :name
         }
-        parameter name: :id, in: :path, type: :string, required: true,
+        parameter name: :station_id, in: :path, type: :string, required: true,
                   description: 'Id of station'
         produces 'application/json'
         security [Bearer: {}]
 
-        response '200', 'Station updated' do
-          let(:id) { station.id }
-          let(:params) { { name: 'New name' } }
+        let(:params) { { name: 'New name' } }
 
+        response '200', 'Station updated' do
           include_context 'with integration test'
         end
 
         response '401', 'You are unauthorized' do
-          let(:id) { station.id }
-          let(:params) { { name: 'New name' } }
           let(:Authorization) { 'invalid' }
 
           include_context 'with integration test'
         end
 
         response '403', 'You are forbidden to perform this action' do
-          let(:id) { station.id }
-          let(:params) { { name: 'New name' } }
           let(:user) { create(:user) }
 
           include_context 'with integration test'
         end
 
         response '404', 'Station not found' do
-          let(:id) { -1 }
-          let(:params) { { name: 'New name' } }
+          let(:station_id) { -1 }
 
           include_context 'with integration test'
         end
 
         response '422', 'Something went wrong during station update' do
-          let(:id) { station.id }
           let(:params) { { name: '' } }
 
           include_context 'with integration test'
@@ -139,32 +131,28 @@ RSpec.describe 'api/v1/stations', type: :request do
       delete 'Delete concrete station. By necr0me' do
         tags 'Stations'
         produces 'application/json'
-        parameter name: :id, in: :path, type: :string, required: true,
+        parameter name: :station_id, in: :path, type: :string, required: true,
                   description: 'Id of station'
         security [Bearer: {}]
 
         response '204', 'Successfully destroyed station' do
-          let(:id) { station.id }
-
           run_test!
         end
 
         response '401', 'You are unauthorized' do
           let(:Authorization) { 'invalid' }
-          let(:id) { station.id }
 
           include_context 'with integration test'
         end
 
         response '403', 'You are forbidden to perform this action' do
           let(:user) { create(:user) }
-          let(:id) { station.id }
 
           include_context 'with integration test'
         end
 
         response '404', 'Station not found' do
-          let(:id) { -1 }
+          let(:station_id) { -1 }
 
           include_context 'with integration test'
         end
@@ -174,8 +162,6 @@ RSpec.describe 'api/v1/stations', type: :request do
             allow_any_instance_of(Station).to receive(:destroy).and_return(false)
             allow_any_instance_of(ActiveModel::Errors).to receive(:full_messages).and_return(['Error message'])
           end
-
-          let(:id) { station.id }
 
           include_context 'with integration test'
         end
