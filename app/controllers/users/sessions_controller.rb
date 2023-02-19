@@ -39,7 +39,7 @@ module Users
     end
 
     def destroy
-      current_user.refresh_token.destroy
+      current_user.refresh_token&.destroy
       cookies.delete :refresh_token
       render json: { message: 'You have successfully logged out.' },
              status: :ok
