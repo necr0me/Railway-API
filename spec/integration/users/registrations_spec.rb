@@ -13,10 +13,15 @@ RSpec.describe 'users', type: :request do
             properties: {
               email: { type: :string },
               password: { type: :string }
+            },
+            required: %i[email password],
+            example: {
+              email: 'mail@gmail.com',
+              password: 'p4$$w0rD'
             }
           }
         },
-        required: %i[user email password]
+        required: %i[user]
       }
       produces 'application/json'
 
@@ -41,7 +46,7 @@ RSpec.describe 'users', type: :request do
 
     delete 'Destroy user. By becr0me' do
       tags 'Registrations'
-      parameter name: :user_id, in: :path, type: :string, required: true,
+      parameter name: :user_id, in: :path, type: :integer, required: true,
                 description: 'Id of user that destroys account (user can destroy only own account unless he/she is admin)'
       produces 'application/json'
       security [Bearer: {}]

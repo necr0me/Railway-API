@@ -20,24 +20,24 @@ paths:
           examples:
             application/json:
               carriage_types:
-              - id: 15417
-                name: B. A. Ware
-                description: Hahn and Sons
+              - id: 16007
+                name: X. Benedict
+                description: Batz-Ondricka
                 capacity: 8
-                created_at: '2023-02-19T12:51:22.045Z'
-                updated_at: '2023-02-19T12:51:22.045Z'
-              - id: 15418
-                name: Rob Banks
-                description: Gerlach-Murray
+                created_at: '2023-02-20T10:24:18.334Z'
+                updated_at: '2023-02-20T10:24:18.334Z'
+              - id: 16008
+                name: Liz Onnia
+                description: Olson-Hessel
                 capacity: 8
-                created_at: '2023-02-19T12:51:22.049Z'
-                updated_at: '2023-02-19T12:51:22.049Z'
-              - id: 15419
-                name: Will Power
-                description: Marks, Kiehn and Erdman
+                created_at: '2023-02-20T10:24:18.337Z'
+                updated_at: '2023-02-20T10:24:18.337Z'
+              - id: 16009
+                name: Cole Kutz
+                description: Carter-Zieme
                 capacity: 8
-                created_at: '2023-02-19T12:51:22.053Z'
-                updated_at: '2023-02-19T12:51:22.053Z'
+                created_at: '2023-02-20T10:24:18.340Z'
+                updated_at: '2023-02-20T10:24:18.340Z'
         '401':
           description: You are unauthorized
           examples:
@@ -74,7 +74,10 @@ paths:
               required:
               - name
               - capacity
-              - description
+              example:
+                name: Coupe
+                description: Some description
+                capacity: 32
           required:
           - carriage_type
       produces:
@@ -88,12 +91,12 @@ paths:
             application/json:
               message: Carriage type successfully created
               carriage_type:
-                id: 15420
-                name: Ben Lyon
-                description: King-Kertzmann
+                id: 16010
+                name: Michelle Lynn
+                description: Mante and Sons
                 capacity: 8
-                created_at: '2023-02-19T12:51:22.136Z'
-                updated_at: '2023-02-19T12:51:22.136Z'
+                created_at: '2023-02-20T10:24:18.398Z'
+                updated_at: '2023-02-20T10:24:18.398Z'
         '401':
           description: You are unauthorized
           examples:
@@ -124,7 +127,7 @@ paths:
       parameters:
       - name: carriage_type_id
         in: path
-        type: string
+        type: integer
         required: true
         description: Id of carriage type that you want to update
       - name: params
@@ -144,7 +147,10 @@ paths:
               required:
               - name
               - capacity
-              - description
+              example:
+                name: Coupe
+                description: Some description
+                capacity: 32
           required:
           - carriage_type
       produces:
@@ -161,9 +167,9 @@ paths:
                 name: New name
                 description: New description
                 capacity: 4
-                id: 15422
-                created_at: '2023-02-19T12:51:22.199Z'
-                updated_at: '2023-02-19T12:51:22.225Z'
+                id: 16012
+                created_at: '2023-02-20T10:24:18.446Z'
+                updated_at: '2023-02-20T10:24:18.467Z'
         '401':
           description: You are unauthorized
           examples:
@@ -195,7 +201,7 @@ paths:
       parameters:
       - name: carriage_type_id
         in: path
-        type: string
+        type: integer
         required: true
         description: Id of carriage type that you want to destroy
       produces:
@@ -244,19 +250,19 @@ paths:
           examples:
             application/json:
               carriages:
-              - id: 11189
-                name: Hestia
-                carriage_type_id: 15433
-                created_at: '2023-02-19T12:51:22.388Z'
-                updated_at: '2023-02-19T12:51:22.388Z'
-                order_number: 29
-                train_id: 
-              - id: 11188
+              - id: 11654
                 name: Apollo
-                carriage_type_id: 15432
-                created_at: '2023-02-19T12:51:22.380Z'
-                updated_at: '2023-02-19T12:51:22.380Z'
-                order_number: 30
+                carriage_type_id: 16023
+                created_at: '2023-02-20T10:24:18.592Z'
+                updated_at: '2023-02-20T10:24:18.592Z'
+                order_number: 27
+                train_id: 
+              - id: 11653
+                name: Apollo
+                carriage_type_id: 16022
+                created_at: '2023-02-20T10:24:18.588Z'
+                updated_at: '2023-02-20T10:24:18.588Z'
+                order_number: 29
                 train_id: 
         '401':
           description: You are unauthorized
@@ -292,6 +298,9 @@ paths:
               required:
               - name
               - carriage_type_id
+              example:
+                name: XT-231-321
+                carriage_type_id: 1
           required:
           - carriage
       produces:
@@ -305,11 +314,11 @@ paths:
             application/json:
               message: Carriage was successfully created
               carriage:
-                id: 11190
-                name: Athena
-                carriage_type_id: 15434
-                created_at: '2023-02-19T12:51:22.446Z'
-                updated_at: '2023-02-19T12:51:22.446Z'
+                id: 11655
+                name: Hephaestus
+                carriage_type_id: 16024
+                created_at: '2023-02-20T10:24:18.627Z'
+                updated_at: '2023-02-20T10:24:18.627Z'
                 order_number: 
                 train_id: 
         '401':
@@ -340,7 +349,7 @@ paths:
       parameters:
       - name: carriage_id
         in: path
-        type: string
+        type: integer
         required: true
         description: Id of carriage that you want to see
       produces:
@@ -353,12 +362,12 @@ paths:
           examples:
             application/json:
               carriage:
-                id: 11192
-                name: Poseidon
-                carriage_type_id: 15438
-                created_at: '2023-02-19T12:51:22.504Z'
-                updated_at: '2023-02-19T12:51:22.504Z'
-                order_number: 10
+                id: 11657
+                name: Hestia
+                carriage_type_id: 16028
+                created_at: '2023-02-20T10:24:18.668Z'
+                updated_at: '2023-02-20T10:24:18.668Z'
+                order_number: 31
                 train_id: 
         '401':
           description: You are unauthorized
@@ -381,7 +390,7 @@ paths:
       parameters:
       - name: carriage_id
         in: path
-        type: string
+        type: integer
         required: true
         description: Id of carriage that you want to update
       - name: params
@@ -399,6 +408,9 @@ paths:
               required:
               - name
               - carriage_type_id
+              example:
+                name: XT-231-321
+                carriage_type_id: 1
           required:
           - carriage
       produces:
@@ -413,11 +425,11 @@ paths:
               message: Carriage name was successfully updated
               carriage:
                 name: New name
-                carriage_type_id: 15440
-                id: 11194
-                created_at: '2023-02-19T12:51:22.555Z'
-                updated_at: '2023-02-19T12:51:22.571Z'
-                order_number: 14
+                carriage_type_id: 16030
+                id: 11659
+                created_at: '2023-02-20T10:24:18.702Z'
+                updated_at: '2023-02-20T10:24:18.713Z'
+                order_number: 15
                 train_id: 
         '401':
           description: You are unauthorized
@@ -450,7 +462,7 @@ paths:
       parameters:
       - name: carriage_id
         in: path
-        type: string
+        type: integer
         require: true
         description: Id of carriage that you want to destroy
         required: true
@@ -499,15 +511,15 @@ paths:
           description: Profile found
           examples:
             application/json:
-              id: 1732
+              id: 1782
               name: John
               surname: Doe
               patronymic: Doehovich
-              phone_number: "+375337777777"
-              passport_code: KH2321332
-              user_id: 24744
-              created_at: '2023-02-19T12:51:22.761Z'
-              updated_at: '2023-02-19T12:51:22.761Z'
+              phone_number: "+375331234567"
+              passport_code: KH1234567
+              user_id: 25599
+              created_at: '2023-02-20T10:24:18.852Z'
+              updated_at: '2023-02-20T10:24:18.852Z'
         '401':
           description: You are unauthorized
           examples:
@@ -546,6 +558,12 @@ paths:
               - patronymic
               - phone_number
               - passport_code
+              example:
+                name: John
+                surname: Doe
+                patronymic: Doehovich
+                phone_number: '375331234567'
+                passport_code: KH1234567
           required:
           - profile
       produces:
@@ -558,15 +576,15 @@ paths:
           examples:
             application/json:
               profile:
-                id: 1733
+                id: 1783
                 name: John
                 surname: Doe
                 patronymic: Doehovich
-                phone_number: "+375337777777"
-                passport_code: KH2321332
-                user_id: 24745
-                created_at: '2023-02-19T12:51:22.789Z'
-                updated_at: '2023-02-19T12:51:22.789Z'
+                phone_number: "+375331234567"
+                passport_code: KH1234567
+                user_id: 25600
+                created_at: '2023-02-20T10:24:18.873Z'
+                updated_at: '2023-02-20T10:24:18.873Z'
         '401':
           description: You are unauthorized
           examples:
@@ -620,6 +638,12 @@ paths:
               - patronymic
               - phone_number
               - passport_code
+              example:
+                name: John
+                surname: Doe
+                patronymic: Doehovich
+                phone_number: '375331234567'
+                passport_code: KH1234567
           required:
           - profile
       produces:
@@ -632,15 +656,15 @@ paths:
           examples:
             application/json:
               profile:
-                user_id: 24747
+                user_id: 25602
                 name: New name
                 surname: Doe
                 patronymic: Doehovich
-                phone_number: "+375337777777"
-                id: 1734
-                passport_code: KH2321332
-                created_at: '2023-02-19T12:51:22.833Z'
-                updated_at: '2023-02-19T12:51:22.843Z'
+                phone_number: "+375331234567"
+                id: 1784
+                passport_code: KH1234567
+                created_at: '2023-02-20T10:24:18.902Z'
+                updated_at: '2023-02-20T10:24:18.908Z'
         '401':
           description: You are unauthorized
           examples:
@@ -671,9 +695,9 @@ paths:
             application/json:
               message: Route was created
               route:
-                id: 7080
-                created_at: '2023-02-19T12:51:22.888Z'
-                updated_at: '2023-02-19T12:51:22.888Z'
+                id: 7290
+                created_at: '2023-02-20T10:24:18.942Z'
+                updated_at: '2023-02-20T10:24:18.942Z'
         '401':
           description: You are unauthorized
           examples:
@@ -701,7 +725,7 @@ paths:
       parameters:
       - name: route_id
         in: path
-        type: string
+        type: integer
         required: true
         description: Id of route
       produces:
@@ -712,22 +736,22 @@ paths:
           examples:
             application/json:
               route:
-                id: 7083
-                created_at: '2023-02-19T12:51:22.926Z'
-                updated_at: '2023-02-19T12:51:22.926Z'
+                id: 7293
+                created_at: '2023-02-20T10:24:18.973Z'
+                updated_at: '2023-02-20T10:24:18.973Z'
               stations:
-              - id: 18938
+              - id: 19448
                 name: Mogilev
-                created_at: '2023-02-19T12:51:22.938Z'
-                updated_at: '2023-02-19T12:51:22.938Z'
-              - id: 18939
+                created_at: '2023-02-20T10:24:18.982Z'
+                updated_at: '2023-02-20T10:24:18.982Z'
+              - id: 19449
                 name: Mosty
-                created_at: '2023-02-19T12:51:22.941Z'
-                updated_at: '2023-02-19T12:51:22.941Z'
-              - id: 18940
+                created_at: '2023-02-20T10:24:18.985Z'
+                updated_at: '2023-02-20T10:24:18.985Z'
+              - id: 19450
                 name: Hrodna
-                created_at: '2023-02-19T12:51:22.944Z'
-                updated_at: '2023-02-19T12:51:22.944Z'
+                created_at: '2023-02-20T10:24:18.988Z'
+                updated_at: '2023-02-20T10:24:18.988Z'
         '404':
           description: Route not found
           examples:
@@ -740,7 +764,7 @@ paths:
       parameters:
       - name: route_id
         in: path
-        type: string
+        type: integer
         required: true
         description: Id of route
       produces:
@@ -793,7 +817,7 @@ paths:
           type: object
           properties:
             station_id:
-              type: string
+              type: integer
           required:
           - station_id
       produces:
@@ -807,10 +831,10 @@ paths:
             application/json:
               message: Station was successfully added to route
               station:
-                id: 18956
+                id: 19466
                 name: Melbourne
-                created_at: '2023-02-19T12:51:23.295Z'
-                updated_at: '2023-02-19T12:51:23.295Z'
+                created_at: '2023-02-20T10:24:19.227Z'
+                updated_at: '2023-02-20T10:24:19.227Z'
         '401':
           description: You are unauthorized
           examples:
@@ -843,12 +867,12 @@ paths:
       parameters:
       - name: route_id
         in: path
-        type: string
+        type: integer
         required: true
         description: Id of route where from station removing
       - name: station_id
         in: path
-        type: string
+        type: integer
         required: true
         description: Id of station that removing from route
       produces:
@@ -904,14 +928,14 @@ paths:
           description: Stations found (From query "?station=Mo")
           examples:
             application/json:
-            - id: 18985
+            - id: 19495
               name: Mogilev
-              created_at: '2023-02-19T12:51:23.786Z'
-              updated_at: '2023-02-19T12:51:23.786Z'
-            - id: 18986
+              created_at: '2023-02-20T10:24:19.561Z'
+              updated_at: '2023-02-20T10:24:19.561Z'
+            - id: 19496
               name: Mosty
-              created_at: '2023-02-19T12:51:23.790Z'
-              updated_at: '2023-02-19T12:51:23.790Z'
+              created_at: '2023-02-20T10:24:19.564Z'
+              updated_at: '2023-02-20T10:24:19.564Z'
     post:
       summary: Create a new station. By necr0me
       tags:
@@ -931,6 +955,8 @@ paths:
                   type: string
               required:
               - name
+              example:
+                name: Melbourne
           required:
           - station
       produces:
@@ -943,10 +969,10 @@ paths:
           examples:
             application/json:
               station:
-                id: 18988
+                id: 19498
                 name: Melbourne
-                created_at: '2023-02-19T12:51:23.816Z'
-                updated_at: '2023-02-19T12:51:23.816Z'
+                created_at: '2023-02-20T10:24:19.581Z'
+                updated_at: '2023-02-20T10:24:19.581Z'
         '401':
           description: You are unauthorized
           examples:
@@ -984,10 +1010,10 @@ paths:
           description: Station was found
           examples:
             application/json:
-              id: 18990
+              id: 19500
               name: Melbourne
-              created_at: '2023-02-19T12:51:23.868Z'
-              updated_at: '2023-02-19T12:51:23.868Z'
+              created_at: '2023-02-20T10:24:19.613Z'
+              updated_at: '2023-02-20T10:24:19.613Z'
         '404':
           description: Station not found
           examples:
@@ -1012,11 +1038,13 @@ paths:
                   type: string
               required:
               - name
+              example:
+                name: New name
           required:
           - station
       - name: station_id
         in: path
-        type: string
+        type: integer
         required: true
         description: Id of station
       produces:
@@ -1030,9 +1058,9 @@ paths:
             application/json:
               station:
                 name: New name
-                id: 18991
-                created_at: '2023-02-19T12:51:23.888Z'
-                updated_at: '2023-02-19T12:51:23.904Z'
+                id: 19501
+                created_at: '2023-02-20T10:24:19.625Z'
+                updated_at: '2023-02-20T10:24:19.634Z'
         '401':
           description: You are unauthorized
           examples:
@@ -1067,7 +1095,7 @@ paths:
       parameters:
       - name: station_id
         in: path
-        type: string
+        type: integer
         required: true
         description: Id of station
       security:
@@ -1114,14 +1142,14 @@ paths:
           examples:
             application/json:
               trains:
-              - id: 6129
+              - id: 6349
                 route_id: 
-                created_at: '2023-02-19T12:51:24.060Z'
-                updated_at: '2023-02-19T12:51:24.060Z'
-              - id: 6130
+                created_at: '2023-02-20T10:24:19.736Z'
+                updated_at: '2023-02-20T10:24:19.736Z'
+              - id: 6350
                 route_id: 
-                created_at: '2023-02-19T12:51:24.063Z'
-                updated_at: '2023-02-19T12:51:24.063Z'
+                created_at: '2023-02-20T10:24:19.737Z'
+                updated_at: '2023-02-20T10:24:19.737Z'
         '401':
           description: You are unauthorized
           examples:
@@ -1153,6 +1181,8 @@ paths:
                   type: integer
               required:
               - route_id
+              example:
+                route_id: 1
           required:
           - train
       produces:
@@ -1166,10 +1196,10 @@ paths:
             application/json:
               message: Train was successfully created
               train:
-                id: 6131
-                route_id: 7097
-                created_at: '2023-02-19T12:51:24.114Z'
-                updated_at: '2023-02-19T12:51:24.114Z'
+                id: 6351
+                route_id: 7307
+                created_at: '2023-02-20T10:24:19.768Z'
+                updated_at: '2023-02-20T10:24:19.768Z'
         '401':
           description: You are unauthorized
           examples:
@@ -1195,7 +1225,7 @@ paths:
       parameters:
       - name: train_id
         in: path
-        type: string
+        type: integer
         required: true
         description: Id of train that you want to see
       produces:
@@ -1208,10 +1238,10 @@ paths:
           examples:
             application/json:
               train:
-                id: 6134
+                id: 6354
                 route_id: 
-                created_at: '2023-02-19T12:51:24.158Z'
-                updated_at: '2023-02-19T12:51:24.158Z'
+                created_at: '2023-02-20T10:24:19.799Z'
+                updated_at: '2023-02-20T10:24:19.799Z'
         '401':
           description: You are unauthorized
           examples:
@@ -1238,7 +1268,7 @@ paths:
       parameters:
       - name: train_id
         in: path
-        type: string
+        type: integer
         required: true
         description: Id of train that you want to update
       - name: params
@@ -1253,6 +1283,8 @@ paths:
                   type: integer
               required:
               - route_id
+              example:
+                route_id: 1
           required:
           - train
       produces:
@@ -1266,10 +1298,10 @@ paths:
             application/json:
               message: Train was successfully updated
               train:
-                route_id: 7100
-                id: 6137
-                created_at: '2023-02-19T12:51:24.751Z'
-                updated_at: '2023-02-19T12:51:24.869Z'
+                route_id: 7310
+                id: 6357
+                created_at: '2023-02-20T10:24:20.103Z'
+                updated_at: '2023-02-20T10:24:20.197Z'
         '401':
           description: You are unauthorized
           examples:
@@ -1299,7 +1331,7 @@ paths:
       parameters:
       - name: train_id
         in: path
-        type: string
+        type: integer
         required: true
         description: Id of train that you want to update
       produces:
@@ -1343,7 +1375,7 @@ paths:
       parameters:
       - name: train_id
         in: path
-        type: string
+        type: integer
         required: true
         description: Id of train which to you want add carriage
       - name: params
@@ -1353,6 +1385,10 @@ paths:
           properties:
             carriage_id:
               type: integer
+          required:
+          - carriage_id
+          example:
+            carriage_id: 1
       produces:
       - application/json
       security:
@@ -1364,13 +1400,13 @@ paths:
             application/json:
               message: Carriage was successfully added to train
               carriage:
-                train_id: 6145
+                train_id: 6365
                 order_number: 1
-                name: Hestia
-                carriage_type_id: 15481
-                id: 11235
-                created_at: '2023-02-19T12:51:25.792Z'
-                updated_at: '2023-02-19T12:51:25.802Z'
+                name: Hera
+                carriage_type_id: 16071
+                id: 11700
+                created_at: '2023-02-20T10:24:20.901Z'
+                updated_at: '2023-02-20T10:24:20.910Z'
         '401':
           description: You are unauthorized
           examples:
@@ -1403,12 +1439,12 @@ paths:
       parameters:
       - name: train_id
         in: path
-        type: string
+        type: integer
         required: true
         description: Id of train which from you want to remove carriage
       - name: carriage_id
         in: path
-        type: string
+        type: integer
         required: true
         description: Id of carriage which you want to remove from train
       produces:
@@ -1453,7 +1489,7 @@ paths:
       parameters:
       - name: user_id
         in: path
-        type: string
+        type: integer
         required: true
         description: Id of user that you want to see
       produces:
@@ -1466,11 +1502,11 @@ paths:
           examples:
             application/json:
               user:
-                id: 24799
+                id: 25654
                 email: johndoe@gmail.com
-                password_digest: "$2a$04$9c7Ax7G9pPLSH148C1w9teeF.5/v91z3WX/pBLAyH2EX4zdPK4Lhi"
-                created_at: '2023-02-19T12:51:26.603Z'
-                updated_at: '2023-02-19T12:51:26.603Z'
+                password_digest: "$2a$04$FU65nYj9ZSwL4EoWkI2Cn.ajtbebiWC8wrdwLo7uZ1n8AcC0zfZ5C"
+                created_at: '2023-02-20T10:24:21.520Z'
+                updated_at: '2023-02-20T10:24:21.520Z'
                 role: admin
         '401':
           description: You are unauthorized
@@ -1493,7 +1529,7 @@ paths:
       parameters:
       - name: user_id
         in: path
-        type: string
+        type: integer
         required: true
         description: Id of user that updates password (ANY user can update only his
           own password)
@@ -1509,6 +1545,8 @@ paths:
                   type: string
               required:
               - password
+              example:
+                password: p4$$w0rD
           required:
           - user
       produces:
@@ -1561,10 +1599,14 @@ paths:
                   type: string
                 password:
                   type: string
+              required:
+              - email
+              - password
+              example:
+                email: mail@gmail.com
+                password: p4$$w0rD
           required:
           - user
-          - email
-          - password
       produces:
       - application/json
       responses:
@@ -1591,7 +1633,7 @@ paths:
       parameters:
       - name: user_id
         in: path
-        type: string
+        type: integer
         required: true
         description: Id of user that destroys account (user can destroy only own account
           unless he/she is admin)
@@ -1649,6 +1691,9 @@ paths:
               required:
               - email
               - password
+              example:
+                email: mail@gmail.com
+                password: p4$$w0rD
           required:
           - user
       produces:
@@ -1658,7 +1703,7 @@ paths:
           description: Authenticated successfully
           examples:
             application/json:
-              access_token: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyNDgxNSwiZXhwIjoxNjc2ODEyODg2LCJpYXQiOjE2NzY4MTEwODZ9.LyOjwydBVDdFhmR8iH07O733nmLAucy4D9J7-YIepG8
+              access_token: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyNTY3MCwiZXhwIjoxNjc2ODkwNDYxLCJpYXQiOjE2NzY4ODg2NjF9.XuDHpaogj2X-bneljFzJUHWDvNC5BmSuTInki61niEE
         '400':
           description: Error occurred during authentication
           examples:
@@ -1677,7 +1722,7 @@ paths:
           description: Tokens successfully updated
           examples:
             application/json:
-              access_token: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyNDgxNywiZXhwIjoxNjc2ODEyODg2LCJpYXQiOjE2NzY4MTEwODZ9.FDhMfO2-W3jrt-E6ybsKt1b6bU3vUWdbdfDcEtTF_2g
+              access_token: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyNTY3MiwiZXhwIjoxNjc2ODkwNDYxLCJpYXQiOjE2NzY4ODg2NjF9.mKNtgDM7-1DNvUefNGccAeINR4dnEX7ATrr6kto3LPI
         '401':
           description: Error occurred during tokens update
           examples:

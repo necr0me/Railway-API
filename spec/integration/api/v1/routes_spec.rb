@@ -44,7 +44,7 @@ RSpec.describe 'api/v1/routes', type: :request do
 
     get 'Find concrete route. By necr0me' do
       tags 'Routes'
-      parameter name: :route_id, in: :path, type: :string, required: true,
+      parameter name: :route_id, in: :path, type: :integer, required: true,
                 description: 'Id of route'
       produces 'application/json'
 
@@ -61,7 +61,7 @@ RSpec.describe 'api/v1/routes', type: :request do
 
     delete 'Delete concrete route. By necr0me' do
       tags 'Routes'
-      parameter name: :route_id, in: :path, type: :string, required: true,
+      parameter name: :route_id, in: :path, type: :integer, required: true,
                 description: 'Id of route'
       produces 'application/json'
       security [Bearer: {}]
@@ -110,9 +110,9 @@ RSpec.describe 'api/v1/routes', type: :request do
       parameter name: :params, in: :body, schema: {
         type: :object,
         properties: {
-          station_id: { type: :string }
+          station_id: { type: :integer }
         },
-        required: %i[station_id]
+        required: %i[station_id],
       }
       produces 'application/json'
       security [Bearer: {}]
@@ -157,9 +157,9 @@ RSpec.describe 'api/v1/routes', type: :request do
 
     delete 'Remove station from route. By necr0me' do
       tags 'Routes'
-      parameter name: :route_id, in: :path, type: :string, required: true,
+      parameter name: :route_id, in: :path, type: :integer, required: true,
                 description: 'Id of route where from station removing'
-      parameter name: :station_id, in: :path, type: :string, required: true,
+      parameter name: :station_id, in: :path, type: :integer, required: true,
                 description: 'Id of station that removing from route'
       produces 'application/json'
       security [Bearer: {}]

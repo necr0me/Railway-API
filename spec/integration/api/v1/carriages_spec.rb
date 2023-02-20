@@ -44,7 +44,11 @@ RSpec.describe 'api/v1/carriages', type: :request do
               name: { type: :string },
               carriage_type_id: { type: :integer }
             },
-            required: %i[name carriage_type_id]
+            required: %i[name carriage_type_id],
+            example: {
+              name: 'XT-231-321',
+              carriage_type_id: 1
+            }
           }
         },
         required: %i[carriage]
@@ -83,7 +87,7 @@ RSpec.describe 'api/v1/carriages', type: :request do
 
     get 'Get concrete carriage. By necr0me' do
       tags 'Carriages'
-      parameter name: :carriage_id, in: :path, type: :string, required: true,
+      parameter name: :carriage_id, in: :path, type: :integer, required: true,
                 description: 'Id of carriage that you want to see'
       produces 'application/json'
       security [Bearer: {}]
@@ -108,7 +112,7 @@ RSpec.describe 'api/v1/carriages', type: :request do
     put 'Update concrete carriage. By necr0me' do
       tags 'Carriages'
       consumes 'application/json'
-      parameter name: :carriage_id, in: :path, type: :string, required: true,
+      parameter name: :carriage_id, in: :path, type: :integer, required: true,
                 description: 'Id of carriage that you want to update'
       parameter name: :params, in: :body, schema: {
         type: :object,
@@ -119,7 +123,11 @@ RSpec.describe 'api/v1/carriages', type: :request do
               name: { type: :string },
               carriage_type_id: { type: :integer }
             },
-            required: %i[name carriage_type_id]
+            required: %i[name carriage_type_id],
+            example: {
+              name: 'XT-231-321',
+              carriage_type_id: 1
+            }
           }
         },
         required: %i[carriage]
@@ -160,7 +168,7 @@ RSpec.describe 'api/v1/carriages', type: :request do
 
     delete 'Destroy concrete carriage. By necr0me' do
       tags 'Carriages'
-      parameter name: :carriage_id, in: :path, type: :string, require: true,
+      parameter name: :carriage_id, in: :path, type: :integer, require: true,
                 description: 'Id of carriage that you want to destroy'
       produces 'application/json'
       security [Bearer: {}]

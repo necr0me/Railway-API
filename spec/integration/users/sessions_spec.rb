@@ -15,7 +15,11 @@ RSpec.describe 'users', type: :request do
               email: { type: :string },
               password: { type: :string }
             },
-            required: %i[email password]
+            required: %i[email password],
+            example: {
+              email: 'mail@gmail.com',
+              password: 'p4$$w0rD'
+            }
           }
         },
         required: %i[user]

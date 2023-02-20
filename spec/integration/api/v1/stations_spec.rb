@@ -6,8 +6,6 @@ RSpec.describe 'api/v1/stations', type: :request do
 
   let(:station) { create(:station) }
 
-  # TODO: make schemas better (like: { station: { param_1, param_2, ... } })
-
   path '/api/v1/stations' do
     get 'Gets all stations. By necr0me' do
       tags 'Stations'
@@ -35,8 +33,11 @@ RSpec.describe 'api/v1/stations', type: :request do
             properties: {
               name: { type: :string }
             },
-            required: %i[name]
-          }
+            required: %i[name],
+            example: {
+              name: 'Melbourne'
+            }
+          },
         },
         required: %i[station]
       }
@@ -99,12 +100,15 @@ RSpec.describe 'api/v1/stations', type: :request do
               properties: {
                 name: { type: :string }
               },
-              required: %i[name]
+              required: %i[name],
+              example: {
+                name: 'New name'
+              }
             }
           },
           required: %i[station]
         }
-        parameter name: :station_id, in: :path, type: :string, required: true,
+        parameter name: :station_id, in: :path, type: :integer, required: true,
                   description: 'Id of station'
         produces 'application/json'
         security [Bearer: {}]
@@ -143,7 +147,7 @@ RSpec.describe 'api/v1/stations', type: :request do
       delete 'Delete concrete station. By necr0me' do
         tags 'Stations'
         produces 'application/json'
-        parameter name: :station_id, in: :path, type: :string, required: true,
+        parameter name: :station_id, in: :path, type: :integer, required: true,
                   description: 'Id of station'
         security [Bearer: {}]
 

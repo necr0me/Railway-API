@@ -42,7 +42,10 @@ RSpec.describe 'api/v1/trains', type: :request do
             properties: {
               route_id: { type: :integer }
             },
-            required: %i[route_id]
+            required: %i[route_id],
+            example: {
+              route_id: 1
+            }
           }
         },
         required: %i[train]
@@ -81,7 +84,7 @@ RSpec.describe 'api/v1/trains', type: :request do
 
     get 'Show concrete train. By necr0me' do
       tags 'Trains'
-      parameter name: :train_id, in: :path, type: :string, required: true,
+      parameter name: :train_id, in: :path, type: :integer, required: true,
                 description: 'Id of train that you want to see'
       produces 'application/json'
       security [Bearer: {}]
@@ -112,7 +115,7 @@ RSpec.describe 'api/v1/trains', type: :request do
     put 'Update concrete train. By necr0me' do
       tags 'Trains'
       consumes 'application/json'
-      parameter name: :train_id, in: :path, type: :string, required: true,
+      parameter name: :train_id, in: :path, type: :integer, required: true,
                 description: 'Id of train that you want to update'
       parameter name: :params, in: :body, schema: {
         type: :object,
@@ -122,7 +125,10 @@ RSpec.describe 'api/v1/trains', type: :request do
             properties: {
               route_id: { type: :integer }
             },
-            required: %i[route_id]
+            required: %i[route_id],
+            example: {
+              route_id: 1
+            }
           }
         },
         required: %i[train]
@@ -163,7 +169,7 @@ RSpec.describe 'api/v1/trains', type: :request do
 
     delete 'Destroy concrete train. By necr0me' do
       tags 'Trains'
-      parameter name: :train_id, in: :path, type: :string, required: true,
+      parameter name: :train_id, in: :path, type: :integer, required: true,
                 description: 'Id of train that you want to update'
       produces 'application/json'
       security [Bearer: {}]
@@ -207,12 +213,16 @@ RSpec.describe 'api/v1/trains', type: :request do
     post 'Add concrete carriage to train. By necr0me' do
       tags 'Trains'
       consumes 'application/json'
-      parameter name: :train_id, in: :path, type: :string, required: true,
+      parameter name: :train_id, in: :path, type: :integer, required: true,
                 description: 'Id of train which to you want add carriage'
       parameter name: :params, in: :body, schema: {
         type: :object,
         properties: {
           carriage_id: { type: :integer }
+        },
+        required: %i[carriage_id],
+        example: {
+          carriage_id: 1
         }
       }
       produces 'application/json'
@@ -256,9 +266,9 @@ RSpec.describe 'api/v1/trains', type: :request do
 
     delete 'Remove concrete carriage from train. By necr0me' do
       tags 'Trains'
-      parameter name: :train_id, in: :path, type: :string, required: true,
+      parameter name: :train_id, in: :path, type: :integer, required: true,
                 description: 'Id of train which from you want to remove carriage'
-      parameter name: :carriage_id, in: :path, type: :string, required: true,
+      parameter name: :carriage_id, in: :path, type: :integer, required: true,
                 description: 'Id of carriage which you want to remove from train'
       produces 'application/json'
       security [Bearer: {}]

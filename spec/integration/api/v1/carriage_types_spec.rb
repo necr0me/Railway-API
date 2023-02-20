@@ -44,7 +44,12 @@ RSpec.describe 'api/v1/carriage_types', type: :request do
               description: { type: :string },
               capacity: { type: :integer }
             },
-            required: %i[name capacity description]
+            required: %i[name capacity],
+            example: {
+              name: 'Coupe',
+              description: 'Some description',
+              capacity: 32
+            }
           }
         },
         required: %i[carriage_type]
@@ -84,7 +89,7 @@ RSpec.describe 'api/v1/carriage_types', type: :request do
     put 'Updates carriage type. By necr0me' do
       tags 'Carriage types'
       consumes 'application/json'
-      parameter name: :carriage_type_id, in: :path, type: :string, required: true,
+      parameter name: :carriage_type_id, in: :path, type: :integer, required: true,
                 description: 'Id of carriage type that you want to update'
       parameter name: :params, in: :body, schema: {
         type: :object,
@@ -96,7 +101,12 @@ RSpec.describe 'api/v1/carriage_types', type: :request do
               description: { type: :string },
               capacity: { type: :integer }
             },
-            required: %i[name capacity description]
+            required: %i[name capacity],
+            example: {
+              name: 'Coupe',
+              description: 'Some description',
+              capacity: 32
+            }
           }
         },
         required: %i[carriage_type]
@@ -137,7 +147,7 @@ RSpec.describe 'api/v1/carriage_types', type: :request do
 
     delete 'Deletes carriage type. By necr0me' do
       tags 'Carriage types'
-      parameter name: :carriage_type_id, in: :path, type: :string, required: true,
+      parameter name: :carriage_type_id, in: :path, type: :integer, required: true,
                 description: 'Id of carriage type that you want to destroy'
       produces 'application/json'
       security [Bearer: {}]

@@ -36,7 +36,15 @@ RSpec.describe 'api/v1/profile', type: :request do
               phone_number: { type: :string },
               passport_code: { type: :string }
             },
-            required: %i[name surname patronymic phone_number passport_code]
+            required: %i[name surname patronymic phone_number passport_code],
+            example:
+              {
+                name: 'John',
+                surname: 'Doe',
+                patronymic: 'Doehovich',
+                phone_number: '375331234567',
+                passport_code: 'KH1234567'
+              }
           }
         },
         required: %i[profile]
@@ -79,7 +87,15 @@ RSpec.describe 'api/v1/profile', type: :request do
               phone_number: { type: :string },
               passport_code: { type: :string }
             },
-            required: %i[name surname patronymic phone_number passport_code]
+            required: %i[name surname patronymic phone_number passport_code],
+            example:
+              {
+                name: 'John',
+                surname: 'Doe',
+                patronymic: 'Doehovich',
+                phone_number: '375331234567',
+                passport_code: 'KH1234567'
+              }
           }
         },
         required: %i[profile]
