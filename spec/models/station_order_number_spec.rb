@@ -21,7 +21,7 @@ RSpec.describe StationOrderNumber, type: :model do
     end
   end
 
-  describe 'scopes' do
+  describe 'scopes', long: true do
     before { create(:route, :route_with_stations) }
 
     it 'by default sorts according to increasing order number' do

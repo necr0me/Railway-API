@@ -19,6 +19,7 @@ module Api
 
       def create
         carriage = Carriage.create(carriage_params)
+        authorize carriage
         if carriage.persisted?
           render json: { message: 'Carriage was successfully created',
                          carriage: carriage },
