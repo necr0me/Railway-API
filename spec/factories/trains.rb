@@ -14,5 +14,13 @@ FactoryBot.define do
         end
       end
     end
+
+    trait :train_with_stops do
+      after :create do |train|
+        3.times do
+          create(:passing_train, train_id: train.id)
+        end
+      end
+    end
   end
 end

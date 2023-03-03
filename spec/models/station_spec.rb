@@ -26,6 +26,24 @@ RSpec.describe Station, type: :model do
                                              station_id: station_id) }.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
+
+    context 'passing_trains' do
+      let(:station) { create(:station, :station_with_passing_trains) }
+
+      it 'has many passing trains' do
+        expect(described_class.reflect_on_association(:passing_trains).macro).to eq(:has_many)
+      end
+
+      it 'destroys with station' do
+        expect { station.destroy }.to change { station.passing_trains.size }.from(3).to(0)
+      end
+    end
+
+    context 'trains' do
+      it 'has many trains' do
+        expect(described_class.reflect_on_association(:trains).macro).to eq(:has_many)
+      end
+    end
   end
 
   describe 'auto_strip_attributes' do

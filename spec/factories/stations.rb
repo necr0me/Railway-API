@@ -24,4 +24,12 @@ FactoryBot.define do
              station_id: station.id)
     end
   end
+
+  trait :station_with_passing_trains do
+    after :create do |station|
+      3.times do
+        create(:passing_train, station_id: station.id)
+      end
+    end
+  end
 end
