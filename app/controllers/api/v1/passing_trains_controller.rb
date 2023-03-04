@@ -25,7 +25,8 @@ module Api
       def update
         authorize @passing_train
         if @passing_train.update(passing_train_params)
-          render json: { message: 'Train stop successfully updated' },
+          render json: { message: 'Train stop successfully updated',
+                         passing_train: @passing_train},
                  status: :ok
         else
           render json: { message: 'Something went wrong',
@@ -34,8 +35,6 @@ module Api
         end
       end
 
-
-      # TEST !!!
       def destroy
         authorize @passing_train
         if @passing_train.destroy
