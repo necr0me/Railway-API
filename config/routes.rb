@@ -26,6 +26,8 @@ Rails.application.routes.draw do
         post 'add_carriage', to: 'trains#add_carriage'
         delete 'remove_carriage/:carriage_id', to: 'trains#remove_carriage'
       end
+
+      resources :passing_trains, only: %i[index create update destroy]
     end
   end
 
