@@ -22,6 +22,8 @@ RSpec.describe StationOrderNumber, type: :model do
   end
 
   describe 'scopes', long: true do
+    include_context 'with sequence cleaner'
+
     before { create(:route, :route_with_stations) }
 
     it 'by default sorts according to increasing order number' do
@@ -30,6 +32,8 @@ RSpec.describe StationOrderNumber, type: :model do
   end
 
   describe 'validations' do
+    include_context 'with sequence cleaner'
+
     context '#order_number' do
       before { station_order_number.save }
 
@@ -49,12 +53,16 @@ RSpec.describe StationOrderNumber, type: :model do
   end
 
   describe 'order' do
+    include_context 'with sequence cleaner'
+
     it 'order station order numbers according to increasing order number' do
       route.station_order_numbers.pluck(:order_number).each_cons(2) { expect(_2 > _1).to eq(true) }
     end
   end
 
   describe '#set_order_number!' do
+    include_context 'with sequence cleaner'
+
     it 'sets created station correct order number' do
       expect { station_order_number.save }.to change(station_order_number, :order_number)
                                                 .from(nil).to(route.stations.count + 1)

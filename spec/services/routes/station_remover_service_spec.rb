@@ -4,6 +4,8 @@ RSpec.describe Routes::StationRemoverService do
   let(:route) { create(:route, :route_with_stations) }
   let(:first_station) { route.stations.first }
 
+  include_context 'with sequence cleaner'
+
   describe '#call' do
     it 'calls remove_station! method' do
       expect_any_instance_of(described_class).to receive(:remove_station).with(no_args)

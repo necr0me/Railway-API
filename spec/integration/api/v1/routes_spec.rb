@@ -6,6 +6,8 @@ RSpec.describe 'api/v1/routes', type: :request do
 
   let(:route) { create(:route, :route_with_stations) }
 
+  include_context 'with sequence cleaner'
+
   path '/api/v1/routes' do
     post 'Creates empty route. By necr0me' do
       tags 'Routes'

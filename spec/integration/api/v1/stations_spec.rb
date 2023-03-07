@@ -16,8 +16,10 @@ RSpec.describe 'api/v1/stations', type: :request do
       # TODO: add more examples
       response '200', 'Stations found (From query "?station=Mo")' do
         let(:station) { 'Mo' }
-        before { create_list(:station, 3, :station_sequence_with_three_stations) }
 
+        before { create_list(:station, 3, :station_sequence_with_name_list) }
+
+        include_context 'with sequence cleaner'
         include_context 'with integration test'
       end
     end
