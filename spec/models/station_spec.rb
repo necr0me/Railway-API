@@ -7,13 +7,13 @@ RSpec.describe Station, type: :model do
   let(:station_in_route) { create(:station, :station_with_route) }
 
   describe 'associations' do
-    context 'routes' do
+    describe 'routes' do
       it 'has many routes' do
         expect(described_class.reflect_on_association(:routes).macro).to eq(:has_many)
       end
     end
 
-    context 'station_order_numbers' do
+    describe 'station_order_numbers' do
       it 'has many station order numbers' do
         expect(described_class.reflect_on_association(:station_order_numbers).macro).to eq(:has_many)
       end
@@ -27,7 +27,7 @@ RSpec.describe Station, type: :model do
       end
     end
 
-    context 'passing_trains' do
+    describe 'passing_trains' do
       let(:station) { create(:station, :station_with_passing_trains) }
 
       it 'has many passing trains' do
@@ -39,9 +39,37 @@ RSpec.describe Station, type: :model do
       end
     end
 
-    context 'trains' do
+    describe 'trains' do
       it 'has many trains' do
         expect(described_class.reflect_on_association(:trains).macro).to eq(:has_many)
+      end
+    end
+
+    describe 'arrival tickets' do
+      let(:station) { create(:station, :station_with_arrival_tickets) }
+
+      it 'has many arrival rickets' do
+        expect(described_class.reflect_on_association(:arrival_tickets).macro).to eq(:has_many)
+      end
+
+      it 'destroys tickets with itself' do
+        expect(station.arrival_tickets.size).to eq(2)
+        station.destroy
+        expect(station.arrival_tickets.reload.size).to eq(0)
+      end
+    end
+
+    describe 'departure tickets' do
+      let(:station) { create(:station, :station_with_departure_tickets) }
+
+      it 'has many departure tickets' do
+        expect(described_class.reflect_on_association(:departure_tickets).macro).to eq(:has_many)
+      end
+
+      it 'destroys tickets with itself' do
+        expect(station.departure_tickets.size).to eq(2)
+        station.destroy
+        expect(station.departure_tickets.reload.size).to eq(0)
       end
     end
   end

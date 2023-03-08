@@ -30,4 +30,20 @@ FactoryBot.define do
       end
     end
   end
+
+  trait :station_with_arrival_tickets do
+    after :create do |station|
+      2.times do
+        create(:ticket, arrival_station: station)
+      end
+    end
+  end
+
+  trait :station_with_departure_tickets do
+    after :create do |station|
+      2.times do
+        create(:ticket, departure_station: station)
+      end
+    end
+  end
 end

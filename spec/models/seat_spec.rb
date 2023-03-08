@@ -4,9 +4,22 @@ RSpec.describe Seat, type: :model do
   let(:seat) { build(:seat) }
 
   describe 'associations' do
-    context 'Carriage' do
+    describe 'carriage' do
       it 'belongs to carriage' do
         expect(described_class.reflect_on_association(:carriage).macro).to eq(:belongs_to)
+      end
+    end
+
+    describe 'ticket' do
+      let(:seat) { create(:seat, :seat_with_ticket) }
+
+      it 'has one ticket' do
+        expect(described_class.reflect_on_association(:ticket).macro).to eq(:has_one)
+      end
+
+      it 'deletes ticket with seat' do
+        seat.destroy
+        expect { seat.ticket.reload }.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
   end
