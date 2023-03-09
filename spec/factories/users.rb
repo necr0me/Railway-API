@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :user do
-    email { 'johndoe@gmail.com' }
+    email { 'johndoe@gmail.com' } # TODO: add faker UNIQUE EMAIL
     password { 'password' }
   end
 

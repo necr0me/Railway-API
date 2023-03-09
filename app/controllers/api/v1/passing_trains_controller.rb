@@ -9,9 +9,9 @@ module Api
       end
 
       def create
-        passing_train = PassingTrain.new(passing_train_params)
+        passing_train = PassingTrain.create(passing_train_params)
         authorize passing_train
-        if passing_train.save
+        if passing_train.persisted?
           render json: { message: 'Train stop successfully created',
                          passing_train: passing_train },
                  status: :created

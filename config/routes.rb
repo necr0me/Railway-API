@@ -28,6 +28,8 @@ Rails.application.routes.draw do
       end
 
       resources :passing_trains, only: %i[index create update destroy]
+
+      resources :tickets, only: %i[show create destroy]
     end
   end
 

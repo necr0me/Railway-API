@@ -1,5 +1,5 @@
 module Trains
-  class TrainsFinderService < ApplicationService
+  class FinderService < ApplicationService
     def initialize(starting_station:, ending_station:, date: nil, day_option: :at_the_day)
       @starting_station = starting_station
       @ending_station = ending_station

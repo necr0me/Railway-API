@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Trains::TrainsFinderService do
+RSpec.describe Trains::FinderService do
   subject do
     described_class.call(
       starting_station: starting_station_name,
