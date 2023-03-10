@@ -20,7 +20,7 @@ RSpec.describe Tickets::CreatorService do
 
   describe '#call' do
     it 'it calls create_ticket method' do
-      allow_any_instance_of(described_class).to receive(:create_ticket).with(no_args)
+      expect_any_instance_of(described_class).to receive(:create_ticket).with(no_args)
       subject
     end
   end
