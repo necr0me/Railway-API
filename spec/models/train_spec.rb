@@ -24,6 +24,18 @@ RSpec.describe Train, type: :model do
         expect(train.carriages.reload.pluck(:train_id).all?(:nil?)).to be_truthy
       end
     end
+
+    context 'stops' do
+      let(:train) { create(:train, :train_with_stops) }
+
+      it 'has many stops' do
+        expect(described_class.reflect_on_association(:stops).macro).to eq(:has_many)
+      end
+
+      it 'destroys with train' do
+        expect { train.destroy }.to change { train.stops.size }.from(3).to(0)
+      end
+    end
   end
 
   describe 'callbacks' do

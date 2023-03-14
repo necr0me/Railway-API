@@ -66,6 +66,8 @@ GEM
       i18n (>= 1.6, < 2)
       minitest (>= 5.1)
       tzinfo (~> 2.0)
+    addressable (2.8.1)
+      public_suffix (>= 2.0.2, < 6.0)
     ast (2.4.2)
     auto_strip_attributes (2.6.0)
       activerecord (>= 4.0)
@@ -97,6 +99,8 @@ GEM
     irb (1.6.2)
       reline (>= 0.3.0)
     json (2.6.3)
+    json-schema (3.0.0)
+      addressable (>= 2.8)
     jwt (2.5.0)
     loofah (2.19.1)
       crass (~> 1.0.2)
@@ -127,6 +131,7 @@ GEM
     parser (3.2.0.0)
       ast (~> 2.4.1)
     pg (1.4.5)
+    public_suffix (5.0.1)
     puma (5.6.5)
       nio4r (~> 2.0)
     pundit (2.3.0)
@@ -188,6 +193,16 @@ GEM
       rspec-mocks (~> 3.11)
       rspec-support (~> 3.11)
     rspec-support (3.11.1)
+    rswag-api (2.8.0)
+      railties (>= 3.1, < 7.1)
+    rswag-specs (2.8.0)
+      activesupport (>= 3.1, < 7.1)
+      json-schema (>= 2.2, < 4.0)
+      railties (>= 3.1, < 7.1)
+      rspec-core (>= 2.14)
+    rswag-ui (2.8.0)
+      actionpack (>= 3.1, < 7.1)
+      railties (>= 3.1, < 7.1)
     rubocop (1.44.1)
       json (~> 2.3)
       parallel (~> 1.10)
@@ -239,6 +254,9 @@ DEPENDENCIES
   rack-cors
   rails (~> 7.0.4)
   rspec-rails
+  rswag-api
+  rswag-specs
+  rswag-ui
   rubocop-rails
   simplecov
   tzinfo-data

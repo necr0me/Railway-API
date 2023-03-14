@@ -10,6 +10,8 @@ RSpec.describe Api::V1::RoutesController, type: :request do
 
   describe '#show' do
     context 'when user is unauthorized' do
+      include_context 'with sequence cleaner'
+
       before do
         get "/api/v1/routes/#{route.id}"
       end
@@ -123,6 +125,8 @@ RSpec.describe Api::V1::RoutesController, type: :request do
   end
 
   describe '#remove_station' do
+    include_context 'with sequence cleaner'
+
     context 'when user is unauthorized' do
       before do
         delete "/api/v1/routes/#{route.id}/remove_station/#{route.stations.first.id}"
@@ -168,6 +172,8 @@ RSpec.describe Api::V1::RoutesController, type: :request do
   end
 
   describe '#destroy' do
+    include_context 'with sequence cleaner'
+
     context 'when user is unauthorized' do
       before do
         delete "/api/v1/routes/#{route.id}"

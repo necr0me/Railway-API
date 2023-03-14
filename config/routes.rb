@@ -1,8 +1,11 @@
 Rails.application.routes.draw do
+  mount Rswag::Api::Engine => '/api-docs'
+  mount Rswag::Ui::Engine => '/api-docs'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Defines the root path routes ("/")
   # root "articles#index"
+  # TODO: format: :json
   namespace :api do
     namespace :v1 do
       resources :users, only: %i[show update]
@@ -23,6 +26,10 @@ Rails.application.routes.draw do
         post 'add_carriage', to: 'trains#add_carriage'
         delete 'remove_carriage/:carriage_id', to: 'trains#remove_carriage'
       end
+
+      resources :passing_trains, only: %i[index create update destroy]
+
+      resources :tickets, only: %i[show create destroy]
     end
   end
 

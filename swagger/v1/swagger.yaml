@@ -1,0 +1,2188 @@
+---
+swagger: '2.0'
+info:
+  title: Railway-API
+  version: v1
+  description: Railway-API documentation
+paths:
+  "/api/v1/carriage_types":
+    get:
+      summary: Retrieves all carriage types. By necr0me
+      tags:
+      - Carriage types
+      produces:
+      - application/json
+      security:
+      - Bearer: {}
+      responses:
+        '200':
+          description: Carriage types found
+          examples:
+            application/json:
+              carriage_types:
+              - id: 1147
+                name: Ben Thair
+                description: Considine Inc
+                capacity: 8
+                created_at: '2023-03-10T15:34:53.805Z'
+                updated_at: '2023-03-10T15:34:53.805Z'
+              - id: 1148
+                name: Oliver Sutton
+                description: Nicolas-Altenwerth
+                capacity: 8
+                created_at: '2023-03-10T15:34:53.809Z'
+                updated_at: '2023-03-10T15:34:53.809Z'
+              - id: 1149
+                name: Chris P. Wheatzenraisins
+                description: Abshire and Sons
+                capacity: 8
+                created_at: '2023-03-10T15:34:53.813Z'
+                updated_at: '2023-03-10T15:34:53.813Z'
+        '401':
+          description: You are unauthorized
+          examples:
+            application/json:
+              message: You're not logged in
+              errors:
+              - Nil JSON web token
+        '403':
+          description: You are forbidden to perform this action
+          examples:
+            application/json:
+              message: You are not allowed to do this action
+    post:
+      summary: Creates new carriage type. By necr0me
+      tags:
+      - Carriage types
+      consumes:
+      - application/json
+      parameters:
+      - name: params
+        in: body
+        schema:
+          type: object
+          properties:
+            carriage_type:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+                capacity:
+                  type: integer
+              required:
+              - name
+              - capacity
+              example:
+                name: Coupe
+                description: Some description
+                capacity: 32
+          required:
+          - carriage_type
+      produces:
+      - application/json
+      security:
+      - Bearer: {}
+      responses:
+        '201':
+          description: Carriage type successfully created
+          examples:
+            application/json:
+              message: Carriage type successfully created
+              carriage_type:
+                id: 1150
+                name: Sam Dayoulpay
+                description: Hyatt, Konopelski and Bruen
+                capacity: 8
+                created_at: '2023-03-10T15:34:53.924Z'
+                updated_at: '2023-03-10T15:34:53.924Z'
+        '401':
+          description: You are unauthorized
+          examples:
+            application/json:
+              message: You're not logged in
+              errors:
+              - Nil JSON web token
+        '403':
+          description: You are forbidden to perform this action
+          examples:
+            application/json:
+              message: You are not allowed to do this action
+        '422':
+          description: Error occurred during carriage type create
+          examples:
+            application/json:
+              message: Something went wrong
+              errors:
+              - Name is too short (minimum is 3 characters)
+              - Capacity must be greater than or equal to 0
+  "/api/v1/carriage_types/{carriage_type_id}":
+    put:
+      summary: Updates carriage type. By necr0me
+      tags:
+      - Carriage types
+      consumes:
+      - application/json
+      parameters:
+      - name: carriage_type_id
+        in: path
+        type: integer
+        required: true
+        description: Id of carriage type that you want to update
+      - name: params
+        in: body
+        schema:
+          type: object
+          properties:
+            carriage_type:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+                capacity:
+                  type: integer
+              required:
+              - name
+              - capacity
+              example:
+                name: Coupe
+                description: Some description
+                capacity: 32
+          required:
+          - carriage_type
+      produces:
+      - application/json
+      security:
+      - Bearer: {}
+      responses:
+        '200':
+          description: Carriage type successfully updated
+          examples:
+            application/json:
+              message: Carriage type successfully updated
+              carriage_type:
+                name: New name
+                description: New description
+                capacity: 4
+                id: 1152
+                created_at: '2023-03-10T15:34:53.967Z'
+                updated_at: '2023-03-10T15:34:53.999Z'
+        '401':
+          description: You are unauthorized
+          examples:
+            application/json:
+              message: You're not logged in
+              errors:
+              - Nil JSON web token
+        '403':
+          description: You are forbidden to perform this action
+          examples:
+            application/json:
+              message: You are not allowed to do this action
+        '404':
+          description: Carriage type not found
+          examples:
+            application/json:
+              message: Couldn't find CarriageType with 'id'=-1
+        '422':
+          description: Error occurred during carriage type update
+          examples:
+            application/json:
+              message: Something went wrong
+              errors:
+              - Can't update carriage type capacity that has any carriages
+    delete:
+      summary: Deletes carriage type. By necr0me
+      tags:
+      - Carriage types
+      parameters:
+      - name: carriage_type_id
+        in: path
+        type: integer
+        required: true
+        description: Id of carriage type that you want to destroy
+      produces:
+      - application/json
+      security:
+      - Bearer: {}
+      responses:
+        '204':
+          description: Carriage type successfully destroyed
+        '401':
+          description: You are unauthorized
+          examples:
+            application/json:
+              message: You're not logged in
+              errors:
+              - Nil JSON web token
+        '403':
+          description: You are forbidden to perform this action
+          examples:
+            application/json:
+              message: You are not allowed to do this action
+        '404':
+          description: Carriage type not found
+          examples:
+            application/json:
+              message: Couldn't find CarriageType with 'id'=-1
+        '422':
+          description: Error occurred during carriage type destroy
+          examples:
+            application/json:
+              message: Something went wrong
+              errors:
+              - Can't destroy carriage type that has any carriages
+  "/api/v1/carriages":
+    get:
+      summary: Retrieves all carriages. By necr0me
+      tags:
+      - Carriages
+      produces:
+      - application/json
+      security:
+      - Bearer: {}
+      responses:
+        '200':
+          description: Carriages found
+          examples:
+            application/json:
+              carriages:
+              - id: 938
+                name: Hermes
+                carriage_type_id: 1163
+                created_at: '2023-03-10T15:34:54.178Z'
+                updated_at: '2023-03-10T15:34:54.178Z'
+                order_number: 2
+                train_id: 
+              - id: 937
+                name: Hestia
+                carriage_type_id: 1162
+                created_at: '2023-03-10T15:34:54.172Z'
+                updated_at: '2023-03-10T15:34:54.172Z'
+                order_number: 9
+                train_id: 
+        '401':
+          description: You are unauthorized
+          examples:
+            application/json:
+              message: You're not logged in
+              errors:
+              - Nil JSON web token
+        '403':
+          description: You are forbidden to perform this action
+          examples:
+            application/json:
+              message: You are not allowed to do this action
+    post:
+      summary: Creates new carriage. By necr0me
+      tags:
+      - Carriages
+      consumes:
+      - application/json
+      parameters:
+      - name: params
+        in: body
+        schema:
+          type: object
+          properties:
+            carriage:
+              type: object
+              properties:
+                name:
+                  type: string
+                carriage_type_id:
+                  type: integer
+              required:
+              - name
+              - carriage_type_id
+              example:
+                name: XT-231-321
+                carriage_type_id: 1
+          required:
+          - carriage
+      produces:
+      - application/json
+      security:
+      - Bearer: {}
+      responses:
+        '201':
+          description: Carriage successfully created
+          examples:
+            application/json:
+              message: Carriage was successfully created
+              carriage:
+                id: 939
+                name: Athena
+                carriage_type_id: 1164
+                created_at: '2023-03-10T15:34:54.230Z'
+                updated_at: '2023-03-10T15:34:54.230Z'
+                order_number: 
+                train_id: 
+        '401':
+          description: You are unauthorized
+          examples:
+            application/json:
+              message: You're not logged in
+              errors:
+              - Nil JSON web token
+        '403':
+          description: You are forbidden to perform this action
+          examples:
+            application/json:
+              message: You are not allowed to do this action
+        '422':
+          description: Error occurred during carriage create
+          examples:
+            application/json:
+              message: Something went wrong
+              errors:
+              - Type must exist
+              - Name is too short (minimum is 3 characters)
+  "/api/v1/carriages/{carriage_id}":
+    get:
+      summary: Get concrete carriage. By necr0me
+      tags:
+      - Carriages
+      parameters:
+      - name: carriage_id
+        in: path
+        type: integer
+        required: true
+        description: Id of carriage that you want to see
+      produces:
+      - application/json
+      security:
+      - Bearer: {}
+      responses:
+        '200':
+          description: Carriage found
+          examples:
+            application/json:
+              carriage:
+                id: 941
+                name: Hera
+                carriage_type_id: 1168
+                created_at: '2023-03-10T15:34:54.283Z'
+                updated_at: '2023-03-10T15:34:54.283Z'
+                order_number: 14
+                train_id: 
+        '401':
+          description: You are unauthorized
+          examples:
+            application/json:
+              message: You're not logged in
+              errors:
+              - Nil JSON web token
+        '404':
+          description: Carriage not found
+          examples:
+            application/json:
+              message: Couldn't find Carriage with 'id'=-1
+    put:
+      summary: Update concrete carriage. By necr0me
+      tags:
+      - Carriages
+      consumes:
+      - application/json
+      parameters:
+      - name: carriage_id
+        in: path
+        type: integer
+        required: true
+        description: Id of carriage that you want to update
+      - name: params
+        in: body
+        schema:
+          type: object
+          properties:
+            carriage:
+              type: object
+              properties:
+                name:
+                  type: string
+                carriage_type_id:
+                  type: integer
+              required:
+              - name
+              - carriage_type_id
+              example:
+                name: XT-231-321
+                carriage_type_id: 1
+          required:
+          - carriage
+      produces:
+      - application/json
+      security:
+      - Bearer: {}
+      responses:
+        '200':
+          description: Carriage successfully updated
+          examples:
+            application/json:
+              message: Carriage name was successfully updated
+              carriage:
+                name: New name
+                carriage_type_id: 1170
+                id: 943
+                created_at: '2023-03-10T15:34:54.327Z'
+                updated_at: '2023-03-10T15:34:54.342Z'
+                order_number: 30
+                train_id: 
+        '401':
+          description: You are unauthorized
+          examples:
+            application/json:
+              message: You're not logged in
+              errors:
+              - Nil JSON web token
+        '403':
+          description: You are forbidden to perform this action
+          examples:
+            application/json:
+              message: You are not allowed to do this action
+        '404':
+          description: Carriage not found
+          examples:
+            application/json:
+              message: Couldn't find Carriage with 'id'=-1
+        '422':
+          description: Error occurred during carriage update
+          examples:
+            application/json:
+              message: Something went wrong
+              errors:
+              - Name is too short (minimum is 3 characters)
+    delete:
+      summary: Destroy concrete carriage. By necr0me
+      tags:
+      - Carriages
+      parameters:
+      - name: carriage_id
+        in: path
+        type: integer
+        require: true
+        description: Id of carriage that you want to destroy
+        required: true
+      produces:
+      - application/json
+      security:
+      - Bearer: {}
+      responses:
+        '204':
+          description: Carriage successfully destroyed
+        '401':
+          description: You are unauthorized
+          examples:
+            application/json:
+              message: You're not logged in
+              errors:
+              - Nil JSON web token
+        '403':
+          description: You are forbidden to perform this action
+          examples:
+            application/json:
+              message: You are not allowed to do this action
+        '404':
+          description: Carriage not found
+          examples:
+            application/json:
+              message: Couldn't find Carriage with 'id'=-1
+        '422':
+          description: Error occurred during carriage destroy
+          examples:
+            application/json:
+              message: Something went wrong
+              errors:
+              - Error message
+  api/v1/passing_trains:
+    get:
+      summary: Retrieves all passing trains. By necr0me
+      tags:
+      - Passing trains
+      produces:
+      - application/json
+      responses:
+        '200':
+          description: Passing trains found
+          examples:
+            application/json:
+              passing_trains:
+              - id: 415
+                departure_time: '2023-03-10T15:54:54.546Z'
+                arrival_time: '2023-03-10T15:34:54.546Z'
+                way_number: 1
+                train_id: 549
+                station_id: 1532
+                created_at: '2023-03-10T15:34:54.590Z'
+                updated_at: '2023-03-10T15:34:54.590Z'
+              - id: 416
+                departure_time: '2023-03-10T16:14:54.593Z'
+                arrival_time: '2023-03-10T15:54:54.593Z'
+                way_number: 1
+                train_id: 549
+                station_id: 1532
+                created_at: '2023-03-10T15:34:54.597Z'
+                updated_at: '2023-03-10T15:34:54.597Z'
+              - id: 417
+                departure_time: '2023-03-10T16:34:54.599Z'
+                arrival_time: '2023-03-10T16:14:54.599Z'
+                way_number: 1
+                train_id: 549
+                station_id: 1532
+                created_at: '2023-03-10T15:34:54.603Z'
+                updated_at: '2023-03-10T15:34:54.603Z'
+    post:
+      summary: Creates new passing train. By necr0me
+      tags:
+      - Passing trains
+      consumes:
+      - application/json
+      parameters:
+      - name: params
+        in: body
+        schema:
+          type: object
+          properties:
+            passing_train:
+              type: object
+              properties:
+                arrival_time:
+                  type: string
+                  format: datetime
+                departure_time:
+                  type: string
+                  format: datetime
+                way_number:
+                  type: integer
+                station_id:
+                  type: integer
+                train_id:
+                  type: integer
+              required:
+              - arrival_time
+              - departure_time
+              - station_id
+              - train_id
+              example:
+                arrival_time: '2023-03-10T18:34:53+03:00'
+                departure_time: '2023-03-10T18:54:53+03:00'
+                way_number: 1
+                station_id: 1
+                train_id: 1
+            required:
+            - passing_train
+      produces:
+      - application/json
+      security:
+      - Bearer: {}
+      responses:
+        '201':
+          description: Passing train successfully created
+          examples:
+            application/json:
+              message: Train stop successfully created
+              passing_train:
+                id: 418
+                departure_time: '2023-03-10T15:54:54.620Z'
+                arrival_time: '2023-03-10T15:34:54.620Z'
+                way_number: 1
+                train_id: 550
+                station_id: 1533
+                created_at: '2023-03-10T15:34:54.636Z'
+                updated_at: '2023-03-10T15:34:54.636Z'
+        '401':
+          description: You are unauthorized
+          examples:
+            application/json:
+              message: You're not logged in
+              errors:
+              - Nil JSON web token
+        '403':
+          description: You are forbidden to perform this action
+          examples:
+            application/json:
+              message: You are not allowed to do this action
+        '422':
+          description: Error occurred during passing train create
+          examples:
+            application/json:
+              message: Something went wrong
+              errors:
+              - Train must exist
+              - Station must exist
+  api/v1/passing_trains/{passing_train_id}:
+    put:
+      summary: Updates passing train. By necr0me
+      tags:
+      - Passing trains
+      consumes:
+      - application/json
+      parameters:
+      - name: passing_train_id
+        in: path
+        type: integer
+        required: true
+        description: Id of passing train record that you want to update
+      - name: params
+        in: body
+        schema:
+          type: object
+          properties:
+            passing_train:
+              type: object
+              properties:
+                arrival_time:
+                  type: string
+                  format: datetime
+                departure_time:
+                  type: string
+                  format: datetime
+                way_number:
+                  type: integer
+                station_id:
+                  type: integer
+                train_id:
+                  type: integer
+              required:
+              - arrival_time
+              - departure_time
+              - station_id
+              - train_id
+              example:
+                arrival_time: '2023-03-10T18:34:53+03:00'
+                departure_time: '2023-03-10T18:54:53+03:00'
+                way_number: 1
+                station_id: 1
+                train_id: 1
+            required:
+            - passing_train
+      produces:
+      - application/json
+      security:
+      - Bearer: {}
+      responses:
+        '200':
+          description: Passing train successfully updated
+          examples:
+            application/json:
+              message: Train stop successfully updated
+              passing_train:
+                arrival_time: '2023-03-10T15:39:54.705Z'
+                train_id: 553
+                station_id: 1536
+                id: 420
+                departure_time: '2023-03-10T15:54:54.705Z'
+                way_number: 1
+                created_at: '2023-03-10T15:34:54.715Z'
+                updated_at: '2023-03-10T15:34:54.733Z'
+        '401':
+          description: You are unauthorized
+          examples:
+            application/json:
+              message: You're not logged in
+              errors:
+              - Nil JSON web token
+        '403':
+          description: You are forbidden to perform this action
+          examples:
+            application/json:
+              message: You are not allowed to do this action
+        '404':
+          description: Passing train not found
+          examples:
+            application/json:
+              message: Couldn't find PassingTrain with 'id'=-1
+        '422':
+          description: Error occurred during passing train update
+          examples:
+            application/json:
+              message: Something went wrong
+              errors:
+              - Departure time can't be greater than arrival time
+    delete:
+      summary: Deletes passing train. By necr0me
+      tags:
+      - Passing trains
+      parameters:
+      - name: passing_train_id
+        in: path
+        type: integer
+        required: true
+        description: Id of passing train record that you want to destroy
+      produces:
+      - application/json
+      security:
+      - Bearer: {}
+      responses:
+        '200':
+          description: Passing train successfully destroyed
+          examples:
+            application/json:
+              message: Train stop successfully removed
+        '401':
+          description: You are unauthorized
+          examples:
+            application/json:
+              message: You're not logged in
+              errors:
+              - Nil JSON web token
+        '403':
+          description: You are forbidden to perform this action
+          examples:
+            application/json:
+              message: You are not allowed to do this action
+        '404':
+          description: Passing train not found
+          examples:
+            application/json:
+              message: Couldn't find PassingTrain with 'id'=-1
+        '422':
+          description: Error occurred during passing train destroy
+          examples:
+            application/json:
+              message: Something went wrong
+              errors:
+              - Error message
+  "/api/v1/profile":
+    get:
+      summary: Retrieves user profile. By necr0me
+      tags:
+      - Profile
+      produces:
+      - application/json
+      security:
+      - Bearer: {}
+      responses:
+        '200':
+          description: Profile found
+          examples:
+            application/json:
+              id: 107
+              name: John
+              surname: Doe
+              patronymic: Doehovich
+              phone_number: "+375331234567"
+              passport_code: KH1234567
+              user_id: 1523
+              created_at: '2023-03-10T15:34:54.976Z'
+              updated_at: '2023-03-10T15:34:54.976Z'
+        '401':
+          description: You are unauthorized
+          examples:
+            application/json:
+              message: You're not logged in
+              errors:
+              - Nil JSON web token
+    post:
+      summary: Creates user profile. By necr0me
+      tags:
+      - Profile
+      consumes:
+      - application/json
+      parameters:
+      - name: params
+        in: body
+        schema:
+          type: object
+          properties:
+            profile:
+              type: object
+              properties:
+                name:
+                  type: string
+                surname:
+                  type: string
+                patronymic:
+                  type: string
+                phone_number:
+                  type: string
+                passport_code:
+                  type: string
+              required:
+              - name
+              - surname
+              - patronymic
+              - phone_number
+              - passport_code
+              example:
+                name: John
+                surname: Doe
+                patronymic: Doehovich
+                phone_number: '375331234567'
+                passport_code: KH1234567
+          required:
+          - profile
+      produces:
+      - application/json
+      security:
+      - Bearer: {}
+      responses:
+        '201':
+          description: Profile successfully created
+          examples:
+            application/json:
+              profile:
+                id: 108
+                name: John
+                surname: Doe
+                patronymic: Doehovich
+                phone_number: "+375331234567"
+                passport_code: KH1234567
+                user_id: 1524
+                created_at: '2023-03-10T15:34:55.005Z'
+                updated_at: '2023-03-10T15:34:55.005Z'
+        '401':
+          description: You are unauthorized
+          examples:
+            application/json:
+              message: You're not logged in
+              errors:
+              - Nil JSON web token
+        '422':
+          description: Error occurred during profile create
+          examples:
+            application/json:
+              message: Something went wrong
+              errors:
+              - Surname can't be blank
+              - Patronymic can't be blank
+              - Phone number can't be blank
+              - Passport code can't be blank
+              - Name is too short (minimum is 2 characters)
+              - Surname is too short (minimum is 2 characters)
+              - Patronymic is too short (minimum is 5 characters)
+              - Passport code is invalid
+              - Phone number is too short (minimum is 7 characters)
+    put:
+      summary: Updates user profile. By necr0me
+      tags:
+      - Profile
+      consumes:
+      - application/json
+      parameters:
+      - name: params
+        in: body
+        schema:
+          type: object
+          properties:
+            profile:
+              type: object
+              properties:
+                name:
+                  type: string
+                surname:
+                  type: string
+                patronymic:
+                  type: string
+                phone_number:
+                  type: string
+                passport_code:
+                  type: string
+              required:
+              - name
+              - surname
+              - patronymic
+              - phone_number
+              - passport_code
+              example:
+                name: John
+                surname: Doe
+                patronymic: Doehovich
+                phone_number: '375331234567'
+                passport_code: KH1234567
+          required:
+          - profile
+      produces:
+      - application/json
+      security:
+      - Bearer: {}
+      responses:
+        '200':
+          description: Profile found
+          examples:
+            application/json:
+              profile:
+                user_id: 1526
+                name: New name
+                surname: Doe
+                patronymic: Doehovich
+                phone_number: "+375331234567"
+                id: 109
+                passport_code: KH1234567
+                created_at: '2023-03-10T15:34:55.048Z'
+                updated_at: '2023-03-10T15:34:55.056Z'
+        '401':
+          description: You are unauthorized
+          examples:
+            application/json:
+              message: You're not logged in
+              errors:
+              - Nil JSON web token
+        '422':
+          description: Error occurred during profile update
+          examples:
+            application/json:
+              message: Something went wrong
+              errors:
+              - Name is too short (minimum is 2 characters)
+  "/api/v1/routes":
+    post:
+      summary: Creates empty route. By necr0me
+      tags:
+      - Routes
+      produces:
+      - application/json
+      security:
+      - Bearer: {}
+      responses:
+        '201':
+          description: Route successfully created
+          examples:
+            application/json:
+              message: Route was created
+              route:
+                id: 328
+                created_at: '2023-03-10T15:34:55.106Z'
+                updated_at: '2023-03-10T15:34:55.106Z'
+        '401':
+          description: You are unauthorized
+          examples:
+            application/json:
+              message: You're not logged in
+              errors:
+              - Nil JSON web token
+        '403':
+          description: You are forbidden to perform this action
+          examples:
+            application/json:
+              message: You are not allowed to do this action
+        '422':
+          description: Error occurred during route creation
+          examples:
+            application/json:
+              message: Something went wrong
+              errors:
+              - Error message
+  "/api/v1/routes/{route_id}":
+    get:
+      summary: Find concrete route. By necr0me
+      tags:
+      - Routes
+      parameters:
+      - name: route_id
+        in: path
+        type: integer
+        required: true
+        description: Id of route
+      produces:
+      - application/json
+      responses:
+        '200':
+          description: Route found
+          examples:
+            application/json:
+              route:
+                id: 331
+                created_at: '2023-03-10T15:34:55.163Z'
+                updated_at: '2023-03-10T15:34:55.163Z'
+              stations:
+              - id: 1545
+                name: Mogilev
+                created_at: '2023-03-10T15:34:55.167Z'
+                updated_at: '2023-03-10T15:34:55.167Z'
+              - id: 1546
+                name: Mosty
+                created_at: '2023-03-10T15:34:55.171Z'
+                updated_at: '2023-03-10T15:34:55.171Z'
+              - id: 1547
+                name: Minsk
+                created_at: '2023-03-10T15:34:55.174Z'
+                updated_at: '2023-03-10T15:34:55.174Z'
+        '404':
+          description: Route not found
+          examples:
+            application/json:
+              message: Couldn't find Route with 'id'=-1
+    delete:
+      summary: Delete concrete route. By necr0me
+      tags:
+      - Routes
+      parameters:
+      - name: route_id
+        in: path
+        type: integer
+        required: true
+        description: Id of route
+      produces:
+      - application/json
+      security:
+      - Bearer: {}
+      responses:
+        '204':
+          description: Route successfully destroyed
+        '401':
+          description: You are unauthorized
+          examples:
+            application/json:
+              message: You're not logged in
+              errors:
+              - Nil JSON web token
+        '403':
+          description: You are forbidden to perform this action
+          examples:
+            application/json:
+              message: You are not allowed to do this action
+        '404':
+          description: Route not found
+          examples:
+            application/json:
+              message: Couldn't find Route with 'id'=-1
+        '422':
+          description: Error occurred during route destroying
+          examples:
+            application/json:
+              message: Something went wrong
+              errors:
+              - Error message
+  "/api/v1/routes/{route_id}/add_station":
+    post:
+      summary: Add existing station to existing route. By necr0me
+      tags:
+      - Routes
+      consumes:
+      - application/json
+      parameters:
+      - name: route_id
+        type: integer
+        in: path
+        required: true
+        description: Id of route which to you want add station
+      - name: params
+        in: body
+        schema:
+          type: object
+          properties:
+            station_id:
+              type: integer
+          required:
+          - station_id
+      produces:
+      - application/json
+      security:
+      - Bearer: {}
+      responses:
+        '201':
+          description: Station successfully added to route
+          examples:
+            application/json:
+              message: Station was successfully added to route
+              station:
+                id: 1563
+                name: Melbourne
+                created_at: '2023-03-10T15:34:55.539Z'
+                updated_at: '2023-03-10T15:34:55.539Z'
+        '401':
+          description: You are unauthorized
+          examples:
+            application/json:
+              message: You're not logged in
+              errors:
+              - Nil JSON web token
+        '403':
+          description: You are forbidden to perform this action
+          examples:
+            application/json:
+              message: You are not allowed to do this action
+        '404':
+          description: Route not found
+          examples:
+            application/json:
+              message: Couldn't find Route with 'id'=-1
+        '422':
+          description: Station does not exist
+          examples:
+            application/json:
+              message: Something went wrong
+              errors:
+              - 'Validation failed: Station must exist'
+  "/api/v1/routes/{route_id}/remove_station/{station_id}":
+    delete:
+      summary: Remove station from route. By necr0me
+      tags:
+      - Routes
+      parameters:
+      - name: route_id
+        in: path
+        type: integer
+        required: true
+        description: Id of route where from station removing
+      - name: station_id
+        in: path
+        type: integer
+        required: true
+        description: Id of station that removing from route
+      produces:
+      - application/json
+      security:
+      - Bearer: {}
+      responses:
+        '200':
+          description: Successfully remove station from route
+          examples:
+            application/json:
+              message: Station was successfully removed from route
+        '401':
+          description: You are unauthorized
+          examples:
+            application/json:
+              message: You're not logged in
+              errors:
+              - Nil JSON web token
+        '403':
+          description: You are forbidden to perform this action
+          examples:
+            application/json:
+              message: You are not allowed to do this action
+        '404':
+          description: Route not found
+          examples:
+            application/json:
+              message: Couldn't find Route with 'id'=-1
+        '422':
+          description: Station already not in route
+          examples:
+            application/json:
+              message: Something went wrong
+              errors:
+              - Couldn't find StationOrderNumber with [WHERE "station_order_numbers"."route_id"
+                = $1 AND "station_order_numbers"."station_id" = $2]
+  "/api/v1/stations":
+    get:
+      summary: Gets all stations. By necr0me
+      tags:
+      - Stations
+      produces:
+      - application/json
+      parameters:
+      - name: station
+        in: query
+        type: string
+        required: false
+        description: Name of station or first N letters of station name
+      responses:
+        '200':
+          description: Stations found (From query "?station=Mo")
+          examples:
+            application/json:
+            - id: 1592
+              name: Mogilev
+              created_at: '2023-03-10T15:34:56.086Z'
+              updated_at: '2023-03-10T15:34:56.086Z'
+            - id: 1593
+              name: Mosty
+              created_at: '2023-03-10T15:34:56.090Z'
+              updated_at: '2023-03-10T15:34:56.090Z'
+    post:
+      summary: Create a new station. By necr0me
+      tags:
+      - Stations
+      consumes:
+      - application/json
+      parameters:
+      - name: params
+        in: body
+        schema:
+          type: object
+          properties:
+            station:
+              type: object
+              properties:
+                name:
+                  type: string
+              required:
+              - name
+              example:
+                name: Melbourne
+          required:
+          - station
+      produces:
+      - application/json
+      security:
+      - Bearer: {}
+      responses:
+        '201':
+          description: Station created
+          examples:
+            application/json:
+              station:
+                id: 1595
+                name: Melbourne
+                created_at: '2023-03-10T15:34:56.118Z'
+                updated_at: '2023-03-10T15:34:56.118Z'
+        '401':
+          description: You are unauthorized
+          examples:
+            application/json:
+              message: You're not logged in
+              errors:
+              - Nil JSON web token
+        '403':
+          description: You are forbidden to perform this action
+          examples:
+            application/json:
+              message: You are not allowed to do this action
+        '422':
+          description: Errors during station creation
+          examples:
+            application/json:
+              message: Something went wrong
+              errors:
+              - Name is too short (minimum is 2 characters)
+  "/api/v1/stations/{station_id}":
+    get:
+      summary: Get concrete station. By necr0me
+      tags:
+      - Stations
+      produces:
+      - application/json
+      parameters:
+      - name: station_id
+        in: path
+        type: string
+        required: true
+        description: Id of station
+      responses:
+        '200':
+          description: Station was found
+          examples:
+            application/json:
+              id: 1597
+              name: Melbourne
+              created_at: '2023-03-10T15:34:56.162Z'
+              updated_at: '2023-03-10T15:34:56.162Z'
+        '404':
+          description: Station not found
+          examples:
+            application/json:
+              message: Couldn't find Station with 'id'=-1
+    put:
+      summary: Update concrete station. By necr0me
+      tags:
+      - Stations
+      consumes:
+      - application/json
+      parameters:
+      - name: params
+        in: body
+        schema:
+          type: object
+          properties:
+            station:
+              type: object
+              properties:
+                name:
+                  type: string
+              required:
+              - name
+              example:
+                name: New name
+          required:
+          - station
+      - name: station_id
+        in: path
+        type: integer
+        required: true
+        description: Id of station
+      produces:
+      - application/json
+      security:
+      - Bearer: {}
+      responses:
+        '200':
+          description: Station updated
+          examples:
+            application/json:
+              station:
+                name: New name
+                id: 1598
+                created_at: '2023-03-10T15:34:56.178Z'
+                updated_at: '2023-03-10T15:34:56.192Z'
+        '401':
+          description: You are unauthorized
+          examples:
+            application/json:
+              message: You're not logged in
+              errors:
+              - Nil JSON web token
+        '403':
+          description: You are forbidden to perform this action
+          examples:
+            application/json:
+              message: You are not allowed to do this action
+        '404':
+          description: Station not found
+          examples:
+            application/json:
+              message: Couldn't find Station with 'id'=-1
+        '422':
+          description: Something went wrong during station update
+          examples:
+            application/json:
+              message: Something went wrong
+              errors:
+              - Name can't be blank
+              - Name is too short (minimum is 2 characters)
+    delete:
+      summary: Delete concrete station. By necr0me
+      tags:
+      - Stations
+      produces:
+      - application/json
+      parameters:
+      - name: station_id
+        in: path
+        type: integer
+        required: true
+        description: Id of station
+      security:
+      - Bearer: {}
+      responses:
+        '204':
+          description: Successfully destroyed station
+        '401':
+          description: You are unauthorized
+          examples:
+            application/json:
+              message: You're not logged in
+              errors:
+              - Nil JSON web token
+        '403':
+          description: You are forbidden to perform this action
+          examples:
+            application/json:
+              message: You are not allowed to do this action
+        '404':
+          description: Station not found
+          examples:
+            application/json:
+              message: Couldn't find Station with 'id'=-1
+        '422':
+          description: Something went wrong during station destroying
+          examples:
+            application/json:
+              message: Something went wrong
+              errors:
+              - Error message
+  "/api/v1/tickets":
+    post:
+      summary: Creates new ticket. By necr0me
+      tags:
+      - Tickets
+      consumes:
+      - application/json
+      parameters:
+      - name: params
+        in: body
+        schema:
+          type: object
+          properties:
+            ticket:
+              type: object
+              properties:
+                user_id:
+                  type: integer
+                seat_id:
+                  type: integer
+                departure_station_id:
+                  type: integer
+                arrival_station_id:
+                  type: integer
+                price:
+                  type: number
+                  format: float
+              required:
+              - user_id
+              - seat_id
+              - departure_station_id
+              - arrival_station_id
+              - price
+              example:
+                user_id: 1
+                seat_id: 1
+                departure_station_id: 1
+                arrival_station_id: 2
+                price: 10.0
+            required:
+            - ticket
+      produces:
+      - application/json
+      security:
+      - Bearer: {}
+      responses:
+        '201':
+          description: Ticket successfully created
+          examples:
+            application/json:
+              message: Ticket successfully created
+              ticket:
+                id: 143
+                price: 10.0
+                user_id: 1554
+                seat_id: 3247
+                arrival_station_id: 1607
+                departure_station_id: 1606
+                created_at: '2023-03-10T15:34:56.406Z'
+                updated_at: '2023-03-10T15:34:56.406Z'
+        '401':
+          description: You are unauthorized
+          examples:
+            application/json:
+              message: You're not logged in
+              errors:
+              - Nil JSON web token
+        '422':
+          description: Error occurred during ticket create
+          examples:
+            application/json:
+              message: Something went wrong
+              errors:
+              - Price can't be blank
+              - Price is not a number
+  "/api/v1/tickets/{ticket_id}":
+    get:
+      summary: Gets concrete ticket. By necr0me
+      tags:
+      - Tickets
+      security:
+      - Bearer: {}
+      parameters:
+      - name: ticket_id
+        in: path
+        type: integer
+        required: true
+        description: Id of ticket that you want to find
+      produces:
+      - application/json
+      responses:
+        '200':
+          description: Ticket was found
+          examples:
+            application/json:
+              ticket:
+                id: 144
+                price: 1.5
+                user_id: 1557
+                seat_id: 3250
+                arrival_station_id: 1612
+                departure_station_id: 1612
+                created_at: '2023-03-10T15:34:56.503Z'
+                updated_at: '2023-03-10T15:34:56.503Z'
+        '401':
+          description: You are unauthorized
+          examples:
+            application/json:
+              message: You're not logged in
+              errors:
+              - Nil JSON web token
+        '403':
+          description: You are forbidden to perform this action
+          examples:
+            application/json:
+              message: You are not allowed to do this action
+        '404':
+          description: Ticket not found
+          examples:
+            application/json:
+              message: Couldn't find Ticket with 'id'=-1
+    delete:
+      summary: Deletes concrete ticket. By necr0me
+      tags:
+      - Tickets
+      security:
+      - Bearer: {}
+      parameters:
+      - name: ticket_id
+        in: path
+        type: integer
+        required: true
+        description: Id of ticket that you want to destroy
+      produces:
+      - application/json
+      responses:
+        '200':
+          description: Ticket successfully destroyed
+          examples:
+            application/json:
+              message: Ticket successfully destroyed
+        '401':
+          description: You are unauthorized
+          examples:
+            application/json:
+              message: You're not logged in
+              errors:
+              - Nil JSON web token
+        '403':
+          description: You are forbidden to perform this action
+          examples:
+            application/json:
+              message: You are not allowed to do this action
+        '404':
+          description: Ticket not found
+          examples:
+            application/json:
+              message: Couldn't find Ticket with 'id'=-1
+        '422':
+          description: Error occurred during ticket destroy
+          examples:
+            application/json:
+              message: Something went wrong
+              errors:
+              - Error message
+  "/api/v1/trains":
+    get:
+      summary: Retrieves all trains. By necr0me
+      tags:
+      - Trains
+      produces:
+      - application/json
+      security:
+      - Bearer: {}
+      responses:
+        '200':
+          description: Trains found
+          examples:
+            application/json:
+              trains:
+              - id: 562
+                route_id: 
+                created_at: '2023-03-10T15:34:56.750Z'
+                updated_at: '2023-03-10T15:34:56.750Z'
+              - id: 563
+                route_id: 
+                created_at: '2023-03-10T15:34:56.752Z'
+                updated_at: '2023-03-10T15:34:56.752Z'
+        '401':
+          description: You are unauthorized
+          examples:
+            application/json:
+              message: You're not logged in
+              errors:
+              - Nil JSON web token
+        '403':
+          description: You are forbidden to perform this action
+          examples:
+            application/json:
+              message: You are not allowed to do this action
+    post:
+      summary: Creates new empty train. By necr0me
+      tags:
+      - Trains
+      consumes:
+      - application/json
+      parameters:
+      - name: params
+        in: body
+        schema:
+          type: object
+          properties:
+            route:
+              type: object
+              properties:
+                route_id:
+                  type: integer
+              required:
+              - route_id
+              example:
+                route_id: 1
+          required:
+          - train
+      produces:
+      - application/json
+      security:
+      - Bearer: {}
+      responses:
+        '201':
+          description: Train successfully created
+          examples:
+            application/json:
+              message: Train was successfully created
+              train:
+                id: 564
+                route_id: 345
+                created_at: '2023-03-10T15:34:56.797Z'
+                updated_at: '2023-03-10T15:34:56.797Z'
+        '401':
+          description: You are unauthorized
+          examples:
+            application/json:
+              message: You're not logged in
+              errors:
+              - Nil JSON web token
+        '403':
+          description: You are forbidden to perform this action
+          examples:
+            application/json:
+              message: You are not allowed to do this action
+        '422':
+          description: Error occurred during train create
+          examples:
+            application/json:
+              message: Seems like this entity does not exist
+  "/api/v1/trains/{train_id}":
+    get:
+      summary: Show concrete train. By necr0me
+      tags:
+      - Trains
+      parameters:
+      - name: train_id
+        in: path
+        type: integer
+        required: true
+        description: Id of train that you want to see
+      produces:
+      - application/json
+      security:
+      - Bearer: {}
+      responses:
+        '200':
+          description: Train found
+          examples:
+            application/json:
+              train:
+                id: 567
+                route_id: 
+                created_at: '2023-03-10T15:34:56.843Z'
+                updated_at: '2023-03-10T15:34:56.843Z'
+        '401':
+          description: You are unauthorized
+          examples:
+            application/json:
+              message: You're not logged in
+              errors:
+              - Nil JSON web token
+        '403':
+          description: You are forbidden to perform this action
+          examples:
+            application/json:
+              message: You are not allowed to do this action
+        '404':
+          description: Train not found
+          examples:
+            application/json:
+              message: Couldn't find Train with 'id'=-1
+    put:
+      summary: Update concrete train. By necr0me
+      tags:
+      - Trains
+      consumes:
+      - application/json
+      parameters:
+      - name: train_id
+        in: path
+        type: integer
+        required: true
+        description: Id of train that you want to update
+      - name: params
+        in: body
+        schema:
+          type: object
+          properties:
+            route:
+              type: object
+              properties:
+                route_id:
+                  type: integer
+              required:
+              - route_id
+              example:
+                route_id: 1
+          required:
+          - train
+      produces:
+      - application/json
+      security:
+      - Bearer: {}
+      responses:
+        '200':
+          description: Train successfully updated
+          examples:
+            application/json:
+              message: Train was successfully updated
+              train:
+                route_id: 348
+                id: 570
+                created_at: '2023-03-10T15:34:57.280Z'
+                updated_at: '2023-03-10T15:34:57.421Z'
+        '401':
+          description: You are unauthorized
+          examples:
+            application/json:
+              message: You're not logged in
+              errors:
+              - Nil JSON web token
+        '403':
+          description: You are forbidden to perform this action
+          examples:
+            application/json:
+              message: You are not allowed to do this action
+        '404':
+          description: Train not found
+          examples:
+            application/json:
+              message: Couldn't find Train with 'id'=-1
+        '422':
+          description: Error occurred during train update
+          examples:
+            application/json:
+              message: Seems like this entity does not exist
+    delete:
+      summary: Destroy concrete train. By necr0me
+      tags:
+      - Trains
+      parameters:
+      - name: train_id
+        in: path
+        type: integer
+        required: true
+        description: Id of train that you want to update
+      produces:
+      - application/json
+      security:
+      - Bearer: {}
+      responses:
+        '204':
+          description: Train successfully destroyed
+        '401':
+          description: You are unauthorized
+          examples:
+            application/json:
+              message: You're not logged in
+              errors:
+              - Nil JSON web token
+        '403':
+          description: You are forbidden to perform this action
+          examples:
+            application/json:
+              message: You are not allowed to do this action
+        '404':
+          description: Train not found
+          examples:
+            application/json:
+              message: Couldn't find Train with 'id'=-1
+        '422':
+          description: Error occurred during adding carriage to train
+          examples:
+            application/json:
+              message: Something went wrong
+              errors:
+              - Error message
+  "/api/v1/trains/{train_id}/add_carriage":
+    post:
+      summary: Add concrete carriage to train. By necr0me
+      tags:
+      - Trains
+      consumes:
+      - application/json
+      parameters:
+      - name: train_id
+        in: path
+        type: integer
+        required: true
+        description: Id of train which to you want add carriage
+      - name: params
+        in: body
+        schema:
+          type: object
+          properties:
+            carriage_id:
+              type: integer
+          required:
+          - carriage_id
+          example:
+            carriage_id: 1
+      produces:
+      - application/json
+      security:
+      - Bearer: {}
+      responses:
+        '200':
+          description: Carriage successfully added to train
+          examples:
+            application/json:
+              message: Carriage was successfully added to train
+              carriage:
+                train_id: 578
+                order_number: 1
+                name: Poseidon
+                carriage_type_id: 1221
+                id: 994
+                created_at: '2023-03-10T15:34:58.587Z'
+                updated_at: '2023-03-10T15:34:58.599Z'
+        '401':
+          description: You are unauthorized
+          examples:
+            application/json:
+              message: You're not logged in
+              errors:
+              - Nil JSON web token
+        '403':
+          description: You are forbidden to perform this action
+          examples:
+            application/json:
+              message: You are not allowed to do this action
+        '404':
+          description: Train not found
+          examples:
+            application/json:
+              message: Couldn't find Train with 'id'=-1
+        '422':
+          description: Error occurred during adding carriage to train
+          examples:
+            application/json:
+              message: Something went wrong
+              errors:
+              - Couldn't find Carriage with 'id'=-1
+  "/api/v1/trains/{train_id}/remove_carriage/{carriage_id}":
+    delete:
+      summary: Remove concrete carriage from train. By necr0me
+      tags:
+      - Trains
+      parameters:
+      - name: train_id
+        in: path
+        type: integer
+        required: true
+        description: Id of train which from you want to remove carriage
+      - name: carriage_id
+        in: path
+        type: integer
+        required: true
+        description: Id of carriage which you want to remove from train
+      produces:
+      - application/json
+      security:
+      - Bearer: {}
+      responses:
+        '200':
+          description: Carriage successfully removed from train
+          examples:
+            application/json:
+              message: Carriage was successfully removed from train
+        '401':
+          description: You are unauthorized
+          examples:
+            application/json:
+              message: You're not logged in
+              errors:
+              - Nil JSON web token
+        '403':
+          description: You are forbidden to perform this action
+          examples:
+            application/json:
+              message: You are not allowed to do this action
+        '404':
+          description: Train not found
+          examples:
+            application/json:
+              message: Couldn't find Train with 'id'=-1
+        '422':
+          description: Error occurred during removing carriage from train
+          examples:
+            application/json:
+              message: Something went wrong
+              errors:
+              - Can't remove carriage that not in train
+  "/api/v1/users/{user_id}":
+    get:
+      summary: Retrieves concrete user. By necr0me
+      tags:
+      - Users
+      parameters:
+      - name: user_id
+        in: path
+        type: integer
+        required: true
+        description: Id of user that you want to see
+      produces:
+      - application/json
+      security:
+      - Bearer: {}
+      responses:
+        '200':
+          description: User found
+          examples:
+            application/json:
+              user:
+                id: 1592
+                email: johndoe@gmail.com
+                password_digest: "$2a$04$5gqO7GRdGiKDt92dFNDe9.MxjJ46lUsiKwe8KH3G7cruP.QyyiY3u"
+                created_at: '2023-03-10T15:34:59.449Z'
+                updated_at: '2023-03-10T15:34:59.449Z'
+                role: admin
+        '401':
+          description: You are unauthorized
+          examples:
+            application/json:
+              message: You're not logged in
+              errors:
+              - Nil JSON web token
+        '403':
+          description: You are forbidden to perform this action
+          examples:
+            application/json:
+              message: You are not allowed to do this action
+    put:
+      summary: Updates user password. By necr0me
+      tags:
+      - Users
+      consumes:
+      - application/json
+      parameters:
+      - name: user_id
+        in: path
+        type: integer
+        required: true
+        description: Id of user that updates password (ANY user can update only his
+          own password)
+      - name: params
+        in: body
+        schema:
+          type: object
+          properties:
+            user:
+              type: object
+              properties:
+                password:
+                  type: string
+              required:
+              - password
+              example:
+                password: p4$$w0rD
+          required:
+          - user
+      produces:
+      - application/json
+      security:
+      - Bearer: {}
+      responses:
+        '200':
+          description: User found
+          examples:
+            application/json:
+              message: You have successfully updated your credentials
+        '401':
+          description: You are unauthorized
+          examples:
+            application/json:
+              message: You're not logged in
+              errors:
+              - Nil JSON web token
+        '403':
+          description: You are forbidden to perform this action
+          examples:
+            application/json:
+              message: You are not allowed to do this action
+        '422':
+          description: Error occurred during update
+          examples:
+            application/json:
+              message: Something went wrong
+              errors:
+              - Password can't be blank
+              - Password is too short (minimum is 7 characters)
+  "/users/sign_up":
+    post:
+      summary: Register new user. By necr0me
+      tags:
+      - Registrations
+      consumes:
+      - application/json
+      parameters:
+      - name: params
+        in: body
+        schema:
+          type: object
+          properties:
+            user:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+              required:
+              - email
+              - password
+              example:
+                email: mail@gmail.com
+                password: p4$$w0rD
+          required:
+          - user
+      produces:
+      - application/json
+      responses:
+        '201':
+          description: User successfully created
+          examples:
+            application/json:
+              message: You have successfully registered
+        '422':
+          description: Error occurred during user registration
+          examples:
+            application/json:
+              message: Something went wrong
+              errors:
+              - Email can't be blank
+              - Email is invalid
+              - Password can't be blank
+              - Password is too short (minimum is 7 characters)
+              - Password can't be blank
+  "/users/{user_id}":
+    delete:
+      summary: Destroy user. By becr0me
+      tags:
+      - Registrations
+      parameters:
+      - name: user_id
+        in: path
+        type: integer
+        required: true
+        description: Id of user that destroys account (user can destroy only own account
+          unless he/she is admin)
+      produces:
+      - application/json
+      security:
+      - Bearer: {}
+      responses:
+        '204':
+          description: User successfully destroyed
+        '401':
+          description: You are unauthorized
+          examples:
+            application/json:
+              message: You're not logged in
+              errors:
+              - Nil JSON web token
+        '403':
+          description: You are forbidden to perform this action
+          examples:
+            application/json:
+              message: You are not allowed to do this action
+        '404':
+          description: User not found
+          examples:
+            application/json:
+              message: Couldn't find User with 'id'=-1
+        '422':
+          description: Error occurred during user destroy
+          examples:
+            application/json:
+              message: Something went wrong
+              errors:
+              - Error message
+  "/users/login":
+    post:
+      summary: Authenticates user. By necr0me
+      tags:
+      - Authentication
+      consumes:
+      - application/json
+      parameters:
+      - name: params
+        in: body
+        schema:
+          type: object
+          properties:
+            user:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+              required:
+              - email
+              - password
+              example:
+                email: mail@gmail.com
+                password: p4$$w0rD
+          required:
+          - user
+      produces:
+      - application/json
+      responses:
+        '201':
+          description: Authenticated successfully
+          examples:
+            application/json:
+              message: You have successfully logged in
+              access_token: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxNjA4LCJleHAiOjE2Nzg0NjQyOTksImlhdCI6MTY3ODQ2MjQ5OX0.d6tGw3sMVknTdcRlYIjsEpKHk5NkUf2t5xQutuyLXkc
+        '400':
+          description: Error occurred during authentication
+          examples:
+            application/json:
+              message: Something went wrong
+              errors:
+              - Can't find user with such email
+  "/users/refresh_tokens":
+    get:
+      summary: Refreshes access and refresh tokens. By necr0me
+      tags:
+      - Authentication
+      produces:
+      - application/json
+      responses:
+        '200':
+          description: Tokens successfully updated
+          examples:
+            application/json:
+              access_token: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxNjEwLCJleHAiOjE2Nzg0NjQyOTksImlhdCI6MTY3ODQ2MjQ5OX0.0ZdU7wTe-up_sc0kRaoZKrZ7g4CsAZL0ccIAkQrh1IQ
+        '401':
+          description: Error occurred during tokens update
+          examples:
+            application/json:
+              errors:
+              - Nil JSON web token
+  "/users/logout":
+    delete:
+      summary: Logouts user. By necr0me
+      tags:
+      - Authentication
+      parameters:
+      - name: Authorization
+        in: header
+        type: string
+        required: true
+        description: 'Authorization header of user that logouts. Header looks like
+          this: ''Bearer <access-token>'''
+      produces:
+      - application/json
+      security:
+      - Bearer: {}
+      responses:
+        '200':
+          description: Successful logout
+          examples:
+            application/json:
+              message: You have successfully logged out.
+        '401':
+          description: You are unauthorized
+          examples:
+            application/json:
+              message: You're not logged in
+              errors:
+              - Nil JSON web token
+securityDefinitions:
+  Bearer:
+    description: Authorization header (JWT-token)
+    type: apiKey
+    name: Authorization
+    in: header
+servers:
+- url: http://{defaultHost}/
+  variables:
+    defaultHost:
+      default: localhost:3000

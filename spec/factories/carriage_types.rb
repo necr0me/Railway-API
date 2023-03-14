@@ -8,7 +8,7 @@ FactoryBot.define do
       after :create do |carriage_type|
         create(:carriage,
                name: Faker::Ancient.god,
-               carriage_type_id:  carriage_type.id)
+               carriage_type_id: carriage_type.id)
       end
     end
   end

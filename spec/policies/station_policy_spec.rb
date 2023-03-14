@@ -5,7 +5,7 @@ RSpec.describe StationPolicy, type: :policy do
 
   subject { described_class.new(user, station) }
 
-  describe 'being visitor' do
+  describe 'being visitor' do # TODO: change describe on context where it necessary (in ALL policies tests)
     let(:user) { nil }
 
     it { is_expected.to permit_actions(%i[index show]) }

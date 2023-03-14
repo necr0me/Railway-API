@@ -7,9 +7,11 @@ RSpec.describe Api::V1::StationsController, type: :request do
   let(:user) { create(:user, role: :moderator) }
 
   describe '#index' do
+    include_context 'with sequence cleaner'
+
     context 'when query params presented' do
       before do
-        create_list(:station, 3, :station_sequence_with_three_stations)
+        create_list(:station, 3, :station_sequence_with_name_list)
         get '/api/v1/stations?station=Mo'
       end
 
@@ -21,7 +23,7 @@ RSpec.describe Api::V1::StationsController, type: :request do
 
     context 'without query params' do
       before do
-        create_list(:station, 3, :station_sequence_with_three_stations)
+        create_list(:station, 3, :station_sequence_with_name_list)
         get '/api/v1/stations'
       end
 
