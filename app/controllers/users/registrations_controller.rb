@@ -11,8 +11,7 @@ module Users
         render json: { message: 'You have successfully registered' },
                status: :created
       else
-        render json: { message: 'Something went wrong',
-                       errors: user.errors.full_messages },
+        render json: { errors: user.errors },
                status: :unprocessable_entity
       end
     end

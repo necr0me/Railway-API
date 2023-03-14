@@ -5,7 +5,7 @@ module Api
 
       # TODO: better output (like: { profile: ... })
       def show
-        render json: current_user.profile
+        render json: { profile: current_user.profile }
       end
 
       def create
@@ -15,7 +15,7 @@ module Api
                  status: :created
         else
           render json: { message: 'Something went wrong',
-                         errors: profile.errors.full_messages },
+                         errors: profile.errors },
                  status: :unprocessable_entity
         end
       end
@@ -26,7 +26,7 @@ module Api
                  status: :ok
         else
           render json: { message: 'Something went wrong',
-                         errors: current_user.profile.errors.full_messages },
+                         errors: current_user.profile.errors },
                  status: :unprocessable_entity
         end
       end

@@ -24,7 +24,7 @@ RSpec.describe Api::V1::ProfilesController, type: :request do
 
       it 'returns 200 and proper profile' do
         expect(response).to have_http_status(200)
-        expect(json_response['user_id']).to eq(user.id)
+        expect(json_response['profile']['user_id']).to eq(user.id)
       end
     end
   end
@@ -122,7 +122,7 @@ RSpec.describe Api::V1::ProfilesController, type: :request do
       it 'returns 422 and error messages' do
         expect(response).to have_http_status(422)
         expect(json_response['errors']).to_not be_nil
-        expect(json_response['errors']).to include(/Name is too short/)
+        expect(json_response['errors']['name']).to include(/is too short/)
       end
     end
 

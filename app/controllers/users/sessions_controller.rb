@@ -18,7 +18,7 @@ module Users
                status: :created
       else
         render json: { message: 'Something went wrong',
-                       errors: [result.error] },
+                       errors: result.error },
                status: :bad_request
       end
     end

@@ -31,7 +31,7 @@ RSpec.describe Users::SessionsController, :type => :request do
 
       it 'returns 400 and contains error message that can not find user with such email' do
         expect(response).to have_http_status(400)
-        expect(json_response['errors']).to include(/Can't find user with such email/)
+        expect(json_response['errors']['email']).to include(/Can't find user with such email/)
       end
     end
 
@@ -42,7 +42,7 @@ RSpec.describe Users::SessionsController, :type => :request do
 
       it 'returns 400 and contains error message that password is invalid' do
         expect(response).to have_http_status(400)
-        expect(json_response['errors']).to include(/Invalid password/)
+        expect(json_response['errors']['password']).to include(/Invalid password/)
       end
     end
 

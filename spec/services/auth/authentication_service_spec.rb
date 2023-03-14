@@ -17,18 +17,18 @@ RSpec.describe Auth::AuthenticationService do
 
     context 'when email is invalid' do
       it 'contains error and doesnt return user' do
-        result = described_class.call(user_params: { email: ' ', password: ' '})
+        result = described_class.call(user_params: { email: ' ', password: ' ' })
 
-        expect(result.error).to eq('Can\'t find user with such email')
+        expect(result.error[:email]).to include('Can\'t find user with such email')
         expect(result.data).to be_nil
       end
     end
 
     context 'when password is invalid' do
        it 'contains error message and does not return user' do
-         result = described_class.call(user_params: { email: user.email, password: ' '})
+         result = described_class.call(user_params: { email: user.email, password: ' ' })
 
-         expect(result.error).to eq('Invalid password')
+         expect(result.error[:password]).to include('Invalid password')
          expect(result.data).to be_nil
       end
     end
