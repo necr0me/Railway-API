@@ -4,7 +4,7 @@ RSpec.describe Train, type: :model do
   let(:train) { create(:train, :train_with_carriages) }
 
   describe 'associations' do
-    context 'route' do
+    describe 'route' do
       it 'belongs to route' do
         expect(described_class.reflect_on_association(:route).macro).to eq(:belongs_to)
       end
@@ -14,7 +14,7 @@ RSpec.describe Train, type: :model do
       end
     end
 
-    context 'carriages' do
+    describe 'carriages' do
       it 'has many carriages' do
         expect(described_class.reflect_on_association(:carriages).macro).to eq(:has_many)
       end
@@ -25,7 +25,7 @@ RSpec.describe Train, type: :model do
       end
     end
 
-    context 'stops' do
+    describe 'stops' do
       let(:train) { create(:train, :train_with_stops) }
 
       it 'has many stops' do
@@ -39,10 +39,12 @@ RSpec.describe Train, type: :model do
   end
 
   describe 'callbacks' do
-    it 'when destroying train sets order_number to nil for all relevant carriages' do
-      carriages = train.carriages
-      train.destroy
-      expect(carriages.reload.pluck(:order_number).all?(:nil?)).to be_truthy
+    describe '#before_destroy' do
+      it 'sets order_number to nil for all relevant carriages' do
+        carriages = train.carriages
+        train.destroy
+        expect(carriages.reload.pluck(:order_number).all?(:nil?)).to be_truthy
+      end
     end
   end
 end

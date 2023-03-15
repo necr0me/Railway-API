@@ -25,11 +25,11 @@ RSpec.describe Auth::AuthenticationService do
     end
 
     context 'when password is invalid' do
-       it 'contains error message and does not return user' do
-         result = described_class.call(user_params: { email: user.email, password: ' ' })
+      it 'contains error message and does not return user' do
+        result = described_class.call(user_params: { email: user.email, password: ' ' })
 
-         expect(result.error[:password]).to include('Invalid password')
-         expect(result.data).to be_nil
+        expect(result.error[:password]).to include('Invalid password')
+        expect(result.data).to be_nil
       end
     end
 

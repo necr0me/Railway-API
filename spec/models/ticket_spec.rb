@@ -2,25 +2,25 @@ require 'rails_helper'
 
 RSpec.describe Ticket, type: :model do
   describe 'associations' do
-    context 'user' do
+    describe 'user' do
       it 'belongs to user' do
         expect(described_class.reflect_on_association(:user).macro).to eq(:belongs_to)
       end
     end
 
-    context 'seat' do
+    describe 'seat' do
       it 'belongs to seat' do
         expect(described_class.reflect_on_association(:seat).macro).to eq(:belongs_to)
       end
     end
 
-    context 'departure_station' do
+    describe 'departure_station' do
       it 'belongs to departure station' do
         expect(described_class.reflect_on_association(:departure_station).macro).to eq(:belongs_to)
       end
     end
 
-    context 'destination_station' do
+    describe 'destination_station' do
       it 'belongs to destination station' do
         expect(described_class.reflect_on_association(:arrival_station).macro).to eq(:belongs_to)
       end
@@ -31,7 +31,7 @@ RSpec.describe Ticket, type: :model do
     describe '#before_destroy' do
       let(:ticket) { create(:ticket) }
 
-      it 'frees seat when destroying' do
+      it 'frees seat' do
         seat = ticket.seat
         ticket.destroy
         expect(seat.reload.is_taken).to be_falsey

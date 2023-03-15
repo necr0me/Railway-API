@@ -33,21 +33,25 @@ RSpec.describe Seat, type: :model do
   end
 
   describe 'validations' do
-    context '#number' do
-      it 'is invalid when number is less then 1 or blank' do
-        seat.number = nil
-        expect(seat).to_not be_valid
+    describe '#number' do
+      context 'when number < 1 or blank' do
+        it 'is invalid' do
+          seat.number = nil
+          expect(seat).to_not be_valid
 
-        seat.number = 0
-        expect(seat).to_not be_valid
+          seat.number = 0
+          expect(seat).to_not be_valid
+        end
       end
 
-      it 'is valid when number greater than or equal to 1' do
-        seat.number = 1
-        expect(seat).to be_valid
+      context 'when number >= 1' do
+        it 'is valid' do
+          seat.number = 1
+          expect(seat).to be_valid
 
-        seat.number = 10
-        expect(seat).to be_valid
+          seat.number = 10
+          expect(seat).to be_valid
+        end
       end
     end
   end

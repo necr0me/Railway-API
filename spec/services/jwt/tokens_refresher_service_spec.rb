@@ -68,7 +68,7 @@ RSpec.describe Jwt::TokensRefresherService do
     end
 
     context 'correct refresh token presented' do
-     before { user.refresh_token.update(value: refresh_token) }
+      before { user.refresh_token.update(value: refresh_token) }
 
       it 'success? value is true, no errors, returns 2 tokens and updates refresh token in db' do
         old_token = user.reload.refresh_token.value

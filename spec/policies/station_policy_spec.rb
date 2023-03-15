@@ -5,7 +5,7 @@ RSpec.describe StationPolicy, type: :policy do
 
   subject { described_class.new(user, station) }
 
-  describe 'being visitor' do # TODO: change describe on context where it necessary (in ALL policies tests)
+  context 'being visitor' do
     let(:user) { nil }
 
     it { is_expected.to permit_actions(%i[index show]) }
@@ -13,7 +13,7 @@ RSpec.describe StationPolicy, type: :policy do
     it { is_expected.to forbid_actions(%i[create update destroy]) }
   end
 
-  describe 'being user' do
+  context 'being user' do
     let(:user) { create(:user) }
 
     it { is_expected.to permit_actions(%i[index show]) }
@@ -21,13 +21,13 @@ RSpec.describe StationPolicy, type: :policy do
     it { is_expected.to forbid_actions(%i[create update destroy]) }
   end
 
-  describe 'being moderator' do
+  context 'being moderator' do
     let(:user) { create(:user, role: :moderator) }
 
     it { is_expected.to permit_actions(%i[index show create update destroy]) }
   end
 
-  describe 'being admin' do
+  context 'being admin' do
     let(:user) { create(:user, role: :admin) }
 
     it { is_expected.to permit_actions(%i[index show create update destroy]) }

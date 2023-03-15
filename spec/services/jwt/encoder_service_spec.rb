@@ -7,7 +7,7 @@ RSpec.describe Jwt::EncoderService do
   let(:options) { { algorithm: Constants::Jwt::JWT_ALGORITHM} }
 
   describe '#call' do
-    context 'refresh token' do
+    describe 'refresh token' do
       let(:token_type) { 'refresh' }
       let(:secret) { Constants::Jwt::JWT_SECRET_KEYS[token_type] }
       let(:refresh_token) { subject.data }
@@ -40,7 +40,7 @@ RSpec.describe Jwt::EncoderService do
 
     end
 
-    context 'access token' do
+    describe 'access token' do
       let(:token_type) { 'access' }
       let(:secret) { Constants::Jwt::JWT_SECRET_KEYS[token_type] }
       let(:access_token) { subject.data }

@@ -41,8 +41,6 @@ RSpec.describe 'users', type: :request do
     end
   end
 
-  # TODO: add cookies in UI
-
   path '/users/refresh_tokens' do
     get 'Refreshes access and refresh tokens. By necr0me' do
       tags 'Authentication'

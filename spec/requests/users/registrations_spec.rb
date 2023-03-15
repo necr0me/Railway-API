@@ -6,13 +6,13 @@ RSpec.describe Users::RegistrationsController, :type => :request do
   let(:existing_user) { create(:user) }
 
   describe 'concerns' do
-    context 'UserFindable' do
+    describe 'UserFindable' do
       it 'includes UserFindable concern' do
         expect(described_class.ancestors).to include(UserFindable)
       end
     end
 
-    context 'UserParamable' do
+    describe 'UserParamable' do
       it 'includes UserParamable concern' do
         expect(described_class.ancestors).to include(UserParamable)
       end

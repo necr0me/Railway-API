@@ -75,7 +75,7 @@ RSpec.describe Station, type: :model do
   end
 
   describe 'auto_strip_attributes' do
-    context '#name' do
+    describe '#name' do
       it 'removes redundant whitespaces at start and at the end' do
         invalid_station.name = "\s\s\sName With Whitespaces\s\s\s"
         invalid_station.save
@@ -91,32 +91,42 @@ RSpec.describe Station, type: :model do
   end
 
   describe 'validations' do
-    context '#name' do
-      it 'invalid when blank' do
-        expect(invalid_station).to_not be_valid
-        expect(invalid_station.errors[:name]).to include("can't be blank")
+    describe '#name' do
+      context 'when name is blank' do
+        it 'is invalid' do
+          expect(invalid_station).to_not be_valid
+          expect(invalid_station.errors[:name]).to include("can't be blank")
+        end
       end
 
-      it 'invalid when length of name < 2' do
-        invalid_station.name = 'x'
-        expect(invalid_station).to_not be_valid
-        expect(invalid_station.errors[:name]).to include(/too short/)
+      context 'when name is too short (less than 2 characters)' do
+        it 'is invalid' do
+          invalid_station.name = 'x'
+          expect(invalid_station).to_not be_valid
+          expect(invalid_station.errors[:name]).to include(/too short/)
+        end
       end
 
-      it 'invalid when length of name > 50' do
-        invalid_station.name = 'x' * 51
-        expect(invalid_station).to_not be_valid
-        expect(invalid_station.errors[:name]).to include(/too long/)
+      context 'when name is too long (more than 50 characters)' do
+        it 'is invalid' do
+          invalid_station.name = 'x' * 51
+          expect(invalid_station).to_not be_valid
+          expect(invalid_station.errors[:name]).to include(/too long/)
+        end
       end
 
-      it 'invalid when name is not unique' do
-        invalid_station.name = station.name
-        expect(invalid_station).to_not be_valid
-        expect(invalid_station.errors[:name]).to include('has already been taken')
+      context 'when name is not unique' do
+        it 'is invalid' do
+          invalid_station.name = station.name
+          expect(invalid_station).to_not be_valid
+          expect(invalid_station.errors[:name]).to include('has already been taken')
+        end
       end
 
-      it 'valid with valid name' do
-        expect(station).to be_valid
+      context 'when name is not blank, unique, length is correct' do
+        it 'is valid' do
+          expect(station).to be_valid
+        end
       end
     end
   end

@@ -5,7 +5,7 @@ RSpec.describe Jwt::DecoderService do
   let(:algorithm) { Constants::Jwt::JWT_ALGORITHM }
 
   describe '#call' do
-    context 'refresh token' do
+    describe 'refresh token' do
       let(:token_type) { 'refresh' }
       let(:secret) { Constants::Jwt::JWT_SECRET_KEYS[token_type] }
 
@@ -33,7 +33,7 @@ RSpec.describe Jwt::DecoderService do
       end
     end
 
-    context 'access token' do
+    describe 'access token' do
       let(:token_type) { 'access' }
       let(:secret) { Constants::Jwt::JWT_SECRET_KEYS[token_type] }
 

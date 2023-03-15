@@ -5,7 +5,7 @@ RSpec.describe Profile, type: :model do
   let(:blank_profile) { build(:blank_profile) }
 
   describe 'associations' do
-    context 'user' do
+    describe 'user' do
       it 'belongs_to user' do
         expect(described_class.reflect_on_association(:user).macro).to eq(:belongs_to)
       end
@@ -13,7 +13,7 @@ RSpec.describe Profile, type: :model do
   end
 
   describe 'auto_strip_attributes' do
-    context '#name' do
+    describe '#name' do
       it 'removes redundant whitespaces at start and at the end' do
         profile.name = "\s\s\sName with whitespaces\s\s\s"
         profile.save
@@ -27,7 +27,7 @@ RSpec.describe Profile, type: :model do
       end
     end
 
-    context '#surname' do
+    describe '#surname' do
       it 'removes redundant whitespaces at start and at the end' do
         profile.surname = "\s\s\sSurname with whitespaces\s\s\s"
         profile.save
@@ -41,7 +41,7 @@ RSpec.describe Profile, type: :model do
       end
     end
 
-    context '#patronymic' do
+    describe '#patronymic' do
       it 'removes redundant whitespaces at start and at the end' do
         profile.patronymic = "\s\s\sPatronymic with whitespaces\s\s\s"
         profile.save
@@ -55,7 +55,7 @@ RSpec.describe Profile, type: :model do
       end
     end
 
-    context '#phone_number' do
+    describe '#phone_number' do
       it 'removes any whitespaces' do
         profile.phone_number = "\s+3\s75\s33\s7\s53\s\s12\s111\s\s\s"
         profile.save
@@ -65,113 +65,151 @@ RSpec.describe Profile, type: :model do
   end
 
   describe 'validations' do
-    context '#name' do
-      it 'is not valid when blank' do
-        expect(blank_profile).to_not be_valid
-        expect(blank_profile.errors[:name]).to include("can't be blank")
+    describe '#name' do
+      context 'when name is blank' do
+        it 'is not valid' do
+          expect(blank_profile).to_not be_valid
+          expect(blank_profile.errors[:name]).to include("can't be blank")
+        end
       end
 
-      it 'is not valid when length < 2' do
-        expect(blank_profile).to_not be_valid
-        expect(blank_profile.errors[:name]).to include(/too short/)
+      context 'when name is too short (less than 2 characters)' do
+        it 'is not valid ' do
+          expect(blank_profile).to_not be_valid
+          expect(blank_profile.errors[:name]).to include(/too short/)
+        end
       end
 
-      it 'is not valid when length > 50' do
-        blank_profile.name = 'x' * 51
-        expect(blank_profile).to_not be_valid
-        expect(blank_profile.errors[:name]).to include(/too long/)
+      context 'when name is too long (more than 50 characters)' do
+        it 'is not valid' do
+          blank_profile.name = 'x' * 51
+          expect(blank_profile).to_not be_valid
+          expect(blank_profile.errors[:name]).to include(/too long/)
+        end
+
       end
 
-      it 'is valid' do
-        expect(profile).to be_valid
-      end
-    end
-
-    context '#surname' do
-      it 'is not valid when blank' do
-        expect(blank_profile).to_not be_valid
-        expect(blank_profile.errors[:surname]).to include("can't be blank")
-      end
-
-      it 'is not valid when length < 2' do
-        expect(blank_profile).to_not be_valid
-        expect(blank_profile.errors[:surname]).to include(/too short/)
-      end
-
-      it 'is not valid when length > 50' do
-        blank_profile.surname = 'x' * 51
-        expect(blank_profile).to_not be_valid
-        expect(blank_profile.errors[:surname]).to include(/too long/)
-      end
-
-      it 'is valid' do
-        expect(profile).to be_valid
+      context 'when name is not blank, length is correct' do
+        it 'is valid' do
+          expect(profile).to be_valid
+        end
       end
     end
 
-    context '#patronymic' do
-      it 'is not valid when blank' do
-        expect(blank_profile).to_not be_valid
-        expect(blank_profile.errors[:patronymic]).to include("can't be blank")
+    describe '#surname' do
+      context 'when surname is blank' do
+        it 'is not valid' do
+          expect(blank_profile).to_not be_valid
+          expect(blank_profile.errors[:surname]).to include("can't be blank")
+        end
       end
 
-      it 'is not valid when length < 5' do
-        expect(blank_profile).to_not be_valid
-        expect(blank_profile.errors[:patronymic]).to include(/too short/)
+      context 'when surname is too short (less than 2 characters)' do
+        it 'is not valid' do
+          expect(blank_profile).to_not be_valid
+          expect(blank_profile.errors[:surname]).to include(/too short/)
+        end
       end
 
-      it 'is not valid when length > 50' do
-        blank_profile.patronymic = 'x' * 51
-        expect(blank_profile).to_not be_valid
-        expect(blank_profile.errors[:patronymic]).to include(/too long/)
+      context 'when surname is too long (more than 50 characters)' do
+        it 'is not valid' do
+          blank_profile.surname = 'x' * 51
+          expect(blank_profile).to_not be_valid
+          expect(blank_profile.errors[:surname]).to include(/too long/)
+        end
       end
 
-      it 'is valid' do
-        expect(profile).to be_valid
-      end
-    end
-
-    context '#phone_number' do
-      it 'is not valid when blank' do
-        expect(blank_profile).to_not be_valid
-        expect(blank_profile.errors[:phone_number]).to include("can't be blank")
-      end
-
-      it 'is not valid when length < 7' do
-        expect(blank_profile).to_not be_valid
-        expect(blank_profile.errors[:phone_number]).to include(/too short/)
-      end
-
-      it 'is not valid when length > 13' do
-        blank_profile.phone_number = '7' * 14
-        expect(blank_profile).to_not be_valid
-        expect(blank_profile.errors[:phone_number]).to include(/too long/)
-      end
-
-      it 'is valid with correct phone number' do
-        expect(profile).to be_valid
+      context 'when surname is not blank, length is correct' do
+        it 'is valid' do
+          expect(profile).to be_valid
+        end
       end
     end
 
-    context '#passport_code' do
-      it 'is not valid when blank' do
-        expect(blank_profile).to_not be_valid
-        expect(blank_profile.errors[:passport_code]).to include("can't be blank")
+    describe '#patronymic' do
+      context 'when patronymic is blank' do
+        it 'is not valid' do
+          expect(blank_profile).to_not be_valid
+          expect(blank_profile.errors[:patronymic]).to include("can't be blank")
+        end
       end
 
-      it 'is not valid with incorrect format' do
-        blank_profile.passport_code = 'kkz2313413'
-        expect(blank_profile).to_not be_valid
-
-        blank_profile.passport_code = 'kkz231342'
-        expect(blank_profile).to_not be_valid
+      context 'when patronymic is too short (less than 2 characters)' do
+        it 'is not valid' do
+          expect(blank_profile).to_not be_valid
+          expect(blank_profile.errors[:patronymic]).to include(/too short/)
+        end
       end
 
-      it 'is valid with correct format' do
-        expect(profile).to be_valid
+      context 'when patronymic is too long (more than 50 characters)' do
+        it 'is not valid' do
+          blank_profile.patronymic = 'x' * 51
+          expect(blank_profile).to_not be_valid
+          expect(blank_profile.errors[:patronymic]).to include(/too long/)
+        end
+      end
+
+      context 'when patronymic is not blank, length is correct' do
+        it 'is valid' do
+          expect(profile).to be_valid
+        end
       end
     end
 
+    describe '#phone_number' do
+      context 'when phone number is blank' do
+        it 'is not valid' do
+          expect(blank_profile).to_not be_valid
+          expect(blank_profile.errors[:phone_number]).to include("can't be blank")
+        end
+      end
+
+      context 'when phone number is too short (less than 7 characters)' do
+        it 'is not valid' do
+          expect(blank_profile).to_not be_valid
+          expect(blank_profile.errors[:phone_number]).to include(/too short/)
+        end
+      end
+
+      context 'when phone number is too long (more than 13 characters)' do
+        it 'is not valid' do
+          blank_profile.phone_number = '7' * 14
+          expect(blank_profile).to_not be_valid
+          expect(blank_profile.errors[:phone_number]).to include(/too long/)
+        end
+      end
+
+      context 'when phone number is not blank, length is correct' do
+        it 'is valid' do
+          expect(profile).to be_valid
+        end
+      end
+    end
+
+    describe '#passport_code' do
+      context 'when passport code is blank' do
+        it 'is not valid' do
+          expect(blank_profile).to_not be_valid
+          expect(blank_profile.errors[:passport_code]).to include("can't be blank")
+        end
+      end
+
+      context 'when passport code has incorrect format' do
+        it 'is not valid' do
+          blank_profile.passport_code = 'kkz2313413'
+          expect(blank_profile).to_not be_valid
+
+          blank_profile.passport_code = 'kkz231342'
+          expect(blank_profile).to_not be_valid
+        end
+      end
+
+      context 'when passport code is not blank, format is correct' do
+        it 'is valid' do
+          expect(profile).to be_valid
+        end
+      end
+    end
   end
 
   describe 'callbacks' do

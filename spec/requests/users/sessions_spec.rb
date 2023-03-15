@@ -5,7 +5,7 @@ RSpec.describe Users::SessionsController, :type => :request do
   let(:user_credentials) { user; attributes_for(:user) }
 
   describe 'concerns' do
-    context 'UserParamable' do
+    describe 'UserParamable' do
       it 'includes UserParamable concern' do
         expect(described_class.ancestors).to include(UserParamable)
       end
@@ -98,7 +98,7 @@ RSpec.describe Users::SessionsController, :type => :request do
     context 'when token has wrong signature' do
       before do
         login_with_api(user_credentials)
-        cookies[:refresh_token]+='x'
+        cookies[:refresh_token] += 'x'
         get '/users/refresh_tokens'
       end
 

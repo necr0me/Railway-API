@@ -5,7 +5,7 @@ RSpec.describe Route, type: :model do
   let(:route_with_trains) { create(:route, :route_with_trains) }
 
   describe 'associations' do
-    context 'stations' do
+    describe 'stations' do
       it 'has many stations' do
         expect(described_class.reflect_on_association(:stations).macro).to eq(:has_many)
       end
@@ -15,7 +15,7 @@ RSpec.describe Route, type: :model do
       end
     end
 
-    context 'station_order_numbers' do
+    describe 'station_order_numbers' do
       it 'has many station order numbers' do
         expect(described_class.reflect_on_association(:station_order_numbers).macro).to eq(:has_many)
       end
@@ -29,7 +29,7 @@ RSpec.describe Route, type: :model do
       end
     end
 
-    context 'train' do
+    describe 'train' do
       it 'has many trains' do
         expect(described_class.reflect_on_association(:trains).macro).to eq(:has_many)
       end
