@@ -4,8 +4,6 @@ RSpec.describe Carriage, type: :model do
   let(:carriage) { build(:carriage) }
   let(:carriage_with_seats) { create(:carriage, :carriage_with_seats) }
 
-  # TODO: change context on describe where it necessary
-
   describe 'associations' do
     describe 'Seat' do
       it 'has many seats' do
