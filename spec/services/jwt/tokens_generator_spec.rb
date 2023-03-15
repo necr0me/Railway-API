@@ -90,8 +90,9 @@ RSpec.describe Jwt::TokensGeneratorService do
     context 'using method first time' do
       it 'finds correct user' do
         service = described_class.new(user_id: user.id)
-        # TODO: test with expect.to receive(:find)
-        expect(service.send(:user)&.id).to eq(user.id)
+        expect_any_instance_of(User.const_get(:ActiveRecord_Relation)).to receive(:find).with(user.id).and_return(user)
+
+        expect(service.send(:user).id).to eq(user.id)
       end
     end
 
@@ -100,7 +101,7 @@ RSpec.describe Jwt::TokensGeneratorService do
         service = described_class.new(user_id: user.id)
         service.instance_variable_set '@user', user
 
-        expect(User).to_not receive(:find)
+        expect_any_instance_of(User.const_get(:ActiveRecord_Relation)).to_not receive(:find)
         expect(service.send(:user).id).to eq(user.id)
       end
     end
