@@ -1,4 +1,8 @@
 class UserPolicy < ApplicationPolicy
+  def create?
+    user.nil?
+  end
+
   def show?
     owned? || user&.moderator? || user&.admin?
   end

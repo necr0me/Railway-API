@@ -3,6 +3,7 @@ module Api
     class RoutesController < ApplicationController
       before_action :authorize!, except: %i[show]
       before_action :find_route, except: %i[create]
+      before_action :authorize_route
 
       def show
         render json: { route: @route,
@@ -12,7 +13,6 @@ module Api
 
       def create
         route = Route.create
-        authorize route
         if route.persisted?
           render json: { message: 'Route was created',
                          route: route },
@@ -25,7 +25,6 @@ module Api
       end
 
       def add_station
-        authorize @route
         result = Routes::StationAdderService.call(
           route_id: params[:route_id],
           station_id: params[:station_id]
@@ -42,7 +41,6 @@ module Api
       end
 
       def remove_station
-        authorize @route
         result = Routes::StationRemoverService.call(
           route_id: params[:route_id],
           station_id: params[:station_id]
@@ -58,7 +56,6 @@ module Api
       end
 
       def destroy
-        authorize @route
         if @route.destroy
           head :no_content
         else
@@ -72,6 +69,10 @@ module Api
 
       def find_route
         @route = Route.includes(:stations).find(params[:route_id])
+      end
+
+      def authorize_route
+        authorize(@route || Route)
       end
     end
   end

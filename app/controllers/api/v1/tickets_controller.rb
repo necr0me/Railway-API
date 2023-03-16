@@ -43,7 +43,6 @@ module Api
                                        :arrival_station_id)
       end
 
-      # TODO: implement same method in other controllers
       def authorize_ticket
         authorize(@ticket || Ticket)
       end

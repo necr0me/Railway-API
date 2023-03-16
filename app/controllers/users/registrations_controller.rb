@@ -4,6 +4,7 @@ module Users
     include UserFindable
 
     before_action :authorize!, :find_user, only: :destroy
+    before_action :authorize_user
 
     def create
       user = User.create(user_params)
@@ -17,7 +18,6 @@ module Users
     end
 
     def destroy
-      authorize @user
       if @user.destroy
         head :no_content
       else
@@ -25,6 +25,12 @@ module Users
                        errors: @user.errors.full_messages },
                status: :unprocessable_entity
       end
+    end
+
+    private
+
+    def authorize_user
+      authorize(@user || User)
     end
   end
 end

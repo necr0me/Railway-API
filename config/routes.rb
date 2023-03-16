@@ -5,7 +5,6 @@ Rails.application.routes.draw do
 
   # Defines the root path routes ("/")
   # root "articles#index"
-  # TODO: format: :json
   namespace :api do
     namespace :v1 do
       resources :users, only: %i[show update]

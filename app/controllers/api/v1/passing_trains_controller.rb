@@ -3,6 +3,7 @@ module Api
     class PassingTrainsController < ApplicationController
       before_action :authorize!, except: %i[index]
       before_action :find_passing_train, only: %i[update destroy]
+      before_action :authorize_passing_train
 
       def index
         render json: { passing_trains: PassingTrain.all }
@@ -10,7 +11,6 @@ module Api
 
       def create
         passing_train = PassingTrain.create(passing_train_params)
-        authorize passing_train
         if passing_train.persisted?
           render json: { message: 'Train stop successfully created',
                          passing_train: passing_train },
@@ -23,7 +23,6 @@ module Api
       end
 
       def update
-        authorize @passing_train
         if @passing_train.update(passing_train_params)
           render json: { message: 'Train stop successfully updated',
                          passing_train: @passing_train},
@@ -36,7 +35,6 @@ module Api
       end
 
       def destroy
-        authorize @passing_train
         if @passing_train.destroy
           render json: { message: 'Train stop successfully removed' },
                  status: :ok
@@ -59,6 +57,10 @@ module Api
                                               :way_number,
                                               :arrival_time,
                                               :departure_time)
+      end
+
+      def authorize_passing_train
+        authorize(@passing_train || PassingTrain)
       end
     end
   end

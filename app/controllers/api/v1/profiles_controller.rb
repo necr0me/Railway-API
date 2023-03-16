@@ -3,7 +3,6 @@ module Api
     class ProfilesController < ApplicationController
       before_action :authorize!
 
-      # TODO: better output (like: { profile: ... })
       def show
         render json: { profile: current_user.profile }
       end

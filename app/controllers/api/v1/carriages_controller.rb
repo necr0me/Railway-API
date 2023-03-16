@@ -3,23 +3,21 @@ module Api
     class CarriagesController < ApplicationController
       before_action :authorize!
       before_action :find_carriage, only: %i[show update destroy]
+      before_action :authorize_carriage
 
       def index
         carriages = Carriage.all
-        authorize carriages
         render json: { carriages: carriages },
                status: :ok
       end
 
       def show
-        authorize @carriage
         render json: { carriage: @carriage },
                status: :ok
       end
 
       def create
         carriage = Carriage.create(carriage_params)
-        authorize carriage
         if carriage.persisted?
           render json: { message: 'Carriage was successfully created',
                          carriage: carriage },
@@ -32,7 +30,6 @@ module Api
       end
 
       def update
-        authorize @carriage
         if @carriage.update(name: params.dig(:carriage, :name))
           render json: { message: 'Carriage name was successfully updated',
                          carriage: @carriage },
@@ -45,7 +42,6 @@ module Api
       end
 
       def destroy
-        authorize @carriage
         if @carriage.destroy
           head :no_content
         else
@@ -63,6 +59,10 @@ module Api
 
       def find_carriage
         @carriage = Carriage.find(params[:id])
+      end
+
+      def authorize_carriage
+        authorize(@carriage || Carriage)
       end
     end
   end

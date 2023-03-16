@@ -3,6 +3,7 @@ module Api
     class StationsController < ApplicationController
       before_action :authorize!, except: %i[index show]
       before_action :find_station, only: %i[show update destroy]
+      before_action :authorize_station
 
       def index
         render json: Station.where('name LIKE :prefix', prefix: "#{params[:station]}%")
@@ -14,7 +15,6 @@ module Api
 
       def create
         station = Station.create(station_params)
-        authorize station
         if station.persisted?
           render json: { station: station },
                  status: :created
@@ -26,7 +26,6 @@ module Api
       end
 
       def update
-        authorize @station
         if @station.update(station_params)
           render json: { station: @station },
                  status: :ok
@@ -38,7 +37,6 @@ module Api
       end
 
       def destroy
-        authorize @station
         if @station.destroy
           head :no_content
         else
@@ -56,6 +54,10 @@ module Api
 
       def find_station
         @station = Station.find(params[:id])
+      end
+
+      def authorize_station
+        authorize(@station || Station)
       end
     end
   end

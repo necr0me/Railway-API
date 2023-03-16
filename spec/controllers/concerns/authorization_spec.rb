@@ -61,8 +61,8 @@ RSpec.describe Authorization do
         get :action
       end
 
-      it 'current_user raises error (because @result is nil)' do
-        expect { controller.send(:current_user) }.to raise_error(NoMethodError)
+      it 'current_user is nil' do
+        expect(controller.send(:current_user)).to be_nil
       end
     end
   end

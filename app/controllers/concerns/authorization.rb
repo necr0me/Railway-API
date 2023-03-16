@@ -16,7 +16,7 @@ module Authorization
     end
 
     def current_user
-      @current_user ||= User.find(@result.data['user_id'])
+      @current_user ||= @result&.data.present? ? User.find(@result.data['user_id']) : nil
     end
   end
 end
