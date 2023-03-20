@@ -101,6 +101,8 @@ GEM
     json (2.6.3)
     json-schema (3.0.0)
       addressable (>= 2.8)
+    jsonapi-serializer (2.2.0)
+      activesupport (>= 4.2)
     jwt (2.5.0)
     loofah (2.19.1)
       crass (~> 1.0.2)
@@ -246,6 +248,7 @@ DEPENDENCIES
   debug
   factory_bot_rails
   faker
+  jsonapi-serializer
   jwt
   pg (~> 1.1)
   puma (~> 5.0)
