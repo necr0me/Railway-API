@@ -37,7 +37,7 @@ RSpec.describe 'api/v1/trains', type: :request do
       parameter name: :params, in: :body, schema: {
         type: :object,
         properties: {
-          route: { # TODO: change route on train
+          train: { # TODO: change route on train
             type: :object,
             properties: {
               route_id: { type: :integer }
@@ -120,7 +120,7 @@ RSpec.describe 'api/v1/trains', type: :request do
       parameter name: :params, in: :body, schema: {
         type: :object,
         properties: {
-          route: {
+          train: {
             type: :object,
             properties: {
               route_id: { type: :integer }
