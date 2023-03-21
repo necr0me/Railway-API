@@ -8,6 +8,8 @@ RSpec.describe Trains::FinderService do
     )
   end
 
+  # TODO: try to refactor some of tests
+
   let(:names) { %w[Hrodna Mosty Lida Minsk] }
   let(:stations) { create_list(:station, names.size, :station_sequence_with_name_list, list: names) }
   let(:train_hrodna_minsk) { create(:train, :train_with_specific_stops, stops_at: stations) }
@@ -68,12 +70,15 @@ RSpec.describe Trains::FinderService do
     include_context 'with sequence cleaner'
 
     context 'when date and stations are not presented' do
-      before { create(:passing_train) }
+      before do
+        train_hrodna_minsk
+        train_mosty_lida
+      end
 
-      it 'returns all PassingTrain' do
-        result = subject.data
-        expect(result.size).to eq(PassingTrain.all.size)
-        expect(result).to all(be_kind_of(PassingTrain))
+      it 'returns starting and ending stations of all created trains' do
+        result = subject.data[:passing_trains].flatten.pluck(:train_id)
+
+        expect(result).to include(train_hrodna_minsk.id, train_mosty_lida.id)
       end
     end
 
@@ -86,24 +91,24 @@ RSpec.describe Trains::FinderService do
         train_mosty_lida
       end
 
-      it 'returns trains Hrodna - Minsk, but not Mosty - Lida' do
-        result = subject.data.pluck(:train_id)
+      it 'returns train Hrodna - Minsk, but not of train Mosty - Lida' do
+        result = subject.data[:passing_trains].flatten.pluck(:train_id)
 
         expect(result).to include(train_hrodna_minsk.id)
         expect(result).to_not include(train_mosty_lida.id)
       end
     end
 
-    context 'when date and starting or ending station are presented' do
+    context 'when date and starting station are presented' do
       let(:starting_station_name) { train_mosty_lida.stops.first.station.name }
       let(:date) { DateTime.now }
 
       before { train_hrodna_minsk }
 
       it 'returns trains that passing through selected station' do
-        result = subject.data.pluck(:train_id)
+        result = subject.data[:passing_trains].flatten.pluck(:train_id)
 
-        expect(result).to include(train_mosty_lida.id, train_hrodna_minsk.id)
+        expect(result).to include(train_hrodna_minsk.id, train_mosty_lida.id)
       end
     end
 
@@ -114,9 +119,9 @@ RSpec.describe Trains::FinderService do
       before { train_hrodna_minsk }
 
       it 'returns trains that passing through selected station' do
-        result = subject.data.pluck(:train_id)
+        result = subject.data[:passing_trains].flatten.pluck(:train_id)
 
-        expect(result).to include(train_mosty_lida.id, train_hrodna_minsk.id)
+        expect(result).to include(train_hrodna_minsk.id, train_mosty_lida.id)
       end
     end
 
@@ -126,7 +131,7 @@ RSpec.describe Trains::FinderService do
       let(:date) { DateTime.now }
 
       it 'returns Hrodna - Minsk train, but not Mosty - Lida' do
-        result = subject.data.pluck(:train_id)
+        result = subject.data[:passing_trains].flatten.pluck(:train_id)
 
         expect(result).to include(train_hrodna_minsk.id)
         expect(result).to_not include(train_mosty_lida.id)
@@ -152,8 +157,9 @@ RSpec.describe Trains::FinderService do
         service = subject
         service.send(:set_stations!)
         query = service.send(:trains_between_stations, PassingTrain.joins(:station, :train))
+        result = query.pluck(:train_id)
 
-        expect(query.pluck(:train_id)).to be_empty
+        expect(result).to be_empty
       end
     end
 
@@ -165,8 +171,95 @@ RSpec.describe Trains::FinderService do
         service = subject
         service.send(:set_stations!)
         query = service.send(:trains_between_stations, PassingTrain.joins(:station, :train))
+        result = query.pluck(:train_id)
 
-        expect(query.pluck(:train_id)).to include(train_mosty_lida.id, train_hrodna_minsk.id)
+        expect(result).to include(train_mosty_lida.id, train_hrodna_minsk.id)
+      end
+    end
+  end
+
+  describe '#collect_train_ids' do
+    let(:starting_station) { train_hrodna_minsk.stops.last.station }
+    let(:ending_station) { train_mosty_lida.stops.first.station }
+
+    let(:attributes) do
+      {
+        starting_station: starting_station.name,
+        ending_station: ending_station.name
+      }
+    end
+
+    include_context 'with sequence cleaner'
+
+    it 'collects ids of trains, that arrival time on next < departure time from previous station' do
+      service = described_class.new(**attributes)
+      service.send(:set_stations!)
+      ending_station_trains = ending_station.passing_trains
+      passing_trains = PassingTrain.where(station_id: starting_station.id).where(
+        train_id: ending_station_trains.pluck(:train_id)
+      )
+      result = service.send(:collect_train_ids, passing_trains, ending_station_trains)
+
+      expect(result).to include(train_hrodna_minsk.id)
+    end
+  end
+
+  describe '#finalize_result' do
+    let(:starting_station_name) { nil }
+    let(:ending_station_name) { nil }
+
+    it 'returns hash that contains keys like :starting_station, :ending_station and :passing_trains' do
+      service = subject
+      result = service.send(:finalize_result, PassingTrain.all)
+
+      expect(result).to be_a(Hash)
+      expect(result.keys).to include(*%i[starting_station ending_station passing_trains])
+    end
+  end
+
+  describe '#pair_func' do
+    let(:starting_station_name) { train_mosty_lida.stops.first.station.name }
+    let(:ending_station_name) { train_hrodna_minsk.stops.third.station.name }
+    let(:stop) { train_mosty_lida.stops.first }
+
+    let(:service) { described_class.new(starting_station: starting_station_name, ending_station: ending_station_name) }
+
+    include_context 'with sequence cleaner'
+
+    context 'when starting and ending stations are presented' do
+      it 'returns Proc, that returns array of 2 elements: starting station stop and ending station stop' do
+        service.send(:set_stations!)
+        pair_func = service.send(:pair_func)
+        ending_station = service.send(:ending_station)
+
+        expect(pair_func).to be_a(Proc)
+        expect(pair_func.call(stop)).to eq([stop, ending_station.passing_trains.find_by(train_id: stop.train_id)])
+      end
+    end
+
+    context 'when ONLY ending station presented' do
+      let(:starting_station_name) { nil }
+      let(:stop) { train_mosty_lida.stops.last }
+
+      it 'returns Proc, that returns array of 2 elements: train starting station stop and ending station stop' do
+        service.send(:set_stations!)
+        pair_func = service.send(:pair_func)
+
+        expect(pair_func).to be_a(Proc)
+        expect(pair_func.call(stop)).to eq([stop.train.stops.first, stop])
+      end
+    end
+
+    context 'when starting station or no any stations presented' do
+      let(:starting_station_name) { nil }
+      let(:ending_station_name) { nil }
+
+      it 'returns Proc, that returns array of 2 elements: train starting station stop and train ending station stop' do
+        service.send(:set_stations!)
+        pair_func = service.send(:pair_func)
+
+        expect(pair_func).to be_a(Proc)
+        expect(pair_func.call(stop)).to eq([stop, stop.train.stops.last])
       end
     end
   end
