@@ -30,3 +30,7 @@
 
 # Ignore test coverage
 /coverage/
+
+# Ignore .idea
+
+/.idea/

@@ -7,6 +7,4 @@ class TicketSerializer
   belongs_to :seat
 
   attributes :price
-
-  # TODO: cover all serializers with tests
 end
