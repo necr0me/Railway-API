@@ -10,9 +10,9 @@ RSpec.describe Trains::FinderService do
 
   # TODO: try to refactor some of tests
 
-  let(:names) { %w[Hrodna Mosty Lida Minsk] }
+  let(:names) { %w[Grodno Mosty Lida Minsk] }
   let(:stations) { create_list(:station, names.size, :station_sequence_with_name_list, list: names) }
-  let(:train_hrodna_minsk) { create(:train, :train_with_specific_stops, stops_at: stations) }
+  let(:train_grodno_minsk) { create(:train, :train_with_specific_stops, stops_at: stations) }
   let(:train_mosty_lida) do
     create(:train, :train_with_specific_stops, stops_at: stations[1..2], start_time: DateTime.now + 5.minutes)
   end
@@ -71,14 +71,14 @@ RSpec.describe Trains::FinderService do
 
     context 'when date and stations are not presented' do
       before do
-        train_hrodna_minsk
+        train_grodno_minsk
         train_mosty_lida
       end
 
       it 'returns starting and ending stations of all created trains' do
         result = subject.data[:passing_trains].flatten.pluck(:train_id)
 
-        expect(result).to include(train_hrodna_minsk.id, train_mosty_lida.id)
+        expect(result).to include(train_grodno_minsk.id, train_mosty_lida.id)
       end
     end
 
@@ -87,14 +87,14 @@ RSpec.describe Trains::FinderService do
       let(:day_option) { :before }
 
       before do
-        train_hrodna_minsk
+        train_grodno_minsk
         train_mosty_lida
       end
 
       it 'returns train Hrodna - Minsk, but not of train Mosty - Lida' do
         result = subject.data[:passing_trains].flatten.pluck(:train_id)
 
-        expect(result).to include(train_hrodna_minsk.id)
+        expect(result).to include(train_grodno_minsk.id)
         expect(result).to_not include(train_mosty_lida.id)
       end
     end
@@ -103,12 +103,12 @@ RSpec.describe Trains::FinderService do
       let(:starting_station_name) { train_mosty_lida.stops.first.station.name }
       let(:date) { DateTime.now }
 
-      before { train_hrodna_minsk }
+      before { train_grodno_minsk }
 
       it 'returns trains that passing through selected station' do
         result = subject.data[:passing_trains].flatten.pluck(:train_id)
 
-        expect(result).to include(train_hrodna_minsk.id, train_mosty_lida.id)
+        expect(result).to include(train_grodno_minsk.id, train_mosty_lida.id)
       end
     end
 
@@ -116,24 +116,24 @@ RSpec.describe Trains::FinderService do
       let(:ending_station_name) { train_mosty_lida.stops.last.station.name }
       let(:date) { DateTime.now }
 
-      before { train_hrodna_minsk }
+      before { train_grodno_minsk }
 
       it 'returns trains that passing through selected station' do
         result = subject.data[:passing_trains].flatten.pluck(:train_id)
 
-        expect(result).to include(train_hrodna_minsk.id, train_mosty_lida.id)
+        expect(result).to include(train_grodno_minsk.id, train_mosty_lida.id)
       end
     end
 
     context 'when date, starting and ending station are presented' do
       let(:starting_station_name) { train_mosty_lida.stops.first.station.name }
-      let(:ending_station_name) { train_hrodna_minsk.stops.last.station.name }
+      let(:ending_station_name) { train_grodno_minsk.stops.last.station.name }
       let(:date) { DateTime.now }
 
       it 'returns Hrodna - Minsk train, but not Mosty - Lida' do
         result = subject.data[:passing_trains].flatten.pluck(:train_id)
 
-        expect(result).to include(train_hrodna_minsk.id)
+        expect(result).to include(train_grodno_minsk.id)
         expect(result).to_not include(train_mosty_lida.id)
       end
     end
@@ -150,7 +150,7 @@ RSpec.describe Trains::FinderService do
     include_context 'with sequence cleaner'
 
     context 'when trying to find trains between stations, but stations in reverse order' do
-      let(:starting_station_name) { train_hrodna_minsk.stops.third.station.name }
+      let(:starting_station_name) { train_grodno_minsk.stops.third.station.name }
       let(:ending_station_name) { train_mosty_lida.stops.first.station.name }
 
       it 'returns nothing' do
@@ -165,7 +165,7 @@ RSpec.describe Trains::FinderService do
 
     context 'when trying to find trains between station, but stations in correct order' do
       let(:starting_station_name) { train_mosty_lida.stops.first.station.name }
-      let(:ending_station_name) { train_hrodna_minsk.stops.third.station.name }
+      let(:ending_station_name) { train_grodno_minsk.stops.third.station.name }
 
       it 'returns Hrodna - Minsk and Mosty - Lida trains' do
         service = subject
@@ -173,13 +173,13 @@ RSpec.describe Trains::FinderService do
         query = service.send(:trains_between_stations, PassingTrain.joins(:station, :train))
         result = query.pluck(:train_id)
 
-        expect(result).to include(train_mosty_lida.id, train_hrodna_minsk.id)
+        expect(result).to include(train_mosty_lida.id, train_grodno_minsk.id)
       end
     end
   end
 
   describe '#collect_train_ids' do
-    let(:starting_station) { train_hrodna_minsk.stops.last.station }
+    let(:starting_station) { train_grodno_minsk.stops.last.station }
     let(:ending_station) { train_mosty_lida.stops.first.station }
 
     let(:attributes) do
@@ -200,7 +200,7 @@ RSpec.describe Trains::FinderService do
       )
       result = service.send(:collect_train_ids, passing_trains, ending_station_trains)
 
-      expect(result).to include(train_hrodna_minsk.id)
+      expect(result).to include(train_grodno_minsk.id)
     end
   end
 
@@ -219,7 +219,7 @@ RSpec.describe Trains::FinderService do
 
   describe '#pair_func' do
     let(:starting_station_name) { train_mosty_lida.stops.first.station.name }
-    let(:ending_station_name) { train_hrodna_minsk.stops.third.station.name }
+    let(:ending_station_name) { train_grodno_minsk.stops.third.station.name }
     let(:stop) { train_mosty_lida.stops.first }
 
     let(:service) { described_class.new(starting_station: starting_station_name, ending_station: ending_station_name) }
