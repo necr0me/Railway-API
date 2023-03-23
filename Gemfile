@@ -61,6 +61,10 @@ group :development, :test do
 
   gem 'rspec-rails'
 
+  gem 'rubocop-rspec'
+
+  gem 'rubocop-performance'
+
   gem 'simplecov', require: false
 
   gem 'rswag-specs'
