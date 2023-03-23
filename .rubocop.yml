@@ -16,8 +16,16 @@ Style/Documentation:
 Style/HashSyntax:
   EnforcedShorthandSyntax: never
 
+Metrics/MethodLength:
+  Max: 15
+
 Metrics/AbcSize:
   CountRepeatedAttributes: false
+
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*.rb'
+    - 'db/schema.rb'
 
 Lint/MissingSuper:
   Exclude:
