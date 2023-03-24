@@ -11,10 +11,10 @@ module Api
 
       def update
         if @user.update(password: params[:user][:password]) # User able to update only his password
-          render json: { message: 'You have successfully updated your credentials' },
+          render json: { message: "You have successfully updated your credentials" },
                  status: :ok
         else
-          render json: { message: 'Something went wrong',
+          render json: { message: "Something went wrong",
                          errors: @user.errors.full_messages },
                  status: :unprocessable_entity
         end

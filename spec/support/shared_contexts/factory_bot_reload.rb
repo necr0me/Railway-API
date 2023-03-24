@@ -1,5 +1,3 @@
-require 'rails_helper'
-
-shared_context 'with sequence cleaner' do
+shared_context "with sequence cleaner" do
   after { FactoryBot.reload }
 end

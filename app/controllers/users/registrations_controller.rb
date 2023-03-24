@@ -9,7 +9,7 @@ module Users
     def create
       user = User.create(user_params)
       if user.persisted?
-        render json: { message: 'You have successfully registered' },
+        render json: { message: "You have successfully registered" },
                status: :created
       else
         render json: { errors: user.errors },
@@ -21,7 +21,7 @@ module Users
       if @user.destroy
         head :no_content
       else
-        render json: { message: 'Something went wrong',
+        render json: { message: "Something went wrong",
                        errors: @user.errors.full_messages },
                status: :unprocessable_entity
       end

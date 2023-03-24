@@ -19,11 +19,11 @@ module Api
       def create
         train = Train.create(route_id: params.dig(:train, :route_id))
         if train.persisted?
-          render json: { message: 'Train was successfully created',
+          render json: { message: "Train was successfully created",
                          train: train },
                  status: :created
         else
-          render json: { message: 'Something went wrong',
+          render json: { message: "Something went wrong",
                          errors: train.errors.full_messages },
                  status: :unprocessable_entity
         end
@@ -31,11 +31,11 @@ module Api
 
       def update
         if @train.update(train_params)
-          render json: { message: 'Train was successfully updated',
+          render json: { message: "Train was successfully updated",
                          train: @train },
                  status: :ok
         else
-          render json: { message: 'Something went wrong',
+          render json: { message: "Something went wrong",
                          errors: @train.errors.full_messages },
                  status: :unprocessable_entity
         end
@@ -47,11 +47,11 @@ module Api
           carriage_id: params[:carriage_id]
         )
         if result.success?
-          render json: { message: 'Carriage was successfully added to train',
+          render json: { message: "Carriage was successfully added to train",
                          carriage: result.data },
                  status: :ok
         else
-          render json: { message: 'Something went wrong',
+          render json: { message: "Something went wrong",
                          errors: [result.error] },
                  status: :unprocessable_entity
         end
@@ -63,10 +63,10 @@ module Api
           carriage_id: params[:carriage_id]
         )
         if result.success?
-          render json: { message: 'Carriage was successfully removed from train' },
+          render json: { message: "Carriage was successfully removed from train" },
                  status: :ok
         else
-          render json: { message: 'Something went wrong',
+          render json: { message: "Something went wrong",
                          errors: [result.error] },
                  status: :unprocessable_entity
         end
@@ -76,7 +76,7 @@ module Api
         if @train.destroy
           head :no_content
         else
-          render json: { message: 'Something went wrong',
+          render json: { message: "Something went wrong",
                          errors: @train.errors.full_messages },
                  status: :unprocessable_entity
         end

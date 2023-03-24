@@ -13,7 +13,7 @@ module Api
           render json: { profile: current_user.profile },
                  status: :created
         else
-          render json: { message: 'Something went wrong',
+          render json: { message: "Something went wrong",
                          errors: profile.errors },
                  status: :unprocessable_entity
         end
@@ -24,7 +24,7 @@ module Api
           render json: { profile: current_user.profile },
                  status: :ok
         else
-          render json: { message: 'Something went wrong',
+          render json: { message: "Something went wrong",
                          errors: current_user.profile.errors },
                  status: :unprocessable_entity
         end

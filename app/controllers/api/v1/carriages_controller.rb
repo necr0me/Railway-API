@@ -19,11 +19,11 @@ module Api
       def create
         carriage = Carriage.create(carriage_params)
         if carriage.persisted?
-          render json: { message: 'Carriage was successfully created',
+          render json: { message: "Carriage was successfully created",
                          carriage: carriage },
                  status: :created
         else
-          render json: { message: 'Something went wrong',
+          render json: { message: "Something went wrong",
                          errors: carriage.errors.full_messages },
                  status: :unprocessable_entity
         end
@@ -31,11 +31,11 @@ module Api
 
       def update
         if @carriage.update(name: params.dig(:carriage, :name))
-          render json: { message: 'Carriage name was successfully updated',
+          render json: { message: "Carriage name was successfully updated",
                          carriage: @carriage },
                  status: :ok
         else
-          render json: { message: 'Something went wrong',
+          render json: { message: "Something went wrong",
                          errors: @carriage.errors.full_messages },
                  status: :unprocessable_entity
         end
@@ -45,7 +45,7 @@ module Api
         if @carriage.destroy
           head :no_content
         else
-          render json: { message: 'Something went wrong',
+          render json: { message: "Something went wrong",
                          errors: @carriage.errors.full_messages },
                  status: :unprocessable_entity
         end

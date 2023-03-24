@@ -5,18 +5,18 @@ module Authorization
     protected
 
     def authorize!
-      @result = Auth::AuthorizationService.call(authorization_header: request.headers['Authorization'])
+      @result = Auth::AuthorizationService.call(authorization_header: request.headers["Authorization"])
       if @result.success?
         current_user
       else
-        render json: { message: 'You\'re not logged in',
+        render json: { message: "You're not logged in",
                        errors: [@result.error] },
                status: :unauthorized
       end
     end
 
     def current_user
-      @current_user ||= @result&.data.present? ? User.find(@result.data['user_id']) : nil
+      @current_user ||= @result&.data.present? ? User.find(@result.data["user_id"]) : nil
     end
   end
 end

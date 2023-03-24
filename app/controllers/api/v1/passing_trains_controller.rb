@@ -12,11 +12,11 @@ module Api
       def create
         passing_train = PassingTrain.create(passing_train_params)
         if passing_train.persisted?
-          render json: { message: 'Train stop successfully created',
+          render json: { message: "Train stop successfully created",
                          passing_train: passing_train },
                  status: :created
         else
-          render json: { message: 'Something went wrong',
+          render json: { message: "Something went wrong",
                          errors: passing_train.errors.full_messages },
                  status: :unprocessable_entity
         end
@@ -24,11 +24,11 @@ module Api
 
       def update
         if @passing_train.update(passing_train_params)
-          render json: { message: 'Train stop successfully updated',
-                         passing_train: @passing_train},
+          render json: { message: "Train stop successfully updated",
+                         passing_train: @passing_train },
                  status: :ok
         else
-          render json: { message: 'Something went wrong',
+          render json: { message: "Something went wrong",
                          errors: @passing_train.errors.full_messages },
                  status: :unprocessable_entity
         end
@@ -36,10 +36,10 @@ module Api
 
       def destroy
         if @passing_train.destroy
-          render json: { message: 'Train stop successfully removed' },
+          render json: { message: "Train stop successfully removed" },
                  status: :ok
         else
-          render json: { message: 'Something went wrong',
+          render json: { message: "Something went wrong",
                          errors: @passing_train.errors.full_messages },
                  status: :unprocessable_entity
         end

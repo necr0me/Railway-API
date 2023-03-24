@@ -12,8 +12,8 @@ class PassingTrain < ApplicationRecord
   private
 
   def arrival_cannot_be_later_than_departure
-    if departure_time < arrival_time
-      errors.add(:departure_time, "can't be greater than arrival time")
-    end
+    return unless departure_time < arrival_time
+
+    errors.add(:departure_time, "can't be greater than arrival time")
   end
 end

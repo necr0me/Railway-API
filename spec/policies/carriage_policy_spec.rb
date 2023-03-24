@@ -1,15 +1,15 @@
-require 'rails_helper'
+
 
 RSpec.describe CarriagePolicy, type: :policy do
-  subject { described_class.new(user, create(:carriage) )}
+  subject { described_class.new(user, create(:carriage)) }
 
-  context 'being visitor' do
+  context "when user is nil" do
     let(:user) { nil }
 
     it { is_expected.to forbid_actions(%i[index show create update destroy]) }
   end
 
-  context 'being user' do
+  context "when user role is :user" do
     let(:user) { create(:user, role: :user) }
 
     it { is_expected.to permit_action(:show) }
@@ -17,13 +17,13 @@ RSpec.describe CarriagePolicy, type: :policy do
     it { is_expected.to forbid_actions(%i[index create update destroy]) }
   end
 
-  context 'being moderator' do
+  context "when user role is :moderator" do
     let(:user) { create(:user, role: :moderator) }
 
     it { is_expected.to permit_actions(%i[index show create update destroy]) }
   end
 
-  context 'being admin' do
+  context "when user role is :admin" do
     let(:user) { create(:user, role: :admin) }
 
     it { is_expected.to permit_actions(%i[index show create update destroy]) }

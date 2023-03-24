@@ -12,11 +12,11 @@ module Api
       def create
         result = Tickets::CreatorService.call(ticket_params: ticket_params)
         if result.success?
-          render json: { message: 'Ticket successfully created',
+          render json: { message: "Ticket successfully created",
                          ticket: result.data },
                  status: :created
         else
-          render json: { message: 'Something went wrong', # TODO: try to move this block in concern or AppController
+          render json: { message: "Something went wrong", # TODO: try to move this block in concern or AppController
                          errors: [result.error].flatten },
                  status: :unprocessable_entity
         end
@@ -24,10 +24,10 @@ module Api
 
       def destroy
         if @ticket.destroy
-          render json: { message: 'Ticket successfully destroyed' },
+          render json: { message: "Ticket successfully destroyed" },
                  status: :ok
         else
-          render json: { message: 'Something went wrong',
+          render json: { message: "Something went wrong",
                          errors: @ticket.errors.full_messages },
                  status: :unprocessable_entity
         end
@@ -53,4 +53,3 @@ module Api
     end
   end
 end
-

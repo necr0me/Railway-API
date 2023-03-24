@@ -1,12 +1,12 @@
-require 'rails_helper'
+
 
 RSpec.describe PassingTrainSerializer do
   let(:passing_train) { create(:passing_train) }
   let(:serializer) { described_class.new(passing_train) }
   let(:result) { serializer.serializable_hash[:data] }
 
-  describe 'associations' do
-    it 'includes train and station in result, their ids are correct' do
+  describe "associations" do
+    it "includes train and station in result, their ids are correct" do
       expect(result[:relationships]).to include(*%i[station train])
 
       expect(result[:relationships][:station][:data][:id]).to eq(passing_train.station_id.to_s)
@@ -14,8 +14,8 @@ RSpec.describe PassingTrainSerializer do
     end
   end
 
-  describe 'attributes' do
-    it 'has attributes arrival time, departure time and way number, type is carriage_type, id is correct' do
+  describe "attributes" do
+    it "has attributes arrival time, departure time and way number, type is carriage_type, id is correct" do
       expect(result[:type]).to eq(:passing_train)
       expect(result[:id]).to eq(passing_train.id.to_s)
 

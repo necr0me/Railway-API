@@ -1,5 +1,5 @@
 module Trains
-  require 'benchmark'
+  require "benchmark"
 
   class FinderService < ApplicationService
     def initialize(starting_station:, ending_station:, date: nil, day_option: :at_the_day)

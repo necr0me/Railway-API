@@ -15,9 +15,9 @@ module Auth
 
     def authenticate
       user = User.find_by(email: email)
-      return fail!(error: { email: ['Can\'t find user with such email'] }) if user.nil?
+      return fail!(error: { email: ["Can't find user with such email"] }) if user.nil?
 
-      user.authenticate(password) ? success!(data: user) : fail!(error: { password: ['Invalid password'] })
+      user.authenticate(password) ? success!(data: user) : fail!(error: { password: ["Invalid password"] })
     end
   end
 end

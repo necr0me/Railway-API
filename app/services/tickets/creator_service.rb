@@ -14,7 +14,7 @@ module Tickets
 
     def create_ticket
       seat = Seat.find(ticket_params[:seat_id])
-      return fail!(error: 'Seat is already taken') if seat.is_taken
+      return fail!(error: "Seat is already taken") if seat.is_taken
 
       ticket = Ticket.create(ticket_params)
       if ticket.persisted?

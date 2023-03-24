@@ -14,11 +14,11 @@ module Api
       def create
         route = Route.create
         if route.persisted?
-          render json: { message: 'Route was created',
+          render json: { message: "Route was created",
                          route: route },
                  status: :created
         else
-          render json: { message: 'Something went wrong',
+          render json: { message: "Something went wrong",
                          errors: route.errors.full_messages },
                  status: :unprocessable_entity
         end
@@ -30,11 +30,11 @@ module Api
           station_id: params[:station_id]
         )
         if result.success?
-          render json: { message: 'Station was successfully added to route',
+          render json: { message: "Station was successfully added to route",
                          station: result.data },
                  status: :created
         else
-          render json: { message: 'Something went wrong',
+          render json: { message: "Something went wrong",
                          errors: [result.error] },
                  status: :unprocessable_entity
         end
@@ -46,10 +46,10 @@ module Api
           station_id: params[:station_id]
         )
         if result.success?
-          render json: { message: 'Station was successfully removed from route' },
+          render json: { message: "Station was successfully removed from route" },
                  status: :ok
         else
-          render json: { message: 'Something went wrong',
+          render json: { message: "Something went wrong",
                          errors: [result.error] },
                  status: :unprocessable_entity
         end
@@ -59,7 +59,7 @@ module Api
         if @route.destroy
           head :no_content
         else
-          render json: { message: 'Something went wrong',
+          render json: { message: "Something went wrong",
                          errors: @route.errors.full_messages },
                  status: :unprocessable_entity
         end

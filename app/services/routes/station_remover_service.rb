@@ -23,7 +23,7 @@ module Routes
     end
 
     def decrement_order_numbers_after(station)
-      station.route.station_order_numbers.where('order_number > ?', station.order_number)
+      station.route.station_order_numbers.where("order_number > ?", station.order_number)
              .each { _1.update(order_number: _1.order_number - 1) }
     end
   end

@@ -1,9 +1,9 @@
-require 'rails_helper'
+
 
 describe PassingTrainPolicy, type: :policy do
   subject { described_class.new(user, create(:passing_train)) }
 
-  context 'being visitor' do
+  context "when user is nil" do
     let(:user) { nil }
 
     it { is_expected.to permit_actions(%i[index]) }
@@ -11,7 +11,7 @@ describe PassingTrainPolicy, type: :policy do
     it { is_expected.to forbid_actions(%i[create update destroy]) }
   end
 
-  context 'being user' do
+  context "when user role is :user" do
     let(:user) { create(:user) }
 
     it { is_expected.to permit_actions(%i[index]) }
@@ -19,13 +19,13 @@ describe PassingTrainPolicy, type: :policy do
     it { is_expected.to forbid_actions(%i[create update destroy]) }
   end
 
-  context 'being moderator' do
+  context "when user role is :moderator" do
     let(:user) { create(:user, role: :moderator) }
 
     it { is_expected.to permit_actions(%i[index create update destroy]) }
   end
 
-  context 'being admin' do
+  context "when user role is :admin" do
     let(:user) { create(:user, role: :admin) }
 
     it { is_expected.to permit_actions(%i[index create update destroy]) }

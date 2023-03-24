@@ -14,11 +14,11 @@ module Api
       def create
         carriage_type = CarriageType.create(carriage_type_params)
         if carriage_type.persisted?
-          render json: { message: 'Carriage type successfully created',
+          render json: { message: "Carriage type successfully created",
                          carriage_type: carriage_type },
                  status: :created
         else
-          render json: { message: 'Something went wrong',
+          render json: { message: "Something went wrong",
                          errors: carriage_type.errors.full_messages },
                  status: :unprocessable_entity
         end
@@ -30,11 +30,11 @@ module Api
           carriage_type_params: carriage_type_params
         )
         if result.success?
-          render json: { message: 'Carriage type successfully updated',
+          render json: { message: "Carriage type successfully updated",
                          carriage_type: result.data },
                  status: :ok
         else
-          render json: { message: 'Something went wrong',
+          render json: { message: "Something went wrong",
                          errors: [result.error] },
                  status: :unprocessable_entity
         end
@@ -45,7 +45,7 @@ module Api
         if result.success?
           head :no_content
         else
-          render json: { message: 'Something went wrong',
+          render json: { message: "Something went wrong",
                          errors: [result.error] },
                  status: :unprocessable_entity
         end

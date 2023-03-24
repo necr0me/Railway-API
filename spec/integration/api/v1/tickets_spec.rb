@@ -1,15 +1,15 @@
-require 'swagger_helper'
+require "swagger_helper"
 
-RSpec.describe 'api/v1/tickets', type: :request do
+RSpec.describe "api/v1/tickets", type: :request do
   let(:user) { create(:user) }
   let(:Authorization) { "Bearer #{access_token}" }
 
   let(:ticket) { create(:ticket, user: user) }
 
-  path '/api/v1/tickets' do
-    post 'Creates new ticket. By necr0me' do
-      tags 'Tickets'
-      consumes 'application/json'
+  path "/api/v1/tickets" do
+    post "Creates new ticket. By necr0me" do
+      tags "Tickets"
+      consumes "application/json"
       parameter name: :params, in: :body, schema: {
         type: :object,
         properties: {
@@ -34,12 +34,12 @@ RSpec.describe 'api/v1/tickets', type: :request do
           required: %i[ticket]
         }
       }
-      produces 'application/json'
+      produces "application/json"
       security [Bearer: {}]
 
       let(:seat) { create(:seat) }
       let(:departure_station) { create(:station) }
-      let(:arrival_station) { create(:station, name: 'Sydney') }
+      let(:arrival_station) { create(:station, name: "Sydney") }
       let(:price) { 10 }
       let(:params) do
         {
@@ -51,96 +51,95 @@ RSpec.describe 'api/v1/tickets', type: :request do
         }
       end
 
-      response '201', 'Ticket successfully created' do
-        include_context 'with integration test'
+      response "201", "Ticket successfully created" do
+        include_context "with integration test"
       end
 
-      response '401', 'You are unauthorized' do
-        let(:Authorization) { 'invalid' }
+      response "401", "You are unauthorized" do
+        let(:Authorization) { "invalid" }
 
-        include_context 'with integration test'
+        include_context "with integration test"
       end
 
-      response '422', 'Error occurred during ticket create' do
+      response "422", "Error occurred during ticket create" do
         let(:price) { nil }
 
-        include_context 'with integration test'
+        include_context "with integration test"
       end
-
     end
   end
 
-  path '/api/v1/tickets/{ticket_id}' do
+  path "/api/v1/tickets/{ticket_id}" do
     let(:ticket_id) { ticket.id }
 
-    get 'Gets concrete ticket. By necr0me' do
-      tags 'Tickets'
+    get "Gets concrete ticket. By necr0me" do
+      tags "Tickets"
       security [Bearer: {}]
       parameter name: :ticket_id, in: :path, type: :integer, required: true,
-                description: 'Id of ticket that you want to find'
-      produces 'application/json'
+                description: "Id of ticket that you want to find"
+      produces "application/json"
 
-      response '200', 'Ticket was found' do
-        include_context 'with integration test'
+      response "200", "Ticket was found" do
+        include_context "with integration test"
       end
 
-      response '401', 'You are unauthorized' do
-        let(:Authorization) { 'invalid' }
+      response "401", "You are unauthorized" do
+        let(:Authorization) { "invalid" }
 
-        include_context 'with integration test'
+        include_context "with integration test"
       end
 
-      response '403', 'You are forbidden to perform this action' do
-        let(:another_user) { create(:user, email: 'm@mail.co') }
+      response "403", "You are forbidden to perform this action" do
+        let(:another_user) { create(:user, email: "m@mail.co") }
         let(:Authorization) { "Bearer #{access_token_for(another_user)}" }
 
-        include_context 'with integration test'
+        include_context "with integration test"
       end
 
-      response '404', 'Ticket not found' do
+      response "404", "Ticket not found" do
         let(:ticket_id) { -1 }
 
-        include_context 'with integration test'
+        include_context "with integration test"
       end
     end
 
-    delete 'Deletes concrete ticket. By necr0me' do
-      tags 'Tickets'
+    delete "Deletes concrete ticket. By necr0me" do
+      tags "Tickets"
       security [Bearer: {}]
       parameter name: :ticket_id, in: :path, type: :integer, required: true,
-                description: 'Id of ticket that you want to destroy'
-      produces 'application/json'
+                description: "Id of ticket that you want to destroy"
+      produces "application/json"
 
-      response '200', 'Ticket successfully destroyed' do
-        include_context 'with integration test'
+      response "200", "Ticket successfully destroyed" do
+        include_context "with integration test"
       end
 
-      response '401', 'You are unauthorized' do
-        let(:Authorization) { 'invalid' }
+      response "401", "You are unauthorized" do
+        let(:Authorization) { "invalid" }
 
-        include_context 'with integration test'
+        include_context "with integration test"
       end
 
-      response '403', 'You are forbidden to perform this action' do
-        let(:another_user) { create(:user, email: 'm@mail.co') }
+      response "403", "You are forbidden to perform this action" do
+        let(:another_user) { create(:user, email: "m@mail.co") }
         let(:Authorization) { "Bearer #{access_token_for(another_user)}" }
 
-        include_context 'with integration test'
+        include_context "with integration test"
       end
 
-      response '404', 'Ticket not found' do
+      response "404", "Ticket not found" do
         let(:ticket_id) { -1 }
 
-        include_context 'with integration test'
+        include_context "with integration test"
       end
 
-      response '422', 'Error occurred during ticket destroy' do
+      response "422", "Error occurred during ticket destroy" do
         before do
           allow_any_instance_of(Ticket).to receive(:destroy).and_return(false)
-          allow_any_instance_of(ActiveModel::Errors).to receive(:full_messages).and_return(['Error message'])
+          allow_any_instance_of(ActiveModel::Errors).to receive(:full_messages).and_return(["Error message"])
         end
 
-        include_context 'with integration test'
+        include_context "with integration test"
       end
     end
   end
