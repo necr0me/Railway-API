@@ -1,5 +1,3 @@
-
-
 RSpec.describe UserPolicy, type: :policy do
   subject { described_class.new(user, resource_user) }
 

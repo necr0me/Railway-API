@@ -1,5 +1,3 @@
-
-
 RSpec.describe StationSerializer do
   let(:station) { create(:station) }
   let(:serializer) { described_class.new(station) }

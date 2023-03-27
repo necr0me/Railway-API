@@ -1,5 +1,3 @@
-
-
 RSpec.describe CarriageTypes::DestroyerService do
   let(:carriage_type) { create(:carriage_type) }
 

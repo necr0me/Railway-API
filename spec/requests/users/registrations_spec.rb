@@ -1,5 +1,3 @@
-
-
 RSpec.describe "Users::Registrations", type: :request do
   let(:user) { build(:user) }
   let(:existing_user) { create(:user) }

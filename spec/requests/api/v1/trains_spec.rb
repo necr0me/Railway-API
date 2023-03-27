@@ -1,5 +1,3 @@
-
-
 RSpec.describe "Api::V1::Trains", type: :request do
   let(:user) { create(:user, role: :admin) }
 

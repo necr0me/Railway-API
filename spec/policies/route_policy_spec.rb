@@ -1,5 +1,3 @@
-
-
 RSpec.describe RoutePolicy, type: :policy do
   subject { described_class.new(user, route) }
 

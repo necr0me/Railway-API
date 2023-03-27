@@ -1,5 +1,3 @@
-
-
 RSpec.describe Train, type: :model do
   let(:train) { create(:train, :train_with_carriages) }
 

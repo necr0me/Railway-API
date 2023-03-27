@@ -1,5 +1,3 @@
-
-
 RSpec.describe Jwt::TokensRefresherService do
   let(:user) { create(:user, :user_with_refresh_token) }
 

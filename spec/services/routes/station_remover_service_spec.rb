@@ -1,5 +1,3 @@
-
-
 RSpec.describe Routes::StationRemoverService do
   let(:route) { create(:route, :route_with_stations) }
   let(:first_station) { route.stations.first }

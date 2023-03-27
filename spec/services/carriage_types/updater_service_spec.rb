@@ -1,5 +1,3 @@
-
-
 RSpec.describe CarriageTypes::UpdaterService do
   let(:carriage_type) { create(:carriage_type) }
   let(:params) do

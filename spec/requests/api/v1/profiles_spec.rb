@@ -1,5 +1,3 @@
-
-
 RSpec.describe "Api::V1::Profiles", type: :request do
   let(:user) { create(:user, :user_with_profile) }
   let(:user_without_profile) { create(:user) }

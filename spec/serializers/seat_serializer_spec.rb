@@ -1,5 +1,3 @@
-
-
 RSpec.describe SeatSerializer do
   let(:seat) { create(:seat) }
   let(:serializer) { described_class.new(seat) }

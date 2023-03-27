@@ -1,5 +1,3 @@
-
-
 RSpec.describe Profile, type: :model do
   let(:profile) { build(:profile) }
   let(:blank_profile) { build(:blank_profile) }

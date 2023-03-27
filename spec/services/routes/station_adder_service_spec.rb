@@ -1,5 +1,3 @@
-
-
 RSpec.describe Routes::StationAdderService do
   let(:route) { create(:route) }
   let(:station) { create(:station) }

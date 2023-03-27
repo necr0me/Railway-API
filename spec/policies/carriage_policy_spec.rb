@@ -1,5 +1,3 @@
-
-
 RSpec.describe CarriagePolicy, type: :policy do
   subject { described_class.new(user, create(:carriage)) }
 

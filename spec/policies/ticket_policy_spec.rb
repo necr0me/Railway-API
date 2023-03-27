@@ -1,5 +1,3 @@
-
-
 RSpec.describe TicketPolicy, type: :policy do
   subject { described_class.new(user, ticket) }
 

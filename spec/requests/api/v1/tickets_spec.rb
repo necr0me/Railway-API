@@ -1,5 +1,3 @@
-
-
 RSpec.describe "Api::V1::Tickets", type: :request do
   let(:user) { create(:user) }
   let(:ticket) { create(:ticket, user: user) }

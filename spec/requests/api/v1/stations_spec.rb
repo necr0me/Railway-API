@@ -1,5 +1,3 @@
-
-
 RSpec.describe "Api::V1::Stations", type: :request do
   let(:station) { create(:station) }
 

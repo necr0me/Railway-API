@@ -1,5 +1,3 @@
-
-
 RSpec.describe PassingTrainSerializer do
   let(:passing_train) { create(:passing_train) }
   let(:serializer) { described_class.new(passing_train) }

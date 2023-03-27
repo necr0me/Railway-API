@@ -1,6 +1,4 @@
-
-
-describe PassingTrainPolicy, type: :policy do
+RSpec.describe PassingTrainPolicy, type: :policy do
   subject { described_class.new(user, create(:passing_train)) }
 
   context "when user is nil" do

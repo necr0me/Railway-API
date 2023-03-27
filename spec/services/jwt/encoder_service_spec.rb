@@ -1,5 +1,3 @@
-
-
 RSpec.describe Jwt::EncoderService do
   subject(:service) { described_class.call(payload: payload, type: token_type) }
 

@@ -1,5 +1,3 @@
-
-
 RSpec.describe RefreshToken, type: :model do
   describe "associations" do
     describe "user" do

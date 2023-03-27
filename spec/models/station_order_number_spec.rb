@@ -1,5 +1,3 @@
-
-
 RSpec.describe StationOrderNumber, type: :model do
   let(:route) { create(:route, :route_with_stations) }
   let(:station) { create(:station) }

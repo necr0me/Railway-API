@@ -1,5 +1,3 @@
-
-
 RSpec.describe Auth::AuthorizationService do
   let(:user) { create(:user) }
   let(:access_token) do

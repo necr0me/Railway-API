@@ -1,5 +1,3 @@
-
-
 RSpec.describe Trains::FinderService do
   subject(:service) do
     described_class.call(

@@ -1,5 +1,3 @@
-
-
 RSpec.describe Ticket, type: :model do
   describe "associations" do
     describe "user" do

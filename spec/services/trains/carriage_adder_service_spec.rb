@@ -1,5 +1,3 @@
-
-
 RSpec.describe Trains::CarriageAdderService do
   subject(:service) { described_class.call(train: train, carriage_id: carriage.id) }
 

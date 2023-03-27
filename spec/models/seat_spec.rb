@@ -1,5 +1,3 @@
-
-
 RSpec.describe Seat, type: :model do
   let(:seat) { build(:seat) }
 

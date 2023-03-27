@@ -1,5 +1,3 @@
-
-
 RSpec.describe "Users::Sessions", type: :request do
   let(:user) { create(:user) }
   let(:user_credentials) do

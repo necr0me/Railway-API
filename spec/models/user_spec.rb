@@ -1,5 +1,3 @@
-
-
 RSpec.describe User, type: :model do
   let(:user) { create(:user) }
   let(:user_with_token) { create(:user, :user_with_refresh_token) }

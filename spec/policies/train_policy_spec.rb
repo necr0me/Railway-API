@@ -1,5 +1,3 @@
-
-
 RSpec.describe TrainPolicy, type: :policy do
   subject { described_class.new(user, create(:train)) }
 

@@ -1,5 +1,3 @@
-
-
 RSpec.describe Station, type: :model do
   let(:station) { create(:station) }
   let(:invalid_station) { build(:station, name: " ") }

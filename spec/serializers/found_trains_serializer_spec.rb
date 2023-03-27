@@ -1,5 +1,3 @@
-
-
 RSpec.describe FoundTrainsSerializer do
   let(:names) { %w[Grodno Mosty Lida Minsk] }
   let(:stations) { create_list(:station, names.size, :station_sequence_with_name_list, list: names) }

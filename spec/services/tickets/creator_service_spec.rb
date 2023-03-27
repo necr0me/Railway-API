@@ -1,5 +1,3 @@
-
-
 RSpec.describe Tickets::CreatorService do
   subject(:service) { described_class.call(ticket_params: ticket_params) }
 

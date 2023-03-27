@@ -1,5 +1,3 @@
-
-
 RSpec.describe RouteSerializer do
   let(:route) { create(:route, :route_with_stations) }
   let(:serializer) { described_class.new(route) }

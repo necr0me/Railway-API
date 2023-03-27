@@ -1,5 +1,3 @@
-
-
 RSpec.describe CarriageTypeSerializer do
   let(:carriage_type) { create(:carriage_type) }
   let(:serializer) { described_class.new(carriage_type) }

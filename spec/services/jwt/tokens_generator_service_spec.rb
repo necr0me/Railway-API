@@ -1,5 +1,3 @@
-
-
 RSpec.describe Jwt::TokensGeneratorService do
   let(:generate_tokens_for_user) { described_class.call(user_id: user.id).data }
   let(:generate_tokens_for_user_with_token) { described_class.call(user_id: user_with_token.id).data }

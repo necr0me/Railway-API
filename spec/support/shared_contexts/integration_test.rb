@@ -1,5 +1,3 @@
-
-
 shared_context "with integration test" do
   run_test!
 

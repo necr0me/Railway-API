@@ -1,5 +1,3 @@
-
-
 RSpec.describe TicketSerializer do
   let(:ticket) { create(:ticket) }
   let(:serializer) { described_class.new(ticket) }

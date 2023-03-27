@@ -1,5 +1,3 @@
-
-
 RSpec.describe Jwt::DecoderService do
   let(:payload) { { user_id: "1337" } }
   let(:algorithm) { Constants::Jwt::JWT_ALGORITHM }

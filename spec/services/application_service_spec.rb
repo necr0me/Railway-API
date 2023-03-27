@@ -1,5 +1,3 @@
-
-
 RSpec.describe ApplicationService do
   let(:service) { described_class.new }
 

@@ -1,5 +1,3 @@
-
-
 RSpec.describe ProfileSerializer do
   let(:profile) { create(:profile) }
   let(:serializer) { described_class.new(profile) }

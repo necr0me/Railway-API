@@ -1,5 +1,3 @@
-
-
 RSpec.describe "Api::V1::Routes", type: :request do
   let(:route) { create(:route, :route_with_stations) }
   let(:empty_route) { create(:route) }
