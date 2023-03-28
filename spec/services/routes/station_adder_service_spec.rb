@@ -20,7 +20,7 @@ RSpec.describe Routes::StationAdderService do
     end
 
     context "when no any errors occurs" do
-      it " returns added station, does not contain error and adds station to route" do
+      it "returns added station, does not contain error, adds station to route and updates route destination" do
         result = described_class.call(route_id: route.id, station_id: station.id)
 
         expect(result.data.id).to eq(station.id)
@@ -28,6 +28,7 @@ RSpec.describe Routes::StationAdderService do
 
         expect(route.reload.stations).to include(station)
         expect(route.station_order_numbers.last.order_number).to eq(route.stations.count)
+        expect(route.destination).to eq("#{route.stations.first.name} - #{route.stations.last.name}")
       end
     end
   end

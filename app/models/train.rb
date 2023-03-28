@@ -5,4 +5,6 @@ class Train < ApplicationRecord
   has_many :stops, class_name: "PassingTrain", dependent: :delete_all
 
   before_destroy { carriages.update(order_number: nil) }
+
+  delegate :destination, to: :route
 end

@@ -18,6 +18,7 @@ module Routes
       ActiveRecord::Base.transaction do
         decrement_order_numbers_after(station)
         station.destroy!
+        update_destination!(station.route)
       end
       success!
     end
@@ -25,6 +26,11 @@ module Routes
     def decrement_order_numbers_after(station)
       station.route.station_order_numbers.where("order_number > ?", station.order_number)
              .each { _1.update(order_number: _1.order_number - 1) }
+    end
+
+    def update_destination!(route)
+      destination = route.stations.empty? ? nil : "#{route.stations.first.name} - #{route.stations.last.name}"
+      route.update!(destination: destination)
     end
   end
 end

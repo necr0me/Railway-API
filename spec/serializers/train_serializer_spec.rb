@@ -4,9 +4,30 @@ RSpec.describe TrainSerializer do
   let(:result) { serializer.serializable_hash[:data] }
 
   describe "attributes" do
-    it "type is train, id is correct" do
+    it "has attribute destination, type is train, id is correct" do
       expect(result[:type]).to eq(:train)
       expect(result[:id]).to eq(train.id.to_s)
+    end
+  end
+
+  describe "attribute destination" do
+    context "when route or destination is nil" do
+      it "returns '-'" do
+        expect(result[:attributes][:destination]).to eq("-")
+      end
+    end
+
+    context "when destination is not nil" do
+      let(:route) { create(:route, :route_with_stations) }
+      let(:train) { create(:train, route: route) }
+
+      it "returns destination" do
+        route.destination = "#{route.stations.first.name} - #{route.stations.last.name}"
+        route.save
+        route.reload
+
+        expect(result[:attributes][:destination]).to eq(train.destination)
+      end
     end
   end
 end

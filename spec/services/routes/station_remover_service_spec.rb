@@ -21,13 +21,14 @@ RSpec.describe Routes::StationRemoverService do
     end
 
     context "when any error doesn't occur" do
-      it "does not contains errors and removes station from route" do
+      it "does not contains errors, removes station from route and updates route destination" do
         result = described_class.call(route_id: route.id, station_id: first_station.id)
 
         expect(result.error).to be_nil
 
         expect(route.reload.stations.pluck(:order_number)).to eq((1..route.stations.count).to_a)
         expect(route.reload.stations).not_to include(first_station)
+        expect(route.destination).to eq("#{route.stations.first.name} - #{route.stations.last.name}")
       end
     end
   end
@@ -42,6 +43,27 @@ RSpec.describe Routes::StationRemoverService do
 
       old_order_numbers.each do |k, v|
         expect(v.first.order_number - new_order_numbers[k].first.order_number).to eq(1)
+      end
+    end
+  end
+
+  describe "#update_destination!" do
+    before do
+      service = described_class.new(route_id: route.id, station_id: nil)
+      service.send(:update_destination!, route)
+    end
+
+    context "when route stations list is empty" do
+      let(:route) { create(:route) }
+
+      it "sets route destination to nil" do
+        expect(route.reload.destination).to eq(nil)
+      end
+    end
+
+    context "when route stations list is not empty" do
+      it "sets route destination to format like 'first_station_name - last_station_name'" do
+        expect(route.reload.destination).to eq("#{route.stations.first.name} - #{route.stations.last.name}")
       end
     end
   end

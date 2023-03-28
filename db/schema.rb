@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 20_230_308_141_414) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_28_171410) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -70,6 +70,7 @@ ActiveRecord::Schema[7.0].define(version: 20_230_308_141_414) do
   create_table "routes", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "destination"
   end
 
   create_table "seats", force: :cascade do |t|
@@ -87,7 +88,7 @@ ActiveRecord::Schema[7.0].define(version: 20_230_308_141_414) do
     t.integer "order_number", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index %w[route_id station_id], name: "index_station_order_numbers_on_route_id_and_station_id", unique: true
+    t.index ["route_id", "station_id"], name: "index_station_order_numbers_on_route_id_and_station_id", unique: true
     t.index ["route_id"], name: "index_station_order_numbers_on_route_id"
     t.index ["station_id"], name: "index_station_order_numbers_on_station_id"
   end

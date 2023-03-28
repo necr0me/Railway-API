@@ -45,4 +45,10 @@ RSpec.describe Train, type: :model do
       end
     end
   end
+
+  describe "#destination" do
+    it 'returns route destination' do
+
+    end
+  end
 end
