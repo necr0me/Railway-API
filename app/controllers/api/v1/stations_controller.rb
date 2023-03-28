@@ -6,7 +6,10 @@ module Api
       before_action :authorize_station
 
       def index
-        render json: Station.where("name LIKE :prefix", prefix: "#{params[:station]}%")
+        @stations = Station.where("name LIKE :prefix", prefix: "#{params[:station]}%")
+        @pagy, @stations = pagy(@stations, page: params[:page] || 1)
+        render json: { stations: @stations,
+                       pages: @pagy.pages }
       end
 
       def show
@@ -20,7 +23,7 @@ module Api
                  status: :created
         else
           render json: { message: "Something went wrong",
-                         errors: station.errors.full_messages },
+                         errors: station.errors },
                  status: :unprocessable_entity
         end
       end

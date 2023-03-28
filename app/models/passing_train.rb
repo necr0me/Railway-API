@@ -2,7 +2,7 @@ class PassingTrain < ApplicationRecord
   belongs_to :train, inverse_of: :stops
   belongs_to :station, inverse_of: :passing_trains
 
-  # TODO: add validation of presence
+  # TODO: add validation of presence (optional)
   validate :arrival_cannot_be_later_than_departure
 
   scope :arrives_after, ->(date) { where(arrival_time: date..) }
