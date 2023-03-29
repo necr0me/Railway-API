@@ -11,6 +11,8 @@ Rails.application.routes.draw do
       resource :profile, only: %i[show create update]
 
       resources :stations
+
+      resources :routes, only: %i[index]
       resources :routes, only: %i[show create destroy], param: :route_id
       resources :routes, only: [] do
         post 'add_station', to: 'routes#add_station'

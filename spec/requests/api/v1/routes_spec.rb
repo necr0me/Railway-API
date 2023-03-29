@@ -5,6 +5,49 @@ RSpec.describe "Api::V1::Routes", type: :request do
 
   let(:user) { create(:user, role: :moderator) }
 
+  describe "#index" do
+    context "when user is unauthorized" do
+      before do
+        get "/api/v1/routes"
+      end
+
+      it "returns unauthorized" do
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context "when user is authorized and query param page presented" do
+      include_context "with sequence cleaner"
+
+      before do
+        create_list(:route, 6)
+        get "/api/v1/routes#{page_param}", headers: auth_header
+      end
+
+      context "when page param is presented" do
+        let(:page_param) { "?page=2" }
+
+        it "returns ok, list of 1 route and number of pages" do
+          expect(response).to have_http_status(:ok)
+
+          expect(json_response["routes"]["data"].count).to eq(1)
+          expect(json_response["pages"]).to eq((Route.count / 5.0).ceil)
+        end
+      end
+
+      context "when page param is not presented" do
+        let(:page_param) { "" }
+
+        it "returns ok, list of 5 routes (first page) and number of pages" do
+          expect(response).to have_http_status(:ok)
+
+          expect(json_response["routes"]["data"].count).to eq(5)
+          expect(json_response["pages"]).to eq((Route.count / 5.0).ceil)
+        end
+      end
+    end
+  end
+
   describe "#show" do
     context "when user is unauthorized" do
       include_context "with sequence cleaner"
@@ -13,12 +56,24 @@ RSpec.describe "Api::V1::Routes", type: :request do
         get "/api/v1/routes/#{route.id}"
       end
 
+      it "returns unauthorized" do
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context "when user is authorized" do
+      include_context "with sequence cleaner"
+
+      before do
+        get "/api/v1/routes/#{route.id}", headers: auth_header
+      end
+
       it "returns 200, route and stations in route" do
         expect(response).to have_http_status(:ok)
 
-        expect(json_response["route"]["id"]).to eq(route.id)
+        expect(json_response["route"]["data"]["id"].to_i).to eq(route.id)
 
-        expect(json_response["stations"].map { _1["id"] }).to eq(route.stations.pluck(:id))
+        expect(json_response["route"]["included"].map { _1["id"].to_i }).to eq(route.stations.pluck(:id))
       end
     end
   end
@@ -54,7 +109,7 @@ RSpec.describe "Api::V1::Routes", type: :request do
 
       it "returns 201 and creates route in db" do
         expect(response).to have_http_status(:created)
-        expect(json_response["route"]["id"]).to eq(Route.last.id)
+        expect(json_response["route"]["data"]["id"].to_i).to eq(Route.last.id)
       end
     end
   end

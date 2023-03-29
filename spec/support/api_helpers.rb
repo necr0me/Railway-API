@@ -1,6 +1,7 @@
 module ApiHelpers
   def json_response
     JSON.parse(response.body)
+    # TODO ActiveSupport::HashWithIndifferentAccess.new
   end
 
   def login_with_api(credentials)

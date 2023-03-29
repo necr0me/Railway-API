@@ -6,17 +6,13 @@ RSpec.describe RoutePolicy, type: :policy do
   context "when user is nil" do
     let(:user) { nil }
 
-    it { is_expected.to permit_action(:show) }
-
-    it { is_expected.to forbid_actions(%i[create add_station remove_station destroy]) }
+    it { is_expected.to forbid_actions(%i[index show create add_station remove_station destroy]) }
   end
 
   context "when user role is :user" do
     let(:user) { create(:user) }
 
-    it { is_expected.to permit_action(:show) }
-
-    it { is_expected.to forbid_actions(%i[create add_station remove_station destroy]) }
+    it { is_expected.to forbid_actions(%i[index show create add_station remove_station destroy]) }
   end
 
   context "when user role is :moderator" do

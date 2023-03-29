@@ -1,13 +1,18 @@
 module Api
   module V1
     class RoutesController < ApplicationController
-      before_action :authorize!, except: %i[show]
-      before_action :find_route, except: %i[create]
+      before_action :authorize!
+      before_action :find_route, except: %i[index create]
       before_action :authorize_route
 
+      def index
+        @pagy, @routes = pagy(Route.all, page: params[:page] || 1)
+        render json: { routes: RouteSerializer.new(@routes),
+                       pages: @pagy.pages }
+      end
+
       def show
-        render json: { route: @route,
-                       stations: @route.stations },
+        render json: { route: RouteSerializer.new(@route, { include: [:stations] }) },
                status: :ok
       end
 
@@ -15,7 +20,7 @@ module Api
         route = Route.create
         if route.persisted?
           render json: { message: "Route was created",
-                         route: route },
+                         route: RouteSerializer.new(route) },
                  status: :created
         else
           render json: { message: "Something went wrong",

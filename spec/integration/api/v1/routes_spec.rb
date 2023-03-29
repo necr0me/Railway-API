@@ -49,8 +49,15 @@ RSpec.describe "api/v1/routes", type: :request do
       parameter name: :route_id, in: :path, type: :integer, required: true,
                 description: "Id of route"
       produces "application/json"
+      security [Bearer: {}]
 
       response "200", "Route found" do
+        include_context "with integration test"
+      end
+
+      response "401", "You are unauthorized" do
+        let(:Authorization) { "invalid" }
+
         include_context "with integration test"
       end
 
