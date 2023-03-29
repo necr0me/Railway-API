@@ -23,7 +23,7 @@ RSpec.describe Authorization do
       end
 
       it "authorizes user with correct token" do
-        expect(json_response["user"]["id"]).to eq(user.id)
+        expect(json_response[:user][:id]).to eq(user.id)
       end
     end
 
@@ -35,7 +35,7 @@ RSpec.describe Authorization do
 
       it "returns 401 and contains message that you are not logged in" do
         expect(response).to have_http_status(:unauthorized)
-        expect(json_response["message"]).to eq("You're not logged in")
+        expect(json_response[:message]).to eq("You're not logged in")
       end
     end
   end

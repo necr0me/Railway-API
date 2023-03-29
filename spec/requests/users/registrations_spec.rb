@@ -30,8 +30,8 @@ RSpec.describe "Users::Registrations", type: :request do
 
       it "returns 422 and contains error messages" do
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(json_response["errors"]["email"]).to include(/can't be blank/)
-        expect(json_response["errors"]["password"]).to include(/can't be blank/)
+        expect(json_response[:errors][:email]).to include(/can't be blank/)
+        expect(json_response[:errors][:password]).to include(/can't be blank/)
       end
     end
 
@@ -48,7 +48,7 @@ RSpec.describe "Users::Registrations", type: :request do
 
       it "returns 422 and contains error message" do
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(json_response["errors"]["email"]).to include(/has already been taken/)
+        expect(json_response[:errors][:email]).to include(/has already been taken/)
       end
     end
 
@@ -91,7 +91,7 @@ RSpec.describe "Users::Registrations", type: :request do
 
       it "returns 422 and error message" do
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(json_response["errors"]).to include("Error message")
+        expect(json_response[:errors]).to include("Error message")
       end
     end
 

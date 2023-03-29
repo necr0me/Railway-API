@@ -18,6 +18,8 @@ RSpec.describe TrainSerializer do
     end
 
     context "when destination is not nil" do
+      include_context "with sequence cleaner"
+
       let(:route) { create(:route, :route_with_stations) }
       let(:train) { create(:train, route: route) }
 

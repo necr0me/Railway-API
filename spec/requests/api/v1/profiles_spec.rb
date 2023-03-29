@@ -20,7 +20,7 @@ RSpec.describe "Api::V1::Profiles", type: :request do
 
       it "returns 200 and proper profile" do
         expect(response).to have_http_status(:ok)
-        expect(json_response["profile"]["user_id"]).to eq(user.id)
+        expect(json_response[:profile][:user_id]).to eq(user.id)
       end
     end
   end
@@ -55,7 +55,7 @@ RSpec.describe "Api::V1::Profiles", type: :request do
 
       it "returns 400 and error messages" do
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(json_response["errors"]).not_to be_nil
+        expect(json_response[:errors]).not_to be_nil
       end
     end
 
@@ -70,7 +70,7 @@ RSpec.describe "Api::V1::Profiles", type: :request do
 
       it "returns 422 and error message" do
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(json_response["message"]).to eq("Seems like record with this data already exists")
+        expect(json_response[:message]).to eq("Seems like record with this data already exists")
       end
     end
 
@@ -117,8 +117,8 @@ RSpec.describe "Api::V1::Profiles", type: :request do
 
       it "returns 422 and error messages" do
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(json_response["errors"]).not_to be_nil
-        expect(json_response["errors"]["name"]).to include(/is too short/)
+        expect(json_response[:errors]).not_to be_nil
+        expect(json_response[:errors][:name]).to include(/is too short/)
       end
     end
 

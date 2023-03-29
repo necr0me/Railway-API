@@ -30,8 +30,8 @@ RSpec.describe "Api::V1::Routes", type: :request do
         it "returns ok, list of 1 route and number of pages" do
           expect(response).to have_http_status(:ok)
 
-          expect(json_response["routes"]["data"].count).to eq(1)
-          expect(json_response["pages"]).to eq((Route.count / 5.0).ceil)
+          expect(json_response[:routes][:data].count).to eq(1)
+          expect(json_response[:pages]).to eq((Route.count / 5.0).ceil)
         end
       end
 
@@ -41,8 +41,8 @@ RSpec.describe "Api::V1::Routes", type: :request do
         it "returns ok, list of 5 routes (first page) and number of pages" do
           expect(response).to have_http_status(:ok)
 
-          expect(json_response["routes"]["data"].count).to eq(5)
-          expect(json_response["pages"]).to eq((Route.count / 5.0).ceil)
+          expect(json_response[:routes][:data].count).to eq(5)
+          expect(json_response[:pages]).to eq((Route.count / 5.0).ceil)
         end
       end
     end
@@ -71,9 +71,9 @@ RSpec.describe "Api::V1::Routes", type: :request do
       it "returns 200, route and stations in route" do
         expect(response).to have_http_status(:ok)
 
-        expect(json_response["route"]["data"]["id"].to_i).to eq(route.id)
+        expect(json_response[:route][:data][:id].to_i).to eq(route.id)
 
-        expect(json_response["route"]["included"].map { _1["id"].to_i }).to eq(route.stations.pluck(:id))
+        expect(json_response[:route][:included].map { _1[:id].to_i }).to eq(route.stations.pluck(:id))
       end
     end
   end
@@ -98,7 +98,7 @@ RSpec.describe "Api::V1::Routes", type: :request do
 
       it "returns 422 and error message" do
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(json_response["errors"]).not_to be_nil
+        expect(json_response[:errors]).not_to be_nil
       end
     end
 
@@ -109,7 +109,7 @@ RSpec.describe "Api::V1::Routes", type: :request do
 
       it "returns 201 and creates route in db" do
         expect(response).to have_http_status(:created)
-        expect(json_response["route"]["data"]["id"].to_i).to eq(Route.last.id)
+        expect(json_response[:route][:data][:id].to_i).to eq(Route.last.id)
       end
     end
   end
@@ -138,7 +138,7 @@ RSpec.describe "Api::V1::Routes", type: :request do
 
       it "returns 404 and contains error message" do
         expect(response).to have_http_status(:not_found)
-        expect(json_response["message"]).to eq("Couldn't find Route with 'id'=0")
+        expect(json_response[:message]).to eq("Couldn't find Route with 'id'=0")
       end
     end
 
@@ -153,7 +153,7 @@ RSpec.describe "Api::V1::Routes", type: :request do
 
       it "returns 422 and contains error message that station must exist" do
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(json_response["errors"]).to include(/Station must exist/)
+        expect(json_response[:errors]).to include(/Station must exist/)
       end
     end
 
@@ -171,7 +171,7 @@ RSpec.describe "Api::V1::Routes", type: :request do
 
         expect(empty_route.reload.stations).to include(station)
 
-        expect(json_response["station"]["id"]).to eq(station.id)
+        expect(json_response[:station][:id]).to eq(station.id)
       end
     end
   end
@@ -196,7 +196,7 @@ RSpec.describe "Api::V1::Routes", type: :request do
 
       it "returns 404 and contains error message" do
         expect(response).to have_http_status(:not_found)
-        expect(json_response["message"]).to eq("Couldn't find Route with 'id'=0")
+        expect(json_response[:message]).to eq("Couldn't find Route with 'id'=0")
       end
     end
 
@@ -207,7 +207,7 @@ RSpec.describe "Api::V1::Routes", type: :request do
 
       it "returns 422 and contains error message" do
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(json_response["errors"]).to include(/Couldn't find StationOrderNumber/)
+        expect(json_response[:errors]).to include(/Couldn't find StationOrderNumber/)
       end
     end
 
@@ -246,7 +246,7 @@ RSpec.describe "Api::V1::Routes", type: :request do
 
       it "returns 422 and error message" do
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(json_response["errors"]).to include("Error message")
+        expect(json_response[:errors]).to include("Error message")
       end
     end
 

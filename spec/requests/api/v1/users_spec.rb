@@ -28,8 +28,8 @@ RSpec.describe "Api::V1::Users", type: :request do
       it "returns 200 and proper user" do
         expect(response).to have_http_status(:ok)
 
-        expect(json_response["user"]["id"]).to eq(user.id)
-        expect(json_response["user"]["email"]).to eq(user.email)
+        expect(json_response[:user][:id]).to eq(user.id)
+        expect(json_response[:user][:email]).to eq(user.email)
       end
     end
   end
@@ -60,7 +60,7 @@ RSpec.describe "Api::V1::Users", type: :request do
 
       it "returns 422 and contains error message" do
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(json_response["errors"]).not_to be_nil
+        expect(json_response[:errors]).not_to be_nil
       end
     end
 

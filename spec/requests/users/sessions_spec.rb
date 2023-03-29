@@ -21,7 +21,7 @@ RSpec.describe "Users::Sessions", type: :request do
 
       it "returns 400 and contains error message" do
         expect(response).to have_http_status(:bad_request)
-        expect(json_response["errors"]).not_to be_nil
+        expect(json_response[:errors]).not_to be_nil
       end
     end
 
@@ -32,7 +32,7 @@ RSpec.describe "Users::Sessions", type: :request do
 
       it "returns 400 and contains error message that can not find user with such email" do
         expect(response).to have_http_status(:bad_request)
-        expect(json_response["errors"]["email"]).to include(/Can't find user with such email/)
+        expect(json_response[:errors][:email]).to include(/Can't find user with such email/)
       end
     end
 
@@ -43,7 +43,7 @@ RSpec.describe "Users::Sessions", type: :request do
 
       it "returns 400 and contains error message that password is invalid" do
         expect(response).to have_http_status(:bad_request)
-        expect(json_response["errors"]["password"]).to include(/Invalid password/)
+        expect(json_response[:errors][:password]).to include(/Invalid password/)
       end
     end
 
@@ -54,7 +54,7 @@ RSpec.describe "Users::Sessions", type: :request do
 
       it "returns 201, generates access token, saves refresh token into cookies and in db" do
         expect(response).to have_http_status(:created)
-        expect(json_response["access_token"]).not_to be_nil
+        expect(json_response[:access_token]).not_to be_nil
         expect(cookies[:refresh_token]).not_to be_nil
         expect(cookies[:refresh_token]).to eq(user.refresh_token.value)
       end
@@ -71,7 +71,7 @@ RSpec.describe "Users::Sessions", type: :request do
 
       it "returns 401 and contains error message that tokens are not matching" do
         expect(response).to have_http_status(:unauthorized)
-        expect(json_response["errors"]).to include(/Tokens aren't matching/)
+        expect(json_response[:errors]).to include(/Tokens aren't matching/)
       end
     end
 
@@ -80,11 +80,11 @@ RSpec.describe "Users::Sessions", type: :request do
         login_with_api(user_credentials)
         decoded = JWT.decode(cookies[:refresh_token],
                              Constants::Jwt::JWT_SECRET_KEYS["refresh"]).first
-        decoded["iat"] = (Time.zone.now - 30.minutes).to_i
-        decoded["exp"] = (Time.zone.now - 20.minutes).to_i
-        cookies[:refresh_token] = JWT.encode({ user_id: decoded["user_id"],
-                                               iat: decoded["iat"],
-                                               exp: decoded["exp"] },
+        decoded[:iat] = (Time.zone.now - 30.minutes).to_i
+        decoded[:exp] = (Time.zone.now - 20.minutes).to_i
+        cookies[:refresh_token] = JWT.encode({ user_id: decoded[:user_id],
+                                               iat: decoded[:iat],
+                                               exp: decoded[:exp] },
                                              Constants::Jwt::JWT_SECRET_KEYS["refresh"],
                                              Constants::Jwt::JWT_ALGORITHM)
         get "/users/refresh_tokens"
@@ -92,7 +92,7 @@ RSpec.describe "Users::Sessions", type: :request do
 
       it "returns 401 and contains error message that token has been expired" do
         expect(response).to have_http_status(:unauthorized)
-        expect(json_response["errors"]).to include(/has expired/)
+        expect(json_response[:errors]).to include(/has expired/)
       end
     end
 
@@ -105,7 +105,7 @@ RSpec.describe "Users::Sessions", type: :request do
 
       it "returns 401 and contains error message that token verification failed" do
         expect(response).to have_http_status(:unauthorized)
-        expect(json_response["errors"]).to include(/verification failed/)
+        expect(json_response[:errors]).to include(/verification failed/)
       end
     end
 
@@ -119,7 +119,7 @@ RSpec.describe "Users::Sessions", type: :request do
 
       it "returns 401 and contains error message that nil json web token" do
         expect(response).to have_http_status(:unauthorized)
-        expect(json_response["errors"]).to include(/Nil JSON/)
+        expect(json_response[:errors]).to include(/Nil JSON/)
       end
     end
 
@@ -133,7 +133,7 @@ RSpec.describe "Users::Sessions", type: :request do
 
       it "returns 200 and new access token, generates new refresh token and saves it to db" do
         expect(response).to have_http_status(:ok)
-        expect(json_response["access_token"]).not_to be_nil
+        expect(json_response[:access_token]).not_to be_nil
 
         expect(cookies[:refresh_token]).not_to eq(@old_refresh_token)
         expect(cookies[:refresh_token]).to eq(user.refresh_token.value)
@@ -160,7 +160,7 @@ RSpec.describe "Users::Sessions", type: :request do
         expect(response).to have_http_status(:ok)
         expect(user.reload.refresh_token).to be_nil
         expect(cookies[:refresh_token]).to be_blank
-        expect(json_response["message"]).to eq("You have successfully logged out.")
+        expect(json_response[:message]).to eq("You have successfully logged out.")
       end
     end
   end

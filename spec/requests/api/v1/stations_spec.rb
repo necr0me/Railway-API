@@ -19,8 +19,8 @@ RSpec.describe "Api::V1::Stations", type: :request do
       it "returns 200, list of 5 or less found stations and number of pages" do
         expect(response).to have_http_status(:ok)
 
-        expect(json_response["stations"].count).to eq(found_stations.size)
-        expect(json_response["pages"]).to eq((found_stations.size / 5.0).ceil)
+        expect(json_response[:stations].count).to eq(found_stations.size)
+        expect(json_response[:pages]).to eq((found_stations.size / 5.0).ceil)
       end
     end
 
@@ -33,8 +33,8 @@ RSpec.describe "Api::V1::Stations", type: :request do
       it "returns 200, list of 5 stations and number of pages" do
         expect(response).to have_http_status(:ok)
 
-        expect(json_response["stations"].count).to eq(5)
-        expect(json_response["pages"]).to eq((Station.count / 5.0).ceil)
+        expect(json_response[:stations].count).to eq(5)
+        expect(json_response[:pages]).to eq((Station.count / 5.0).ceil)
       end
     end
 
@@ -46,7 +46,7 @@ RSpec.describe "Api::V1::Stations", type: :request do
 
       it "returns 200 and list of all stations" do
         expect(response).to have_http_status(:ok)
-        expect(json_response["stations"].count).to eq(Station.count)
+        expect(json_response[:stations].count).to eq(Station.count)
       end
     end
   end
@@ -60,8 +60,8 @@ RSpec.describe "Api::V1::Stations", type: :request do
       it "returns 200 and proper station" do
         expect(response).to have_http_status(:ok)
 
-        expect(json_response["id"]).to eq(station.id)
-        expect(json_response["name"]).to eq(station.name)
+        expect(json_response[:id]).to eq(station.id)
+        expect(json_response[:name]).to eq(station.name)
       end
     end
   end
@@ -92,7 +92,7 @@ RSpec.describe "Api::V1::Stations", type: :request do
 
       it "returns 422 and contains error messages" do
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(json_response["errors"]).not_to be_nil
+        expect(json_response[:errors]).not_to be_nil
       end
     end
 
@@ -186,7 +186,7 @@ RSpec.describe "Api::V1::Stations", type: :request do
 
       it "returns 422 and error message" do
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(json_response["errors"]).to include("Error message")
+        expect(json_response[:errors]).to include("Error message")
       end
     end
 

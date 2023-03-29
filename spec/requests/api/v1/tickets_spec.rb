@@ -21,7 +21,7 @@ RSpec.describe "Api::V1::Tickets", type: :request do
 
       it "returns 200 and found ticket" do
         expect(response).to have_http_status(:ok)
-        expect(json_response["ticket"]["id"]).to eq(ticket.id)
+        expect(json_response[:ticket][:id]).to eq(ticket.id)
       end
     end
   end
@@ -63,7 +63,7 @@ RSpec.describe "Api::V1::Tickets", type: :request do
 
       it "returns 422 and errors" do
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(json_response["errors"]).not_to be_nil
+        expect(json_response[:errors]).not_to be_nil
       end
     end
 
@@ -76,7 +76,7 @@ RSpec.describe "Api::V1::Tickets", type: :request do
 
       it "returns 201 and created ticket" do
         expect(response).to have_http_status(:created)
-        expect(json_response["ticket"]["id"]).to eq(Ticket.last.id)
+        expect(json_response[:ticket][:id]).to eq(Ticket.last.id)
       end
     end
   end
@@ -103,7 +103,7 @@ RSpec.describe "Api::V1::Tickets", type: :request do
 
       it "returns 422 and errors, does not destroy ticket" do
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(json_response["errors"]).not_to be_nil
+        expect(json_response[:errors]).not_to be_nil
         expect { ticket.reload }.not_to raise_error
       end
     end
@@ -116,7 +116,7 @@ RSpec.describe "Api::V1::Tickets", type: :request do
 
       it "returns 200, message that ticket successfully destroyed and destroys ticket" do
         expect(response).to have_http_status(:ok)
-        expect(json_response["message"]).to eq("Ticket successfully destroyed")
+        expect(json_response[:message]).to eq("Ticket successfully destroyed")
         expect { ticket.reload }.to raise_error(ActiveRecord::RecordNotFound)
       end
     end

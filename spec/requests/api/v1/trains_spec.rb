@@ -28,7 +28,7 @@ RSpec.describe "Api::V1::Trains", type: :request do
 
       it "returns list of trains" do
         expect(response).to have_http_status(:ok)
-        expect(json_response["trains"].count).to eq(2)
+        expect(json_response[:trains].count).to eq(2)
       end
     end
   end
@@ -51,7 +51,7 @@ RSpec.describe "Api::V1::Trains", type: :request do
 
       it "returns proper train" do
         expect(response).to have_http_status(:ok)
-        expect(json_response["train"]["id"]).to eq(train.id)
+        expect(json_response[:train][:id]).to eq(train.id)
       end
     end
   end
@@ -81,7 +81,7 @@ RSpec.describe "Api::V1::Trains", type: :request do
 
       it "returns 422 and error message" do
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(json_response["errors"]).to include("Error message")
+        expect(json_response[:errors]).to include("Error message")
       end
     end
 
@@ -96,8 +96,8 @@ RSpec.describe "Api::V1::Trains", type: :request do
 
       it "creates train and returns it to user" do
         expect(response).to have_http_status(:created)
-        expect(json_response["message"]).to eq("Train was successfully created")
-        expect(json_response["train"]["id"]).to eq(Train.last.id)
+        expect(json_response[:message]).to eq("Train was successfully created")
+        expect(json_response[:train][:id]).to eq(Train.last.id)
       end
     end
   end
@@ -131,8 +131,8 @@ RSpec.describe "Api::V1::Trains", type: :request do
 
       it "returns 422 and errors" do
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(json_response["message"]).to eq("Something went wrong")
-        expect(json_response["errors"]).to include("Error message")
+        expect(json_response[:message]).to eq("Something went wrong")
+        expect(json_response[:errors]).to include("Error message")
       end
     end
 
@@ -147,8 +147,8 @@ RSpec.describe "Api::V1::Trains", type: :request do
 
       it "updates train attributes and returns updated train" do
         expect(response).to have_http_status(:ok)
-        expect(json_response["message"]).to eq("Train was successfully updated")
-        expect(json_response["train"]["route_id"]).to eq(route.id)
+        expect(json_response[:message]).to eq("Train was successfully updated")
+        expect(json_response[:train][:route_id]).to eq(route.id)
       end
     end
   end
@@ -177,8 +177,8 @@ RSpec.describe "Api::V1::Trains", type: :request do
 
       it "returns 422 and contains error message" do
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(json_response["message"]).to eq("Something went wrong")
-        expect(json_response["errors"]).to include("Carriage already in train")
+        expect(json_response[:message]).to eq("Something went wrong")
+        expect(json_response[:errors]).to include("Carriage already in train")
       end
     end
 
@@ -193,8 +193,8 @@ RSpec.describe "Api::V1::Trains", type: :request do
 
       it "returns 200 and added carriage" do
         expect(response).to have_http_status(:ok)
-        expect(json_response["message"]).to eq("Carriage was successfully added to train")
-        expect(json_response["carriage"]["train_id"]).to eq(train.id)
+        expect(json_response[:message]).to eq("Carriage was successfully added to train")
+        expect(json_response[:carriage][:train_id]).to eq(train.id)
         expect(train.carriages.pluck(:id)).to include(carriage.id)
       end
     end
@@ -220,8 +220,8 @@ RSpec.describe "Api::V1::Trains", type: :request do
 
       it "returns 422 and error message" do
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(json_response["message"]).to eq("Something went wrong")
-        expect(json_response["errors"]).to include("Can't remove carriage from different train")
+        expect(json_response[:message]).to eq("Something went wrong")
+        expect(json_response[:errors]).to include("Can't remove carriage from different train")
       end
     end
 
@@ -234,7 +234,7 @@ RSpec.describe "Api::V1::Trains", type: :request do
 
       it "returns 200 and removes carriage from train" do
         expect(response).to have_http_status(:ok)
-        expect(json_response["message"]).to eq("Carriage was successfully removed from train")
+        expect(json_response[:message]).to eq("Carriage was successfully removed from train")
         expect(train_with_carriages.reload.carriages.pluck(:id)).not_to include(carriage_id)
       end
     end
@@ -261,7 +261,7 @@ RSpec.describe "Api::V1::Trains", type: :request do
 
       it "returns 422 and error message" do
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(json_response["errors"]).to include("Error message")
+        expect(json_response[:errors]).to include("Error message")
       end
     end
 

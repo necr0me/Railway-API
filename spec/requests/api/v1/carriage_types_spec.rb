@@ -23,7 +23,7 @@ RSpec.describe "Api::V1::CarriageTypes", type: :request do
 
       it "returns 200 and returns list of carraige types" do
         expect(response).to have_http_status(:ok)
-        expect(json_response["carriage_types"].count).to eq(CarriageType.count)
+        expect(json_response[:carriage_types].count).to eq(CarriageType.count)
       end
     end
   end
@@ -54,7 +54,7 @@ RSpec.describe "Api::V1::CarriageTypes", type: :request do
 
       it "returns 422 and contains error messages" do
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(json_response["errors"]).to include(/Name is too short/,
+        expect(json_response[:errors]).to include(/Name is too short/,
                                                    /Description is too long/,
                                                    /Capacity must be greater than or equal to 0/)
       end
@@ -71,7 +71,7 @@ RSpec.describe "Api::V1::CarriageTypes", type: :request do
 
       it "returns 201 and created carriage type" do
         expect(response).to have_http_status(:created)
-        expect(json_response["carriage_type"]["id"]).to eq(CarriageType.last.id)
+        expect(json_response[:carriage_type][:id]).to eq(CarriageType.last.id)
       end
     end
   end
@@ -102,7 +102,7 @@ RSpec.describe "Api::V1::CarriageTypes", type: :request do
 
       it "returns 422 and contains error message that validation failed" do
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(json_response["errors"]).to include(/Validation failed/)
+        expect(json_response[:errors]).to include(/Validation failed/)
       end
     end
 
@@ -121,8 +121,8 @@ RSpec.describe "Api::V1::CarriageTypes", type: :request do
 
       it "returns 200 and updated carriage type" do
         expect(response).to have_http_status(:ok)
-        expect(json_response["carriage_type"]["id"]).to eq(carriage_type.id)
-        expect(json_response["carriage_type"]["capacity"]).to eq(2)
+        expect(json_response[:carriage_type][:id]).to eq(carriage_type.id)
+        expect(json_response[:carriage_type][:capacity]).to eq(2)
       end
     end
   end
@@ -145,7 +145,7 @@ RSpec.describe "Api::V1::CarriageTypes", type: :request do
 
       it "returns 422 and contains error message that cant delete type that has any carriages" do
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(json_response["errors"]).to include("Can't destroy carriage type that has any carriages")
+        expect(json_response[:errors]).to include("Can't destroy carriage type that has any carriages")
       end
     end
 

@@ -14,7 +14,7 @@ RSpec.describe "Api::V1::PassingTrains", type: :request do
 
     it "returns 200 and list of passing train entities" do
       expect(response).to have_http_status(:ok)
-      expect(json_response["passing_trains"].size).to eq(PassingTrain.count)
+      expect(json_response[:passing_trains].size).to eq(PassingTrain.count)
     end
   end
 
@@ -45,8 +45,8 @@ RSpec.describe "Api::V1::PassingTrains", type: :request do
 
       it "returns 422 and list of errors" do
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(json_response["errors"]).not_to be_nil
-        expect(json_response["errors"].size).to be > 0
+        expect(json_response[:errors]).not_to be_nil
+        expect(json_response[:errors].size).to be > 0
       end
     end
 
@@ -67,7 +67,7 @@ RSpec.describe "Api::V1::PassingTrains", type: :request do
 
       it "returns 201 and created passing train entity" do
         expect(response).to have_http_status(:created)
-        expect(json_response["passing_train"]["id"]).to eq(PassingTrain.last.id)
+        expect(json_response[:passing_train][:id]).to eq(PassingTrain.last.id)
       end
     end
   end
@@ -101,8 +101,8 @@ RSpec.describe "Api::V1::PassingTrains", type: :request do
 
       it "returns 422 and errors list" do
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(json_response["errors"]).not_to be_nil
-        expect(json_response["errors"].size).to be > 0
+        expect(json_response[:errors]).not_to be_nil
+        expect(json_response[:errors].size).to be > 0
       end
     end
 
@@ -119,7 +119,7 @@ RSpec.describe "Api::V1::PassingTrains", type: :request do
 
       it "returns 200 and updated passing train" do
         expect(response).to have_http_status(:ok)
-        expect(json_response["passing_train"]["id"]).to eq(PassingTrain.last.id)
+        expect(json_response[:passing_train][:id]).to eq(PassingTrain.last.id)
       end
     end
   end
@@ -145,8 +145,8 @@ RSpec.describe "Api::V1::PassingTrains", type: :request do
 
       it "returns 422 and list of errors, and does not destroys passing train" do
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(json_response["errors"]).not_to be_nil
-        expect(json_response["errors"].size).to be > 0
+        expect(json_response[:errors]).not_to be_nil
+        expect(json_response[:errors].size).to be > 0
       end
     end
 

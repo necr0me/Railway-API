@@ -18,7 +18,7 @@ RSpec.describe ErrorHandler do
     end
 
     it "contains error message" do
-      expect(json_response["message"]).to eq("Can't find this record")
+      expect(json_response[:message]).to eq("Can't find this record")
     end
   end
 
@@ -41,7 +41,7 @@ RSpec.describe ErrorHandler do
     end
 
     it "contains message that record already exists" do
-      expect(json_response["message"]).to eq("Seems like record with this data already exists")
+      expect(json_response[:message]).to eq("Seems like record with this data already exists")
     end
   end
 
@@ -64,7 +64,7 @@ RSpec.describe ErrorHandler do
     end
 
     it "contains message that entity with this foreign key does not exist" do
-      expect(json_response["message"]).to eq("Seems like this entity does not exist")
+      expect(json_response[:message]).to eq("Seems like this entity does not exist")
     end
   end
 
@@ -87,7 +87,7 @@ RSpec.describe ErrorHandler do
     end
 
     it "contains message that you are not allowed to do this action" do
-      expect(json_response["message"]).to eq("You are not allowed to do this action")
+      expect(json_response[:message]).to eq("You are not allowed to do this action")
     end
   end
 end
