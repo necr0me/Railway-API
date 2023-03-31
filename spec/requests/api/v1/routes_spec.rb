@@ -62,18 +62,23 @@ RSpec.describe "Api::V1::Routes", type: :request do
     end
 
     context "when user is authorized" do
+      let(:available_stations) { Station.where.not(id: route.stations.pluck(:id)).pluck(:id) }
+
       include_context "with sequence cleaner"
 
       before do
+        create(:station, name: "I am new station")
         get "/api/v1/routes/#{route.id}", headers: auth_header
       end
 
-      it "returns 200, route and stations in route" do
+      it "returns 200, route, stations in route and available stations" do
         expect(response).to have_http_status(:ok)
 
         expect(json_response[:route][:data][:id].to_i).to eq(route.id)
 
         expect(json_response[:route][:included].map { _1[:id].to_i }).to eq(route.stations.pluck(:id))
+
+        expect(json_response[:available_stations][:data].map { _1[:id].to_i }).to include(*available_stations)
       end
     end
   end
@@ -171,7 +176,7 @@ RSpec.describe "Api::V1::Routes", type: :request do
 
         expect(empty_route.reload.stations).to include(station)
 
-        expect(json_response[:station][:id]).to eq(station.id)
+        expect(json_response[:station][:data][:id].to_i).to eq(station.id)
       end
     end
   end
@@ -216,8 +221,11 @@ RSpec.describe "Api::V1::Routes", type: :request do
         delete "/api/v1/routes/#{route.id}/remove_station/#{route.stations.first.id}", headers: auth_header
       end
 
-      it "returns 200 and removes stations from route" do
+      it "returns 200, removed station and removes stations from route" do
         expect(response).to have_http_status(:ok)
+
+        expect(json_response[:station][:data][:id]).to eq(request.params[:station_id])
+
         expect(route.reload.stations.pluck(:id)).not_to include(request.params[:station_id])
       end
     end
