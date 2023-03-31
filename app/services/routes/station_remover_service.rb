@@ -20,7 +20,7 @@ module Routes
         station.destroy!
         update_destination!(station.route)
       end
-      success!
+      success!(data: station.station)
     end
 
     def decrement_order_numbers_after(station)

@@ -21,10 +21,12 @@ RSpec.describe Routes::StationRemoverService do
     end
 
     context "when any error doesn't occur" do
-      it "does not contains errors, removes station from route and updates route destination" do
+      it "does not contains errors, removes and returns station from route and updates route destination" do
         result = described_class.call(route_id: route.id, station_id: first_station.id)
 
         expect(result.error).to be_nil
+
+        expect(result.data).to eq(first_station)
 
         expect(route.reload.stations.pluck(:order_number)).to eq((1..route.stations.count).to_a)
         expect(route.reload.stations).not_to include(first_station)

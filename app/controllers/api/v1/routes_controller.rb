@@ -12,7 +12,8 @@ module Api
       end
 
       def show
-        render json: { route: RouteSerializer.new(@route, { include: [:stations] }) },
+        render json: { route: RouteSerializer.new(@route, { include: [:stations] }),
+                       available_stations: StationSerializer.new(Station.where.not(id: @route.stations.pluck(:id))) },
                status: :ok
       end
 
@@ -36,7 +37,7 @@ module Api
         )
         if result.success?
           render json: { message: "Station was successfully added to route",
-                         station: result.data },
+                         station: StationSerializer.new(result.data) },
                  status: :created
         else
           render json: { message: "Something went wrong",
@@ -51,7 +52,8 @@ module Api
           station_id: params[:station_id]
         )
         if result.success?
-          render json: { message: "Station was successfully removed from route" },
+          render json: { message: "Station was successfully removed from route",
+                         station: StationSerializer.new(result.data) },
                  status: :ok
         else
           render json: { message: "Something went wrong",
