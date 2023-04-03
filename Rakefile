@@ -3,4 +3,5 @@
 
 require_relative "config/application"
 
+ENV["SWAGGER_DRY_RUN"] = "false" unless ENV.key?("SWAGGER_DRY_RUN")
 Rails.application.load_tasks

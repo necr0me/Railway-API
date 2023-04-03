@@ -10,6 +10,6 @@ class CreateStationOrderNumbers < ActiveRecord::Migration[7.0]
 
     add_foreign_key :station_order_numbers, :stations, column: :station_id, primary_key: :id
     add_foreign_key :station_order_numbers, :routes, column: :route_id, primary_key: :id
-    add_index :station_order_numbers, [:route_id, :station_id], unique: true
+    add_index :station_order_numbers, %i[route_id station_id], unique: true
   end
 end

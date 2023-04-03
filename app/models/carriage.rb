@@ -1,6 +1,6 @@
 class Carriage < ApplicationRecord
   belongs_to :train, optional: true
-  belongs_to :type, class_name: 'CarriageType', foreign_key: :carriage_type_id,
+  belongs_to :type, class_name: "CarriageType", foreign_key: :carriage_type_id,
                     inverse_of: :carriages
   has_many :seats, dependent: :delete_all
 

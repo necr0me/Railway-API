@@ -4,4 +4,6 @@ class ApplicationController < ActionController::API
 
   include Authorization
   include ErrorHandler
+
+  include Pagy::Backend
 end

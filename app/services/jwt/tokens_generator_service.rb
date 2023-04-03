@@ -13,10 +13,10 @@ module Jwt
     attr_reader :user_id
 
     def generate_tokens
-      access_token = Jwt::EncoderService.call(payload: { user_id: user_id }, type: 'access')
+      access_token = Jwt::EncoderService.call(payload: { user_id: user_id }, type: "access")
       return fail!(error: access_token.error) if access_token.data.nil?
 
-      refresh_token = Jwt::EncoderService.call(payload: { user_id: user_id }, type: 'refresh')
+      refresh_token = Jwt::EncoderService.call(payload: { user_id: user_id }, type: "refresh")
       return fail!(error: refresh_token.error) if refresh_token.data.nil?
 
       create_or_update_refresh_token(refresh_token)

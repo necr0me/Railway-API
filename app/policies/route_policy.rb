@@ -1,6 +1,10 @@
 class RoutePolicy < ApplicationPolicy
+  def index?
+    moderator_or_admin?
+  end
+
   def show?
-    true
+    moderator_or_admin?
   end
 
   def create?

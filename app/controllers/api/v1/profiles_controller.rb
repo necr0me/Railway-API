@@ -4,7 +4,7 @@ module Api
       before_action :authorize!
 
       def show
-        render json: current_user.profile
+        render json: { profile: current_user.profile }
       end
 
       def create
@@ -13,8 +13,8 @@ module Api
           render json: { profile: current_user.profile },
                  status: :created
         else
-          render json: { message: 'Something went wrong',
-                         errors: profile.errors.full_messages },
+          render json: { message: "Something went wrong",
+                         errors: profile.errors },
                  status: :unprocessable_entity
         end
       end
@@ -24,8 +24,8 @@ module Api
           render json: { profile: current_user.profile },
                  status: :ok
         else
-          render json: { message: 'Something went wrong',
-                         errors: current_user.profile.errors.full_messages },
+          render json: { message: "Something went wrong",
+                         errors: current_user.profile.errors },
                  status: :unprocessable_entity
         end
       end

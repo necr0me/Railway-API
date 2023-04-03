@@ -13,10 +13,10 @@ module Jwt
     attr_reader :refresh_token
 
     def refresh_tokens
-      decode_result = Jwt::DecoderService.call(token: refresh_token, type: 'refresh')
+      decode_result = Jwt::DecoderService.call(token: refresh_token, type: "refresh")
       return fail!(error: decode_result.error) if decode_result.data.nil?
 
-      user_id = decode_result.data&.first&.[]('user_id')
+      user_id = decode_result.data&.first&.[]("user_id")
       user = User.includes(:refresh_token).find(user_id)
       return fail!(error: "Tokens aren't matching") if user.refresh_token.value != refresh_token
 
