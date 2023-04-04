@@ -6,13 +6,14 @@ module Api
       before_action :authorize_carriage
 
       def index
-        carriages = Carriage.all
-        render json: { carriages: carriages },
+        @pagy, @carriages = pagy(Carriage.all, page: params[:page] || 1)
+        render json: { carriages: CarriageSerializer.new(@carriages),
+                       pages: @pagy.pages },
                status: :ok
       end
 
       def show
-        render json: { carriage: @carriage },
+        render json: { carriage: CarriageSerializer.new(@carriage) },
                status: :ok
       end
 
@@ -20,11 +21,11 @@ module Api
         carriage = Carriage.create(carriage_params)
         if carriage.persisted?
           render json: { message: "Carriage was successfully created",
-                         carriage: carriage },
+                         carriage: CarriageSerializer.new(carriage) },
                  status: :created
         else
           render json: { message: "Something went wrong",
-                         errors: carriage.errors.full_messages },
+                         errors: carriage.errors },
                  status: :unprocessable_entity
         end
       end
@@ -32,11 +33,11 @@ module Api
       def update
         if @carriage.update(name: params.dig(:carriage, :name))
           render json: { message: "Carriage name was successfully updated",
-                         carriage: @carriage },
+                         carriage: CarriageSerializer.new(@carriage) },
                  status: :ok
         else
           render json: { message: "Something went wrong",
-                         errors: @carriage.errors.full_messages },
+                         errors: @carriage.errors },
                  status: :unprocessable_entity
         end
       end

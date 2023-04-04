@@ -16,7 +16,7 @@ RSpec.describe "Api::V1::Routes", type: :request do
       end
     end
 
-    context "when user is authorized and query param page presented" do
+    context "when user is authorized" do
       include_context "with sequence cleaner"
 
       before do

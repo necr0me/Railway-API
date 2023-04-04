@@ -5,7 +5,7 @@ RSpec.describe "Api::V1::CarriageTypes", type: :request do
   let(:carriage_type_with_carriage) { create(:carriage_type, :type_with_carriage) }
 
   describe "#index" do
-    context "when user is unauthorised" do
+    context "when user is unauthorized" do
       before do
         get "/api/v1/carriage_types"
       end
@@ -17,13 +17,30 @@ RSpec.describe "Api::V1::CarriageTypes", type: :request do
 
     context "when user is authorized" do
       before do
-        create_list(:carriage_type, 2)
-        get "/api/v1/carriage_types", headers: auth_header
+        create_list(:carriage_type, 6)
+        get "/api/v1/carriage_types/#{query_param}", headers: auth_header
       end
 
-      it "returns 200 and returns list of carraige types" do
-        expect(response).to have_http_status(:ok)
-        expect(json_response[:carriage_types].count).to eq(CarriageType.count)
+      context "when query param is presented" do
+        let(:query_param) { "?page=2" }
+
+        it "returns ok, list of 1 carriage type and number of pages" do
+          expect(response).to have_http_status(:ok)
+
+          expect(json_response[:carriage_types][:data].count).to eq(1)
+          expect(json_response[:pages]).to eq((CarriageType.count / 5.0).ceil)
+        end
+      end
+
+      context "when query param is not presented" do
+        let(:query_param) { "" }
+
+        it "returns ok, list of all carriage types, number of pages equals 1" do
+          expect(response).to have_http_status(:ok)
+
+          expect(json_response[:carriage_types][:data].count).to eq(CarriageType.count)
+          expect(json_response[:pages]).to eq(1)
+        end
       end
     end
   end
@@ -54,9 +71,10 @@ RSpec.describe "Api::V1::CarriageTypes", type: :request do
 
       it "returns 422 and contains error messages" do
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(json_response[:errors]).to include(/Name is too short/,
-                                                   /Description is too long/,
-                                                   /Capacity must be greater than or equal to 0/)
+
+        expect(json_response[:errors][:name]).to include(/is too short/)
+        expect(json_response[:errors][:description]).to include(/is too long/)
+        expect(json_response[:errors][:capacity]).to include(/must be greater than or equal to 0/)
       end
     end
 
@@ -71,7 +89,7 @@ RSpec.describe "Api::V1::CarriageTypes", type: :request do
 
       it "returns 201 and created carriage type" do
         expect(response).to have_http_status(:created)
-        expect(json_response[:carriage_type][:id]).to eq(CarriageType.last.id)
+        expect(json_response[:carriage_type][:data][:id].to_i).to eq(CarriageType.last.id)
       end
     end
   end
@@ -100,9 +118,10 @@ RSpec.describe "Api::V1::CarriageTypes", type: :request do
               headers: auth_header
       end
 
-      it "returns 422 and contains error message that validation failed" do
+      it "returns 422 and contains error message" do
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(json_response[:errors]).to include(/Validation failed/)
+
+        expect(json_response[:errors][:capacity]).to include(/must be greater than or equal to 0/)
       end
     end
 
@@ -121,8 +140,8 @@ RSpec.describe "Api::V1::CarriageTypes", type: :request do
 
       it "returns 200 and updated carriage type" do
         expect(response).to have_http_status(:ok)
-        expect(json_response[:carriage_type][:id]).to eq(carriage_type.id)
-        expect(json_response[:carriage_type][:capacity]).to eq(2)
+        expect(json_response[:carriage_type][:data][:id].to_i).to eq(carriage_type.id)
+        expect(json_response[:carriage_type][:data][:attributes][:capacity].to_i).to eq(2)
       end
     end
   end

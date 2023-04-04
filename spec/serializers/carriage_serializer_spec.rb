@@ -20,11 +20,11 @@ RSpec.describe CarriageSerializer do
   end
 
   describe "attributes" do
-    it "has attributes name and order number, type is carriage, id is correct" do
+    it "has attributes name, type and capacity, type is carriage, id is correct" do
       expect(result[:type]).to eq(:carriage)
       expect(result[:id]).to eq(carriage.id.to_s)
 
-      expect(result[:attributes]).to eq({ name: carriage.name, order_number: carriage.order_number })
+      expect(result[:attributes]).to eq({ name: carriage.name, type: carriage.type.name, capacity: carriage.capacity })
     end
   end
 end

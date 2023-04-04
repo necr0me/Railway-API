@@ -6,8 +6,9 @@ module Api
       before_action :authorize_carriage_type
 
       def index
-        types = CarriageType.all
-        render json: { carriage_types: types },
+        @pagy, @types = pagy(CarriageType.all, pagy_options)
+        render json: { carriage_types: CarriageTypeSerializer.new(@types),
+                       pages: @pagy.pages },
                status: :ok
       end
 
@@ -15,11 +16,11 @@ module Api
         carriage_type = CarriageType.create(carriage_type_params)
         if carriage_type.persisted?
           render json: { message: "Carriage type successfully created",
-                         carriage_type: carriage_type },
+                         carriage_type: CarriageTypeSerializer.new(carriage_type) },
                  status: :created
         else
           render json: { message: "Something went wrong",
-                         errors: carriage_type.errors.full_messages },
+                         errors: carriage_type.errors },
                  status: :unprocessable_entity
         end
       end
@@ -31,11 +32,11 @@ module Api
         )
         if result.success?
           render json: { message: "Carriage type successfully updated",
-                         carriage_type: result.data },
+                         carriage_type: CarriageTypeSerializer.new(result.data) },
                  status: :ok
         else
           render json: { message: "Something went wrong",
-                         errors: [result.error] },
+                         errors: result.error },
                  status: :unprocessable_entity
         end
       end
@@ -63,6 +64,13 @@ module Api
 
       def authorize_carriage_type
         authorize(@carriage_type || CarriageType)
+      end
+
+      def pagy_options
+        {
+          items: params[:page] ? Pagy::DEFAULT[:items] : CarriageType.count,
+          page: params[:page] || 1
+        }
       end
     end
   end

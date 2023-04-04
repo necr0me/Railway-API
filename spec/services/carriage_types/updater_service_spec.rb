@@ -20,12 +20,12 @@ RSpec.describe CarriageTypes::UpdaterService do
     context "when trying to update type with carriages" do
       let(:carriage_type) { create(:carriage_type, :type_with_carriage) }
 
-      it "returns OpenStruct object, success? is false, data is nil, contains error and doesnt updates type" do
+      it "data is nil, contains error and doesnt updates type" do
         result = described_class.call(carriage_type: carriage_type,
                                       carriage_type_params: params)
 
         expect(result.data).to be_nil
-        expect(result.error).to eq("Can't update carriage type capacity that has any carriages")
+        expect(result.error[:capacity]).to include("Can't update carriage type capacity that has any carriages")
 
         expect(carriage_type.name).not_to eq(params[:capacity])
       end
@@ -45,7 +45,7 @@ RSpec.describe CarriageTypes::UpdaterService do
                                       carriage_type_params: params)
 
         expect(result.data).to be_nil
-        expect(result.error).to match(/Validation failed/)
+        expect(result.error[:capacity]).to include(/must be greater than or equal to 0/)
 
         expect(carriage_type.reload.name).not_to eq(params[:name])
       end

@@ -18,13 +18,30 @@ RSpec.describe "Api::V1::Carriages", type: :request do
 
     context "when user is authorized" do
       before do
-        create_list(:carriage, 2)
-        get "/api/v1/carriages", headers: auth_header
+        create_list(:carriage, 6)
+        get "/api/v1/carriages/#{query_param}", headers: auth_header
       end
 
-      it "returns 200 and list of carriages" do
-        expect(response).to have_http_status(:ok)
-        expect(json_response[:carriages].count).to eq(Carriage.all.count)
+      context "when query param is presented" do
+        let(:query_param) { "?page=2" }
+
+        it "returns ok, list of 1 carriage and number of pages" do
+          expect(response).to have_http_status(:ok)
+
+          expect(json_response[:carriages][:data].count).to eq(1)
+          expect(json_response[:pages]).to eq((Carriage.count / 5.0).ceil)
+        end
+      end
+
+      context "when query param is not presented" do
+        let(:query_param) { "" }
+
+        it "returns ok, list of 5 carriage and number of pages" do
+          expect(response).to have_http_status(:ok)
+
+          expect(json_response[:carriages][:data].count).to eq(5)
+          expect(json_response[:pages]).to eq((Carriage.count / 5.0).ceil)
+        end
       end
     end
   end
@@ -47,7 +64,7 @@ RSpec.describe "Api::V1::Carriages", type: :request do
 
       it "returns 200 and proper carriage" do
         expect(response).to have_http_status(:ok)
-        expect(json_response[:carriage][:id]).to eq(carriage.id)
+        expect(json_response[:carriage][:data][:id].to_i).to eq(carriage.id)
       end
     end
   end
@@ -79,7 +96,7 @@ RSpec.describe "Api::V1::Carriages", type: :request do
 
       it "returns 422 and error message that name is too short" do
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(json_response[:errors]).to include(/Name is too short/)
+        expect(json_response[:errors][:name]).to include(/is too short/)
       end
     end
 
@@ -97,7 +114,7 @@ RSpec.describe "Api::V1::Carriages", type: :request do
 
       it "returns 201 and created carriage" do
         expect(response).to have_http_status(:created)
-        expect(json_response[:carriage][:id]).to eq(Carriage.last.id)
+        expect(json_response[:carriage][:data][:id].to_i).to eq(Carriage.last.id)
       end
     end
   end
@@ -130,7 +147,7 @@ RSpec.describe "Api::V1::Carriages", type: :request do
 
       it "returns 422 and contains error message that name is too short" do
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(json_response[:errors]).to include(/Name is too short/)
+        expect(json_response[:errors][:name]).to include(/is too short/)
       end
     end
 
@@ -147,7 +164,7 @@ RSpec.describe "Api::V1::Carriages", type: :request do
 
       it "returns 200 and updated carriage" do
         expect(response).to have_http_status(:ok)
-        expect(json_response[:carriage][:id]).to eq(carriage.id)
+        expect(json_response[:carriage][:data][:id].to_i).to eq(carriage.id)
         expect(carriage.reload.name).to eq("New_name")
       end
     end
