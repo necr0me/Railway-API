@@ -21,7 +21,7 @@ RSpec.describe "Api::V1::CarriageTypes", type: :request do
         get "/api/v1/carriage_types/#{query_param}", headers: auth_header
       end
 
-      context "when query param is presented" do
+      context "when query param 'page' is presented" do
         let(:query_param) { "?page=2" }
 
         it "returns ok, list of 1 carriage type and number of pages" do
@@ -32,7 +32,7 @@ RSpec.describe "Api::V1::CarriageTypes", type: :request do
         end
       end
 
-      context "when query param is not presented" do
+      context "when query param 'page' is not presented" do
         let(:query_param) { "" }
 
         it "returns ok, list of all carriage types, number of pages equals 1" do

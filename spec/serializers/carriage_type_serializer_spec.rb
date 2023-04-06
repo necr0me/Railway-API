@@ -3,6 +3,16 @@ RSpec.describe CarriageTypeSerializer do
   let(:serializer) { described_class.new(carriage_type) }
   let(:result) { serializer.serializable_hash[:data] }
 
+  describe "associations" do
+    describe "carriages" do
+      let(:carriage_type) { create(:carriage_type, :type_with_carriage) }
+
+      it "includes correct carriages" do
+        expect(result[:relationships][:carriages][:data].map { _1[:id].to_i }).to eq(carriage_type.carriages.pluck(:id))
+      end
+    end
+  end
+
   describe "attributes" do
     it "has attributes name, description and capacity, type is carriage_type, id is correct" do
       expect(result[:type]).to eq(:carriage_type)

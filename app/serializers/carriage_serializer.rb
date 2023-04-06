@@ -1,9 +1,11 @@
 class CarriageSerializer
   include JSONAPI::Serializer
 
-  has_many :seats, if: proc { _1.seats.any? }
+  attributes :name, :capacity, :carriage_type_id
 
-  attributes :name, :capacity
+  attribute :available do |object|
+    object.train_id.nil? ? true : false
+  end
 
   attribute :type do |object|
     object.type.name

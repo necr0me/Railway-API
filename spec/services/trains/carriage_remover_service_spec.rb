@@ -38,8 +38,9 @@ RSpec.describe Trains::CarriageRemoverService do
       let(:train) { create(:train, :train_with_carriages) }
       let(:carriage) { train.carriages.first }
 
-      it "does not contains error and updates data in db" do
+      it "does not contains error, returns removed carriage and updates data in db" do
         expect(service.error).to be_nil
+        expect(service.data.id).to eq(carriage.id)
 
         expect(carriage.reload.order_number).to be_nil
         expect(carriage.train_id).to be_nil

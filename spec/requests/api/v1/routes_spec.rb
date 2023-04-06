@@ -38,11 +38,11 @@ RSpec.describe "Api::V1::Routes", type: :request do
       context "when page param is not presented" do
         let(:page_param) { "" }
 
-        it "returns ok, list of 5 routes (first page) and number of pages" do
+        it "returns ok, list all of 6 routes" do
           expect(response).to have_http_status(:ok)
 
-          expect(json_response[:routes][:data].count).to eq(5)
-          expect(json_response[:pages]).to eq((Route.count / 5.0).ceil)
+          expect(json_response[:routes][:data].count).to eq(Route.count)
+          expect(json_response[:pages]).to eq(1)
         end
       end
     end

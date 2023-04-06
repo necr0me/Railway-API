@@ -22,14 +22,32 @@ RSpec.describe "Api::V1::Trains", type: :request do
 
     context "when user is authorized" do
       before do
-        create_list(:train, 2)
-        get "/api/v1/trains", headers: auth_header
+        create_list(:train, 6)
+        get "/api/v1/trains/#{query_param}", headers: auth_header
       end
 
-      it "returns list of trains" do
-        expect(response).to have_http_status(:ok)
-        expect(json_response[:trains].count).to eq(2)
+      context "when query param 'page' is presented" do
+        let(:query_param) { "?page=2" }
+
+        it "returns ok, list of 1 train (second page), number of pages equals 2" do
+          expect(response).to have_http_status(:ok)
+
+          expect(json_response[:trains][:data].count).to eq(1)
+          expect(json_response[:pages]).to eq((Train.count / 5.0).ceil)
+        end
       end
+
+      context "when query param 'page' is not presented" do
+        let(:query_param) { "" }
+
+        it "returns ok, list of 5 trains (first page), number of pages equals 2" do
+          expect(response).to have_http_status(:ok)
+
+          expect(json_response[:trains][:data].count).to eq(5)
+          expect(json_response[:pages]).to eq((Train.count / 5.0).ceil)
+        end
+      end
+
     end
   end
 
@@ -51,7 +69,7 @@ RSpec.describe "Api::V1::Trains", type: :request do
 
       it "returns proper train" do
         expect(response).to have_http_status(:ok)
-        expect(json_response[:train][:id]).to eq(train.id)
+        expect(json_response[:train][:data][:id].to_i).to eq(train.id)
       end
     end
   end
@@ -97,7 +115,7 @@ RSpec.describe "Api::V1::Trains", type: :request do
       it "creates train and returns it to user" do
         expect(response).to have_http_status(:created)
         expect(json_response[:message]).to eq("Train was successfully created")
-        expect(json_response[:train][:id]).to eq(Train.last.id)
+        expect(json_response[:train][:data][:id].to_i).to eq(Train.last.id)
       end
     end
   end
@@ -194,7 +212,7 @@ RSpec.describe "Api::V1::Trains", type: :request do
       it "returns 200 and added carriage" do
         expect(response).to have_http_status(:ok)
         expect(json_response[:message]).to eq("Carriage was successfully added to train")
-        expect(json_response[:carriage][:train_id]).to eq(train.id)
+        expect(json_response[:carriage][:data][:id].to_i).to eq(carriage.id)
         expect(train.carriages.pluck(:id)).to include(carriage.id)
       end
     end

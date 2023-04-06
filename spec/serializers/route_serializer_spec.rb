@@ -24,8 +24,8 @@ RSpec.describe RouteSerializer do
 
   describe "#destination attribute" do
     context "when destination is nil" do
-      it "returns '-'" do
-        expect(result[:attributes][:destination]).to eq("-")
+      it "returns 'No destination'" do
+        expect(result[:attributes][:destination]).to eq("No destination")
       end
     end
 

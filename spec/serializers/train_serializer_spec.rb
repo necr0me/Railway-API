@@ -3,6 +3,16 @@ RSpec.describe TrainSerializer do
   let(:serializer) { described_class.new(train) }
   let(:result) { serializer.serializable_hash[:data] }
 
+  describe "associations" do
+    describe "carriages" do
+      let(:train) { create(:train, :train_with_carriages) }
+
+      it "includes correct carriages" do
+        expect(result[:relationships][:carriages][:data].map { _1[:id].to_i }).to eq(train.carriages.pluck(:id))
+      end
+    end
+  end
+
   describe "attributes" do
     it "has attribute destination, type is train, id is correct" do
       expect(result[:type]).to eq(:train)
@@ -12,8 +22,8 @@ RSpec.describe TrainSerializer do
 
   describe "attribute destination" do
     context "when route or destination is nil" do
-      it "returns '-'" do
-        expect(result[:attributes][:destination]).to eq("-")
+      it "returns 'No destination'" do
+        expect(result[:attributes][:destination]).to eq("No destination")
       end
     end
 

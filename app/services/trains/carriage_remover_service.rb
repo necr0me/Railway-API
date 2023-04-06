@@ -23,7 +23,7 @@ module Trains
         carriage.update!(train_id: nil, order_number: nil)
         carriage.seats.destroy_all
       end
-      success!
+      success!(data: carriage)
     end
 
     def decrement_order_numbers_after(carriage)

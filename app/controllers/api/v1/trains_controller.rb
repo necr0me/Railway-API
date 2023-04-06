@@ -6,13 +6,17 @@ module Api
       before_action :authorize_train
 
       def index
-        trains = Train.all
-        render json: { trains: Train.all },
+        @pagy, @trains = pagy(Train.all, page: params[:page] || 1)
+        render json: { trains: TrainSerializer.new(@trains),
+                       pages: @pagy.pages },
                status: :ok
       end
 
       def show
-        render json: { train: @train },
+        render json: { train: TrainSerializer.new(@train, { include: [:carriages] }),
+                       available_carriages: CarriageTypeSerializer.new(
+                         CarriageType.all, { include: [:carriages] }
+                       ) },
                status: :ok
       end
 
@@ -20,7 +24,7 @@ module Api
         train = Train.create(route_id: params.dig(:train, :route_id))
         if train.persisted?
           render json: { message: "Train was successfully created",
-                         train: train },
+                         train: TrainSerializer.new(train) },
                  status: :created
         else
           render json: { message: "Something went wrong",
@@ -48,7 +52,7 @@ module Api
         )
         if result.success?
           render json: { message: "Carriage was successfully added to train",
-                         carriage: result.data },
+                         carriage: CarriageSerializer.new(result.data) },
                  status: :ok
         else
           render json: { message: "Something went wrong",
@@ -63,7 +67,8 @@ module Api
           carriage_id: params[:carriage_id]
         )
         if result.success?
-          render json: { message: "Carriage was successfully removed from train" },
+          render json: { message: "Carriage was successfully removed from train",
+                         carriage: CarriageSerializer.new(result.data) },
                  status: :ok
         else
           render json: { message: "Something went wrong",

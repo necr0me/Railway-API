@@ -6,8 +6,8 @@ module Api
       before_action :authorize_route
 
       def index
-        @pagy, @routes = pagy(Route.all, page: params[:page] || 1)
-        render json: { routes: RouteSerializer.new(@routes),
+        @pagy, @routes = pagy(Route.all, pagy_options)
+        render json: { routes: RouteSerializer.new(@routes, serializer_options),
                        pages: @pagy.pages }
       end
 
@@ -80,6 +80,19 @@ module Api
 
       def authorize_route
         authorize(@route || Route)
+      end
+
+      def pagy_options
+        {
+          items: params[:page] ? Pagy::DEFAULT[:items] : Route.count,
+          page: params[:page] || 1
+        }
+      end
+
+      def serializer_options
+        {
+          include: params[:page] ? [] : [:stations]
+        }
       end
     end
   end
