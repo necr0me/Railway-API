@@ -13,7 +13,7 @@ module Api
         passing_train = PassingTrain.create(passing_train_params)
         if passing_train.persisted?
           render json: { message: "Train stop successfully created",
-                         passing_train: passing_train },
+                         passing_train: PassingTrainSerializer.new(passing_train) },
                  status: :created
         else
           render json: { message: "Something went wrong",
@@ -25,7 +25,7 @@ module Api
       def update
         if @passing_train.update(passing_train_params)
           render json: { message: "Train stop successfully updated",
-                         passing_train: @passing_train },
+                         passing_train: PassingTrainSerializer.new(@passing_train) },
                  status: :ok
         else
           render json: { message: "Something went wrong",

@@ -13,7 +13,7 @@ module Api
       end
 
       def show
-        render json: { train: TrainSerializer.new(@train, { include: [:carriages] }),
+        render json: { train: TrainSerializer.new(@train, { include: %i[carriages route.stations stops] }),
                        available_carriages: CarriageTypeSerializer.new(
                          CarriageType.all, { include: [:carriages] }
                        ) },

@@ -4,11 +4,30 @@ RSpec.describe TrainSerializer do
   let(:result) { serializer.serializable_hash[:data] }
 
   describe "associations" do
+    include_context "with sequence cleaner"
+
     describe "carriages" do
       let(:train) { create(:train, :train_with_carriages) }
 
       it "includes correct carriages" do
         expect(result[:relationships][:carriages][:data].map { _1[:id].to_i }).to eq(train.carriages.pluck(:id))
+      end
+    end
+
+    describe "stops" do
+      let(:train) { create(:train, :train_with_stops) }
+
+      it "includes correct stops" do
+        expect(result[:relationships][:stops][:data].map { _1[:id].to_i }).to eq(train.stops.pluck(:id))
+      end
+    end
+
+    describe "route" do
+      let(:route) { create(:route) }
+      let(:train) { create(:train, route: route) }
+
+      it "includes correct route" do
+        expect(result[:relationships][:route][:data][:id].to_i).to eq(route.id)
       end
     end
   end

@@ -67,7 +67,7 @@ RSpec.describe "Api::V1::PassingTrains", type: :request do
 
       it "returns 201 and created passing train entity" do
         expect(response).to have_http_status(:created)
-        expect(json_response[:passing_train][:id]).to eq(PassingTrain.last.id)
+        expect(json_response[:passing_train][:data][:id].to_i).to eq(PassingTrain.last.id)
       end
     end
   end
@@ -119,7 +119,7 @@ RSpec.describe "Api::V1::PassingTrains", type: :request do
 
       it "returns 200 and updated passing train" do
         expect(response).to have_http_status(:ok)
-        expect(json_response[:passing_train][:id]).to eq(PassingTrain.last.id)
+        expect(json_response[:passing_train][:data][:id].to_i).to eq(PassingTrain.last.id)
       end
     end
   end

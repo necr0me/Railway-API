@@ -62,6 +62,7 @@ RSpec.describe "Api::V1::Trains", type: :request do
       end
     end
 
+    # TODO: test included
     context "when user is authorized" do
       before do
         get "/api/v1/trains/#{train.id}", headers: auth_header
