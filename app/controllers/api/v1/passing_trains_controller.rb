@@ -6,7 +6,17 @@ module Api
       before_action :authorize_passing_train
 
       def index
-        render json: { passing_trains: PassingTrain.all }
+        result = Trains::FinderService.call(
+          departure_station: params[:departure_station],
+          arrival_station: params[:arrival_station],
+          date: params[:date],
+          day_option: params[:day_option]
+        )
+        if result.success?
+          render json: { found_trains: FoundTrainsSerializer.new(result.data).serializable_hash }
+        else
+          render json: { errors: result.error }
+        end
       end
 
       def create

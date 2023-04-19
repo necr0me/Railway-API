@@ -13,10 +13,7 @@ module Api
       end
 
       def show
-        render json: { train: TrainSerializer.new(@train, { include: %i[carriages route.stations stops] }),
-                       available_carriages: CarriageTypeSerializer.new(
-                         CarriageType.all, { include: [:carriages] }
-                       ) },
+        render json: train_options,
                status: :ok
       end
 
@@ -99,6 +96,23 @@ module Api
 
       def authorize_train
         authorize(@train || Train)
+      end
+
+      def train_options
+        {
+          train: TrainSerializer.new(@train, serializer_options),
+          **(if current_user.admin?
+               { available_carriages: CarriageTypeSerializer.new(
+                 CarriageType.all, { include: [:carriages] }
+               ) }
+             else
+               {}
+             end)
+        }
+      end
+
+      def serializer_options
+        { include: current_user.admin? ? %i[carriages route.stations stops] : %i[carriages stops] }
       end
     end
   end

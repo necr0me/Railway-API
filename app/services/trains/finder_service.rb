@@ -1,10 +1,8 @@
 module Trains
-  require "benchmark"
-
   class FinderService < ApplicationService
-    def initialize(starting_station:, ending_station:, date: nil, day_option: :at_the_day)
-      @starting_station = starting_station
-      @ending_station = ending_station
+    def initialize(departure_station:, arrival_station:, date: nil, day_option: :at_the_day)
+      @departure_station = departure_station
+      @arrival_station = arrival_station
       @date = date
       @day_option = day_option
     end
@@ -16,23 +14,23 @@ module Trains
 
     private
 
-    attr_reader :starting_station, :ending_station, :date, :day_option
+    attr_reader :departure_station, :arrival_station, :date, :day_option
 
     def set_stations!
-      @starting_station = Station.find_by(name: starting_station)
-      @ending_station = Station.preload(:passing_trains).find_by(name: ending_station)
+      @departure_station = Station.find_by(name: departure_station)
+      @arrival_station = Station.preload(:passing_trains).find_by(name: arrival_station)
     end
 
     # TODO: should return pair of PassingTrains (DONE)
     # think about queries performance
     def find_trains
       query = PassingTrain.preload(:train, :station)
-      query = query.send("arrives_#{day_option}", date) unless date.nil?
+      query = query.send("arrives_#{day_option}", Time.at(date.to_i).to_datetime) unless date.nil?
 
-      query = if starting_station.present? && ending_station.present?
+      query = if departure_station.present? && arrival_station.present?
                 trains_between_stations(query)
-              elsif starting_station.present? || ending_station.present?
-                query.where(station_id: (starting_station || ending_station).id)
+              elsif departure_station.present? || arrival_station.present?
+                query.where(station_id: (departure_station || arrival_station).id)
               else
                 query.where(id: Train.includes(:stops).all.map { _1.stops&.first }.compact.pluck(:id))
               end
@@ -40,8 +38,8 @@ module Trains
     end
 
     def trains_between_stations(query)
-      final_station_trains = query.where(station_id: ending_station.id)
-      passing_trains = query.where(station_id: starting_station.id).where(
+      final_station_trains = query.where(station_id: arrival_station.id)
+      passing_trains = query.where(station_id: departure_station.id).where(
         train_id: final_station_trains.pluck(:train_id)
       )
       to_remove = collect_train_ids(passing_trains, final_station_trains)
@@ -59,16 +57,16 @@ module Trains
       pair_for = pair_func # TODO: benchmark with bigger DB
       passing_trains = query.inject([]) { |memo, passing_train| memo.push(pair_for[passing_train]) }
       {
-        starting_station: starting_station,
-        ending_station: ending_station,
+        departure_station: departure_station,
+        arrival_station: arrival_station,
         passing_trains: passing_trains
       }
     end
 
     def pair_func
-      if starting_station.present? && ending_station.present?
-        proc { |stop| [stop, ending_station.passing_trains.find_by(train_id: stop.train_id)] }
-      elsif ending_station.present?
+      if departure_station.present? && arrival_station.present?
+        proc { |stop| [stop, arrival_station.passing_trains.find_by(train_id: stop.train_id)] }
+      elsif arrival_station.present?
         proc { |stop| [stop.train.stops.first, stop] }
       else
         proc { |stop| [stop, stop.train.stops.last] }

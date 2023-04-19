@@ -8,8 +8,18 @@ class FoundTrainsSerializer
   def serializable_hash
     {
       data: {
-        starting_station: result[:starting_station]&.name,
-        ending_station: result[:ending_station]&.name,
+        departure_station: {
+          id: result[:departure_station]&.id.to_s,
+          attributes: {
+            name: result[:departure_station]&.name
+          }
+        },
+        arrival_station: {
+          id: result[:arrival_station]&.id.to_s,
+          attributes: {
+            name: result[:arrival_station]&.name
+          }
+        },
         trains: result[:passing_trains].map { |pair| parse_pair(pair) }
       }
     }
@@ -20,9 +30,12 @@ class FoundTrainsSerializer
   def parse_pair(pair)
     {
       id: pair.first.train_id,
-      departs_at: pair.first.departure_time,
-      arrives_at: pair.last.arrival_time,
-      travel_time: pair.last.arrival_time - pair.first.departure_time
+      attributes: {
+        destination: pair.first.train.destination,
+        departs_at: pair.first.departure_time,
+        arrives_at: pair.last.arrival_time,
+        travel_time: pair.last.arrival_time - pair.first.departure_time
+      }
     }
   end
 end

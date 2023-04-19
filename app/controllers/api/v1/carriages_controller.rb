@@ -13,7 +13,7 @@ module Api
       end
 
       def show
-        render json: { carriage: CarriageSerializer.new(@carriage) },
+        render json: { carriage: CarriageSerializer.new(@carriage, { include: %i[seats] }) },
                status: :ok
       end
 

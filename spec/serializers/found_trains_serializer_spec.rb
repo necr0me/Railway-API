@@ -2,12 +2,12 @@ RSpec.describe FoundTrainsSerializer do
   let(:names) { %w[Grodno Mosty Lida Minsk] }
   let(:stations) { create_list(:station, names.size, :station_sequence_with_name_list, list: names) }
 
-  let(:starting_station) { stations.second.name }
-  let(:ending_station) { stations.third.name }
+  let(:departure_station) { stations.second.name }
+  let(:arrival_station) { stations.third.name }
   let(:service_result) do
     Trains::FinderService.call(
-      starting_station: starting_station,
-      ending_station: ending_station,
+      departure_station: departure_station,
+      arrival_station: arrival_station,
       date: DateTime.now
     ).data
   end
@@ -24,10 +24,10 @@ RSpec.describe FoundTrainsSerializer do
 
   describe "attributes" do
     it "has starting station, ending station and trains attributes" do
-      expect(result).to include(*%i[starting_station ending_station trains])
+      expect(result).to include(*%i[departure_station arrival_station trains])
 
-      expect(result[:starting_station]).to eq(starting_station)
-      expect(result[:ending_station]).to eq(ending_station)
+      expect(result[:departure_station]).to eq(departure_station)
+      expect(result[:arrival_station]).to eq(arrival_station)
     end
 
     it "each element from trains has id, arrives at, departs at and travel time attributes" do
