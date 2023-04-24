@@ -13,9 +13,11 @@ module Api
           day_option: params[:day_option]
         )
         if result.success?
-          render json: { found_trains: FoundTrainsSerializer.new(result.data).serializable_hash }
+          render json: { found_trains: FoundTrainsSerializer.new(result.data).serializable_hash },
+                 status: :ok
         else
-          render json: { errors: result.error }
+          render json: { errors: result.error },
+                 status: :unprocessable_entity
         end
       end
 

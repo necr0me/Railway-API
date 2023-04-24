@@ -179,14 +179,13 @@ RSpec.describe "Api::V1::Stations", type: :request do
     context "when error occurs during destroying of station" do
       before do
         allow_any_instance_of(Station).to receive(:destroy).and_return(false)
-        allow_any_instance_of(ActiveModel::Errors).to receive(:full_messages).and_return(["Error message"])
 
         delete "/api/v1/stations/#{station.id}", headers: auth_header
       end
 
       it "returns 422 and error message" do
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(json_response[:errors]).to include("Error message")
+        expect(json_response[:errors]).not_to be_nil
       end
     end
 

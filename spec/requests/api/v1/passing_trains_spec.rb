@@ -7,15 +7,32 @@ RSpec.describe "Api::V1::PassingTrains", type: :request do
   let(:passing_train) { create(:passing_train) }
 
   describe "#index" do
-    before do
-      create(:train, :train_with_stops)
-      get "/api/v1/passing_trains"
+    context "when error occured during service work" do
+      before do
+        allow_any_instance_of(Trains::FinderService).to receive(:success?).and_return(false)
+        allow_any_instance_of(Trains::FinderService).to receive(:error).and_return("Error message")
+        create(:train, :train_with_stops)
+        get "/api/v1/passing_trains"
+      end
+
+      it "returns 422 and error message" do
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(json_response[:errors]).to eq("Error message")
+      end
     end
 
-    it "returns 200 and list of passing train entities" do
-      expect(response).to have_http_status(:ok)
-      expect(json_response[:passing_trains].size).to eq(PassingTrain.count)
+    context "when no error occured during service work" do
+      before do
+        create(:train, :train_with_stops)
+        get "/api/v1/passing_trains"
+      end
+
+      it "returns 200 and list of passing train entities" do
+        expect(response).to have_http_status(:ok)
+        expect(json_response[:found_trains][:data].size).to eq(PassingTrain.count)
+      end
     end
+
   end
 
   describe "#create" do

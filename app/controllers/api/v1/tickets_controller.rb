@@ -10,7 +10,6 @@ module Api
       end
 
       def create
-        sleep 2
         result = Tickets::CreatorService.call(ticket_params: ticket_params)
         if result.success?
           render json: { message: "Ticket successfully created",

@@ -18,7 +18,7 @@ RSpec.describe PassingTrainSerializer do
       expect(result[:id]).to eq(passing_train.id.to_s)
 
       expect(result[:attributes]).to eq({
-                                          station_name: passing_train.station.name,
+                                          name: passing_train.station.name,
                                           arrival_time: passing_train.arrival_time,
                                           departure_time: passing_train.departure_time,
                                           way_number: passing_train.way_number

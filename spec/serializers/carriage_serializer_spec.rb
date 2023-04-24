@@ -3,6 +3,14 @@ RSpec.describe CarriageSerializer do
   let(:serializer) { described_class.new(carriage) }
   let(:result) { serializer.serializable_hash[:data] }
 
+  describe "associations" do
+    describe "seats" do
+      it "returns seats" do
+        expect(result[:relationships]).to include(:seats)
+      end
+    end
+  end
+
   describe "attributes" do
     describe "attribute available" do
       context "when carriage has not train" do
@@ -26,6 +34,24 @@ RSpec.describe CarriageSerializer do
       end
     end
 
+    describe "attribute order_number" do
+      context "when order_number < 10" do
+        let(:carriage) { create(:carriage, order_number: 1) }
+
+        it "adds leading zero" do
+          expect(result[:attributes][:order_number][0]).to eq("0")
+        end
+      end
+
+      context "when order_number >= 10" do
+        let(:carriage) { create(:carriage, order_number: 11) }
+
+        it "changes nothing" do
+          expect(result[:attributes][:order_number][0]).to eq(carriage.order_number.to_s[0])
+        end
+      end
+    end
+
     describe "all attributes" do
       it "has attributes name, type and capacity, type is carriage, id is correct" do
         expect(result[:type]).to eq(:carriage)
@@ -36,6 +62,7 @@ RSpec.describe CarriageSerializer do
                                             type: carriage.type.name,
                                             capacity: carriage.capacity,
                                             available: carriage.train_id.nil?,
+                                            order_number: "%02d" % carriage.order_number.to_s,
                                             carriage_type_id: carriage.type.id
                                           })
       end

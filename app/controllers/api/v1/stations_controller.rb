@@ -34,7 +34,7 @@ module Api
                  status: :ok
         else
           render json: { message: "Something went wrong",
-                         errors: @station.errors.full_messages },
+                         errors: @station.errors },
                  status: :unprocessable_entity
         end
       end
@@ -44,7 +44,7 @@ module Api
           head :no_content
         else
           render json: { message: "Something went wrong",
-                         errors: @station.errors.full_messages },
+                         errors: @station.errors },
                  status: :unprocessable_entity
         end
       end
