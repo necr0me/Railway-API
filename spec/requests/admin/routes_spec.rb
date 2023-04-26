@@ -1,4 +1,4 @@
-RSpec.describe "Api::V1::Routes", type: :request do
+RSpec.describe "Admin::Routes", type: :request do
   let(:route) { create(:route, :route_with_stations) }
   let(:empty_route) { create(:route) }
   let(:station) { create(:station) }
@@ -8,7 +8,7 @@ RSpec.describe "Api::V1::Routes", type: :request do
   describe "#index" do
     context "when user is unauthorized" do
       before do
-        get "/api/v1/routes"
+        get "/admin/routes"
       end
 
       it "returns unauthorized" do
@@ -21,7 +21,7 @@ RSpec.describe "Api::V1::Routes", type: :request do
 
       before do
         create_list(:route, 6)
-        get "/api/v1/routes#{page_param}", headers: auth_header
+        get "/admin/routes#{page_param}", headers: auth_header
       end
 
       context "when page param is presented" do
@@ -53,7 +53,7 @@ RSpec.describe "Api::V1::Routes", type: :request do
       include_context "with sequence cleaner"
 
       before do
-        get "/api/v1/routes/#{route.id}"
+        get "/admin/routes/#{route.id}"
       end
 
       it "returns unauthorized" do
@@ -68,7 +68,7 @@ RSpec.describe "Api::V1::Routes", type: :request do
 
       before do
         create(:station, name: "I am new station")
-        get "/api/v1/routes/#{route.id}", headers: auth_header
+        get "/admin/routes/#{route.id}", headers: auth_header
       end
 
       it "returns 200, route, stations in route and available stations" do
@@ -86,7 +86,7 @@ RSpec.describe "Api::V1::Routes", type: :request do
   describe "#create" do
     context "when user is unauthorized" do
       before do
-        post "/api/v1/routes"
+        post "/admin/routes"
       end
 
       it "returns 401" do
@@ -98,7 +98,7 @@ RSpec.describe "Api::V1::Routes", type: :request do
       before do
         allow_any_instance_of(Route).to receive(:persisted?).and_return(false)
 
-        post "/api/v1/routes", headers: auth_header
+        post "/admin/routes", headers: auth_header
       end
 
       it "returns 422 and error message" do
@@ -109,7 +109,7 @@ RSpec.describe "Api::V1::Routes", type: :request do
 
     context "when user is authorized" do
       before do
-        post "/api/v1/routes", headers: auth_header
+        post "/admin/routes", headers: auth_header
       end
 
       it "returns 201 and creates route in db" do
@@ -122,7 +122,7 @@ RSpec.describe "Api::V1::Routes", type: :request do
   describe "#add_station" do
     context "when user is unauthorized" do
       before do
-        post "/api/v1/routes/#{empty_route.id}/add_station", params: {
+        post "/admin/routes/#{empty_route.id}/add_station", params: {
           station_id: station.id
         }
       end
@@ -134,7 +134,7 @@ RSpec.describe "Api::V1::Routes", type: :request do
 
     context "when user is authorized and route does not exist" do
       before do
-        post "/api/v1/routes/0/add_station",
+        post "/admin/routes/0/add_station",
              params: {
                station_id: station.id
              },
@@ -149,7 +149,7 @@ RSpec.describe "Api::V1::Routes", type: :request do
 
     context "when user is authorized and station does not exist" do
       before do
-        post "/api/v1/routes/#{empty_route.id}/add_station",
+        post "/admin/routes/#{empty_route.id}/add_station",
              params: {
                station_id: 0
              },
@@ -164,7 +164,7 @@ RSpec.describe "Api::V1::Routes", type: :request do
 
     context "when user is authorized, route and station do exist" do
       before do
-        post "/api/v1/routes/#{empty_route.id}/add_station",
+        post "/admin/routes/#{empty_route.id}/add_station",
              params: {
                station_id: station.id
              },
@@ -186,7 +186,7 @@ RSpec.describe "Api::V1::Routes", type: :request do
 
     context "when user is unauthorized" do
       before do
-        delete "/api/v1/routes/#{route.id}/remove_station/#{route.stations.first.id}"
+        delete "/admin/routes/#{route.id}/remove_station/#{route.stations.first.id}"
       end
 
       it "returns 401" do
@@ -196,7 +196,7 @@ RSpec.describe "Api::V1::Routes", type: :request do
 
     context "when user is authorized and route does not exist" do
       before do
-        delete "/api/v1/routes/0/remove_station/#{route.stations.first.id}", headers: auth_header
+        delete "/admin/routes/0/remove_station/#{route.stations.first.id}", headers: auth_header
       end
 
       it "returns 404 and contains error message" do
@@ -207,7 +207,7 @@ RSpec.describe "Api::V1::Routes", type: :request do
 
     context "when user is authorized and station does not exist" do
       before do
-        delete "/api/v1/routes/#{route.id}/remove_station/0", headers: auth_header
+        delete "/admin/routes/#{route.id}/remove_station/0", headers: auth_header
       end
 
       it "returns 422 and contains error message" do
@@ -218,7 +218,7 @@ RSpec.describe "Api::V1::Routes", type: :request do
 
     context "when user is authorized, route and station do exist" do
       before do
-        delete "/api/v1/routes/#{route.id}/remove_station/#{route.stations.first.id}", headers: auth_header
+        delete "/admin/routes/#{route.id}/remove_station/#{route.stations.first.id}", headers: auth_header
       end
 
       it "returns 200, removed station and removes stations from route" do
@@ -236,7 +236,7 @@ RSpec.describe "Api::V1::Routes", type: :request do
 
     context "when user is unauthorized" do
       before do
-        delete "/api/v1/routes/#{route.id}"
+        delete "/admin/routes/#{route.id}"
       end
 
       it "returns 401" do
@@ -249,7 +249,7 @@ RSpec.describe "Api::V1::Routes", type: :request do
         allow_any_instance_of(Route).to receive(:destroy).and_return(false)
         allow_any_instance_of(ActiveModel::Errors).to receive(:full_messages).and_return(["Error message"])
 
-        delete "/api/v1/routes/#{route.id}", headers: auth_header
+        delete "/admin/routes/#{route.id}", headers: auth_header
       end
 
       it "returns 422 and error message" do
@@ -260,7 +260,7 @@ RSpec.describe "Api::V1::Routes", type: :request do
 
     context "when user is authorized and route does exist" do
       before do
-        delete "/api/v1/routes/#{route.id}", headers: auth_header
+        delete "/admin/routes/#{route.id}", headers: auth_header
       end
 
       it "returns 204 and destroys route" do

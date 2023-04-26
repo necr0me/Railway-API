@@ -5,14 +5,6 @@ RSpec.describe "Users::Sessions", type: :request do
     attributes_for(:user)
   end
 
-  describe "concerns" do
-    describe "UserParamable" do
-      it "includes UserParamable concern" do
-        expect(Users::SessionsController.ancestors).to include(UserParamable)
-      end
-    end
-  end
-
   describe "#login" do
     context "when user sends blank credentials" do
       before do

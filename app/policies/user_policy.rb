@@ -4,7 +4,7 @@ class UserPolicy < ApplicationPolicy
   end
 
   def show?
-    owned? || user&.moderator? || user&.admin?
+    owned?
   end
 
   def update?
@@ -12,7 +12,7 @@ class UserPolicy < ApplicationPolicy
   end
 
   def destroy?
-    owned? || user&.admin?
+    owned?
   end
 
   private

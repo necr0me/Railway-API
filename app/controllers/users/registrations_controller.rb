@@ -1,8 +1,5 @@
 module Users
   class RegistrationsController < ApplicationController
-    include UserParamable
-    include UserFindable
-
     before_action :authorize!, :find_user, only: :destroy
     before_action :authorize_user
 
@@ -28,6 +25,14 @@ module Users
     end
 
     private
+
+    def user_params
+      params.require(:user).permit(:email, :password)
+    end
+
+    def find_user
+      @user = User.find(params[:id])
+    end
 
     def authorize_user
       authorize(@user || User)

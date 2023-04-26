@@ -1,9 +1,10 @@
-RSpec.describe CarriageTypePolicy, type: :policy do
-  subject { described_class.new(user, create(:carriage_type)) }
+RSpec.describe Admin::CarriageTypePolicy, type: :policy do
+  subject { described_class.new(user, record) }
 
-  context "when user is nil" do
-    let(:user) { nil }
+  let(:user) { nil }
+  let(:record) { create(:carriage_type) }
 
+  context "when user role is nil" do
     it { is_expected.to forbid_actions(%i[index create update destroy]) }
   end
 

@@ -1,6 +1,6 @@
 class TicketPolicy < ApplicationPolicy
   def show?
-    owned? || moderator_or_admin?
+    owned_by_user?
   end
 
   def create?
@@ -8,16 +8,6 @@ class TicketPolicy < ApplicationPolicy
   end
 
   def destroy?
-    owned? || user&.admin?
-  end
-
-  private
-
-  def owned?
-    user&.id == record&.user_id
-  end
-
-  def moderator_or_admin?
-    user&.moderator? || user&.admin?
+    owned_by_user?
   end
 end

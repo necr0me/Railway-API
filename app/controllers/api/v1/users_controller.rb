@@ -1,7 +1,6 @@
 module Api
   module V1
     class UsersController < ApplicationController
-      include UserFindable
       before_action :authorize!, :find_user, :authorize_user
 
       def show
@@ -21,6 +20,10 @@ module Api
       end
 
       private
+
+      def find_user
+        @user = User.find(params[:id])
+      end
 
       def authorize_user
         authorize(@user || User)

@@ -44,7 +44,7 @@ RSpec.describe "users", type: :request do
     let(:user_id) { user.id }
     let(:Authorization) { "Bearer #{access_token}" }
 
-    delete "Destroy user. By becr0me" do
+    delete "Destroy user. By necr0me" do
       tags "Registrations"
       parameter name: :user_id, in: :path, type: :integer, required: true,
                 description: "Id of user that destroys account (user can destroy only own account unless role is admin)"

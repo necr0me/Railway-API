@@ -1,4 +1,4 @@
-RSpec.describe "Api::V1::CarriageTypes", type: :request do
+RSpec.describe "Admin::CarriageTypes", type: :request do
   let(:user) { create(:user, role: :admin) }
 
   let(:carriage_type) { create(:carriage_type) }
@@ -7,7 +7,7 @@ RSpec.describe "Api::V1::CarriageTypes", type: :request do
   describe "#index" do
     context "when user is unauthorized" do
       before do
-        get "/api/v1/carriage_types"
+        get "/admin/carriage_types"
       end
 
       it "returns 401" do
@@ -18,7 +18,7 @@ RSpec.describe "Api::V1::CarriageTypes", type: :request do
     context "when user is authorized" do
       before do
         create_list(:carriage_type, 6)
-        get "/api/v1/carriage_types/#{query_param}", headers: auth_header
+        get "/admin/carriage_types/#{query_param}", headers: auth_header
       end
 
       context "when query param 'page' is presented" do
@@ -48,7 +48,7 @@ RSpec.describe "Api::V1::CarriageTypes", type: :request do
   describe "#create" do
     context "when user is unauthorized" do
       before do
-        post "/api/v1/carriage_types", params: attributes_for(:carriage_type)
+        post "/admin/carriage_types", params: attributes_for(:carriage_type)
       end
 
       it "returns 401" do
@@ -58,7 +58,7 @@ RSpec.describe "Api::V1::CarriageTypes", type: :request do
 
     context "when user is authorized and tries to create type with invalid data" do
       before do
-        post "/api/v1/carriage_types",
+        post "/admin/carriage_types",
              params: {
                carriage_type: {
                  name: "x",
@@ -80,7 +80,7 @@ RSpec.describe "Api::V1::CarriageTypes", type: :request do
 
     context "when user is authorized and tries to create type with valid data" do
       before do
-        post "/api/v1/carriage_types",
+        post "/admin/carriage_types",
              params: {
                carriage_type: attributes_for(:carriage_type)
              },
@@ -97,7 +97,7 @@ RSpec.describe "Api::V1::CarriageTypes", type: :request do
   describe "#update" do
     context "when user is unauthorized" do
       before do
-        patch "/api/v1/carriage_types/#{carriage_type.id}", params: attributes_for(:carriage_type)
+        patch "/admin/carriage_types/#{carriage_type.id}", params: attributes_for(:carriage_type)
       end
 
       it "returns 401" do
@@ -107,7 +107,7 @@ RSpec.describe "Api::V1::CarriageTypes", type: :request do
 
     context "when user is authorized and tries to update type with invalid data" do
       before do
-        patch "/api/v1/carriage_types/#{carriage_type.id}",
+        patch "/admin/carriage_types/#{carriage_type.id}",
               params: {
                 carriage_type: {
                   name: carriage_type.name,
@@ -127,7 +127,7 @@ RSpec.describe "Api::V1::CarriageTypes", type: :request do
 
     context "when user is authorized and tries to update type with valid data" do
       before do
-        patch "/api/v1/carriage_types/#{carriage_type.id}",
+        patch "/admin/carriage_types/#{carriage_type.id}",
               params: {
                 carriage_type: {
                   name: carriage_type.name,
@@ -149,7 +149,7 @@ RSpec.describe "Api::V1::CarriageTypes", type: :request do
   describe "#destroy" do
     context "when user is unauthorized" do
       before do
-        delete "/api/v1/carriage_types/#{carriage_type.id}"
+        delete "/admin/carriage_types/#{carriage_type.id}"
       end
 
       it "returns 401" do
@@ -159,7 +159,7 @@ RSpec.describe "Api::V1::CarriageTypes", type: :request do
 
     context "when user is authorized and tries to destroy type with carriages" do
       before do
-        delete "/api/v1/carriage_types/#{carriage_type_with_carriage.id}", headers: auth_header
+        delete "/admin/carriage_types/#{carriage_type_with_carriage.id}", headers: auth_header
       end
 
       it "returns 422 and contains error message that cant delete type that has any carriages" do
@@ -170,7 +170,7 @@ RSpec.describe "Api::V1::CarriageTypes", type: :request do
 
     context "when user is authorize and tries to destroy type without any carriages" do
       before do
-        delete "/api/v1/carriage_types/#{carriage_type.id}", headers: auth_header
+        delete "/admin/carriage_types/#{carriage_type.id}", headers: auth_header
       end
 
       it "returns 204 and destroys type from db" do

@@ -1,11 +1,10 @@
-RSpec.describe RoutePolicy, type: :policy do
-  subject { described_class.new(user, route) }
+RSpec.describe Admin::RoutePolicy, type: :policy do
+  subject { described_class.new(user, record) }
 
-  let(:route) { create(:route) }
+  let(:user) { nil }
+  let(:record) { create(:route) }
 
-  context "when user is nil" do
-    let(:user) { nil }
-
+  context "when user role is nil" do
     it { is_expected.to forbid_actions(%i[index show create add_station remove_station destroy]) }
   end
 
@@ -18,12 +17,12 @@ RSpec.describe RoutePolicy, type: :policy do
   context "when user role is :moderator" do
     let(:user) { create(:user, role: :moderator) }
 
-    it { is_expected.to permit_actions(%i[show create add_station remove_station destroy]) }
+    it { is_expected.to permit_actions(%i[index show create add_station remove_station destroy]) }
   end
 
   context "when user role is :admin" do
     let(:user) { create(:user, role: :admin) }
 
-    it { is_expected.to permit_actions(%i[show create add_station remove_station destroy]) }
+    it { is_expected.to permit_actions(%i[index show create add_station remove_station destroy]) }
   end
 end

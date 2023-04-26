@@ -1,12 +1,12 @@
 require "swagger_helper"
 
-RSpec.describe "api/v1/carriage_types", type: :request do
+RSpec.describe "admin/carriage_types", type: :request, swagger_doc: "admin/swagger.yaml" do
   let(:user) { create(:user, role: :admin) }
   let(:Authorization) { "Bearer #{access_token}" }
 
   let(:carriage_type) { create(:carriage_type) }
 
-  path "/api/v1/carriage_types" do
+  path "/admin/carriage_types" do
     get "Retrieves all carriage types. By necr0me" do
       tags "Carriage types"
       produces "application/json"
@@ -83,7 +83,7 @@ RSpec.describe "api/v1/carriage_types", type: :request do
     end
   end
 
-  path "/api/v1/carriage_types/{carriage_type_id}" do
+  path "/admin/carriage_types/{carriage_type_id}" do
     let(:carriage_type_id) { carriage_type.id }
 
     put "Updates carriage type. By necr0me" do

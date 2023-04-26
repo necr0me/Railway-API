@@ -39,6 +39,33 @@ RSpec.configure do |config|
           }
         }
       ]
+    },
+    "admin/swagger.yaml" => {
+      swagger: "2.0",
+      info: {
+        title: "Railway-API",
+        version: "v1",
+        description: "Railway admin documentation"
+      },
+      paths: {},
+      securityDefinitions: {
+        Bearer: {
+          description: "Authorization header (JWT-token)",
+          type: :apiKey,
+          name: "Authorization",
+          in: :header
+        }
+      },
+      servers: [
+        {
+          url: "http://{defaultHost}/",
+          variables: {
+            defaultHost: {
+              default: "localhost:3000"
+            }
+          }
+        }
+      ]
     }
   }
 

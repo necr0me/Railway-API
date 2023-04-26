@@ -2,20 +2,6 @@ RSpec.describe "Users::Registrations", type: :request do
   let(:user) { build(:user) }
   let(:existing_user) { create(:user) }
 
-  describe "concerns" do
-    describe "UserFindable" do
-      it "includes UserFindable concern" do
-        expect(Users::RegistrationsController.ancestors).to include(UserFindable)
-      end
-    end
-
-    describe "UserParamable" do
-      it "includes UserParamable concern" do
-        expect(Users::RegistrationsController.ancestors).to include(UserParamable)
-      end
-    end
-  end
-
   describe "#sign_up" do
     context "when user tries to register with blank data" do
       before do

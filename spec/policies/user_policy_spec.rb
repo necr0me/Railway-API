@@ -35,13 +35,11 @@ RSpec.describe UserPolicy, type: :policy do
 
       it { is_expected.to permit_actions(%i[show update destroy]) }
 
-      it { is_expected.to forbid_actions(%i[create]) }
+      it { is_expected.to forbid_action(:create) }
     end
 
     context "when other users own resources" do
-      it { is_expected.to permit_action(:show) }
-
-      it { is_expected.to forbid_actions(%i[create update destroy]) }
+      it { is_expected.to forbid_actions(%i[show destroy update create]) }
     end
   end
 
@@ -57,9 +55,7 @@ RSpec.describe UserPolicy, type: :policy do
     end
 
     context "when other users own resources" do
-      it { is_expected.to permit_actions(%i[show destroy]) }
-
-      it { is_expected.to forbid_actions(%i[update create]) }
+      it { is_expected.to forbid_actions(%i[show destroy update create]) }
     end
   end
 end

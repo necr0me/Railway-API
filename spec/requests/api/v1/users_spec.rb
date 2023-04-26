@@ -1,14 +1,6 @@
 RSpec.describe "Api::V1::Users", type: :request do
   let(:user) { create(:user) }
 
-  describe "concerns" do
-    describe "UserFindable" do
-      it "includes UserFindable concern" do
-        expect(Api::V1::UsersController.ancestors).to include(UserFindable)
-      end
-    end
-  end
-
   describe "#show" do
     context "when user is unauthorized" do
       before do

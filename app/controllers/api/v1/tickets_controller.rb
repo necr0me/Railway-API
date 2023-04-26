@@ -16,7 +16,7 @@ module Api
                          ticket: result.data },
                  status: :created
         else
-          render json: { message: "Something went wrong", # TODO: try to move this block in concern or AppController
+          render json: { message: "Something went wrong",
                          errors: [result.error].flatten },
                  status: :unprocessable_entity
         end

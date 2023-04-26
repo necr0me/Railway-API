@@ -1,7 +1,5 @@
 module Users
   class SessionsController < ApplicationController
-    include UserParamable
-
     before_action :authorize!, only: [:destroy]
 
     def create
@@ -45,6 +43,12 @@ module Users
       cookies.delete :refresh_token
       render json: { message: "You have successfully logged out." },
              status: :ok
+    end
+
+    private
+
+    def user_params
+      params.require(:user).permit(:email, :password)
     end
   end
 end

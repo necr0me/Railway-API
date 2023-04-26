@@ -1,6 +1,6 @@
 require "swagger_helper"
 
-RSpec.describe "api/v1/routes", type: :request do
+RSpec.describe "admin/routes", type: :request, swagger_doc: "admin/swagger.yaml" do
   let(:user) { create(:user, role: :admin) }
   let(:Authorization) { "Bearer #{access_token}" }
 
@@ -8,7 +8,7 @@ RSpec.describe "api/v1/routes", type: :request do
 
   include_context "with sequence cleaner"
 
-  path "/api/v1/routes" do
+  path "/admin/routes" do
     post "Creates empty route. By necr0me" do
       tags "Routes"
       produces "application/json"
@@ -41,7 +41,7 @@ RSpec.describe "api/v1/routes", type: :request do
     end
   end
 
-  path "/api/v1/routes/{route_id}" do
+  path "/admin/routes/{route_id}" do
     let(:route_id) { route.id }
 
     get "Find concrete route. By necr0me" do
@@ -108,7 +108,7 @@ RSpec.describe "api/v1/routes", type: :request do
     end
   end
 
-  path "/api/v1/routes/{route_id}/add_station" do
+  path "/admin/routes/{route_id}/add_station" do
     let(:route_id) { route.id }
 
     post "Add existing station to existing route. By necr0me" do
@@ -159,7 +159,7 @@ RSpec.describe "api/v1/routes", type: :request do
     end
   end
 
-  path "/api/v1/routes/{route_id}/remove_station/{station_id}" do
+  path "/admin/routes/{route_id}/remove_station/{station_id}" do
     let(:route_id) { route.id }
     let(:station) { route.stations.first }
     let(:station_id) { station.id }
