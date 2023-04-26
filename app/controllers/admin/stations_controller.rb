@@ -50,7 +50,7 @@ module Admin
     end
 
     def find_station
-      @station = Station.find(params[:id])
+      @station = Station.find(params[:id].to_i)
     end
 
     def authorize_station
@@ -58,4 +58,3 @@ module Admin
     end
   end
 end
-

@@ -15,7 +15,7 @@ module Admin
     private
 
     def find_user
-      @user = User.find(params[:id])
+      @user = User.find(params[:id].to_i)
     end
 
     def authorize_user
@@ -23,4 +23,3 @@ module Admin
     end
   end
 end
-

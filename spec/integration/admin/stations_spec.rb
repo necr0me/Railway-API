@@ -161,9 +161,12 @@ RSpec.describe "admin/stations", type: :request, swagger_doc: "admin/swagger.yam
       end
 
       response "422", "Something went wrong during station destroying" do
+        let(:errors) { instance_double(ActiveModel::Errors, full_messages: ["Error message"]) }
+
         before do
-          allow_any_instance_of(Station).to receive(:destroy).and_return(false)
-          allow_any_instance_of(ActiveModel::Errors).to receive(:full_messages).and_return(["Error message"])
+          allow(Station).to receive(:find).and_return(station)
+          allow(station).to receive(:destroy).and_return(false)
+          allow(station).to receive(:errors).and_return(errors)
         end
 
         include_context "with integration test"

@@ -57,7 +57,7 @@ module Admin
     end
 
     def find_carriage_type
-      @carriage_type = CarriageType.find(params[:id])
+      @carriage_type = CarriageType.find(params[:id].to_i)
     end
 
     def authorize_carriage_type
@@ -72,4 +72,3 @@ module Admin
     end
   end
 end
-

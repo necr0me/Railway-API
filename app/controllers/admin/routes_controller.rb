@@ -73,7 +73,7 @@ module Admin
     private
 
     def find_route
-      @route = Route.includes(:stations).find(params[:route_id])
+      @route = Route.includes(:stations).find(params[:route_id].to_i)
     end
 
     def authorize_route
@@ -94,4 +94,3 @@ module Admin
     end
   end
 end
-

@@ -47,8 +47,11 @@ RSpec.describe Train, type: :model do
   end
 
   describe "#destination" do
-    it 'returns route destination' do
+    let(:route) { create(:route, destination: "x") }
+    let(:train) { create(:train, route: route) }
 
+    it "returns route destination" do
+      expect(train.destination).to eq(route.destination)
     end
   end
 end

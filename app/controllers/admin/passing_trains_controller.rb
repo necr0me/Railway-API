@@ -50,7 +50,7 @@ module Admin
     end
 
     def find_passing_train
-      @passing_train = PassingTrain.find(params[:id])
+      @passing_train = PassingTrain.find(params[:id].to_i)
     end
 
     def authorize_passing_train
@@ -58,4 +58,3 @@ module Admin
     end
   end
 end
-

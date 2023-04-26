@@ -4,9 +4,10 @@ RSpec.describe "Api::V1::PassingTrains", type: :request do
   # TODO: test with different options in query params (or it is already tested in service)
   describe "#index" do
     context "when error occured during service work" do
+      let(:service) { instance_double(Trains::FinderService, success?: false, error: "Error message") }
+
       before do
-        allow_any_instance_of(Trains::FinderService).to receive(:success?).and_return(false)
-        allow_any_instance_of(Trains::FinderService).to receive(:error).and_return("Error message")
+        allow(Trains::FinderService).to receive(:call).and_return(service)
         create(:train, :train_with_stops)
         get "/api/v1/passing_trains"
       end

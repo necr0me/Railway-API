@@ -57,7 +57,7 @@ module Admin
     end
 
     def find_carriage
-      @carriage = Carriage.find(params[:id])
+      @carriage = Carriage.find(params[:id].to_i)
     end
 
     def authorize_carriage

@@ -1,7 +1,6 @@
 module Admin
   class TicketsController < AdminController
-    before_action :find_ticket, only: %i[show destroy]
-    before_action :authorize_ticket
+    before_action :find_ticket, :authorize_ticket
 
     def destroy
       if @ticket.destroy
@@ -21,8 +20,7 @@ module Admin
     end
 
     def find_ticket
-      @ticket = Ticket.find(params[:id])
+      @ticket = Ticket.find(params[:id].to_i)
     end
   end
 end
-

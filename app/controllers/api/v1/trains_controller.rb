@@ -11,7 +11,7 @@ module Api
       private
 
       def find_train
-        @train = Train.find(params[:train_id])
+        @train = Train.find(params[:train_id].to_i)
       end
 
       def authorize_train

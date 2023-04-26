@@ -124,9 +124,13 @@ RSpec.describe "Admin::PassingTrains", type: :request do
     end
 
     context "when user is authorized but error occurred during destroy" do
+      let(:errors) { instance_double(ActiveModel::Errors, full_messages: ["Error message"]) }
+
       before do
-        allow_any_instance_of(PassingTrain).to receive(:destroy).and_return(false)
-        allow_any_instance_of(ActiveModel::Errors).to receive(:full_messages).and_return(["Error message"])
+        allow(PassingTrain).to receive(:find).and_return(passing_train)
+        allow(passing_train).to receive(:destroy).and_return(false)
+        allow(passing_train).to receive(:errors).and_return(errors)
+
         delete "/admin/passing_trains/#{passing_train.id}",
                headers: auth_header
       end

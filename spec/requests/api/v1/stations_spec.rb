@@ -6,7 +6,6 @@ RSpec.describe "Api::V1::Stations", type: :request do
   describe "#index" do
     include_context "with sequence cleaner"
 
-
     # TODO: make tests better (when number of stations < 5 and > 5)
     context "when query param 'station' presented" do
       let(:found_stations) { Station.where("name LIKE ?", "#{request.params[:station]}%") }

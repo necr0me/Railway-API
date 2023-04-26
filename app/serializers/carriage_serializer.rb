@@ -6,7 +6,7 @@ class CarriageSerializer
   attributes :name, :capacity, :carriage_type_id
 
   attribute :order_number, if: Proc.new { |carriage| carriage.order_number.present? } do |object|
-    "%02d" % object.order_number
+    format("%02d", object.order_number)
   end
 
   attribute :available do |object|

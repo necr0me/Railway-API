@@ -47,7 +47,6 @@ RSpec.describe "Admin::Trains", type: :request do
           expect(json_response[:pages]).to eq((Train.count / 5.0).ceil)
         end
       end
-
     end
   end
 
@@ -91,9 +90,12 @@ RSpec.describe "Admin::Trains", type: :request do
     end
 
     context "when user is authorized and error occurs during creating of train" do
+      let(:errors) { instance_double(ActiveModel::Errors, full_messages: ["Error message"]) }
+
       before do
-        allow_any_instance_of(Train).to receive(:persisted?).and_return(false)
-        allow_any_instance_of(ActiveModel::Errors).to receive(:full_messages).and_return(["Error message"])
+        allow(Train).to receive(:create).and_return(train)
+        allow(train).to receive(:persisted?).and_return(false)
+        allow(train).to receive(:errors).and_return(errors)
 
         post "/admin/trains", headers: auth_header
       end
@@ -137,9 +139,12 @@ RSpec.describe "Admin::Trains", type: :request do
     end
 
     context "when user is authorized and error occurs during update" do
+      let(:errors) { instance_double(ActiveModel::Errors, full_messages: ["Error message"]) }
+
       before do
-        allow_any_instance_of(Train).to receive(:update).and_return(false)
-        allow_any_instance_of(ActiveModel::Errors).to receive(:full_messages).and_return(["Error message"])
+        allow(Train).to receive(:find).and_return(train)
+        allow(train).to receive(:update).and_return(false)
+        allow(train).to receive(:errors).and_return(errors)
 
         patch "/admin/trains/#{train.id}", params: {
           train: {
@@ -271,9 +276,12 @@ RSpec.describe "Admin::Trains", type: :request do
     end
 
     context "when error occurs during destroying of train" do
+      let(:errors) { instance_double(ActiveModel::Errors, full_messages: ["Error message"]) }
+
       before do
-        allow_any_instance_of(Train).to receive(:destroy).and_return(false)
-        allow_any_instance_of(ActiveModel::Errors).to receive(:full_messages).and_return(["Error message"])
+        allow(Train).to receive(:find).and_return(train)
+        allow(train).to receive(:destroy).and_return(false)
+        allow(train).to receive(:errors).and_return(errors)
 
         delete "/admin/trains/#{train.id}", headers: auth_header
       end

@@ -38,9 +38,17 @@ RSpec.describe "admin/users", type: :request, swagger_doc: "admin/swagger.yaml" 
       end
 
       response "422", "Error occurred during user destroy" do
+        let(:errors) { instance_double(ActiveModel::Errors, full_messages: ["Error message"]) }
+
         before do
-          allow_any_instance_of(User).to receive(:destroy).and_return(false)
-          allow_any_instance_of(ActiveModel::Errors).to receive(:full_messages).and_return(["Error message"])
+          allow(User).to receive(:find)
+            .with(user.id)
+            .and_return(user)
+          allow(User).to receive(:find)
+            .with(other_user.id)
+            .and_return(other_user)
+          allow(other_user).to receive(:destroy).and_return(false)
+          allow(other_user).to receive(:errors).and_return(errors)
         end
 
         include_context "with integration test"

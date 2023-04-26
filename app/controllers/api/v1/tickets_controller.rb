@@ -48,7 +48,7 @@ module Api
       end
 
       def find_ticket
-        @ticket = Ticket.find(params[:id])
+        @ticket = Ticket.find(params[:id].to_i)
       end
     end
   end

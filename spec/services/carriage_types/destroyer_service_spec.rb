@@ -11,7 +11,7 @@ RSpec.describe CarriageTypes::DestroyerService do
   describe "#destroy" do
     context "when error raises during work of service" do
       before do
-        allow_any_instance_of(CarriageType).to receive(:destroy!).and_raise("Some error")
+        allow(carriage_type).to receive(:destroy!).and_raise("Some error")
       end
 
       it " contains error message and does not delete type from db" do

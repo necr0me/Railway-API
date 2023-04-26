@@ -16,8 +16,9 @@ RSpec.describe "Admin::Tickets", type: :request do
 
     context "when user is authorized, but error occurs during ticket destroy" do
       before do
-        allow_any_instance_of(Ticket).to receive(:destroy).and_return(false)
-        allow_any_instance_of(ActiveModel::Errors).to receive(:full_messages).and_return(["Error message"])
+        allow(Ticket).to receive(:find).and_return(ticket)
+        allow(ticket).to receive(:destroy).and_return(false)
+
         delete "/admin/tickets/#{ticket.id}",
                headers: auth_header
       end

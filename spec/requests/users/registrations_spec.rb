@@ -68,9 +68,14 @@ RSpec.describe "Users::Registrations", type: :request do
     end
 
     context "when error occurs during destroying of user" do
+      let(:errors) { instance_double(ActiveModel::Errors, full_messages: ["Error message"]) }
+
       before do
-        allow_any_instance_of(User).to receive(:destroy).and_return(false)
-        allow_any_instance_of(ActiveModel::Errors).to receive(:full_messages).and_return(["Error message"])
+        allow(User).to receive(:find)
+          .with(existing_user.id)
+          .and_return(existing_user)
+        allow(existing_user).to receive(:destroy).and_return(false)
+        allow(existing_user).to receive(:errors).and_return(errors)
 
         delete "/users/#{existing_user.id}", headers: auth_header_for(existing_user)
       end

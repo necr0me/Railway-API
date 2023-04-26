@@ -3,6 +3,6 @@ class SeatSerializer
 
   attributes :id, :is_taken
   attribute :number do |object|
-    "%02d" % object.number
+    format("%02d", object.number)
   end
 end

@@ -31,9 +31,12 @@ RSpec.describe "admin/routes", type: :request, swagger_doc: "admin/swagger.yaml"
       end
 
       response "422", "Error occurred during route creation" do
+        let(:errors) { instance_double(ActiveModel::Errors, full_messages: ["Error message"]) }
+
         before do
-          allow_any_instance_of(Route).to receive(:persisted?).and_return(false)
-          allow_any_instance_of(ActiveModel::Errors).to receive(:full_messages).and_return(["Error message"])
+          allow(Route).to receive(:create).and_return(route)
+          allow(route).to receive(:persisted?).and_return(false)
+          allow(route).to receive(:errors).and_return(errors)
         end
 
         include_context "with integration test"
@@ -98,9 +101,14 @@ RSpec.describe "admin/routes", type: :request, swagger_doc: "admin/swagger.yaml"
       end
 
       response "422", "Error occurred during route destroying" do
+        let(:errors) { instance_double(ActiveModel::Errors, full_messages: ["Error message"]) }
+        let(:routes) { Route.includes(:stations) }
+
         before do
-          allow_any_instance_of(Route).to receive(:destroy).and_return(false)
-          allow_any_instance_of(ActiveModel::Errors).to receive(:full_messages).and_return(["Error message"])
+          allow(Route).to receive(:includes).with(:stations).and_return(routes)
+          allow(routes).to receive(:find).and_return(route)
+          allow(route).to receive(:destroy).and_return(false)
+          allow(route).to receive(:errors).and_return(errors)
         end
 
         include_context "with integration test"

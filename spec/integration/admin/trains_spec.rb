@@ -167,9 +167,12 @@ RSpec.describe "admin/v1/trains", type: :request, swagger_doc: "admin/swagger.ya
       end
 
       response "422", "Error occurred during adding carriage to train" do
+        let(:errors) { instance_double(ActiveModel::Errors, full_messages: ["Error message"]) }
+
         before do
-          allow_any_instance_of(Train).to receive(:destroy).and_return(false)
-          allow_any_instance_of(ActiveModel::Errors).to receive(:full_messages).and_return(["Error message"])
+          allow(Train).to receive(:find).and_return(train)
+          allow(train).to receive(:destroy).and_return(false)
+          allow(train).to receive(:errors).and_return(errors)
         end
 
         include_context "with integration test"

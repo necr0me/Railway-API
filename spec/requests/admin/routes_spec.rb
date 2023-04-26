@@ -95,8 +95,11 @@ RSpec.describe "Admin::Routes", type: :request do
     end
 
     context "when error occurs during creating of route" do
+      include_context "with sequence cleaner"
+
       before do
-        allow_any_instance_of(Route).to receive(:persisted?).and_return(false)
+        allow(Route).to receive(:create).and_return(route)
+        allow(route).to receive(:persisted?).and_return(false)
 
         post "/admin/routes", headers: auth_header
       end
@@ -245,9 +248,14 @@ RSpec.describe "Admin::Routes", type: :request do
     end
 
     context "when error occurs during destroying of route" do
+      let(:errors) { instance_double(ActiveModel::Errors, full_messages: ["Error message"]) }
+      let(:routes) { Route.includes(:stations) }
+
       before do
-        allow_any_instance_of(Route).to receive(:destroy).and_return(false)
-        allow_any_instance_of(ActiveModel::Errors).to receive(:full_messages).and_return(["Error message"])
+        allow(Route).to receive(:includes).with(:stations).and_return(routes)
+        allow(routes).to receive(:find).and_return(route)
+        allow(route).to receive(:destroy).and_return(false)
+        allow(route).to receive(:errors).and_return(errors)
 
         delete "/admin/routes/#{route.id}", headers: auth_header
       end

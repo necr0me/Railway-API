@@ -172,7 +172,8 @@ RSpec.describe "Admin::Stations", type: :request do
 
     context "when error occurs during destroying of station" do
       before do
-        allow_any_instance_of(Station).to receive(:destroy).and_return(false)
+        allow(Station).to receive(:find).and_return(station)
+        allow(station).to receive(:destroy).and_return(false)
 
         delete "/admin/stations/#{station.id}", headers: auth_header
       end

@@ -26,4 +26,3 @@ RSpec.describe Admin::TicketPolicy, type: :policy do
     it { is_expected.to permit_action(:destroy) }
   end
 end
-

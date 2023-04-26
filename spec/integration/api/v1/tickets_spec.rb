@@ -134,9 +134,12 @@ RSpec.describe "api/v1/tickets", type: :request do
       end
 
       response "422", "Error occurred during ticket destroy" do
+        let(:errors) { instance_double(ActiveModel::Errors, full_messages: ["Error message"]) }
+
         before do
-          allow_any_instance_of(Ticket).to receive(:destroy).and_return(false)
-          allow_any_instance_of(ActiveModel::Errors).to receive(:full_messages).and_return(["Error message"])
+          allow(Ticket).to receive(:find).and_return(ticket)
+          allow(ticket).to receive(:destroy).and_return(false)
+          allow(ticket).to receive(:errors).and_return(errors)
         end
 
         include_context "with integration test"

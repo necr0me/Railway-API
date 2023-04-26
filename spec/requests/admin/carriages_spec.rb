@@ -182,9 +182,12 @@ RSpec.describe "Admin::Carriages", type: :request do
     end
 
     context "when error occurs during destroy of carriage" do
+      let(:errors) { instance_double(ActiveModel::Errors, full_messages: ["Error message"]) }
+
       before do
-        allow_any_instance_of(Carriage).to receive(:destroy).and_return(false)
-        allow_any_instance_of(ActiveModel::Errors).to receive(:full_messages).and_return(["Error message"])
+        allow(Carriage).to receive(:find).and_return(carriage)
+        allow(carriage).to receive(:destroy).and_return(false)
+        allow(carriage).to receive(:errors).and_return(errors)
 
         delete "/admin/carriages/#{carriage.id}", headers: auth_header
       end
