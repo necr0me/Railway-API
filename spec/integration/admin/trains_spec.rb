@@ -180,7 +180,7 @@ RSpec.describe "admin/v1/trains", type: :request, swagger_doc: "admin/swagger.ya
     end
   end
 
-  path "/admin/trains/{train_id}/add_carriage" do
+  path "/admin/trains/{train_id}/carriages" do
     let(:train_id) { create(:train).id }
 
     post "Add concrete carriage to train. By necr0me" do
@@ -233,7 +233,7 @@ RSpec.describe "admin/v1/trains", type: :request, swagger_doc: "admin/swagger.ya
     end
   end
 
-  path "/admin/trains/{train_id}/remove_carriage/{carriage_id}" do
+  path "/admin/trains/{train_id}/carriages/{carriage_id}" do
     let(:train_id) { train.id }
     let(:carriage_id) { train.carriages.first.id }
 

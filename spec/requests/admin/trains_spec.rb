@@ -180,7 +180,7 @@ RSpec.describe "Admin::Trains", type: :request do
   describe "#add_carriage" do
     context "when user is unauthorized" do
       before do
-        post "/admin/trains/#{train.id}/add_carriage", params: {
+        post "/admin/trains/#{train.id}/carriages", params: {
           carriage_id: carriage.id
         }
       end
@@ -192,7 +192,7 @@ RSpec.describe "Admin::Trains", type: :request do
 
     context "when user is authorized but error occurs during service work" do
       before do
-        post "/admin/trains/#{train.id}/add_carriage",
+        post "/admin/trains/#{train.id}/carriages",
              params: {
                carriage_id: carriage_with_train.id
              },
@@ -208,7 +208,7 @@ RSpec.describe "Admin::Trains", type: :request do
 
     context "when user is authorized and no errors occurs during service work" do
       before do
-        post "/admin/trains/#{train.id}/add_carriage",
+        post "/admin/trains/#{train.id}/carriages",
              params: {
                carriage_id: carriage.id
              },
@@ -228,7 +228,7 @@ RSpec.describe "Admin::Trains", type: :request do
     context "when user is unauthorized" do
       before do
         carriage_id = train_with_carriages.carriages.first.id
-        delete "/admin/trains/#{train_with_carriages.id}/remove_carriage/#{carriage_id}"
+        delete "/admin/trains/#{train_with_carriages.id}/carriages/#{carriage_id}"
       end
 
       it "returns 401" do
@@ -239,7 +239,7 @@ RSpec.describe "Admin::Trains", type: :request do
     context "when user is authorized but error occurs during service work" do
       before do
         carriage_id = train_with_carriages.carriages.first.id
-        delete "/admin/trains/#{train.id}/remove_carriage/#{carriage_id}", headers: auth_header
+        delete "/admin/trains/#{train.id}/carriages/#{carriage_id}", headers: auth_header
       end
 
       it "returns 422 and error message" do
@@ -253,7 +253,7 @@ RSpec.describe "Admin::Trains", type: :request do
       let(:carriage_id) { train_with_carriages.carriages.first.id }
 
       before do
-        delete "/admin/trains/#{train_with_carriages.id}/remove_carriage/#{carriage_id}", headers: auth_header
+        delete "/admin/trains/#{train_with_carriages.id}/carriages/#{carriage_id}", headers: auth_header
       end
 
       it "returns 200 and removes carriage from train" do

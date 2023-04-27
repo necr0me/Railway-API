@@ -27,15 +27,15 @@ paths:
             application/json:
               carriage:
                 data:
-                  id: '14761'
+                  id: '15568'
                   type: carriage
                   attributes:
-                    name: Hades
+                    name: Artemis
                     capacity: 8
-                    carriage_type_id: 19006
-                    order_number: '04'
+                    carriage_type_id: 20013
+                    order_number: '16'
                     available: true
-                    type: Mort Tallity
+                    type: Kat Toy
                   relationships:
                     seats:
                       data: []
@@ -75,12 +75,12 @@ paths:
                     attributes:
                       name: 
                   trains:
-                  - id: 10343
+                  - id: 10882
                     attributes:
                       destination: 
-                      departs_at: '2023-04-26T15:56:19.657Z'
-                      arrives_at: '2023-04-26T16:16:19.666Z'
-                      travel_time: 1200.009266
+                      departs_at: '2023-04-27T10:35:34.281Z'
+                      arrives_at: '2023-04-27T10:55:34.290Z'
+                      travel_time: 1200.008547
   "/api/v1/profile":
     get:
       summary: Retrieves user profile. By necr0me
@@ -96,15 +96,15 @@ paths:
           examples:
             application/json:
               profile:
-                id: 1317
+                id: 1384
                 name: John
                 surname: Doe
                 patronymic: Doehovich
                 phone_number: "+375331234567"
                 passport_code: KH1234567
-                user_id: 25080
-                created_at: '2023-04-26T15:36:19.694Z'
-                updated_at: '2023-04-26T15:36:19.694Z'
+                user_id: 26447
+                created_at: '2023-04-27T10:15:34.317Z'
+                updated_at: '2023-04-27T10:15:34.317Z'
         '401':
           description: You are unauthorized
           examples:
@@ -161,15 +161,15 @@ paths:
           examples:
             application/json:
               profile:
-                id: 1318
+                id: 1385
                 name: John
                 surname: Doe
                 patronymic: Doehovich
                 phone_number: "+375331234567"
                 passport_code: KH1234567
-                user_id: 25081
-                created_at: '2023-04-26T15:36:19.712Z'
-                updated_at: '2023-04-26T15:36:19.712Z'
+                user_id: 26448
+                created_at: '2023-04-27T10:15:34.335Z'
+                updated_at: '2023-04-27T10:15:34.335Z'
         '401':
           description: You are unauthorized
           examples:
@@ -246,15 +246,15 @@ paths:
           examples:
             application/json:
               profile:
-                user_id: 25083
+                user_id: 26450
                 name: New name
                 surname: Doe
                 patronymic: Doehovich
                 phone_number: "+375331234567"
-                id: 1319
+                id: 1386
                 passport_code: KH1234567
-                created_at: '2023-04-26T15:36:19.740Z'
-                updated_at: '2023-04-26T15:36:19.745Z'
+                created_at: '2023-04-27T10:15:34.361Z'
+                updated_at: '2023-04-27T10:15:34.365Z'
         '401':
           description: You are unauthorized
           examples:
@@ -289,14 +289,14 @@ paths:
           examples:
             application/json:
               stations:
-              - id: 25894
+              - id: 27239
                 name: Mogilev
-                created_at: '2023-04-26T15:36:19.765Z'
-                updated_at: '2023-04-26T15:36:19.765Z'
-              - id: 25895
+                created_at: '2023-04-27T10:15:34.385Z'
+                updated_at: '2023-04-27T10:15:34.385Z'
+              - id: 27240
                 name: Mosty
-                created_at: '2023-04-26T15:36:19.767Z'
-                updated_at: '2023-04-26T15:36:19.767Z'
+                created_at: '2023-04-27T10:15:34.387Z'
+                updated_at: '2023-04-27T10:15:34.387Z'
               pages: 1
   "/api/v1/stations/{station_id}":
     get:
@@ -316,10 +316,10 @@ paths:
           description: Station was found
           examples:
             application/json:
-              id: 25897
+              id: 27242
               name: Melbourne
-              created_at: '2023-04-26T15:36:19.781Z'
-              updated_at: '2023-04-26T15:36:19.781Z'
+              created_at: '2023-04-27T10:15:34.401Z'
+              updated_at: '2023-04-27T10:15:34.401Z'
         '404':
           description: Station not found
           examples:
@@ -377,14 +377,14 @@ paths:
             application/json:
               message: Ticket successfully created
               ticket:
-                id: 2339
+                id: 2492
                 price: 10.0
-                user_id: 25085
-                seat_id: 48655
-                arrival_station_id: 25899
-                departure_station_id: 25898
-                created_at: '2023-04-26T15:36:19.812Z'
-                updated_at: '2023-04-26T15:36:19.812Z'
+                user_id: 26452
+                seat_id: 51282
+                arrival_station_id: 27244
+                departure_station_id: 27243
+                created_at: '2023-04-27T10:15:34.431Z'
+                updated_at: '2023-04-27T10:15:34.431Z'
         '401':
           description: You are unauthorized
           examples:
@@ -421,14 +421,14 @@ paths:
           examples:
             application/json:
               ticket:
-                id: 2340
+                id: 2493
                 price: 1.5
-                user_id: 25088
-                seat_id: 48658
-                arrival_station_id: 25904
-                departure_station_id: 25904
-                created_at: '2023-04-26T15:36:19.869Z'
-                updated_at: '2023-04-26T15:36:19.869Z'
+                user_id: 26455
+                seat_id: 51285
+                arrival_station_id: 27249
+                departure_station_id: 27249
+                created_at: '2023-04-27T10:15:34.486Z'
+                updated_at: '2023-04-27T10:15:34.486Z'
         '401':
           description: You are unauthorized
           examples:
@@ -512,107 +512,107 @@ paths:
             application/json:
               train:
                 data:
-                  id: '10344'
+                  id: '10883'
                   type: train
                   attributes:
                     destination: No destination
                   relationships:
                     carriages:
                       data:
-                      - id: '14773'
+                      - id: '15580'
                         type: carriage
-                      - id: '14774'
+                      - id: '15581'
                         type: carriage
-                      - id: '14775'
+                      - id: '15582'
                         type: carriage
                     stops:
                       data: []
                     route:
                       data: 
                 included:
-                - id: '14773'
+                - id: '15580'
                   type: carriage
                   attributes:
-                    name: Athena
+                    name: Hestia
                     capacity: 8
-                    carriage_type_id: 19018
+                    carriage_type_id: 20025
                     order_number: '01'
                     available: false
-                    type: Milly Meter
+                    type: Chi Spurger
                   relationships:
                     seats:
                       data:
-                      - id: '48665'
+                      - id: '51292'
                         type: seat
-                      - id: '48666'
+                      - id: '51293'
                         type: seat
-                      - id: '48667'
+                      - id: '51294'
                         type: seat
-                      - id: '48668'
+                      - id: '51295'
                         type: seat
-                      - id: '48669'
+                      - id: '51296'
                         type: seat
-                      - id: '48670'
+                      - id: '51297'
                         type: seat
-                      - id: '48671'
+                      - id: '51298'
                         type: seat
-                      - id: '48672'
+                      - id: '51299'
                         type: seat
-                - id: '14774'
+                - id: '15581'
                   type: carriage
                   attributes:
-                    name: Ares
+                    name: Apollo
                     capacity: 8
-                    carriage_type_id: 19019
+                    carriage_type_id: 20026
                     order_number: '02'
                     available: false
-                    type: Justin Case
+                    type: Louise E. Anna
                   relationships:
                     seats:
                       data:
-                      - id: '48673'
+                      - id: '51300'
                         type: seat
-                      - id: '48674'
+                      - id: '51301'
                         type: seat
-                      - id: '48675'
+                      - id: '51302'
                         type: seat
-                      - id: '48676'
+                      - id: '51303'
                         type: seat
-                      - id: '48677'
+                      - id: '51304'
                         type: seat
-                      - id: '48678'
+                      - id: '51305'
                         type: seat
-                      - id: '48679'
+                      - id: '51306'
                         type: seat
-                      - id: '48680'
+                      - id: '51307'
                         type: seat
-                - id: '14775'
+                - id: '15582'
                   type: carriage
                   attributes:
                     name: Ares
                     capacity: 8
-                    carriage_type_id: 19020
+                    carriage_type_id: 20027
                     order_number: '03'
                     available: false
-                    type: Rosa Shore
+                    type: Ginger Rayl
                   relationships:
                     seats:
                       data:
-                      - id: '48681'
+                      - id: '51308'
                         type: seat
-                      - id: '48682'
+                      - id: '51309'
                         type: seat
-                      - id: '48683'
+                      - id: '51310'
                         type: seat
-                      - id: '48684'
+                      - id: '51311'
                         type: seat
-                      - id: '48685'
+                      - id: '51312'
                         type: seat
-                      - id: '48686'
+                      - id: '51313'
                         type: seat
-                      - id: '48687'
+                      - id: '51314'
                         type: seat
-                      - id: '48688'
+                      - id: '51315'
                         type: seat
         '401':
           description: You are unauthorized
@@ -652,11 +652,11 @@ paths:
           examples:
             application/json:
               user:
-                id: 25102
+                id: 26469
                 email: johndoe@gmail.com
-                password_digest: "$2a$04$yDtw6UN4pXWwNpFqsFNXs.bC/W3piKekABrfe0zmAgQ4LgxFPvC.6"
-                created_at: '2023-04-26T15:36:20.268Z'
-                updated_at: '2023-04-26T15:36:20.268Z'
+                password_digest: "$2a$04$zS9nh1UlJ4.hE3txwqKtpuIjNUPQ.6eXLaqGJSt2DuSU.1GgZvvAm"
+                created_at: '2023-04-27T10:15:34.873Z'
+                updated_at: '2023-04-27T10:15:34.873Z'
                 role: admin
         '401':
           description: You are unauthorized
@@ -856,7 +856,7 @@ paths:
           examples:
             application/json:
               message: You have successfully logged in
-              access_token: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyNTExOCwiZXhwIjoxNjgyNTI1MTgwLCJpYXQiOjE2ODI1MjMzODB9.dVwnOR9Gl1SfsyZ16qsWgx4-iTABUxw8Yr8-_3j9jyA
+              access_token: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyNjQ4NSwiZXhwIjoxNjgyNTkyMzM1LCJpYXQiOjE2ODI1OTA1MzV9.vnRoOwujmqrMH2ln5eC5BBQj14NmmwD1mbQIaU1NXCw
         '400':
           description: Error occurred during authentication
           examples:
@@ -877,7 +877,7 @@ paths:
           description: Tokens successfully updated
           examples:
             application/json:
-              access_token: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyNTEyMCwiZXhwIjoxNjgyNTI1MTgwLCJpYXQiOjE2ODI1MjMzODB9.Qy7O3BHtjU5sz8PPq5RAODldFRrTnUulNzAiP74Qls0
+              access_token: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyNjQ4NywiZXhwIjoxNjgyNTkyMzM1LCJpYXQiOjE2ODI1OTA1MzV9.uZfL4Gx7w6BYY67WddT54hLH2jJhAqwUyoi0wQituH8
         '401':
           description: Error occurred during tokens update
           examples:

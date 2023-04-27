@@ -116,7 +116,7 @@ RSpec.describe "admin/routes", type: :request, swagger_doc: "admin/swagger.yaml"
     end
   end
 
-  path "/admin/routes/{route_id}/add_station" do
+  path "/admin/routes/{route_id}/stations" do
     let(:route_id) { route.id }
 
     post "Add existing station to existing route. By necr0me" do
@@ -167,7 +167,7 @@ RSpec.describe "admin/routes", type: :request, swagger_doc: "admin/swagger.yaml"
     end
   end
 
-  path "/admin/routes/{route_id}/remove_station/{station_id}" do
+  path "/admin/routes/{route_id}/stations/{station_id}" do
     let(:route_id) { route.id }
     let(:station) { route.stations.first }
     let(:station_id) { station.id }

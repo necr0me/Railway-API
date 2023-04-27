@@ -14,8 +14,8 @@ Rails.application.routes.draw do
     resources :routes, only: %i[index]
     resources :routes, only: %i[show create destroy], param: :route_id
     resources :routes, only: [] do
-      post 'add_station', to: 'routes#add_station'
-      delete 'remove_station/:station_id', to: 'routes#remove_station'
+      post 'stations', to: 'routes#add_station'
+      delete 'stations/:station_id', to: 'routes#remove_station'
     end
 
     resources :carriage_types, only: %i[index create update destroy]
@@ -24,8 +24,8 @@ Rails.application.routes.draw do
 
     resources :trains, param: :train_id
     resources :trains, only: [] do
-      post 'add_carriage', to: 'trains#add_carriage'
-      delete 'remove_carriage/:carriage_id', to: 'trains#remove_carriage'
+      post 'carriages', to: 'trains#add_carriage'
+      delete 'carriages/:carriage_id', to: 'trains#remove_carriage'
     end
 
     resources :passing_trains, only: %i[create update destroy]

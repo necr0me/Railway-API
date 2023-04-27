@@ -125,7 +125,7 @@ RSpec.describe "Admin::Routes", type: :request do
   describe "#add_station" do
     context "when user is unauthorized" do
       before do
-        post "/admin/routes/#{empty_route.id}/add_station", params: {
+        post "/admin/routes/#{empty_route.id}/stations", params: {
           station_id: station.id
         }
       end
@@ -137,7 +137,7 @@ RSpec.describe "Admin::Routes", type: :request do
 
     context "when user is authorized and route does not exist" do
       before do
-        post "/admin/routes/0/add_station",
+        post "/admin/routes/0/stations",
              params: {
                station_id: station.id
              },
@@ -152,7 +152,7 @@ RSpec.describe "Admin::Routes", type: :request do
 
     context "when user is authorized and station does not exist" do
       before do
-        post "/admin/routes/#{empty_route.id}/add_station",
+        post "/admin/routes/#{empty_route.id}/stations",
              params: {
                station_id: 0
              },
@@ -167,7 +167,7 @@ RSpec.describe "Admin::Routes", type: :request do
 
     context "when user is authorized, route and station do exist" do
       before do
-        post "/admin/routes/#{empty_route.id}/add_station",
+        post "/admin/routes/#{empty_route.id}/stations",
              params: {
                station_id: station.id
              },
@@ -189,7 +189,7 @@ RSpec.describe "Admin::Routes", type: :request do
 
     context "when user is unauthorized" do
       before do
-        delete "/admin/routes/#{route.id}/remove_station/#{route.stations.first.id}"
+        delete "/admin/routes/#{route.id}/stations/#{route.stations.first.id}"
       end
 
       it "returns 401" do
@@ -199,7 +199,7 @@ RSpec.describe "Admin::Routes", type: :request do
 
     context "when user is authorized and route does not exist" do
       before do
-        delete "/admin/routes/0/remove_station/#{route.stations.first.id}", headers: auth_header
+        delete "/admin/routes/0/stations/#{route.stations.first.id}", headers: auth_header
       end
 
       it "returns 404 and contains error message" do
@@ -210,7 +210,7 @@ RSpec.describe "Admin::Routes", type: :request do
 
     context "when user is authorized and station does not exist" do
       before do
-        delete "/admin/routes/#{route.id}/remove_station/0", headers: auth_header
+        delete "/admin/routes/#{route.id}/stations/0", headers: auth_header
       end
 
       it "returns 422 and contains error message" do
@@ -221,7 +221,7 @@ RSpec.describe "Admin::Routes", type: :request do
 
     context "when user is authorized, route and station do exist" do
       before do
-        delete "/admin/routes/#{route.id}/remove_station/#{route.stations.first.id}", headers: auth_header
+        delete "/admin/routes/#{route.id}/stations/#{route.stations.first.id}", headers: auth_header
       end
 
       it "returns 200, removed station and removes stations from route" do
