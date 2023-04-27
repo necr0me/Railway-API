@@ -1,14 +1,12 @@
 class User < ApplicationRecord
-  before_create :set_default_role!
+  before_create :set_default_role
+  before_save :downcase_email
 
   has_one :refresh_token, dependent: :destroy
-  has_one :profile, dependent: :destroy
+  has_many :profiles, dependent: :delete_all
 
-  VALID_EMAIL_REGEX = /\A[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9.-]+\z/i
-
-  # TODO: email downcase?
   validates :email, presence: true, uniqueness: true,
-                    format: VALID_EMAIL_REGEX, length: { maximum: 64 }
+                    format: URI::MailTo::EMAIL_REGEXP, length: { maximum: 64 }
   validates :password, presence: true,
                        length: { minimum: 7, maximum: 64 }
 
@@ -18,7 +16,11 @@ class User < ApplicationRecord
 
   private
 
-  def set_default_role!
+  def set_default_role
     self.role ||= :user
+  end
+
+  def downcase_email
+    email.downcase!
   end
 end
