@@ -36,7 +36,8 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :users, only: %i[show update]
-      resource :profile, only: %i[show create update]
+
+      resources :profiles, only: %i[index create update destroy]
 
       resources :stations, only: %i[index show]
 
