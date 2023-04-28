@@ -1,19 +1,18 @@
 module Api
   module V1
     class TicketsController < ApplicationController
-      before_action :find_ticket, only: %i[show destroy]
+      before_action :find_ticket, only: %i[destroy]
       before_action :authorize!, :authorize_ticket
 
-      def show
-        render json: { ticket: @ticket }, # TODO: implement serializer
+      def index
+        render json: { tickets: current_user.tickets },
                status: :ok
       end
 
       def create
-        result = Tickets::CreatorService.call(ticket_params: ticket_params)
+        result = Tickets::CreatorService.call(tickets_params: tickets_params)
         if result.success?
-          render json: { message: "Ticket successfully created",
-                         ticket: result.data },
+          render json: { message: "Tickets successfully created" },
                  status: :created
         else
           render json: { message: "Something went wrong",
@@ -35,12 +34,12 @@ module Api
 
       private
 
-      def ticket_params
-        params.require(:ticket).permit(:price,
-                                       :user_id,
-                                       :seat_id,
-                                       :departure_station_id,
-                                       :arrival_station_id)
+      def tickets_params
+        params.require(:tickets).permit(:departure_station_id,
+                                        :arrival_station_id,
+                                        passengers: %i[seat_id
+                                                       profile_id
+                                                       price])
       end
 
       def authorize_ticket

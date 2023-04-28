@@ -1,6 +1,6 @@
 class TicketPolicy < ApplicationPolicy
-  def show?
-    owned_by_user?
+  def index?
+    user.present?
   end
 
   def create?
@@ -9,5 +9,11 @@ class TicketPolicy < ApplicationPolicy
 
   def destroy?
     owned_by_user?
+  end
+
+  private
+
+  def owned_by_user?
+    user&.id == record&.profile&.user_id
   end
 end

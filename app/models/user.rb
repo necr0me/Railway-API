@@ -3,7 +3,7 @@ class User < ApplicationRecord
   before_save :downcase_email
 
   has_one :refresh_token, dependent: :destroy
-  has_many :profiles, dependent: :delete_all
+  has_many :profiles, dependent: :destroy
 
   validates :email, presence: true, uniqueness: true,
                     format: URI::MailTo::EMAIL_REGEXP, length: { maximum: 64 }
@@ -13,6 +13,10 @@ class User < ApplicationRecord
   has_secure_password
 
   enum role: { user: 0, moderator: 1, admin: 2 }
+
+  def tickets
+    profiles.collect(&:tickets).flatten
+  end
 
   private
 

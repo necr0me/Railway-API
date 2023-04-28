@@ -1,6 +1,7 @@
 RSpec.describe "Admin::Tickets", type: :request do
-  let(:user) { create(:user, role: :admin) }
-  let(:ticket) { create(:ticket, user: user) }
+  let(:user) { create(:user, :user_with_profile, role: :admin) }
+  let(:profile) { user.profiles.first }
+  let(:ticket) { create(:ticket, profile: profile) }
 
   describe "#destroy" do
     context "when user is unauthorized" do

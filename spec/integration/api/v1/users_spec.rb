@@ -1,7 +1,7 @@
 require "swagger_helper"
 
 RSpec.describe "api/v1/users", type: :request do
-  let(:user) { create(:user, role: :admin) }
+  let(:user) { create(:user) }
   let(:Authorization) { "Bearer #{access_token}" }
 
   path "/api/v1/users/{user_id}" do

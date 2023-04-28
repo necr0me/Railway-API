@@ -27,15 +27,15 @@ paths:
             application/json:
               carriage:
                 data:
-                  id: '16597'
+                  id: '3354'
                   type: carriage
                   attributes:
-                    name: Demeter
+                    name: Athena
                     capacity: 8
-                    carriage_type_id: 21292
-                    order_number: '28'
+                    carriage_type_id: 4096
+                    order_number: '31'
                     available: true
-                    type: Lake Speed
+                    type: Sarah Bellum
                   relationships:
                     seats:
                       data: []
@@ -75,12 +75,12 @@ paths:
                     attributes:
                       name: 
                   trains:
-                  - id: 11525
+                  - id: 1984
                     attributes:
                       destination: 
-                      departs_at: '2023-04-27T13:47:03.405Z'
-                      arrives_at: '2023-04-27T14:07:03.414Z'
-                      travel_time: 1200.008661
+                      departs_at: '2023-04-28T12:06:06.234Z'
+                      arrives_at: '2023-04-28T12:26:06.244Z'
+                      travel_time: 1200.009775
   "/api/v1/profiles":
     get:
       summary: Retrieves user profiles. By necr0me
@@ -96,15 +96,15 @@ paths:
           examples:
             application/json:
               profiles:
-              - id: 1665
+              - id: 1477
                 name: John
                 surname: Doe
                 patronymic: Doehovich
                 phone_number: "+375331234567"
                 passport_code: KH1234567
-                user_id: 28384
-                created_at: '2023-04-27T13:27:03.440Z'
-                updated_at: '2023-04-27T13:27:03.440Z'
+                user_id: 5877
+                created_at: '2023-04-28T11:46:06.268Z'
+                updated_at: '2023-04-28T11:46:06.268Z'
         '401':
           description: You are unauthorized
           examples:
@@ -167,15 +167,15 @@ paths:
             application/json:
               message: Profile successfully created
               profile:
-                id: 1667
+                id: 1479
                 name: John
                 surname: Doe
                 patronymic: Doehovich
                 phone_number: "+375331234567"
                 passport_code: KH1234567
-                user_id: 28386
-                created_at: '2023-04-27T13:27:03.469Z'
-                updated_at: '2023-04-27T13:27:03.469Z'
+                user_id: 5879
+                created_at: '2023-04-28T11:46:06.301Z'
+                updated_at: '2023-04-28T11:46:06.301Z'
         '401':
           description: You are unauthorized
           examples:
@@ -263,11 +263,11 @@ paths:
                 surname: Doe
                 patronymic: Doehovich
                 phone_number: "+375331234567"
-                id: 1668
+                id: 1480
                 passport_code: KH1234567
-                user_id: 28388
-                created_at: '2023-04-27T13:27:03.494Z'
-                updated_at: '2023-04-27T13:27:03.501Z'
+                user_id: 5881
+                created_at: '2023-04-28T11:46:06.329Z'
+                updated_at: '2023-04-28T11:46:06.337Z'
         '401':
           description: You are unauthorized
           examples:
@@ -340,14 +340,14 @@ paths:
           examples:
             application/json:
               stations:
-              - id: 28983
+              - id: 5392
                 name: Mogilev
-                created_at: '2023-04-27T13:27:03.579Z'
-                updated_at: '2023-04-27T13:27:03.579Z'
-              - id: 28984
+                created_at: '2023-04-28T11:46:06.440Z'
+                updated_at: '2023-04-28T11:46:06.440Z'
+              - id: 5393
                 name: Mosty
-                created_at: '2023-04-27T13:27:03.581Z'
-                updated_at: '2023-04-27T13:27:03.581Z'
+                created_at: '2023-04-28T11:46:06.443Z'
+                updated_at: '2023-04-28T11:46:06.443Z'
               pages: 1
   "/api/v1/stations/{station_id}":
     get:
@@ -367,119 +367,46 @@ paths:
           description: Station was found
           examples:
             application/json:
-              id: 28986
+              id: 5395
               name: Melbourne
-              created_at: '2023-04-27T13:27:03.594Z'
-              updated_at: '2023-04-27T13:27:03.594Z'
+              created_at: '2023-04-28T11:46:06.458Z'
+              updated_at: '2023-04-28T11:46:06.458Z'
         '404':
           description: Station not found
           examples:
             application/json:
               message: Couldn't find Station with 'id'=-1
   "/api/v1/tickets":
-    post:
-      summary: Creates new ticket. By necr0me
-      tags:
-      - Tickets
-      consumes:
-      - application/json
-      parameters:
-      - name: params
-        in: body
-        schema:
-          type: object
-          properties:
-            ticket:
-              type: object
-              properties:
-                user_id:
-                  type: integer
-                seat_id:
-                  type: integer
-                departure_station_id:
-                  type: integer
-                arrival_station_id:
-                  type: integer
-                price:
-                  type: number
-                  format: float
-              required:
-              - user_id
-              - seat_id
-              - departure_station_id
-              - arrival_station_id
-              - price
-              example:
-                user_id: 1
-                seat_id: 1
-                departure_station_id: 1
-                arrival_station_id: 2
-                price: 10.0
-            required:
-            - ticket
-      produces:
-      - application/json
-      security:
-      - Bearer: {}
-      responses:
-        '201':
-          description: Ticket successfully created
-          examples:
-            application/json:
-              message: Ticket successfully created
-              ticket:
-                id: 2684
-                price: 10.0
-                user_id: 28396
-                seat_id: 54520
-                arrival_station_id: 28988
-                departure_station_id: 28987
-                created_at: '2023-04-27T13:27:03.625Z'
-                updated_at: '2023-04-27T13:27:03.625Z'
-        '401':
-          description: You are unauthorized
-          examples:
-            application/json:
-              message: You're not logged in
-              errors:
-              - Nil JSON web token
-        '422':
-          description: Error occurred during ticket create
-          examples:
-            application/json:
-              message: Something went wrong
-              errors:
-              - Price can't be blank
-              - Price is not a number
-  "/api/v1/tickets/{ticket_id}":
     get:
-      summary: Gets concrete ticket. By necr0me
+      summary: Retrieves user's tickets. By necr0me
       tags:
       - Tickets
-      security:
-      - Bearer: {}
-      parameters:
-      - name: ticket_id
-        in: path
-        type: integer
-        required: true
-        description: Id of ticket that you want to find
       produces:
       - application/json
+      security:
+      - Bearer: {}
       responses:
         '200':
-          description: Ticket was found
+          description: Tickets found
           examples:
             application/json:
-              ticket:
-                id: 2685
+              tickets:
+              - id: 663
                 price: 1.5
-                user_id: 28399
-                seat_id: 54523
-                arrival_station_id: 28993
-                departure_station_id: 28993
-                created_at: '2023-04-27T13:27:03.682Z'
-                updated_at: '2023-04-27T13:27:03.682Z'
+                seat_id: 9810
+                arrival_station_id: 5396
+                departure_station_id: 5396
+                created_at: '2023-04-28T11:46:06.490Z'
+                updated_at: '2023-04-28T11:46:06.490Z'
+                profile_id: 1487
+              - id: 664
+                price: 1.5
+                seat_id: 9810
+                arrival_station_id: 5396
+                departure_station_id: 5396
+                created_at: '2023-04-28T11:46:06.495Z'
+                updated_at: '2023-04-28T11:46:06.495Z'
+                profile_id: 1487
         '401':
           description: You are unauthorized
           examples:
@@ -492,11 +419,87 @@ paths:
           examples:
             application/json:
               message: You are not allowed to do this action
-        '404':
-          description: Ticket not found
+    post:
+      summary: Creates new tickets. By necr0me
+      tags:
+      - Tickets
+      consumes:
+      - application/json
+      parameters:
+      - name: params
+        in: body
+        schema:
+          type: object
+          properties:
+            tickets:
+              type: object
+              properties:
+                departure_station_id:
+                  type: integer
+                arrival_station_id:
+                  type: integer
+                passengers:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      profile_id:
+                        type: integer
+                      seat_id:
+                        type: integer
+                      price:
+                        type: number
+                        format: float
+                    required:
+                    - profile_id
+                    - seat_id
+                    - price
+              required:
+              - departure_station_id
+              - arrival_station_id
+              - passengers
+              example:
+                departure_station_id: 1
+                arrival_station_id: 2
+                passengers:
+                - profile_id: 1
+                  seat_id: 1
+                  price: 10.0
+                - profile_id: 2
+                  seat_id: 2
+                  price: 10.0
+          required:
+          - tickets
+      produces:
+      - application/json
+      security:
+      - Bearer: {}
+      responses:
+        '201':
+          description: Tickets successfully created
           examples:
             application/json:
-              message: Couldn't find Ticket with 'id'=-1
+              message: Tickets successfully created
+        '401':
+          description: You are unauthorized
+          examples:
+            application/json:
+              message: You're not logged in
+              errors:
+              - Nil JSON web token
+        '403':
+          description: You are forbidden to perform this action
+          examples:
+            application/json:
+              message: You are not allowed to do this action
+        '422':
+          description: Error occurred during tickets create
+          examples:
+            application/json:
+              message: Something went wrong
+              errors:
+              - 'Validation failed: Price can''t be blank, Price is not a number'
+  "/api/v1/tickets/{ticket_id}":
     delete:
       summary: Deletes concrete ticket. By necr0me
       tags:
@@ -563,107 +566,107 @@ paths:
             application/json:
               train:
                 data:
-                  id: '11526'
+                  id: '1985'
                   type: train
                   attributes:
                     destination: No destination
                   relationships:
                     carriages:
                       data:
-                      - id: '16609'
+                      - id: '3371'
                         type: carriage
-                      - id: '16610'
+                      - id: '3372'
                         type: carriage
-                      - id: '16611'
+                      - id: '3373'
                         type: carriage
                     stops:
                       data: []
                     route:
                       data: 
                 included:
-                - id: '16609'
+                - id: '3371'
                   type: carriage
                   attributes:
-                    name: Apollo
+                    name: Zeus
                     capacity: 8
-                    carriage_type_id: 21304
+                    carriage_type_id: 4113
                     order_number: '01'
                     available: false
-                    type: Crystal Ball
+                    type: Chip Munk
                   relationships:
                     seats:
                       data:
-                      - id: '54530'
+                      - id: '9825'
                         type: seat
-                      - id: '54531'
+                      - id: '9826'
                         type: seat
-                      - id: '54532'
+                      - id: '9827'
                         type: seat
-                      - id: '54533'
+                      - id: '9828'
                         type: seat
-                      - id: '54534'
+                      - id: '9829'
                         type: seat
-                      - id: '54535'
+                      - id: '9830'
                         type: seat
-                      - id: '54536'
+                      - id: '9831'
                         type: seat
-                      - id: '54537'
+                      - id: '9832'
                         type: seat
-                - id: '16610'
+                - id: '3372'
                   type: carriage
                   attributes:
-                    name: Hestia
+                    name: Hades
                     capacity: 8
-                    carriage_type_id: 21305
+                    carriage_type_id: 4114
                     order_number: '02'
                     available: false
-                    type: Kenny Dewitt
+                    type: Anne Teak
                   relationships:
                     seats:
                       data:
-                      - id: '54538'
+                      - id: '9833'
                         type: seat
-                      - id: '54539'
+                      - id: '9834'
                         type: seat
-                      - id: '54540'
+                      - id: '9835'
                         type: seat
-                      - id: '54541'
+                      - id: '9836'
                         type: seat
-                      - id: '54542'
+                      - id: '9837'
                         type: seat
-                      - id: '54543'
+                      - id: '9838'
                         type: seat
-                      - id: '54544'
+                      - id: '9839'
                         type: seat
-                      - id: '54545'
+                      - id: '9840'
                         type: seat
-                - id: '16611'
+                - id: '3373'
                   type: carriage
                   attributes:
-                    name: Aphrodite
+                    name: Artemis
                     capacity: 8
-                    carriage_type_id: 21306
+                    carriage_type_id: 4115
                     order_number: '03'
                     available: false
-                    type: Justin Thyme
+                    type: Homan Provement
                   relationships:
                     seats:
                       data:
-                      - id: '54546'
+                      - id: '9841'
                         type: seat
-                      - id: '54547'
+                      - id: '9842'
                         type: seat
-                      - id: '54548'
+                      - id: '9843'
                         type: seat
-                      - id: '54549'
+                      - id: '9844'
                         type: seat
-                      - id: '54550'
+                      - id: '9845'
                         type: seat
-                      - id: '54551'
+                      - id: '9846'
                         type: seat
-                      - id: '54552'
+                      - id: '9847'
                         type: seat
-                      - id: '54553'
+                      - id: '9848'
                         type: seat
         '401':
           description: You are unauthorized
@@ -703,12 +706,12 @@ paths:
           examples:
             application/json:
               user:
-                id: 28413
+                id: 5905
                 email: johndoe@gmail.com
-                password_digest: "$2a$04$Zyh8caenTMs7zhiGoz.Wc..dbbfd2i0LqM5rYyLPL36KikdaxR6WW"
-                created_at: '2023-04-27T13:27:04.066Z'
-                updated_at: '2023-04-27T13:27:04.066Z'
-                role: admin
+                password_digest: "$2a$04$HViKU.ICup96nwjKSKs/gORc0L3F/Y.JTVeRr946iNRkQDzgEBy8C"
+                created_at: '2023-04-28T11:46:07.083Z'
+                updated_at: '2023-04-28T11:46:07.083Z'
+                role: user
         '401':
           description: You are unauthorized
           examples:
@@ -906,7 +909,7 @@ paths:
           examples:
             application/json:
               message: You have successfully logged in
-              access_token: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyODQyOSwiZXhwIjoxNjgyNjAzODI0LCJpYXQiOjE2ODI2MDIwMjR9.RFBS75X7MvowDLuK40n_CGgilFFqd9mYgta7Pc8cFec
+              access_token: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo1OTIxLCJleHAiOjE2ODI2ODQxNjcsImlhdCI6MTY4MjY4MjM2N30.eUlb_QeF89p4JrZ_I8f9bD8aLhdG4SuIs6ybS6GS3bQ
         '400':
           description: Error occurred during authentication
           examples:
@@ -927,7 +930,7 @@ paths:
           description: Tokens successfully updated
           examples:
             application/json:
-              access_token: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyODQzMSwiZXhwIjoxNjgyNjAzODI0LCJpYXQiOjE2ODI2MDIwMjR9.tJC8l5tmhCxvEIoOO4KbbwefvfhZ3LeEYEXfy3HLd5I
+              access_token: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo1OTIzLCJleHAiOjE2ODI2ODQxNjcsImlhdCI6MTY4MjY4MjM2N30.0VaEd_0Cok4o22ZjbuAWA97mFPxCMCeKDqC8yXQ_wTs
         '401':
           description: Error occurred during tokens update
           examples:

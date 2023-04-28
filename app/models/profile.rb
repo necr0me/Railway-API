@@ -1,7 +1,8 @@
 class Profile < ApplicationRecord
-  belongs_to :user
-
   before_save :upcase_passport_code
+
+  belongs_to :user
+  has_many :tickets, dependent: :destroy
 
   VALID_PASSPORT_CODE_REGEX = /[A-Za-zА-Яа-я]{2}\d{7}/i
 

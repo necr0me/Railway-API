@@ -4,7 +4,9 @@ RSpec.describe "admin/tickets", type: :request, swagger_doc: "admin/swagger.yaml
   let(:user) { create(:user, role: :admin) }
   let(:Authorization) { "Bearer #{access_token}" }
 
-  let(:ticket) { create(:ticket, user: create(:user, email: "m@m.m")) }
+  let(:other_user) { create(:user, email: "m@m.m") }
+  let(:profile) { create(:profile, user: user) }
+  let(:ticket) { create(:ticket, profile: profile) }
 
   path "/admin/tickets/{ticket_id}" do
     let(:ticket_id) { ticket.id }

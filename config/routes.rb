@@ -47,7 +47,7 @@ Rails.application.routes.draw do
 
       resources :passing_trains, only: %i[index]
 
-      resources :tickets, only: %i[show create destroy]
+      resources :tickets, only: %i[index create destroy]
     end
   end
 

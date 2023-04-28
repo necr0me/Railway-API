@@ -130,4 +130,22 @@ RSpec.describe User, type: :model do
       end
     end
   end
+
+  describe "additional methods" do
+    describe "#tickets" do
+      let(:user) { create(:user) }
+
+      let(:profile) { create(:profile, user: user) }
+      let(:other_profile) { create(:profile, passport_code: "KH#{'1' * 7}", phone_number: "2" * 7) }
+
+      before do
+        create(:ticket, profile: profile)
+        create(:ticket, profile: other_profile)
+      end
+
+      it "returns tickets of all user profiles" do
+        expect(user.tickets.pluck(:id)).to eq(user.profiles.collect(&:tickets).flatten.pluck(:id))
+      end
+    end
+  end
 end

@@ -4,7 +4,7 @@ module Api
       before_action :authorize!, :find_user, :authorize_user
 
       def show
-        render json: { user: @user },
+        render json: { user: @user }, # TODO: implement serializer
                status: :ok
       end
 
