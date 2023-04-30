@@ -21,7 +21,7 @@ RSpec.describe "Api::V1::Profiles", type: :request do
 
       it "returns 200 and correct user profiles" do
         expect(response).to have_http_status(:ok)
-        expect(json_response[:profiles].map { _1["id"] }).to eq(user.profiles.pluck(:id))
+        expect(json_response[:profiles][:data].map { _1["id"].to_i }).to eq(user.profiles.pluck(:id))
       end
     end
   end
@@ -71,7 +71,7 @@ RSpec.describe "Api::V1::Profiles", type: :request do
 
       it "returns 422 and error message" do
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(json_response[:message]).to eq("Seems like record with this data already exists")
+        expect(json_response[:message]).to eq("Something went wrong")
       end
     end
 

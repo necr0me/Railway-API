@@ -6,7 +6,7 @@ module Api
       before_action :authorize_profile
 
       def index
-        render json: { profiles: current_user.profiles },
+        render json: { profiles: ProfileSerializer.new(current_user.profiles) },
                status: :ok
       end
 
@@ -14,7 +14,7 @@ module Api
         profile = current_user.profiles.create(profile_params)
         if profile.persisted?
           render json: { message: "Profile successfully created",
-                         profile: profile },
+                         profile: ProfileSerializer.new(profile) },
                  status: :created
         else
           render json: { message: "Something went wrong",
@@ -26,7 +26,7 @@ module Api
       def update
         if @profile.update(profile_params)
           render json: { message: "Profile successfully updated",
-                         profile: @profile },
+                         profile: ProfileSerializer.new(@profile) },
                  status: :ok
         else
           render json: { message: "Something went wrong",
