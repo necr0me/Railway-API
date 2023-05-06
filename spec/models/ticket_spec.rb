@@ -1,8 +1,8 @@
 RSpec.describe Ticket, type: :model do
   describe "associations" do
-    describe "user" do
+    describe "profile" do
       it "belongs to user" do
-        expect(described_class.reflect_on_association(:user).macro).to eq(:belongs_to)
+        expect(described_class.reflect_on_association(:profile).macro).to eq(:belongs_to)
       end
     end
 

@@ -7,8 +7,24 @@ class UserPolicy < ApplicationPolicy
     owned?
   end
 
-  def update?
-    owned?
+  def activate?
+    true
+  end
+
+  def reset_email?
+    user.present?
+  end
+
+  def update_email?
+    user.present?
+  end
+
+  def reset_password?
+    true
+  end
+
+  def update_password?
+    true
   end
 
   def destroy?

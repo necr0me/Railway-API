@@ -8,6 +8,20 @@ RSpec.describe Profile, type: :model do
         expect(described_class.reflect_on_association(:user).macro).to eq(:belongs_to)
       end
     end
+
+    describe "tickets" do
+      let(:profile) { create(:profile, :profile_with_ticket) }
+
+      it "has_many tickets" do
+        expect(described_class.reflect_on_association(:tickets).macro).to eq(:has_many)
+      end
+
+      it "destroys tickets" do
+        expect(Ticket.where(profile_id: profile.id).size).to eq(1)
+        profile.destroy
+        expect(Ticket.where(profile_id: profile.id).size).to eq(0)
+      end
+    end
   end
 
   describe "auto_strip_attributes" do

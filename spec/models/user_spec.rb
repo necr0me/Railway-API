@@ -17,7 +17,7 @@ RSpec.describe User, type: :model do
           user.email = "mail"
           expect(user).not_to be_valid
 
-          user.email = "m@m"
+          user.email = "m@"
           expect(user).not_to be_valid
         end
       end
@@ -84,15 +84,67 @@ RSpec.describe User, type: :model do
       end
     end
 
-    describe "profile" do
-      it "user has one profile" do
-        expect(described_class.reflect_on_association(:profile).macro).to eq(:has_one)
+    describe "profiles" do
+      it "user has many profiles" do
+        expect(described_class.reflect_on_association(:profiles).macro).to eq(:has_many)
       end
 
       it "destroys with user" do
         user_id = user_with_profile.id
         user_with_profile.destroy
         expect(Profile.find_by(user_id: user_id)).to be_nil
+      end
+    end
+
+    describe "before_create" do
+      describe "#set_default_role" do
+        context "when role is not defined" do
+          let(:user) { build(:user) }
+
+          it "sets role to :user" do
+            user.save
+            expect(user.role).to eq("user")
+          end
+        end
+
+        context "when role is defined" do
+          let(:user) { build(:user, role: :admin) }
+
+          it "sets role to :user" do
+            user.save
+            expect(user.role).not_to eq("user")
+          end
+        end
+      end
+    end
+
+    describe "before_save" do
+      describe "#downcase_email" do
+        let(:user) { build(:user, email: "JOHNDOE@GMAIL.Com") }
+
+        it "downcasing email" do
+          expect(user.email).not_to eq(user.email.downcase)
+          user.save
+          expect(user.email).to eq(user.email.downcase)
+        end
+      end
+    end
+  end
+
+  describe "additional methods" do
+    describe "#tickets" do
+      let(:user) { create(:user) }
+
+      let(:profile) { create(:profile, user: user) }
+      let(:other_profile) { create(:profile, passport_code: "KH#{'1' * 7}", phone_number: "2" * 7) }
+
+      before do
+        create(:ticket, profile: profile)
+        create(:ticket, profile: other_profile)
+      end
+
+      it "returns tickets of all user profiles" do
+        expect(user.tickets.pluck(:id)).to eq(user.profiles.collect(&:tickets).flatten.pluck(:id))
       end
     end
   end

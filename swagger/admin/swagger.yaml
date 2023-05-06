@@ -21,29 +21,29 @@ paths:
             application/json:
               carriage_types:
                 data:
-                - id: '19937'
+                - id: '4020'
                   type: carriage_type
                   attributes:
-                    name: Jed I. Knight
-                    description: Boyer-Cartwright
+                    name: Constance Noring
+                    description: Emmerich, Langworth and Ferry
                     capacity: 8
                   relationships:
                     carriages:
                       data: []
-                - id: '19938'
+                - id: '4021'
                   type: carriage_type
                   attributes:
-                    name: Hammond Eggs
-                    description: Ernser, Dooley and King
+                    name: Gil T. Azell
+                    description: Bins-Dietrich
                     capacity: 8
                   relationships:
                     carriages:
                       data: []
-                - id: '19939'
+                - id: '4022'
                   type: carriage_type
                   attributes:
-                    name: Mike Czech
-                    description: Greenholt-Abshire
+                    name: Evans Gayte
+                    description: Maggio-Skiles
                     capacity: 8
                   relationships:
                     carriages:
@@ -103,11 +103,11 @@ paths:
               message: Carriage type successfully created
               carriage_type:
                 data:
-                  id: '19940'
+                  id: '4023'
                   type: carriage_type
                   attributes:
-                    name: Al Fresco
-                    description: Greenfelder Group
+                    name: Phil Rupp
+                    description: Wintheiser-Bergstrom
                     capacity: 8
                   relationships:
                     carriages:
@@ -182,7 +182,7 @@ paths:
               message: Carriage type successfully updated
               carriage_type:
                 data:
-                  id: '19941'
+                  id: '4024'
                   type: carriage_type
                   attributes:
                     name: New name
@@ -273,27 +273,27 @@ paths:
             application/json:
               carriages:
                 data:
-                - id: '15510'
+                - id: '3296'
                   type: carriage
                   attributes:
-                    name: Hermes
+                    name: Zeus
                     capacity: 8
-                    carriage_type_id: 19952
-                    order_number: '08'
+                    carriage_type_id: 4035
+                    order_number: '10'
                     available: true
-                    type: Dusty Rhodes
+                    type: Tate Urtots
                   relationships:
                     seats:
                       data: []
-                - id: '15509'
+                - id: '3295'
                   type: carriage
                   attributes:
-                    name: Artemis
+                    name: Ares
                     capacity: 8
-                    carriage_type_id: 19951
-                    order_number: '17'
+                    carriage_type_id: 4034
+                    order_number: '11'
                     available: true
-                    type: Bea Minor
+                    type: Louise E. Anna
                   relationships:
                     seats:
                       data: []
@@ -349,14 +349,14 @@ paths:
               message: Carriage was successfully created
               carriage:
                 data:
-                  id: '15511'
+                  id: '3297'
                   type: carriage
                   attributes:
-                    name: Dionysus
+                    name: Aphrodite
                     capacity: 8
-                    carriage_type_id: 19953
+                    carriage_type_id: 4036
                     available: true
-                    type: Elle O'Quent
+                    type: Jasmine Flowers
                   relationships:
                     seats:
                       data: []
@@ -427,15 +427,15 @@ paths:
               message: Carriage name was successfully updated
               carriage:
                 data:
-                  id: '15512'
+                  id: '3298'
                   type: carriage
                   attributes:
                     name: New name
                     capacity: 8
-                    carriage_type_id: 19957
-                    order_number: '18'
+                    carriage_type_id: 4040
+                    order_number: '14'
                     available: true
-                    type: Rocky Shore
+                    type: Joy Kil
                   relationships:
                     seats:
                       data: []
@@ -540,8 +540,8 @@ paths:
               - station_id
               - train_id
               example:
-                arrival_time: '2023-04-27T13:15:30+03:00'
-                departure_time: '2023-04-27T13:35:30+03:00'
+                arrival_time: '2023-04-28T14:46:02+03:00'
+                departure_time: '2023-04-28T15:06:02+03:00'
                 way_number: 1
                 station_id: 1
                 train_id: 1
@@ -559,21 +559,21 @@ paths:
               message: Train stop successfully created
               passing_train:
                 data:
-                  id: '8426'
+                  id: '1547'
                   type: passing_train
                   attributes:
                     name: Melbourne
-                    arrival_time: '2023-04-27T10:15:31.631Z'
-                    departure_time: '2023-04-27T10:35:31.631Z'
+                    arrival_time: '2023-04-28T11:46:03.645Z'
+                    departure_time: '2023-04-28T12:06:03.645Z'
                     way_number: 1
                   relationships:
                     station:
                       data:
-                        id: '27157'
+                        id: '5310'
                         type: station
                     train:
                       data:
-                        id: '10849'
+                        id: '1951'
                         type: train
         '401':
           description: You are unauthorized
@@ -634,8 +634,8 @@ paths:
               - station_id
               - train_id
               example:
-                arrival_time: '2023-04-27T13:15:30+03:00'
-                departure_time: '2023-04-27T13:35:30+03:00'
+                arrival_time: '2023-04-28T14:46:02+03:00'
+                departure_time: '2023-04-28T15:06:02+03:00'
                 way_number: 1
                 station_id: 1
                 train_id: 1
@@ -653,21 +653,21 @@ paths:
               message: Train stop successfully updated
               passing_train:
                 data:
-                  id: '8427'
+                  id: '1548'
                   type: passing_train
                   attributes:
                     name: Melbourne
-                    arrival_time: '2023-04-27T10:20:31.702Z'
-                    departure_time: '2023-04-27T10:35:31.702Z'
+                    arrival_time: '2023-04-28T11:51:03.716Z'
+                    departure_time: '2023-04-28T12:06:03.716Z'
                     way_number: 1
                   relationships:
                     station:
                       data:
-                        id: '27160'
+                        id: '5313'
                         type: station
                     train:
                       data:
-                        id: '10852'
+                        id: '1954'
                         type: train
         '401':
           description: You are unauthorized
@@ -754,7 +754,7 @@ paths:
               message: Route was created
               route:
                 data:
-                  id: '6940'
+                  id: '1102'
                   type: route
                   attributes:
                     destination: No destination
@@ -802,29 +802,29 @@ paths:
             application/json:
               route:
                 data:
-                  id: '6942'
+                  id: '1104'
                   type: route
                   attributes:
                     destination: No destination
                   relationships:
                     stations:
                       data:
-                      - id: '27172'
+                      - id: '5325'
                         type: station
-                      - id: '27173'
+                      - id: '5326'
                         type: station
-                      - id: '27174'
+                      - id: '5327'
                         type: station
                 included:
-                - id: '27172'
+                - id: '5325'
                   type: station
                   attributes:
                     name: Mogilev
-                - id: '27173'
+                - id: '5326'
                   type: station
                   attributes:
                     name: Mosty
-                - id: '27174'
+                - id: '5327'
                   type: station
                   attributes:
                     name: Minsk
@@ -917,7 +917,7 @@ paths:
               message: Station was successfully added to route
               station:
                 data:
-                  id: '27193'
+                  id: '5346'
                   type: station
                   attributes:
                     name: Melbourne
@@ -973,7 +973,7 @@ paths:
               message: Station was successfully removed from route
               station:
                 data:
-                  id: '27206'
+                  id: '5359'
                   type: station
                   attributes:
                     name: Mogilev
@@ -1023,14 +1023,14 @@ paths:
           examples:
             application/json:
               stations:
-              - id: 27222
+              - id: 5375
                 name: Mogilev
-                created_at: '2023-04-27T10:15:32.688Z'
-                updated_at: '2023-04-27T10:15:32.688Z'
-              - id: 27223
+                created_at: '2023-04-28T11:46:04.607Z'
+                updated_at: '2023-04-28T11:46:04.607Z'
+              - id: 5376
                 name: Mosty
-                created_at: '2023-04-27T10:15:32.690Z'
-                updated_at: '2023-04-27T10:15:32.690Z'
+                created_at: '2023-04-28T11:46:04.609Z'
+                updated_at: '2023-04-28T11:46:04.609Z'
               pages: 1
     post:
       summary: Create a new station. By necr0me
@@ -1065,10 +1065,10 @@ paths:
           examples:
             application/json:
               station:
-                id: 27225
+                id: 5378
                 name: Melbourne
-                created_at: '2023-04-27T10:15:32.714Z'
-                updated_at: '2023-04-27T10:15:32.714Z'
+                created_at: '2023-04-28T11:46:04.633Z'
+                updated_at: '2023-04-28T11:46:04.633Z'
         '401':
           description: You are unauthorized
           examples:
@@ -1129,9 +1129,9 @@ paths:
             application/json:
               station:
                 name: New name
-                id: 27226
-                created_at: '2023-04-27T10:15:32.738Z'
-                updated_at: '2023-04-27T10:15:32.746Z'
+                id: 5379
+                created_at: '2023-04-28T11:46:04.658Z'
+                updated_at: '2023-04-28T11:46:04.666Z'
         '401':
           description: You are unauthorized
           examples:
@@ -1265,7 +1265,7 @@ paths:
             application/json:
               trains:
                 data:
-                - id: '10861'
+                - id: '1963'
                   type: train
                   attributes:
                     destination: No destination
@@ -1276,7 +1276,7 @@ paths:
                       data: []
                     route:
                       data: 
-                - id: '10862'
+                - id: '1964'
                   type: train
                   attributes:
                     destination: No destination
@@ -1335,7 +1335,7 @@ paths:
               message: Train was successfully created
               train:
                 data:
-                  id: '10863'
+                  id: '1965'
                   type: train
                   attributes:
                     destination: No destination
@@ -1346,7 +1346,7 @@ paths:
                       data: []
                     route:
                       data:
-                        id: '6957'
+                        id: '1119'
                         type: route
         '401':
           description: You are unauthorized
@@ -1405,10 +1405,10 @@ paths:
             application/json:
               message: Train was successfully updated
               train:
-                route_id: 6960
-                id: 10865
-                created_at: '2023-04-27T10:15:33.004Z'
-                updated_at: '2023-04-27T10:15:33.078Z'
+                route_id: 1122
+                id: 1967
+                created_at: '2023-04-28T11:46:04.940Z'
+                updated_at: '2023-04-28T11:46:05.016Z'
         '401':
           description: You are unauthorized
           examples:
@@ -1508,33 +1508,33 @@ paths:
               message: Carriage was successfully added to train
               carriage:
                 data:
-                  id: '15548'
+                  id: '3334'
                   type: carriage
                   attributes:
-                    name: Hades
+                    name: Artemis
                     capacity: 8
-                    carriage_type_id: 19993
+                    carriage_type_id: 4076
                     order_number: '01'
                     available: false
-                    type: Colleen Cardd
+                    type: Sue Flay
                   relationships:
                     seats:
                       data:
-                      - id: '51154'
+                      - id: '9682'
                         type: seat
-                      - id: '51155'
+                      - id: '9683'
                         type: seat
-                      - id: '51156'
+                      - id: '9684'
                         type: seat
-                      - id: '51157'
+                      - id: '9685'
                         type: seat
-                      - id: '51158'
+                      - id: '9686'
                         type: seat
-                      - id: '51159'
+                      - id: '9687'
                         type: seat
-                      - id: '51160'
+                      - id: '9688'
                         type: seat
-                      - id: '51161'
+                      - id: '9689'
                         type: seat
         '401':
           description: You are unauthorized
@@ -1588,14 +1588,14 @@ paths:
               message: Carriage was successfully removed from train
               carriage:
                 data:
-                  id: '15552'
+                  id: '3338'
                   type: carriage
                   attributes:
-                    name: Hephaestus
+                    name: Hestia
                     capacity: 8
-                    carriage_type_id: 19997
+                    carriage_type_id: 4080
                     available: true
-                    type: Justin Inch
+                    type: Sue Jeu
                   relationships:
                     seats:
                       data: []

@@ -1,7 +1,7 @@
 class Ticket < ApplicationRecord
   before_destroy { seat&.update(is_taken: false) }
 
-  belongs_to :user
+  belongs_to :profile
   belongs_to :seat
   belongs_to :departure_station, class_name: "Station"
   belongs_to :arrival_station, class_name: "Station"

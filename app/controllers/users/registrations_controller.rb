@@ -4,12 +4,12 @@ module Users
     before_action :authorize_user
 
     def create
-      user = User.create(user_params)
-      if user.persisted?
-        render json: { message: "You have successfully registered" },
+      result = Users::CreatorService.call(user_params: user_params)
+      if result.success?
+        render json: { message: "You have successfully registered. Check your email to activate your account." },
                status: :created
       else
-        render json: { errors: user.errors },
+        render json: { errors: result.error },
                status: :unprocessable_entity
       end
     end
@@ -27,7 +27,7 @@ module Users
     private
 
     def user_params
-      params.require(:user).permit(:email, :password)
+      params.require(:user).permit(:unconfirmed_email, :password)
     end
 
     def find_user

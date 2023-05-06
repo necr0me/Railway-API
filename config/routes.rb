@@ -35,8 +35,17 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      resources :users, only: %i[show update]
-      resource :profile, only: %i[show create update]
+      resource :users, only: %i[show] do
+        post "activate"
+
+        post "reset_email"
+        patch "update_email"
+
+        post "reset_password"
+        patch "update_password"
+      end
+
+      resources :profiles, only: %i[index create update destroy]
 
       resources :stations, only: %i[index show]
 
@@ -46,7 +55,7 @@ Rails.application.routes.draw do
 
       resources :passing_trains, only: %i[index]
 
-      resources :tickets, only: %i[show create destroy]
+      resources :tickets, only: %i[index create destroy]
     end
   end
 
