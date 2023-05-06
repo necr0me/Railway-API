@@ -1,0 +1,7 @@
+Hi, <%= @user.email %>
+
+If you want to reset your email, click on this link: http://localhost:5173/account/email/update/<%= @user.reset_email_token %>
+
+Email reset link is valid 4 hours.
+
+If you didn't requested for email reset - ignore this message.
