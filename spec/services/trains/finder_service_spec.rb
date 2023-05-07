@@ -190,7 +190,7 @@ RSpec.describe Trains::FinderService do
 
     it "collects ids of trains, that arrival time on next < departure time from previous station" do
       service.send(:set_stations!)
-      arrival_station_trains = arrival_station.passing_trains
+      arrival_station_trains = arrival_station.train_stops
       passing_trains = TrainStop.where(station_id: departure_station.id).where(
         train_id: arrival_station_trains.pluck(:train_id)
       )
@@ -233,7 +233,7 @@ RSpec.describe Trains::FinderService do
         arrival_station = service.send(:arrival_station)
 
         expect(pair_func).to be_a(Proc)
-        expect(pair_func.call(stop)).to eq([stop, arrival_station.passing_trains.find_by(train_id: stop.train_id)])
+        expect(pair_func.call(stop)).to eq([stop, arrival_station.train_stops.find_by(train_id: stop.train_id)])
       end
     end
 

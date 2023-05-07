@@ -7,12 +7,12 @@ RSpec.describe Tickets::CreatorService do
   let(:seat) { create(:seat) }
   let(:other_seat) { create(:seat) }
 
-  let(:station) { create(:station) }
+  let(:train_stop) { create(:train_stop) }
   let(:price) { 1 }
 
   let(:tickets_params) do
-    { departure_station_id: station.id,
-      arrival_station_id: station.id,
+    { departure_stop_id: train_stop.id,
+      arrival_stop_id: train_stop.id,
       passengers: [
         {
           profile_id: profile.id,

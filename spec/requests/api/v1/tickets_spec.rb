@@ -34,13 +34,13 @@ RSpec.describe "Api::V1::Tickets", type: :request do
 
     let(:other_profile) { create(:profile, passport_code: "KH#{'2' * 7}", phone_number: "3" * 7) }
 
-    let(:station) { create(:station) }
+    let(:train_stop) { create(:train_stop) }
     let(:price) { 1 }
 
     let(:tickets_params) do
       {
-        departure_station_id: station.id,
-        arrival_station_id: station.id,
+        departure_stop_id: train_stop.id,
+        arrival_stop_id: train_stop.id,
         passengers: [
           {
             profile_id: profile.id,

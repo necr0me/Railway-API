@@ -39,7 +39,7 @@ RSpec.describe Station, type: :model do
 
     describe "trains" do
       it "has many trains" do
-        expect(described_class.reflect_on_association(:trains).macro).to eq(:has_many)
+        expect(described_class.reflect_on_association(:train_stops).macro).to eq(:has_many)
       end
     end
   end

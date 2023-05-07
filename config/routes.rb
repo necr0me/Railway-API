@@ -28,7 +28,7 @@ Rails.application.routes.draw do
       delete 'carriages/:carriage_id', to: 'trains#remove_carriage'
     end
 
-    resources :passing_trains, only: %i[create update destroy]
+    resources :train_stops, only: %i[create update destroy]
 
     resources :tickets, only: %i[destroy]
   end
@@ -53,7 +53,7 @@ Rails.application.routes.draw do
 
       resources :trains, param: :train_id, only: %i[show]
 
-      resources :passing_trains, only: %i[index]
+      resources :train_stops, only: %i[index]
 
       resources :tickets, only: %i[index create destroy]
     end

@@ -5,10 +5,8 @@ RSpec.describe TicketSerializer do
 
   describe "associations" do
     it "includes arrival and departure stations, seat, their ids are correct" do
-      expect(result[:relationships]).to include(*%i[arrival_station departure_station seat])
+      expect(result[:relationships]).to include(*%i[seat])
 
-      expect(result[:relationships][:arrival_station][:data][:id]).to eq(ticket.arrival_station_id.to_s)
-      expect(result[:relationships][:departure_station][:data][:id]).to eq(ticket.departure_station_id.to_s)
       expect(result[:relationships][:seat][:data][:id]).to eq(ticket.seat_id.to_s)
     end
   end
@@ -18,7 +16,9 @@ RSpec.describe TicketSerializer do
       expect(result[:type]).to eq(:ticket)
       expect(result[:id]).to eq(ticket.id.to_s)
 
-      expect(result[:attributes]).to eq({ price: ticket.price })
+      expect(result[:attributes]).to eq({ price: ticket.price,
+                                          arrival_time: ticket.arrival_time,
+                                          departure_time: ticket.departure_time })
     end
   end
 end

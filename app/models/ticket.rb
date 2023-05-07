@@ -7,4 +7,7 @@ class Ticket < ApplicationRecord
   belongs_to :arrival_point, foreign_key: :arrival_stop_id, class_name: "TrainStop", inverse_of: false
 
   validates :price, presence: true, numericality: { only_float: true, greater_than: 0 }
+
+  delegate :arrival_time, to: :arrival_point
+  delegate :departure_time, to: :departure_point
 end

@@ -35,8 +35,8 @@ module Api
       private
 
       def tickets_params
-        params.require(:tickets).permit(:departure_station_id,
-                                        :arrival_station_id,
+        params.require(:tickets).permit(:departure_stop_id,
+                                        :arrival_stop_id,
                                         passengers: %i[seat_id
                                                        profile_id
                                                        price])

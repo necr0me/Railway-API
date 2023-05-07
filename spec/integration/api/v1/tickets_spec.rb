@@ -82,8 +82,8 @@ RSpec.describe "api/v1/tickets", type: :request do
       produces "application/json"
       security [Bearer: {}]
 
-      let(:departure_station) { create(:station) }
-      let(:arrival_station) { create(:station, name: "Sydney") }
+      let(:departure_stop) { create(:train_stop) }
+      let(:arrival_stop) { create(:train_stop, station: create(:station, name: "Sydney")) }
 
       let(:other_profile) { create(:profile, passport_code: "KH#{'1' * 7}", phone_number: "4" * 7) }
 
@@ -95,8 +95,8 @@ RSpec.describe "api/v1/tickets", type: :request do
         {
           tickets:
           {
-            departure_station_id: departure_station.id,
-            arrival_station_id: arrival_station.id,
+            departure_stop_id: departure_stop.id,
+            arrival_stop_id: arrival_stop.id,
             passengers: [
               {
                 profile_id: profile.id,

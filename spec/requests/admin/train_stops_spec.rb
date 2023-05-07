@@ -1,17 +1,17 @@
-RSpec.describe "Admin::PassingTrains", type: :request do
+RSpec.describe "Admin::TrainStops", type: :request do
   let(:user) { create(:user, role: :admin) }
 
   let(:station) { create(:station) }
   let(:train) { create(:train) }
 
-  let(:passing_train) { create(:passing_train) }
+  let(:train_stop) { create(:train_stop) }
 
   describe "#create" do
     context "when user is unauthorized" do
       before do
-        post "/admin/passing_trains",
+        post "/admin/train_stops",
              params: {
-               passing_train: {
+               train_stop: {
                  way_number: 1
                }
              }
@@ -24,10 +24,10 @@ RSpec.describe "Admin::PassingTrains", type: :request do
 
     context "when user is authorized but params are invalid" do
       before do
-        post "/admin/passing_trains",
+        post "/admin/train_stops",
              headers: auth_header,
              params: {
-               passing_train: attributes_for(:passing_train)
+               train_stop: attributes_for(:train_stop)
              }
       end
 
@@ -40,10 +40,10 @@ RSpec.describe "Admin::PassingTrains", type: :request do
 
     context "when user is authorized and params are valid" do
       before do
-        post "/admin/passing_trains",
+        post "/admin/train_stops",
              headers: auth_header,
              params: {
-               passing_train: {
+               train_stop: {
                  arrival_time: DateTime.now,
                  departure_time: DateTime.now + 20.minutes,
                  way_number: 1,
@@ -55,7 +55,7 @@ RSpec.describe "Admin::PassingTrains", type: :request do
 
       it "returns 201 and created passing train entity" do
         expect(response).to have_http_status(:created)
-        expect(json_response[:passing_train][:data][:id].to_i).to eq(TrainStop.last.id)
+        expect(json_response[:train_stop][:data][:id].to_i).to eq(TrainStop.last.id)
       end
     end
   end
@@ -63,9 +63,9 @@ RSpec.describe "Admin::PassingTrains", type: :request do
   describe "#update" do
     context "when user is unauthorized" do
       before do
-        patch "/admin/passing_trains/#{passing_train.id}",
+        patch "/admin/train_stops/#{train_stop.id}",
               params: {
-                passing_train: {
+                train_stop: {
                   departure_time: DateTime.now + 1.hour
                 }
               }
@@ -78,10 +78,10 @@ RSpec.describe "Admin::PassingTrains", type: :request do
 
     context "when user is authorized but params are invalid" do
       before do
-        patch "/admin/passing_trains/#{passing_train.id}",
+        patch "/admin/train_stops/#{train_stop.id}",
               headers: auth_header,
               params: {
-                passing_train: {
+                train_stop: {
                   departure_time: DateTime.now - 1.hour
                 }
               }
@@ -96,10 +96,10 @@ RSpec.describe "Admin::PassingTrains", type: :request do
 
     context "when user is authorized and params are valid" do
       before do
-        patch "/admin/passing_trains/#{passing_train.id}",
+        patch "/admin/train_stops/#{train_stop.id}",
               headers: auth_header,
               params: {
-                passing_train: {
+                train_stop: {
                   departure_time: DateTime.now + 1.hour
                 }
               }
@@ -107,7 +107,7 @@ RSpec.describe "Admin::PassingTrains", type: :request do
 
       it "returns 200 and updated passing train" do
         expect(response).to have_http_status(:ok)
-        expect(json_response[:passing_train][:data][:id].to_i).to eq(TrainStop.last.id)
+        expect(json_response[:train_stop][:data][:id].to_i).to eq(TrainStop.last.id)
       end
     end
   end
@@ -115,7 +115,7 @@ RSpec.describe "Admin::PassingTrains", type: :request do
   describe "#destroy" do
     context "when user is unauthorized" do
       before do
-        delete "/admin/passing_trains/#{passing_train.id}"
+        delete "/admin/train_stops/#{train_stop.id}"
       end
 
       it "returns 401" do
@@ -127,11 +127,11 @@ RSpec.describe "Admin::PassingTrains", type: :request do
       let(:errors) { instance_double(ActiveModel::Errors, full_messages: ["Error message"]) }
 
       before do
-        allow(TrainStop).to receive(:find).and_return(passing_train)
-        allow(passing_train).to receive(:destroy).and_return(false)
-        allow(passing_train).to receive(:errors).and_return(errors)
+        allow(TrainStop).to receive(:find).and_return(train_stop)
+        allow(train_stop).to receive(:destroy).and_return(false)
+        allow(train_stop).to receive(:errors).and_return(errors)
 
-        delete "/admin/passing_trains/#{passing_train.id}",
+        delete "/admin/train_stops/#{train_stop.id}",
                headers: auth_header
       end
 
@@ -144,14 +144,14 @@ RSpec.describe "Admin::PassingTrains", type: :request do
 
     context "when user is authorized and no error occurred during destroy" do
       before do
-        delete "/admin/passing_trains/#{passing_train.id}",
+        delete "/admin/train_stops/#{train_stop.id}",
                headers: auth_header
       end
 
       it "returns 200 and destroys passing train" do
         expect(response).to have_http_status(:ok)
 
-        expect { passing_train.reload }.to raise_error(ActiveRecord::RecordNotFound)
+        expect { train_stop.reload }.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
   end

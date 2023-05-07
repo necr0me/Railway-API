@@ -18,7 +18,7 @@ module Trains
 
     def set_stations!
       @departure_station = Station.find_by(name: departure_station)
-      @arrival_station = Station.preload(:passing_trains).find_by(name: arrival_station)
+      @arrival_station = Station.preload(:train_stops).find_by(name: arrival_station)
     end
 
     # TODO: should return pair of PassingTrains (DONE)
@@ -65,7 +65,7 @@ module Trains
 
     def pair_func
       if departure_station.present? && arrival_station.present?
-        proc { |stop| [stop, arrival_station.passing_trains.find_by(train_id: stop.train_id)] }
+        proc { |stop| [stop, arrival_station.train_stops.find_by(train_id: stop.train_id)] }
       elsif arrival_station.present?
         proc { |stop| [stop.train.stops.first, stop] }
       else
