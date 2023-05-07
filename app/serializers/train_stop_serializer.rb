@@ -1,4 +1,4 @@
-class PassingTrainSerializer
+class TrainStopSerializer
   include JSONAPI::Serializer
 
   belongs_to :station

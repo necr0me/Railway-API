@@ -26,7 +26,7 @@ RSpec.describe "Api::V1::PassingTrains", type: :request do
 
       it "returns 200 and list of passing train entities" do
         expect(response).to have_http_status(:ok)
-        expect(json_response[:found_trains][:data].size).to eq(PassingTrain.count)
+        expect(json_response[:found_trains][:data].size).to eq(TrainStop.count)
       end
     end
   end

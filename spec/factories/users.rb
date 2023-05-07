@@ -2,6 +2,13 @@ FactoryBot.define do
   factory :user do
     email { "johndoe@gmail.com" } # TODO: add faker UNIQUE EMAIL
     password { "password" }
+    activated { true }
+  end
+
+  factory :unactivated_user, class: "User" do
+    unconfirmed_email { "johndoe@gmail.com" }
+    password { "password" }
+    confirmation_token { "token" }
   end
 
   trait :user_with_refresh_token do

@@ -175,7 +175,7 @@ RSpec.describe "admin/passing_trains", type: :request, swagger_doc: "admin/swagg
         let(:errors) { instance_double(ActiveModel::Errors, full_messages: ["Error message"]) }
 
         before do
-          allow(PassingTrain).to receive(:find).and_return(passing_train)
+          allow(TrainStop).to receive(:find).and_return(passing_train)
           allow(passing_train).to receive(:destroy).and_return(false)
           allow(passing_train).to receive(:errors).and_return(errors)
         end

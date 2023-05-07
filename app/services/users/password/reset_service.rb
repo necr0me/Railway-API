@@ -29,7 +29,7 @@ module Users
 
       def update_user
         @user.reset_password_token = TokenGeneratorService.call.data
-        @user.reset_password_sent_at = Time.now.utc
+        @user.reset_password_sent_at = DateTime.now.utc
 
         @user.save
       end

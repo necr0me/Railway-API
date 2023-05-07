@@ -55,7 +55,7 @@ RSpec.describe "Admin::PassingTrains", type: :request do
 
       it "returns 201 and created passing train entity" do
         expect(response).to have_http_status(:created)
-        expect(json_response[:passing_train][:data][:id].to_i).to eq(PassingTrain.last.id)
+        expect(json_response[:passing_train][:data][:id].to_i).to eq(TrainStop.last.id)
       end
     end
   end
@@ -107,7 +107,7 @@ RSpec.describe "Admin::PassingTrains", type: :request do
 
       it "returns 200 and updated passing train" do
         expect(response).to have_http_status(:ok)
-        expect(json_response[:passing_train][:data][:id].to_i).to eq(PassingTrain.last.id)
+        expect(json_response[:passing_train][:data][:id].to_i).to eq(TrainStop.last.id)
       end
     end
   end
@@ -127,7 +127,7 @@ RSpec.describe "Admin::PassingTrains", type: :request do
       let(:errors) { instance_double(ActiveModel::Errors, full_messages: ["Error message"]) }
 
       before do
-        allow(PassingTrain).to receive(:find).and_return(passing_train)
+        allow(TrainStop).to receive(:find).and_return(passing_train)
         allow(passing_train).to receive(:destroy).and_return(false)
         allow(passing_train).to receive(:errors).and_return(errors)
 

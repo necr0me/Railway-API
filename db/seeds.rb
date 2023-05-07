@@ -14,4 +14,4 @@
 #                        Carriage (5-6)
 #                        Trains (3?)
 #                        Seats for carriages
-#                        PassingTrain (for each train on route)
+#                        TrainStop (for each train on route)

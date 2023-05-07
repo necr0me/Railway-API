@@ -1,6 +1,6 @@
-class PassingTrain < ApplicationRecord
+class TrainStop < ApplicationRecord
   belongs_to :train, inverse_of: :stops
-  belongs_to :station, inverse_of: :passing_trains
+  belongs_to :station, inverse_of: :train_stops
 
   # TODO: add validation of presence (optional)
   validate :arrival_cannot_be_later_than_departure

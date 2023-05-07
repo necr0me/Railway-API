@@ -1,8 +1,8 @@
-RSpec.describe Admin::PassingTrainPolicy, type: :policy do
+RSpec.describe Admin::TrainStopPolicy, type: :policy do
   subject { described_class.new(user, record) }
 
   let(:user) { nil }
-  let(:record) { create(:passing_train) }
+  let(:record) { create(:train_stop) }
 
   context "when user role is nil" do
     it { is_expected.to forbid_actions(%i[create update destroy]) }

@@ -22,8 +22,8 @@ module Tickets
           end
 
           Ticket.create!(**passenger,
-                         departure_station_id: tickets_params[:departure_station_id],
-                         arrival_station_id: tickets_params[:arrival_station_id])
+                         departure_stop_id: tickets_params[:departure_stop_id],
+                         arrival_stop_id: tickets_params[:arrival_stop_id])
 
           seat.update!(is_taken: true)
         end

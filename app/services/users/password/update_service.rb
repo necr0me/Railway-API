@@ -22,7 +22,7 @@ module Users
         @user = User.find_by(reset_password_token: token)
         return fail!(error: { reset_password_token: ["Token is invalid"] }) if @user.blank?
 
-        return fail!(error: { reset_password_token: ["Token has been expired"] }) if token_expired?
+        return fail!(error: { reset_password_token: ["Token has expired"] }) if token_expired?
 
         return fail!(error: { password: ["New password is the same as old one"] }) if @user.authenticate(password)
 

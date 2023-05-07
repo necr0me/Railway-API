@@ -120,12 +120,12 @@ RSpec.describe User, type: :model do
 
     describe "before_save" do
       describe "#downcase_email" do
-        let(:user) { build(:user, email: "JOHNDOE@GMAIL.Com") }
+        let(:user) { build(:user, unconfirmed_email: "JOHNDOE@GMAIL.Com") }
 
-        it "downcasing email" do
-          expect(user.email).not_to eq(user.email.downcase)
+        it "downcases email" do
+          expect(user.unconfirmed_email).not_to eq(user.unconfirmed_email.downcase)
           user.save
-          expect(user.email).to eq(user.email.downcase)
+          expect(user.unconfirmed_email).to eq(user.unconfirmed_email.downcase)
         end
       end
     end

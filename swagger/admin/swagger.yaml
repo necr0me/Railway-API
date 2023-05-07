@@ -685,7 +685,7 @@ paths:
           description: Passing train not found
           examples:
             application/json:
-              message: Couldn't find PassingTrain with 'id'=-1
+              message: Couldn't find TrainStop with 'id'=-1
         '422':
           description: Error occurred during passing train update
           examples:
@@ -729,7 +729,7 @@ paths:
           description: Passing train not found
           examples:
             application/json:
-              message: Couldn't find PassingTrain with 'id'=-1
+              message: Couldn't find TrainStop with 'id'=-1
         '422':
           description: Error occurred during passing train destroy
           examples:

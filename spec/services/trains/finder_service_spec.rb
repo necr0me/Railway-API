@@ -152,7 +152,7 @@ RSpec.describe Trains::FinderService do
 
       it "returns nothing" do
         service.send(:set_stations!)
-        query = service.send(:trains_between_stations, PassingTrain.joins(:station, :train))
+        query = service.send(:trains_between_stations, TrainStop.joins(:station, :train))
         result = query.pluck(:train_id)
 
         expect(result).to be_empty
@@ -165,7 +165,7 @@ RSpec.describe Trains::FinderService do
 
       it "returns Hrodna - Minsk and Mosty - Lida trains" do
         service.send(:set_stations!)
-        query = service.send(:trains_between_stations, PassingTrain.joins(:station, :train))
+        query = service.send(:trains_between_stations, TrainStop.joins(:station, :train))
         result = query.pluck(:train_id)
 
         expect(result).to include(train_mosty_lida.id, train_grodno_minsk.id)
@@ -191,7 +191,7 @@ RSpec.describe Trains::FinderService do
     it "collects ids of trains, that arrival time on next < departure time from previous station" do
       service.send(:set_stations!)
       arrival_station_trains = arrival_station.passing_trains
-      passing_trains = PassingTrain.where(station_id: departure_station.id).where(
+      passing_trains = TrainStop.where(station_id: departure_station.id).where(
         train_id: arrival_station_trains.pluck(:train_id)
       )
       result = service.send(:collect_train_ids, passing_trains, arrival_station_trains)
@@ -205,7 +205,7 @@ RSpec.describe Trains::FinderService do
     let(:arrival_station_name) { nil }
 
     it "returns hash that contains keys like :departure_station, :arrival_station and :passing_trains" do
-      result = service.send(:finalize_result, PassingTrain.all)
+      result = service.send(:finalize_result, TrainStop.all)
 
       expect(result).to be_a(Hash)
       expect(result.keys).to include(*%i[departure_station arrival_station passing_trains])

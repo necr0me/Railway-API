@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_01_203053) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_06_180944) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -31,18 +31,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_01_203053) do
     t.bigint "train_id"
     t.index ["carriage_type_id"], name: "index_carriages_on_carriage_type_id"
     t.index ["train_id"], name: "index_carriages_on_train_id"
-  end
-
-  create_table "passing_trains", force: :cascade do |t|
-    t.datetime "departure_time", null: false
-    t.datetime "arrival_time", null: false
-    t.integer "way_number", null: false
-    t.bigint "train_id"
-    t.bigint "station_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["station_id"], name: "index_passing_trains_on_station_id"
-    t.index ["train_id"], name: "index_passing_trains_on_train_id"
   end
 
   create_table "profiles", force: :cascade do |t|
@@ -103,11 +91,23 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_01_203053) do
   create_table "tickets", force: :cascade do |t|
     t.float "price"
     t.integer "seat_id", null: false
-    t.integer "arrival_station_id", null: false
-    t.integer "departure_station_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "profile_id", null: false
+    t.integer "arrival_stop_id", null: false
+    t.integer "departure_stop_id", null: false
+  end
+
+  create_table "train_stops", force: :cascade do |t|
+    t.datetime "departure_time", null: false
+    t.datetime "arrival_time", null: false
+    t.integer "way_number", null: false
+    t.bigint "train_id"
+    t.bigint "station_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["station_id"], name: "index_train_stops_on_station_id"
+    t.index ["train_id"], name: "index_train_stops_on_train_id"
   end
 
   create_table "trains", force: :cascade do |t|
@@ -139,8 +139,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_01_203053) do
 
   add_foreign_key "carriages", "carriage_types"
   add_foreign_key "carriages", "trains"
-  add_foreign_key "passing_trains", "stations"
-  add_foreign_key "passing_trains", "trains"
   add_foreign_key "profiles", "users"
   add_foreign_key "refresh_tokens", "users"
   add_foreign_key "seats", "carriages"
@@ -148,7 +146,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_01_203053) do
   add_foreign_key "station_order_numbers", "stations"
   add_foreign_key "tickets", "profiles"
   add_foreign_key "tickets", "seats"
-  add_foreign_key "tickets", "stations", column: "arrival_station_id"
-  add_foreign_key "tickets", "stations", column: "departure_station_id"
+  add_foreign_key "tickets", "train_stops", column: "arrival_stop_id"
+  add_foreign_key "tickets", "train_stops", column: "departure_stop_id"
+  add_foreign_key "train_stops", "stations"
+  add_foreign_key "train_stops", "trains"
   add_foreign_key "trains", "routes"
 end

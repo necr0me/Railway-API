@@ -24,7 +24,7 @@ module Trains
     # TODO: should return pair of PassingTrains (DONE)
     # think about queries performance
     def find_trains
-      query = PassingTrain.preload(:train, :station)
+      query = TrainStop.preload(:train, :station)
       query = query.send("arrives_#{day_option}", Time.at(date.to_i).to_datetime) unless date.nil?
 
       query = if departure_station.present? && arrival_station.present?

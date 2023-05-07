@@ -9,7 +9,7 @@ class UserMailer < ApplicationMailer
 
   def reset_email(user)
     @user = user
-    mail(to: user.unconfirmed_email, subject: "Email reset") do |format|
+    mail(to: user.email, subject: "Email reset") do |format|
       format.text(content_transfer_encoding: "7bit")
       format.html(content_transfer_encoding: "7bit")
     end

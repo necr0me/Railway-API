@@ -23,23 +23,11 @@ FactoryBot.define do
     end
   end
 
-  trait :station_with_passing_trains do
+  trait :station_with_train_stops do
     after :create do |station|
       3.times do
-        create(:passing_train, station_id: station.id)
+        create(:train_stop, station_id: station.id)
       end
-    end
-  end
-
-  trait :station_with_arrival_tickets do
-    after :create do |station|
-      create_list(:ticket, 2, arrival_station: station)
-    end
-  end
-
-  trait :station_with_departure_tickets do
-    after :create do |station|
-      create_list(:ticket, 2, departure_station: station)
     end
   end
 end

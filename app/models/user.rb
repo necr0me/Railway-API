@@ -8,7 +8,7 @@ class User < ApplicationRecord
   validates :email, uniqueness: true,
                     format: URI::MailTo::EMAIL_REGEXP, length: { maximum: 64 }, allow_nil: true
 
-  validates :unconfirmed_email, uniqueness: { message: "Email has already been taken"},
+  validates :unconfirmed_email, uniqueness: { message: "Email has already been taken" },
                                 format: URI::MailTo::EMAIL_REGEXP, length: { maximum: 64 }, allow_nil: true
   validate :unconfirmed_email_must_be_unique
 

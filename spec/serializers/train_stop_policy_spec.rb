@@ -1,5 +1,5 @@
-RSpec.describe PassingTrainSerializer do
-  let(:passing_train) { create(:passing_train) }
+RSpec.describe TrainStopPolicy do
+  let(:passing_train) { create(:train_stop) }
   let(:serializer) { described_class.new(passing_train) }
   let(:result) { serializer.serializable_hash[:data] }
 

@@ -1,7 +1,9 @@
 class CarriageSerializer
   include JSONAPI::Serializer
 
-  has_many :seats
+  belongs_to :train
+
+  has_many :seats, if: Proc.new { |_, params| params.nil? ? true : params[:include_seats] }
 
   attributes :name, :capacity, :carriage_type_id
 

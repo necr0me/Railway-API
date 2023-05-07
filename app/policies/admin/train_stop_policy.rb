@@ -1,5 +1,5 @@
 module Admin
-  class PassingTrainPolicy < AdminPolicy
+  class TrainStopPolicy < AdminPolicy
     def create?
       moderator_or_admin?
     end

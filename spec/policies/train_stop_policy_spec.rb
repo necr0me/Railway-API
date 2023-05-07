@@ -1,7 +1,7 @@
-RSpec.describe PassingTrainPolicy, type: :policy do
+RSpec.describe TrainStopPolicy, type: :policy do
   subject { described_class.new(user, record) }
 
-  let(:record) { create(:passing_train) }
+  let(:record) { create(:train_stop) }
 
   context "when user is nil" do
     let(:user) { nil }

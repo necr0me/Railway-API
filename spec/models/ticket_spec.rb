@@ -14,13 +14,13 @@ RSpec.describe Ticket, type: :model do
 
     describe "departure_station" do
       it "belongs to departure station" do
-        expect(described_class.reflect_on_association(:departure_station).macro).to eq(:belongs_to)
+        expect(described_class.reflect_on_association(:departure_point).macro).to eq(:belongs_to)
       end
     end
 
     describe "destination_station" do
       it "belongs to destination station" do
-        expect(described_class.reflect_on_association(:arrival_station).macro).to eq(:belongs_to)
+        expect(described_class.reflect_on_association(:arrival_point).macro).to eq(:belongs_to)
       end
     end
   end

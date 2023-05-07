@@ -1,7 +1,7 @@
 module Api
   module V1
-    class PassingTrainsController < ApplicationController
-      before_action :authorize_passing_train
+    class TrainStopsController < ApplicationController
+      before_action :authorize_train_stop
 
       def index
         result = Trains::FinderService.call(
@@ -21,8 +21,8 @@ module Api
 
       private
 
-      def authorize_passing_train
-        authorize(@passing_train || PassingTrain)
+      def authorize_train_stop
+        authorize(TrainStop)
       end
     end
   end
