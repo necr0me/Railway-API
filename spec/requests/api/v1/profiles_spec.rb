@@ -9,7 +9,7 @@ RSpec.describe "Api::V1::Profiles", type: :request do
         get "/api/v1/profiles"
       end
 
-      it "returns 401" do
+      it "returns UNAUTHORIZED" do
         expect(response).to have_http_status(:unauthorized)
       end
     end
@@ -19,7 +19,7 @@ RSpec.describe "Api::V1::Profiles", type: :request do
         get "/api/v1/profiles", headers: auth_header
       end
 
-      it "returns 200 and correct user profiles" do
+      it "returns OK and correct user profiles" do
         expect(response).to have_http_status(:ok)
         expect(json_response[:profiles][:data].map { _1["id"].to_i }).to eq(user.profiles.pluck(:id))
       end
@@ -34,7 +34,7 @@ RSpec.describe "Api::V1::Profiles", type: :request do
         }
       end
 
-      it "returns 401" do
+      it "returns UNAUTHORIZED" do
         expect(response).to have_http_status(:unauthorized)
       end
     end
@@ -54,7 +54,7 @@ RSpec.describe "Api::V1::Profiles", type: :request do
              headers: auth_header_for(user_without_profile)
       end
 
-      it "returns 422 and error messages" do
+      it "returns UNPROCESSABLE_ENTITY and error messages" do
         expect(response).to have_http_status(:unprocessable_entity)
         expect(json_response[:errors]).not_to be_nil
       end
@@ -69,7 +69,7 @@ RSpec.describe "Api::V1::Profiles", type: :request do
              headers: auth_header
       end
 
-      it "returns 422 and error message" do
+      it "returns UNPROCESSABLE_ENTITY and error message" do
         expect(response).to have_http_status(:unprocessable_entity)
         expect(json_response[:message]).to eq("Something went wrong")
       end
@@ -100,7 +100,7 @@ RSpec.describe "Api::V1::Profiles", type: :request do
         }
       end
 
-      it "returns 401" do
+      it "returns UNAUTHORIZED" do
         expect(response).to have_http_status(:unauthorized)
       end
     end
@@ -116,7 +116,7 @@ RSpec.describe "Api::V1::Profiles", type: :request do
               headers: auth_header
       end
 
-      it "returns 422 and error messages" do
+      it "returns UNPROCESSABLE_ENTITY and error messages" do
         expect(response).to have_http_status(:unprocessable_entity)
         expect(json_response[:errors]).not_to be_nil
         expect(json_response[:errors][:name]).to include(/is too short/)
@@ -135,7 +135,7 @@ RSpec.describe "Api::V1::Profiles", type: :request do
               headers: auth_header
       end
 
-      it "returns 200 and updates user profile" do
+      it "returns OK and updates user profile" do
         expect(response).to have_http_status(:ok)
         expect(user.profiles.last.name).to eq("Bogdan")
         expect(user.profiles.last.surname).to eq("Choma")
@@ -149,7 +149,7 @@ RSpec.describe "Api::V1::Profiles", type: :request do
         delete "/api/v1/profiles/#{profile.id}"
       end
 
-      it "returns 401" do
+      it "returns UNAUTHORIZED" do
         expect(response).to have_http_status(:unauthorized)
       end
     end
@@ -162,7 +162,7 @@ RSpec.describe "Api::V1::Profiles", type: :request do
         delete "/api/v1/profiles/#{profile.id}", headers: auth_header
       end
 
-      it "returns 422 and errors" do
+      it "returns UNPROCESSABLE_ENTITY and errors" do
         expect(response).to have_http_status(:unprocessable_entity)
         expect(json_response[:errors]).not_to be_nil
       end
@@ -173,7 +173,7 @@ RSpec.describe "Api::V1::Profiles", type: :request do
         delete "/api/v1/profiles/#{profile.id}", headers: auth_header
       end
 
-      it "returns 200 and destroys profile" do
+      it "returns OK and destroys profile" do
         expect(response).to have_http_status(:ok)
         expect { profile.reload }.to raise_error(ActiveRecord::RecordNotFound)
       end

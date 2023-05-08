@@ -11,12 +11,12 @@ RSpec.describe "users", type: :request do
           user: {
             type: :object,
             properties: {
-              email: { type: :string },
+              unconfirmed_email: { type: :string },
               password: { type: :string }
             },
-            required: %i[email password],
+            required: %i[unconfirmed_email password],
             example: {
-              email: "mail@gmail.com",
+              unconfirmed_email: "mail@gmail.com",
               password: "p4$$w0rD"
             }
           }
@@ -26,13 +26,13 @@ RSpec.describe "users", type: :request do
       produces "application/json"
 
       response "201", "User successfully created" do
-        let(:params) { { user: attributes_for(:user) } }
+        let(:params) { { user: attributes_for(:unactivated_user) } }
 
         include_context "with integration test"
       end
 
       response "422", "Error occurred during user registration" do
-        let(:params) { { user: { email: "", password: "" } } }
+        let(:params) { { user: { unconfirmed_email: "", password: "" } } }
 
         include_context "with integration test"
       end

@@ -33,7 +33,7 @@ RSpec.describe Authorization do
         get :action
       end
 
-      it "returns 401 and contains message that you are not logged in" do
+      it "returns UNAUTHORIZED and contains message that you are not logged in" do
         expect(response).to have_http_status(:unauthorized)
         expect(json_response[:message]).to eq("You're not logged in")
       end

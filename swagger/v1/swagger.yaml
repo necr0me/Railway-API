@@ -27,16 +27,18 @@ paths:
             application/json:
               carriage:
                 data:
-                  id: '3354'
+                  id: '4627'
                   type: carriage
                   attributes:
-                    name: Athena
+                    name: Apollo
                     capacity: 8
-                    carriage_type_id: 4096
-                    order_number: '31'
+                    carriage_type_id: 5734
+                    order_number: '10'
                     available: true
-                    type: Sarah Bellum
+                    type: Bob Katz
                   relationships:
+                    train:
+                      data: 
                     seats:
                       data: []
                 included: []
@@ -52,35 +54,6 @@ paths:
           examples:
             application/json:
               message: Couldn't find Carriage with 'id'=-1
-  api/v1/passing_trains:
-    get:
-      summary: Retrieves all passing trains. By necr0me
-      tags:
-      - Passing trains
-      produces:
-      - application/json
-      responses:
-        '200':
-          description: Passing trains found
-          examples:
-            application/json:
-              found_trains:
-                data:
-                  departure_station:
-                    id: ''
-                    attributes:
-                      name: 
-                  arrival_station:
-                    id: ''
-                    attributes:
-                      name: 
-                  trains:
-                  - id: 1984
-                    attributes:
-                      destination: 
-                      departs_at: '2023-04-28T12:06:06.234Z'
-                      arrives_at: '2023-04-28T12:26:06.244Z'
-                      travel_time: 1200.009775
   "/api/v1/profiles":
     get:
       summary: Retrieves user profiles. By necr0me
@@ -96,15 +69,15 @@ paths:
           examples:
             application/json:
               profiles:
-              - id: 1477
-                name: John
-                surname: Doe
-                patronymic: Doehovich
-                phone_number: "+375331234567"
-                passport_code: KH1234567
-                user_id: 5877
-                created_at: '2023-04-28T11:46:06.268Z'
-                updated_at: '2023-04-28T11:46:06.268Z'
+                data:
+                - id: '1848'
+                  type: profile
+                  attributes:
+                    name: John
+                    surname: Doe
+                    patronymic: Doehovich
+                    phone_number: "+375331234567"
+                    passport_code: KH1234567
         '401':
           description: You are unauthorized
           examples:
@@ -167,15 +140,15 @@ paths:
             application/json:
               message: Profile successfully created
               profile:
-                id: 1479
-                name: John
-                surname: Doe
-                patronymic: Doehovich
-                phone_number: "+375331234567"
-                passport_code: KH1234567
-                user_id: 5879
-                created_at: '2023-04-28T11:46:06.301Z'
-                updated_at: '2023-04-28T11:46:06.301Z'
+                data:
+                  id: '1850'
+                  type: profile
+                  attributes:
+                    name: John
+                    surname: Doe
+                    patronymic: Doehovich
+                    phone_number: "+375331234567"
+                    passport_code: KH1234567
         '401':
           description: You are unauthorized
           examples:
@@ -259,15 +232,15 @@ paths:
             application/json:
               message: Profile successfully updated
               profile:
-                name: New name
-                surname: Doe
-                patronymic: Doehovich
-                phone_number: "+375331234567"
-                id: 1480
-                passport_code: KH1234567
-                user_id: 5881
-                created_at: '2023-04-28T11:46:06.329Z'
-                updated_at: '2023-04-28T11:46:06.337Z'
+                data:
+                  id: '1851'
+                  type: profile
+                  attributes:
+                    name: New name
+                    surname: Doe
+                    patronymic: Doehovich
+                    phone_number: "+375331234567"
+                    passport_code: KH1234567
         '401':
           description: You are unauthorized
           examples:
@@ -340,14 +313,14 @@ paths:
           examples:
             application/json:
               stations:
-              - id: 5392
+              - id: 7953
                 name: Mogilev
-                created_at: '2023-04-28T11:46:06.440Z'
-                updated_at: '2023-04-28T11:46:06.440Z'
-              - id: 5393
+                created_at: '2023-05-08T11:11:25.556Z'
+                updated_at: '2023-05-08T11:11:25.556Z'
+              - id: 7954
                 name: Mosty
-                created_at: '2023-04-28T11:46:06.443Z'
-                updated_at: '2023-04-28T11:46:06.443Z'
+                created_at: '2023-05-08T11:11:25.559Z'
+                updated_at: '2023-05-08T11:11:25.559Z'
               pages: 1
   "/api/v1/stations/{station_id}":
     get:
@@ -367,10 +340,10 @@ paths:
           description: Station was found
           examples:
             application/json:
-              id: 5395
+              id: 7956
               name: Melbourne
-              created_at: '2023-04-28T11:46:06.458Z'
-              updated_at: '2023-04-28T11:46:06.458Z'
+              created_at: '2023-05-08T11:11:25.573Z'
+              updated_at: '2023-05-08T11:11:25.573Z'
         '404':
           description: Station not found
           examples:
@@ -391,22 +364,22 @@ paths:
           examples:
             application/json:
               tickets:
-              - id: 663
+              - id: 801
                 price: 1.5
-                seat_id: 9810
-                arrival_station_id: 5396
-                departure_station_id: 5396
-                created_at: '2023-04-28T11:46:06.490Z'
-                updated_at: '2023-04-28T11:46:06.490Z'
-                profile_id: 1487
-              - id: 664
+                seat_id: 13433
+                created_at: '2023-05-08T11:11:25.617Z'
+                updated_at: '2023-05-08T11:11:25.617Z'
+                profile_id: 1858
+                arrival_stop_id: 3661
+                departure_stop_id: 3661
+              - id: 802
                 price: 1.5
-                seat_id: 9810
-                arrival_station_id: 5396
-                departure_station_id: 5396
-                created_at: '2023-04-28T11:46:06.495Z'
-                updated_at: '2023-04-28T11:46:06.495Z'
-                profile_id: 1487
+                seat_id: 13433
+                created_at: '2023-05-08T11:11:25.621Z'
+                updated_at: '2023-05-08T11:11:25.621Z'
+                profile_id: 1858
+                arrival_stop_id: 3661
+                departure_stop_id: 3661
         '401':
           description: You are unauthorized
           examples:
@@ -544,6 +517,35 @@ paths:
               message: Something went wrong
               errors:
               - Error message
+  api/v1/train_stops:
+    get:
+      summary: Retrieves all passing trains. By necr0me
+      tags:
+      - Passing trains
+      produces:
+      - application/json
+      responses:
+        '200':
+          description: Passing trains found
+          examples:
+            application/json:
+              found_trains:
+                data:
+                  departure_station:
+                    id: ''
+                    attributes:
+                      name: 
+                  arrival_station:
+                    id: ''
+                    attributes:
+                      name: 
+                  trains:
+                  - id: 3802
+                    attributes:
+                      destination: 
+                      departs_at: '2023-05-08T11:31:26.053Z'
+                      arrives_at: '2023-05-08T11:51:26.063Z'
+                      travel_time: 1200.010412
   "/api/v1/trains/{train_id}":
     get:
       summary: Show concrete train. By necr0me
@@ -566,107 +568,119 @@ paths:
             application/json:
               train:
                 data:
-                  id: '1985'
+                  id: '3803'
                   type: train
                   attributes:
                     destination: No destination
                   relationships:
                     carriages:
                       data:
-                      - id: '3371'
+                      - id: '4644'
                         type: carriage
-                      - id: '3372'
+                      - id: '4645'
                         type: carriage
-                      - id: '3373'
+                      - id: '4646'
                         type: carriage
                     stops:
                       data: []
                     route:
                       data: 
                 included:
-                - id: '3371'
+                - id: '4644'
                   type: carriage
                   attributes:
-                    name: Zeus
+                    name: Apollo
                     capacity: 8
-                    carriage_type_id: 4113
+                    carriage_type_id: 5751
                     order_number: '01'
                     available: false
-                    type: Chip Munk
+                    type: Stan Dup
                   relationships:
+                    train:
+                      data:
+                        id: '3803'
+                        type: train
                     seats:
                       data:
-                      - id: '9825'
+                      - id: '13448'
                         type: seat
-                      - id: '9826'
+                      - id: '13449'
                         type: seat
-                      - id: '9827'
+                      - id: '13450'
                         type: seat
-                      - id: '9828'
+                      - id: '13451'
                         type: seat
-                      - id: '9829'
+                      - id: '13452'
                         type: seat
-                      - id: '9830'
+                      - id: '13453'
                         type: seat
-                      - id: '9831'
+                      - id: '13454'
                         type: seat
-                      - id: '9832'
+                      - id: '13455'
                         type: seat
-                - id: '3372'
+                - id: '4645'
                   type: carriage
                   attributes:
-                    name: Hades
+                    name: Hermes
                     capacity: 8
-                    carriage_type_id: 4114
+                    carriage_type_id: 5752
                     order_number: '02'
                     available: false
-                    type: Anne Teak
+                    type: Olive Yew
                   relationships:
+                    train:
+                      data:
+                        id: '3803'
+                        type: train
                     seats:
                       data:
-                      - id: '9833'
+                      - id: '13456'
                         type: seat
-                      - id: '9834'
+                      - id: '13457'
                         type: seat
-                      - id: '9835'
+                      - id: '13458'
                         type: seat
-                      - id: '9836'
+                      - id: '13459'
                         type: seat
-                      - id: '9837'
+                      - id: '13460'
                         type: seat
-                      - id: '9838'
+                      - id: '13461'
                         type: seat
-                      - id: '9839'
+                      - id: '13462'
                         type: seat
-                      - id: '9840'
+                      - id: '13463'
                         type: seat
-                - id: '3373'
+                - id: '4646'
                   type: carriage
                   attributes:
-                    name: Artemis
+                    name: Hera
                     capacity: 8
-                    carriage_type_id: 4115
+                    carriage_type_id: 5753
                     order_number: '03'
                     available: false
-                    type: Homan Provement
+                    type: Rusty Pipes
                   relationships:
+                    train:
+                      data:
+                        id: '3803'
+                        type: train
                     seats:
                       data:
-                      - id: '9841'
+                      - id: '13464'
                         type: seat
-                      - id: '9842'
+                      - id: '13465'
                         type: seat
-                      - id: '9843'
+                      - id: '13466'
                         type: seat
-                      - id: '9844'
+                      - id: '13467'
                         type: seat
-                      - id: '9845'
+                      - id: '13468'
                         type: seat
-                      - id: '9846'
+                      - id: '13469'
                         type: seat
-                      - id: '9847'
+                      - id: '13470'
                         type: seat
-                      - id: '9848'
+                      - id: '13471'
                         type: seat
         '401':
           description: You are unauthorized
@@ -685,17 +699,11 @@ paths:
           examples:
             application/json:
               message: Couldn't find Train with 'id'=-1
-  "/api/v1/users/{user_id}":
+  "/api/v1/users/":
     get:
       summary: Retrieves concrete user. By necr0me
       tags:
       - Users
-      parameters:
-      - name: user_id
-        in: path
-        type: integer
-        required: true
-        description: Id of user that you want to see
       produces:
       - application/json
       security:
@@ -706,12 +714,11 @@ paths:
           examples:
             application/json:
               user:
-                id: 5905
-                email: johndoe@gmail.com
-                password_digest: "$2a$04$HViKU.ICup96nwjKSKs/gORc0L3F/Y.JTVeRr946iNRkQDzgEBy8C"
-                created_at: '2023-04-28T11:46:07.083Z'
-                updated_at: '2023-04-28T11:46:07.083Z'
-                role: user
+                data:
+                  id: '8270'
+                  type: user
+                  attributes:
+                    email: johndoe@gmail.com
         '401':
           description: You are unauthorized
           examples:
@@ -724,45 +731,109 @@ paths:
           examples:
             application/json:
               message: You are not allowed to do this action
-    put:
-      summary: Updates user password. By necr0me
+  "/api/v1/users/activate":
+    post:
+      summary: Activates user account. By necr0me
       tags:
       - Users
       consumes:
       - application/json
       parameters:
-      - name: user_id
-        in: path
-        type: integer
-        required: true
-        description: Id of user that updates password (ANY user can update only his
-          own password)
       - name: params
         in: body
         schema:
           type: object
           properties:
-            user:
-              type: object
-              properties:
-                password:
-                  type: string
-              required:
-              - password
-              example:
-                password: p4$$w0rD
+            token:
+              type: string
           required:
-          - user
+          - token
+          example:
+            token: 4900ade391edd9028cc97c91f4ee9a23
+      produces:
+      - application/json
+      responses:
+        '200':
+          description: Account successfully activated
+          examples:
+            application/json:
+              message: Account johndoe@gmail.com was successfully activated
+        '422':
+          description: Error occurred during activation
+          examples:
+            application/json:
+              message: Something went wrong during account activation
+              errors:
+                confirmation_token:
+                - Confirmation token is invalid
+  "/api/v1/users/reset_email":
+    post:
+      summary: Generates and sends reset email link on current email of authorized
+        user. By necr0me
+      tags:
+      - Users
       produces:
       - application/json
       security:
       - Bearer: {}
       responses:
         '200':
-          description: User found
+          description: Email reset token was successfully generated
           examples:
             application/json:
-              message: You have successfully updated your credentials
+              message: Email reset link was sent on johndoe@gmail.com.
+        '401':
+          description: You are unauthorized
+          examples:
+            application/json:
+              message: You're not logged in
+              errors:
+              - Nil JSON web token
+        '403':
+          description: You are forbidden to perform this action
+          examples:
+            application/json:
+              message: You are not allowed to do this action
+        '400':
+          description: Error occurred during reset email token generation
+          examples:
+            application/json:
+              message: Something went wrong
+              errors:
+              - Error message
+  "/api/v1/users/update_email":
+    patch:
+      summary: Generates and sends activation link on new users email. By necr0me
+      tags:
+      - Users
+      consumes:
+      - application/json
+      parameters:
+      - name: params
+        in: body
+        schema:
+          type: object
+          properties:
+            email:
+              type: string
+            token:
+              type: string
+          required:
+          - email
+          - token
+          example:
+            email: new_email@gmail.com
+            token: 3cc13db26f30e2a3e741c25f2fb7d21f
+      produces:
+      - application/json
+      security:
+      - Bearer: {}
+      responses:
+        '200':
+          description: Link successfully generated and sent on new email
+          examples:
+            application/json:
+              message: Activation link was sent on new_email@gmail.com.
         '401':
           description: You are unauthorized
           examples:
@@ -776,13 +847,88 @@ paths:
             application/json:
               message: You are not allowed to do this action
         '422':
-          description: Error occurred during update
+          description: Error occurred during email update
           examples:
             application/json:
               message: Something went wrong
               errors:
-              - Password can't be blank
-              - Password is too short (minimum is 7 characters)
+                unconfirmed_email:
+                - New email same as old one
+  "/api/v1/users/reset_password":
+    post:
+      summary: Generates and sends reset password link on entered by user email. By
+        necr0me
+      tags:
+      - Users
+      consumes:
+      - application/json
+      parameters:
+      - name: params
+        in: body
+        schema:
+          type: object
+          properties:
+            email:
+              type: string
+          required:
+          - email
+          example:
+            email: johndoe@gmail.com
+      produces:
+      - application/json
+      responses:
+        '200':
+          description: Reset password link was successfully generated and sent
+          examples:
+            application/json:
+              message: Password reset link was sent on johndoe@gmail.com
+        '400':
+          description: Error occurred during reset password link generation
+          examples:
+            application/json:
+              message: Something went wrong
+              errors:
+                email:
+                - User with such email is not registered
+  "/api/v1/users/update_password":
+    patch:
+      summary: Updates user password. By necr0me
+      tags:
+      - Users
+      consumes:
+      - application/json
+      parameters:
+      - name: params
+        in: body
+        schema:
+          type: object
+          properties:
+            password:
+              type: string
+            token:
+              type: string
+          required:
+          - password
+          - token
+          example:
+            password: '12345678'
+            token: 303d1a05af884a4d070061c5250c9560
+      produces:
+      - application/json
+      responses:
+        '200':
+          description: User password was successfully updated
+          examples:
+            application/json:
+              message: Password was successfully updated
+        '422':
+          description: Something went wrong during password update
+          examples:
+            application/json:
+              message: Something went wrong
+              errors:
+                password:
+                - is too short (minimum is 7 characters)
   "/users/sign_up":
     post:
       summary: Register new user. By necr0me
@@ -799,15 +945,15 @@ paths:
             user:
               type: object
               properties:
-                email:
+                unconfirmed_email:
                   type: string
                 password:
                   type: string
               required:
-              - email
+              - unconfirmed_email
               - password
               example:
-                email: mail@gmail.com
+                unconfirmed_email: mail@gmail.com
                 password: p4$$w0rD
           required:
           - user
@@ -818,18 +964,15 @@ paths:
           description: User successfully created
           examples:
             application/json:
-              message: You have successfully registered
+              message: You have successfully registered. Check your email to activate
+                your account.
         '422':
           description: Error occurred during user registration
           examples:
             application/json:
               errors:
-                email:
-                - can't be blank
-                - is invalid
-                password:
-                - can't be blank
-                - is too short (minimum is 7 characters)
+                unconfirmed_email:
+                - Email is blank
   "/users/{user_id}":
     delete:
       summary: Destroy user. By necr0me
@@ -909,7 +1052,7 @@ paths:
           examples:
             application/json:
               message: You have successfully logged in
-              access_token: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo1OTIxLCJleHAiOjE2ODI2ODQxNjcsImlhdCI6MTY4MjY4MjM2N30.eUlb_QeF89p4JrZ_I8f9bD8aLhdG4SuIs6ybS6GS3bQ
+              access_token: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo4MjkwLCJleHAiOjE2ODM1NDYwODYsImlhdCI6MTY4MzU0NDI4Nn0.adeYnGPuHz05RzC1SEDAdRxDg2FPSngOBrF6dHC1pUw
         '400':
           description: Error occurred during authentication
           examples:
@@ -930,7 +1073,7 @@ paths:
           description: Tokens successfully updated
           examples:
             application/json:
-              access_token: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo1OTIzLCJleHAiOjE2ODI2ODQxNjcsImlhdCI6MTY4MjY4MjM2N30.0VaEd_0Cok4o22ZjbuAWA97mFPxCMCeKDqC8yXQ_wTs
+              access_token: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo4MjkyLCJleHAiOjE2ODM1NDYwODYsImlhdCI6MTY4MzU0NDI4Nn0.Tv0RDNlDS4Czn49VWNk4drm5-6NwaKve2OQLzw9Rs5c
         '401':
           description: Error occurred during tokens update
           examples:

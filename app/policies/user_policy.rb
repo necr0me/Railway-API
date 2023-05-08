@@ -4,7 +4,7 @@ class UserPolicy < ApplicationPolicy
   end
 
   def show?
-    owned?
+    user.present?
   end
 
   def activate?

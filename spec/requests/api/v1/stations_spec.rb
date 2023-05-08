@@ -15,7 +15,7 @@ RSpec.describe "Api::V1::Stations", type: :request do
         get "/api/v1/stations?station=Mo"
       end
 
-      it "returns 200, list of 5 or less found stations and number of pages" do
+      it "returns OK, list of 5 or less found stations and number of pages" do
         expect(response).to have_http_status(:ok)
 
         expect(json_response[:stations].count).to eq(found_stations.size)
@@ -29,7 +29,7 @@ RSpec.describe "Api::V1::Stations", type: :request do
         get "/api/v1/stations?page=1"
       end
 
-      it "returns 200, list of 5 stations and number of pages" do
+      it "returns OK, list of 5 stations and number of pages" do
         expect(response).to have_http_status(:ok)
 
         expect(json_response[:stations].count).to eq(5)
@@ -43,7 +43,7 @@ RSpec.describe "Api::V1::Stations", type: :request do
         get "/api/v1/stations"
       end
 
-      it "returns 200 and list of all stations" do
+      it "returns OK and list of all stations" do
         expect(response).to have_http_status(:ok)
         expect(json_response[:stations].count).to eq(Station.count)
       end
@@ -56,7 +56,7 @@ RSpec.describe "Api::V1::Stations", type: :request do
         get "/api/v1/stations/#{station.id}"
       end
 
-      it "returns 200 and proper station" do
+      it "returns OK and proper station" do
         expect(response).to have_http_status(:ok)
 
         expect(json_response[:id]).to eq(station.id)

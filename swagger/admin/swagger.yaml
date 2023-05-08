@@ -21,29 +21,29 @@ paths:
             application/json:
               carriage_types:
                 data:
-                - id: '4020'
+                - id: '5658'
                   type: carriage_type
                   attributes:
-                    name: Constance Noring
-                    description: Emmerich, Langworth and Ferry
+                    name: Tim Burr
+                    description: Turcotte-Paucek
                     capacity: 8
                   relationships:
                     carriages:
                       data: []
-                - id: '4021'
+                - id: '5659'
                   type: carriage_type
                   attributes:
-                    name: Gil T. Azell
-                    description: Bins-Dietrich
+                    name: Quint S. Henschel
+                    description: Senger-Bradtke
                     capacity: 8
                   relationships:
                     carriages:
                       data: []
-                - id: '4022'
+                - id: '5660'
                   type: carriage_type
                   attributes:
-                    name: Evans Gayte
-                    description: Maggio-Skiles
+                    name: Tanya Hyde
+                    description: Herman-Grady
                     capacity: 8
                   relationships:
                     carriages:
@@ -103,11 +103,11 @@ paths:
               message: Carriage type successfully created
               carriage_type:
                 data:
-                  id: '4023'
+                  id: '5661'
                   type: carriage_type
                   attributes:
-                    name: Phil Rupp
-                    description: Wintheiser-Bergstrom
+                    name: Curt N. Rodd
+                    description: Mueller Inc
                     capacity: 8
                   relationships:
                     carriages:
@@ -182,7 +182,7 @@ paths:
               message: Carriage type successfully updated
               carriage_type:
                 data:
-                  id: '4024'
+                  id: '5662'
                   type: carriage_type
                   attributes:
                     name: New name
@@ -273,28 +273,32 @@ paths:
             application/json:
               carriages:
                 data:
-                - id: '3296'
+                - id: '4568'
                   type: carriage
                   attributes:
-                    name: Zeus
+                    name: Hermes
                     capacity: 8
-                    carriage_type_id: 4035
+                    carriage_type_id: 5672
                     order_number: '10'
                     available: true
-                    type: Tate Urtots
+                    type: Amanda B. Reckonwith
                   relationships:
+                    train:
+                      data: 
                     seats:
                       data: []
-                - id: '3295'
+                - id: '4569'
                   type: carriage
                   attributes:
-                    name: Ares
+                    name: Hestia
                     capacity: 8
-                    carriage_type_id: 4034
+                    carriage_type_id: 5673
                     order_number: '11'
                     available: true
-                    type: Louise E. Anna
+                    type: Rosa Shore
                   relationships:
+                    train:
+                      data: 
                     seats:
                       data: []
               pages: 1
@@ -349,15 +353,17 @@ paths:
               message: Carriage was successfully created
               carriage:
                 data:
-                  id: '3297'
+                  id: '4570'
                   type: carriage
                   attributes:
-                    name: Aphrodite
+                    name: Hades
                     capacity: 8
-                    carriage_type_id: 4036
+                    carriage_type_id: 5674
                     available: true
-                    type: Jasmine Flowers
+                    type: Hy Gene
                   relationships:
+                    train:
+                      data: 
                     seats:
                       data: []
         '401':
@@ -427,16 +433,18 @@ paths:
               message: Carriage name was successfully updated
               carriage:
                 data:
-                  id: '3298'
+                  id: '4571'
                   type: carriage
                   attributes:
                     name: New name
                     capacity: 8
-                    carriage_type_id: 4040
-                    order_number: '14'
+                    carriage_type_id: 5678
+                    order_number: '12'
                     available: true
-                    type: Joy Kil
+                    type: Pat Pending
                   relationships:
+                    train:
+                      data: 
                     seats:
                       data: []
         '401':
@@ -506,237 +514,6 @@ paths:
               message: Something went wrong
               errors:
               - Error message
-  admin/passing_trains:
-    post:
-      summary: Creates new passing train. By necr0me
-      tags:
-      - Passing trains
-      consumes:
-      - application/json
-      parameters:
-      - name: params
-        in: body
-        schema:
-          type: object
-          properties:
-            passing_train:
-              type: object
-              properties:
-                arrival_time:
-                  type: string
-                  format: datetime
-                departure_time:
-                  type: string
-                  format: datetime
-                way_number:
-                  type: integer
-                station_id:
-                  type: integer
-                train_id:
-                  type: integer
-              required:
-              - arrival_time
-              - departure_time
-              - station_id
-              - train_id
-              example:
-                arrival_time: '2023-04-28T14:46:02+03:00'
-                departure_time: '2023-04-28T15:06:02+03:00'
-                way_number: 1
-                station_id: 1
-                train_id: 1
-            required:
-            - passing_train
-      produces:
-      - application/json
-      security:
-      - Bearer: {}
-      responses:
-        '201':
-          description: Passing train successfully created
-          examples:
-            application/json:
-              message: Train stop successfully created
-              passing_train:
-                data:
-                  id: '1547'
-                  type: passing_train
-                  attributes:
-                    name: Melbourne
-                    arrival_time: '2023-04-28T11:46:03.645Z'
-                    departure_time: '2023-04-28T12:06:03.645Z'
-                    way_number: 1
-                  relationships:
-                    station:
-                      data:
-                        id: '5310'
-                        type: station
-                    train:
-                      data:
-                        id: '1951'
-                        type: train
-        '401':
-          description: You are unauthorized
-          examples:
-            application/json:
-              message: You're not logged in
-              errors:
-              - Nil JSON web token
-        '403':
-          description: You are forbidden to perform this action
-          examples:
-            application/json:
-              message: You are not allowed to do this action
-        '422':
-          description: Error occurred during passing train create
-          examples:
-            application/json:
-              message: Something went wrong
-              errors:
-              - Train must exist
-              - Station must exist
-  admin/passing_trains/{passing_train_id}:
-    put:
-      summary: Updates passing train. By necr0me
-      tags:
-      - Passing trains
-      consumes:
-      - application/json
-      parameters:
-      - name: passing_train_id
-        in: path
-        type: integer
-        required: true
-        description: Id of passing train record that you want to update
-      - name: params
-        in: body
-        schema:
-          type: object
-          properties:
-            passing_train:
-              type: object
-              properties:
-                arrival_time:
-                  type: string
-                  format: datetime
-                departure_time:
-                  type: string
-                  format: datetime
-                way_number:
-                  type: integer
-                station_id:
-                  type: integer
-                train_id:
-                  type: integer
-              required:
-              - arrival_time
-              - departure_time
-              - station_id
-              - train_id
-              example:
-                arrival_time: '2023-04-28T14:46:02+03:00'
-                departure_time: '2023-04-28T15:06:02+03:00'
-                way_number: 1
-                station_id: 1
-                train_id: 1
-            required:
-            - passing_train
-      produces:
-      - application/json
-      security:
-      - Bearer: {}
-      responses:
-        '200':
-          description: Passing train successfully updated
-          examples:
-            application/json:
-              message: Train stop successfully updated
-              passing_train:
-                data:
-                  id: '1548'
-                  type: passing_train
-                  attributes:
-                    name: Melbourne
-                    arrival_time: '2023-04-28T11:51:03.716Z'
-                    departure_time: '2023-04-28T12:06:03.716Z'
-                    way_number: 1
-                  relationships:
-                    station:
-                      data:
-                        id: '5313'
-                        type: station
-                    train:
-                      data:
-                        id: '1954'
-                        type: train
-        '401':
-          description: You are unauthorized
-          examples:
-            application/json:
-              message: You're not logged in
-              errors:
-              - Nil JSON web token
-        '403':
-          description: You are forbidden to perform this action
-          examples:
-            application/json:
-              message: You are not allowed to do this action
-        '404':
-          description: Passing train not found
-          examples:
-            application/json:
-              message: Couldn't find TrainStop with 'id'=-1
-        '422':
-          description: Error occurred during passing train update
-          examples:
-            application/json:
-              message: Something went wrong
-              errors:
-              - Departure time can't be greater than arrival time
-    delete:
-      summary: Deletes passing train. By necr0me
-      tags:
-      - Passing trains
-      parameters:
-      - name: passing_train_id
-        in: path
-        type: integer
-        required: true
-        description: Id of passing train record that you want to destroy
-      produces:
-      - application/json
-      security:
-      - Bearer: {}
-      responses:
-        '200':
-          description: Passing train successfully destroyed
-          examples:
-            application/json:
-              message: Train stop successfully removed
-        '401':
-          description: You are unauthorized
-          examples:
-            application/json:
-              message: You're not logged in
-              errors:
-              - Nil JSON web token
-        '403':
-          description: You are forbidden to perform this action
-          examples:
-            application/json:
-              message: You are not allowed to do this action
-        '404':
-          description: Passing train not found
-          examples:
-            application/json:
-              message: Couldn't find TrainStop with 'id'=-1
-        '422':
-          description: Error occurred during passing train destroy
-          examples:
-            application/json:
-              message: Something went wrong
-              errors:
-              - Error message
   "/admin/routes":
     post:
       summary: Creates empty route. By necr0me
@@ -754,7 +531,7 @@ paths:
               message: Route was created
               route:
                 data:
-                  id: '1102'
+                  id: '1640'
                   type: route
                   attributes:
                     destination: No destination
@@ -802,29 +579,29 @@ paths:
             application/json:
               route:
                 data:
-                  id: '1104'
+                  id: '1642'
                   type: route
                   attributes:
                     destination: No destination
                   relationships:
                     stations:
                       data:
-                      - id: '5325'
+                      - id: '7875'
                         type: station
-                      - id: '5326'
+                      - id: '7876'
                         type: station
-                      - id: '5327'
+                      - id: '7877'
                         type: station
                 included:
-                - id: '5325'
+                - id: '7875'
                   type: station
                   attributes:
                     name: Mogilev
-                - id: '5326'
+                - id: '7876'
                   type: station
                   attributes:
                     name: Mosty
-                - id: '5327'
+                - id: '7877'
                   type: station
                   attributes:
                     name: Minsk
@@ -917,7 +694,7 @@ paths:
               message: Station was successfully added to route
               station:
                 data:
-                  id: '5346'
+                  id: '7896'
                   type: station
                   attributes:
                     name: Melbourne
@@ -973,7 +750,7 @@ paths:
               message: Station was successfully removed from route
               station:
                 data:
-                  id: '5359'
+                  id: '7909'
                   type: station
                   attributes:
                     name: Mogilev
@@ -1023,14 +800,14 @@ paths:
           examples:
             application/json:
               stations:
-              - id: 5375
+              - id: 7925
                 name: Mogilev
-                created_at: '2023-04-28T11:46:04.607Z'
-                updated_at: '2023-04-28T11:46:04.607Z'
-              - id: 5376
+                created_at: '2023-05-08T11:11:23.202Z'
+                updated_at: '2023-05-08T11:11:23.202Z'
+              - id: 7926
                 name: Mosty
-                created_at: '2023-04-28T11:46:04.609Z'
-                updated_at: '2023-04-28T11:46:04.609Z'
+                created_at: '2023-05-08T11:11:23.205Z'
+                updated_at: '2023-05-08T11:11:23.205Z'
               pages: 1
     post:
       summary: Create a new station. By necr0me
@@ -1065,10 +842,10 @@ paths:
           examples:
             application/json:
               station:
-                id: 5378
+                id: 7928
                 name: Melbourne
-                created_at: '2023-04-28T11:46:04.633Z'
-                updated_at: '2023-04-28T11:46:04.633Z'
+                created_at: '2023-05-08T11:11:23.232Z'
+                updated_at: '2023-05-08T11:11:23.232Z'
         '401':
           description: You are unauthorized
           examples:
@@ -1129,9 +906,9 @@ paths:
             application/json:
               station:
                 name: New name
-                id: 5379
-                created_at: '2023-04-28T11:46:04.658Z'
-                updated_at: '2023-04-28T11:46:04.666Z'
+                id: 7929
+                created_at: '2023-05-08T11:11:23.260Z'
+                updated_at: '2023-05-08T11:11:23.270Z'
         '401':
           description: You are unauthorized
           examples:
@@ -1249,6 +1026,237 @@ paths:
               message: Something went wrong
               errors:
               - Error message
+  admin/train_stops:
+    post:
+      summary: Creates new passing train. By necr0me
+      tags:
+      - Passing trains
+      consumes:
+      - application/json
+      parameters:
+      - name: params
+        in: body
+        schema:
+          type: object
+          properties:
+            train_stop:
+              type: object
+              properties:
+                arrival_time:
+                  type: string
+                  format: datetime
+                departure_time:
+                  type: string
+                  format: datetime
+                way_number:
+                  type: integer
+                station_id:
+                  type: integer
+                train_id:
+                  type: integer
+              required:
+              - arrival_time
+              - departure_time
+              - station_id
+              - train_id
+              example:
+                arrival_time: '2023-05-08T14:11:21+03:00'
+                departure_time: '2023-05-08T14:31:21+03:00'
+                way_number: 1
+                station_id: 1
+                train_id: 1
+            required:
+            - train_stop
+      produces:
+      - application/json
+      security:
+      - Bearer: {}
+      responses:
+        '201':
+          description: Passing train successfully created
+          examples:
+            application/json:
+              message: Train stop successfully created
+              train_stop:
+                data:
+                  id: '3651'
+                  type: train_stop
+                  attributes:
+                    name: Melbourne
+                    arrival_time: '2023-05-08T11:11:23.576Z'
+                    departure_time: '2023-05-08T11:31:23.576Z'
+                    way_number: 1
+                  relationships:
+                    station:
+                      data:
+                        id: '7941'
+                        type: station
+                    train:
+                      data:
+                        id: '3758'
+                        type: train
+        '401':
+          description: You are unauthorized
+          examples:
+            application/json:
+              message: You're not logged in
+              errors:
+              - Nil JSON web token
+        '403':
+          description: You are forbidden to perform this action
+          examples:
+            application/json:
+              message: You are not allowed to do this action
+        '422':
+          description: Error occurred during passing train create
+          examples:
+            application/json:
+              message: Something went wrong
+              errors:
+              - Train must exist
+              - Station must exist
+  admin/train_stops/{train_stop_id}:
+    put:
+      summary: Updates passing train. By necr0me
+      tags:
+      - Passing trains
+      consumes:
+      - application/json
+      parameters:
+      - name: train_stop_id
+        in: path
+        type: integer
+        required: true
+        description: Id of passing train record that you want to update
+      - name: params
+        in: body
+        schema:
+          type: object
+          properties:
+            train_stop:
+              type: object
+              properties:
+                arrival_time:
+                  type: string
+                  format: datetime
+                departure_time:
+                  type: string
+                  format: datetime
+                way_number:
+                  type: integer
+                station_id:
+                  type: integer
+                train_id:
+                  type: integer
+              required:
+              - arrival_time
+              - departure_time
+              - station_id
+              - train_id
+              example:
+                arrival_time: '2023-05-08T14:11:21+03:00'
+                departure_time: '2023-05-08T14:31:21+03:00'
+                way_number: 1
+                station_id: 1
+                train_id: 1
+            required:
+            - train_stop
+      produces:
+      - application/json
+      security:
+      - Bearer: {}
+      responses:
+        '200':
+          description: Passing train successfully updated
+          examples:
+            application/json:
+              message: Train stop successfully updated
+              train_stop:
+                data:
+                  id: '3652'
+                  type: train_stop
+                  attributes:
+                    name: Melbourne
+                    arrival_time: '2023-05-08T11:16:23.625Z'
+                    departure_time: '2023-05-08T11:31:23.625Z'
+                    way_number: 1
+                  relationships:
+                    station:
+                      data:
+                        id: '7944'
+                        type: station
+                    train:
+                      data:
+                        id: '3761'
+                        type: train
+        '401':
+          description: You are unauthorized
+          examples:
+            application/json:
+              message: You're not logged in
+              errors:
+              - Nil JSON web token
+        '403':
+          description: You are forbidden to perform this action
+          examples:
+            application/json:
+              message: You are not allowed to do this action
+        '404':
+          description: Passing train not found
+          examples:
+            application/json:
+              message: Couldn't find TrainStop with 'id'=-1
+        '422':
+          description: Error occurred during passing train update
+          examples:
+            application/json:
+              message: Something went wrong
+              errors:
+              - Departure time can't be greater than arrival time
+    delete:
+      summary: Deletes passing train. By necr0me
+      tags:
+      - Passing trains
+      parameters:
+      - name: train_stop_id
+        in: path
+        type: integer
+        required: true
+        description: Id of passing train record that you want to destroy
+      produces:
+      - application/json
+      security:
+      - Bearer: {}
+      responses:
+        '200':
+          description: Passing train successfully destroyed
+          examples:
+            application/json:
+              message: Train stop successfully removed
+        '401':
+          description: You are unauthorized
+          examples:
+            application/json:
+              message: You're not logged in
+              errors:
+              - Nil JSON web token
+        '403':
+          description: You are forbidden to perform this action
+          examples:
+            application/json:
+              message: You are not allowed to do this action
+        '404':
+          description: Passing train not found
+          examples:
+            application/json:
+              message: Couldn't find TrainStop with 'id'=-1
+        '422':
+          description: Error occurred during passing train destroy
+          examples:
+            application/json:
+              message: Something went wrong
+              errors:
+              - Error message
   "/admin/trains":
     get:
       summary: Retrieves all trains. By necr0me
@@ -1265,7 +1273,7 @@ paths:
             application/json:
               trains:
                 data:
-                - id: '1963'
+                - id: '3770'
                   type: train
                   attributes:
                     destination: No destination
@@ -1276,7 +1284,7 @@ paths:
                       data: []
                     route:
                       data: 
-                - id: '1964'
+                - id: '3771'
                   type: train
                   attributes:
                     destination: No destination
@@ -1335,7 +1343,7 @@ paths:
               message: Train was successfully created
               train:
                 data:
-                  id: '1965'
+                  id: '3772'
                   type: train
                   attributes:
                     destination: No destination
@@ -1346,7 +1354,7 @@ paths:
                       data: []
                     route:
                       data:
-                        id: '1119'
+                        id: '1657'
                         type: route
         '401':
           description: You are unauthorized
@@ -1405,10 +1413,10 @@ paths:
             application/json:
               message: Train was successfully updated
               train:
-                route_id: 1122
-                id: 1967
-                created_at: '2023-04-28T11:46:04.940Z'
-                updated_at: '2023-04-28T11:46:05.016Z'
+                route_id: 1660
+                id: 3774
+                created_at: '2023-05-08T11:11:23.867Z'
+                updated_at: '2023-05-08T11:11:23.964Z'
         '401':
           description: You are unauthorized
           examples:
@@ -1508,33 +1516,37 @@ paths:
               message: Carriage was successfully added to train
               carriage:
                 data:
-                  id: '3334'
+                  id: '4607'
                   type: carriage
                   attributes:
-                    name: Artemis
+                    name: Hermes
                     capacity: 8
-                    carriage_type_id: 4076
+                    carriage_type_id: 5714
                     order_number: '01'
                     available: false
-                    type: Sue Flay
+                    type: Rick Kleiner
                   relationships:
+                    train:
+                      data:
+                        id: '3782'
+                        type: train
                     seats:
                       data:
-                      - id: '9682'
+                      - id: '13305'
                         type: seat
-                      - id: '9683'
+                      - id: '13306'
                         type: seat
-                      - id: '9684'
+                      - id: '13307'
                         type: seat
-                      - id: '9685'
+                      - id: '13308'
                         type: seat
-                      - id: '9686'
+                      - id: '13309'
                         type: seat
-                      - id: '9687'
+                      - id: '13310'
                         type: seat
-                      - id: '9688'
+                      - id: '13311'
                         type: seat
-                      - id: '9689'
+                      - id: '13312'
                         type: seat
         '401':
           description: You are unauthorized
@@ -1588,15 +1600,17 @@ paths:
               message: Carriage was successfully removed from train
               carriage:
                 data:
-                  id: '3338'
+                  id: '4611'
                   type: carriage
                   attributes:
                     name: Hestia
                     capacity: 8
-                    carriage_type_id: 4080
+                    carriage_type_id: 5718
                     available: true
-                    type: Sue Jeu
+                    type: Daisy Picking
                   relationships:
+                    train:
+                      data: 
                     seats:
                       data: []
         '401':

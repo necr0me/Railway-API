@@ -10,7 +10,7 @@ RSpec.describe "Api::V1::Tickets", type: :request do
         get "/api/v1/tickets"
       end
 
-      it "returns 401" do
+      it "returns UNAUTHORIZED" do
         expect(response).to have_http_status(:unauthorized)
       end
     end
@@ -21,7 +21,7 @@ RSpec.describe "Api::V1::Tickets", type: :request do
         get "/api/v1/tickets", headers: auth_header
       end
 
-      it "returns 200 and list of user's tickets" do
+      it "returns OK and list of user's tickets" do
         expect(response).to have_http_status(:ok)
         expect(json_response[:tickets].map { _1[:profile_id] }.uniq).to eq(user.profiles.pluck(:id))
       end
@@ -62,7 +62,7 @@ RSpec.describe "Api::V1::Tickets", type: :request do
              params: { tickets: tickets_params }
       end
 
-      it "returns 401" do
+      it "returns UNAUTHORIZED" do
         expect(response).to have_http_status(:unauthorized)
       end
     end
@@ -76,7 +76,7 @@ RSpec.describe "Api::V1::Tickets", type: :request do
              params: { tickets: tickets_params }
       end
 
-      it "returns 422 and errors, does not creates tickets" do
+      it "returns UNPROCESSABLE_ENTITY and errors, does not creates tickets" do
         expect(response).to have_http_status(:unprocessable_entity)
         expect(json_response[:errors]).not_to be_nil
         expect(user.tickets.size).to eq(0)
@@ -103,7 +103,7 @@ RSpec.describe "Api::V1::Tickets", type: :request do
         delete "/api/v1/tickets/#{ticket.id}"
       end
 
-      it "returns 401, does not destroy ticket" do
+      it "returns UNAUTHORIZED, does not destroy ticket" do
         expect(response).to have_http_status(:unauthorized)
         expect { ticket.reload }.not_to raise_error
       end
@@ -117,7 +117,7 @@ RSpec.describe "Api::V1::Tickets", type: :request do
                headers: auth_header
       end
 
-      it "returns 422 and errors, does not destroy ticket" do
+      it "returns UNPROCESSABLE_ENTITY and errors, does not destroy ticket" do
         expect(response).to have_http_status(:unprocessable_entity)
         expect(json_response[:errors]).not_to be_nil
         expect { ticket.reload }.not_to raise_error
@@ -130,7 +130,7 @@ RSpec.describe "Api::V1::Tickets", type: :request do
                headers: auth_header
       end
 
-      it "returns 200, message that ticket successfully destroyed and destroys ticket" do
+      it "returns OK, message that ticket successfully destroyed and destroys ticket" do
         expect(response).to have_http_status(:ok)
         expect(json_response[:message]).to eq("Ticket successfully destroyed")
         expect { ticket.reload }.to raise_error(ActiveRecord::RecordNotFound)

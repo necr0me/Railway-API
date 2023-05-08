@@ -15,7 +15,7 @@ RSpec.describe "Admin::Trains", type: :request do
         get "/admin/trains"
       end
 
-      it "returns 401" do
+      it "returns UNAUTHORIZED" do
         expect(response).to have_http_status(:unauthorized)
       end
     end
@@ -56,7 +56,7 @@ RSpec.describe "Admin::Trains", type: :request do
         get "/admin/trains/#{train.id}"
       end
 
-      it "returns 401" do
+      it "returns UNAUTHORIZED" do
         expect(response).to have_http_status(:unauthorized)
       end
     end
@@ -84,7 +84,7 @@ RSpec.describe "Admin::Trains", type: :request do
         }
       end
 
-      it "returns 401" do
+      it "returns UNAUTHORIZED" do
         expect(response).to have_http_status(:unauthorized)
       end
     end
@@ -100,7 +100,7 @@ RSpec.describe "Admin::Trains", type: :request do
         post "/admin/trains", headers: auth_header
       end
 
-      it "returns 422 and error message" do
+      it "returns UNPROCESSABLE_ENTITY and error message" do
         expect(response).to have_http_status(:unprocessable_entity)
         expect(json_response[:errors]).to include("Error message")
       end
@@ -133,7 +133,7 @@ RSpec.describe "Admin::Trains", type: :request do
         }
       end
 
-      it "returns 401" do
+      it "returns UNAUTHORIZED" do
         expect(response).to have_http_status(:unauthorized)
       end
     end
@@ -153,7 +153,7 @@ RSpec.describe "Admin::Trains", type: :request do
         }, headers: auth_header
       end
 
-      it "returns 422 and errors" do
+      it "returns UNPROCESSABLE_ENTITY and errors" do
         expect(response).to have_http_status(:unprocessable_entity)
         expect(json_response[:message]).to eq("Something went wrong")
         expect(json_response[:errors]).to include("Error message")
@@ -185,7 +185,7 @@ RSpec.describe "Admin::Trains", type: :request do
         }
       end
 
-      it "returns 401" do
+      it "returns UNAUTHORIZED" do
         expect(response).to have_http_status(:unauthorized)
       end
     end
@@ -199,7 +199,7 @@ RSpec.describe "Admin::Trains", type: :request do
              headers: auth_header
       end
 
-      it "returns 422 and contains error message" do
+      it "returns UNPROCESSABLE_ENTITY and contains error message" do
         expect(response).to have_http_status(:unprocessable_entity)
         expect(json_response[:message]).to eq("Something went wrong")
         expect(json_response[:errors]).to include("Carriage already in train")
@@ -215,7 +215,7 @@ RSpec.describe "Admin::Trains", type: :request do
              headers: auth_header
       end
 
-      it "returns 200 and added carriage" do
+      it "returns OK and added carriage" do
         expect(response).to have_http_status(:ok)
         expect(json_response[:message]).to eq("Carriage was successfully added to train")
         expect(json_response[:carriage][:data][:id].to_i).to eq(carriage.id)
@@ -231,7 +231,7 @@ RSpec.describe "Admin::Trains", type: :request do
         delete "/admin/trains/#{train_with_carriages.id}/carriages/#{carriage_id}"
       end
 
-      it "returns 401" do
+      it "returns UNAUTHORIZED" do
         expect(response).to have_http_status(:unauthorized)
       end
     end
@@ -242,7 +242,7 @@ RSpec.describe "Admin::Trains", type: :request do
         delete "/admin/trains/#{train.id}/carriages/#{carriage_id}", headers: auth_header
       end
 
-      it "returns 422 and error message" do
+      it "returns UNPROCESSABLE_ENTITY and error message" do
         expect(response).to have_http_status(:unprocessable_entity)
         expect(json_response[:message]).to eq("Something went wrong")
         expect(json_response[:errors]).to include("Can't remove carriage from different train")
@@ -256,7 +256,7 @@ RSpec.describe "Admin::Trains", type: :request do
         delete "/admin/trains/#{train_with_carriages.id}/carriages/#{carriage_id}", headers: auth_header
       end
 
-      it "returns 200 and removes carriage from train" do
+      it "returns OK and removes carriage from train" do
         expect(response).to have_http_status(:ok)
         expect(json_response[:message]).to eq("Carriage was successfully removed from train")
         expect(train_with_carriages.reload.carriages.pluck(:id)).not_to include(carriage_id)
@@ -270,7 +270,7 @@ RSpec.describe "Admin::Trains", type: :request do
         delete "/admin/trains/#{train.id}"
       end
 
-      it "returns 401" do
+      it "returns UNAUTHORIZED" do
         expect(response).to have_http_status(:unauthorized)
       end
     end
@@ -286,7 +286,7 @@ RSpec.describe "Admin::Trains", type: :request do
         delete "/admin/trains/#{train.id}", headers: auth_header
       end
 
-      it "returns 422 and error message" do
+      it "returns UNPROCESSABLE_ENTITY and error message" do
         expect(response).to have_http_status(:unprocessable_entity)
         expect(json_response[:errors]).to include("Error message")
       end

@@ -11,7 +11,7 @@ RSpec.describe "Users::Sessions", type: :request do
         login_with_api({ email: "", password: "" })
       end
 
-      it "returns 400 and contains error message" do
+      it "returns BAD_REQUEST and contains error message" do
         expect(response).to have_http_status(:bad_request)
         expect(json_response[:errors]).not_to be_nil
       end
@@ -22,7 +22,7 @@ RSpec.describe "Users::Sessions", type: :request do
         login_with_api({ email: "", password: "" })
       end
 
-      it "returns 400 and contains error message that can not find user with such email" do
+      it "returns BAD_REQUEST and contains error message that can not find user with such email" do
         expect(response).to have_http_status(:bad_request)
         expect(json_response[:errors][:email]).to include(/Can't find user with such email/)
       end
@@ -33,7 +33,7 @@ RSpec.describe "Users::Sessions", type: :request do
         login_with_api({ email: user.email, password: user.email })
       end
 
-      it "returns 400 and contains error message that password is invalid" do
+      it "returns BAD_REQUEST and contains error message that password is invalid" do
         expect(response).to have_http_status(:bad_request)
         expect(json_response[:errors][:password]).to include(/Invalid password/)
       end
@@ -61,7 +61,7 @@ RSpec.describe "Users::Sessions", type: :request do
         get "/users/refresh_tokens"
       end
 
-      it "returns 401 and contains error message that tokens are not matching" do
+      it "returns UNAUTHORIZED and contains error message that tokens are not matching" do
         expect(response).to have_http_status(:unauthorized)
         expect(json_response[:errors]).to include(/Tokens aren't matching/)
       end
@@ -82,7 +82,7 @@ RSpec.describe "Users::Sessions", type: :request do
         get "/users/refresh_tokens"
       end
 
-      it "returns 401 and contains error message that token has been expired" do
+      it "returns UNAUTHORIZED and contains error message that token has been expired" do
         expect(response).to have_http_status(:unauthorized)
         expect(json_response[:errors]).to include(/has expired/)
       end
@@ -95,7 +95,7 @@ RSpec.describe "Users::Sessions", type: :request do
         get "/users/refresh_tokens"
       end
 
-      it "returns 401 and contains error message that token verification failed" do
+      it "returns UNAUTHORIZED and contains error message that token verification failed" do
         expect(response).to have_http_status(:unauthorized)
         expect(json_response[:errors]).to include(/verification failed/)
       end
@@ -109,7 +109,7 @@ RSpec.describe "Users::Sessions", type: :request do
         get "/users/refresh_tokens"
       end
 
-      it "returns 401 and contains error message that nil json web token" do
+      it "returns UNAUTHORIZED and contains error message that nil json web token" do
         expect(response).to have_http_status(:unauthorized)
         expect(json_response[:errors]).to include(/Nil JSON/)
       end
@@ -123,7 +123,7 @@ RSpec.describe "Users::Sessions", type: :request do
         get "/users/refresh_tokens"
       end
 
-      it "returns 200 and new access token, generates new refresh token and saves it to db" do
+      it "returns OK and new access token, generates new refresh token and saves it to db" do
         expect(response).to have_http_status(:ok)
         expect(json_response[:access_token]).not_to be_nil
 
@@ -137,7 +137,7 @@ RSpec.describe "Users::Sessions", type: :request do
     context "when user is unauthorized" do
       before { delete "/users/logout" }
 
-      it "returns 401" do
+      it "returns UNAUTHORIZED" do
         expect(response).to have_http_status(:unauthorized)
       end
     end
@@ -148,7 +148,7 @@ RSpec.describe "Users::Sessions", type: :request do
         delete "/users/logout", headers: auth_header
       end
 
-      it "returns 200, destroys refresh token and clears cookies" do
+      it "returns OK, destroys refresh token and clears cookies" do
         expect(response).to have_http_status(:ok)
         expect(user.reload.refresh_token).to be_nil
         expect(cookies[:refresh_token]).to be_blank

@@ -11,7 +11,7 @@ RSpec.describe "Admin::Carriages", type: :request do
         get "/admin/carriages"
       end
 
-      it "returns 401" do
+      it "returns UNAUTHORIZED" do
         expect(response).to have_http_status(:unauthorized)
       end
     end
@@ -52,7 +52,7 @@ RSpec.describe "Admin::Carriages", type: :request do
         get "/admin/carriages/#{carriage.id}"
       end
 
-      it "returns 401" do
+      it "returns UNAUTHORIZED" do
         expect(response).to have_http_status(:unauthorized)
       end
     end
@@ -62,7 +62,7 @@ RSpec.describe "Admin::Carriages", type: :request do
         get "/admin/carriages/#{carriage.id}", headers: auth_header
       end
 
-      it "returns 200 and proper carriage" do
+      it "returns OK and proper carriage" do
         expect(response).to have_http_status(:ok)
         expect(json_response[:carriage][:data][:id].to_i).to eq(carriage.id)
       end
@@ -77,7 +77,7 @@ RSpec.describe "Admin::Carriages", type: :request do
         }
       end
 
-      it "returns 401" do
+      it "returns UNAUTHORIZED" do
         expect(response).to have_http_status(:unauthorized)
       end
     end
@@ -94,7 +94,7 @@ RSpec.describe "Admin::Carriages", type: :request do
              headers: auth_header
       end
 
-      it "returns 422 and error message that name is too short" do
+      it "returns UNPROCESSABLE_ENTITY and error message that name is too short" do
         expect(response).to have_http_status(:unprocessable_entity)
         expect(json_response[:errors][:name]).to include(/is too short/)
       end
@@ -129,7 +129,7 @@ RSpec.describe "Admin::Carriages", type: :request do
         }
       end
 
-      it "returns 401" do
+      it "returns UNAUTHORIZED" do
         expect(response).to have_http_status(:unauthorized)
       end
     end
@@ -145,7 +145,7 @@ RSpec.describe "Admin::Carriages", type: :request do
               headers: auth_header
       end
 
-      it "returns 422 and contains error message that name is too short" do
+      it "returns UNPROCESSABLE_ENTITY and contains error message that name is too short" do
         expect(response).to have_http_status(:unprocessable_entity)
         expect(json_response[:errors][:name]).to include(/is too short/)
       end
@@ -162,7 +162,7 @@ RSpec.describe "Admin::Carriages", type: :request do
               headers: auth_header
       end
 
-      it "returns 200 and updated carriage" do
+      it "returns OK and updated carriage" do
         expect(response).to have_http_status(:ok)
         expect(json_response[:carriage][:data][:id].to_i).to eq(carriage.id)
         expect(carriage.reload.name).to eq("New_name")
@@ -176,7 +176,7 @@ RSpec.describe "Admin::Carriages", type: :request do
         delete "/admin/carriages/#{carriage.id}"
       end
 
-      it "returns 401" do
+      it "returns UNAUTHORIZED" do
         expect(response).to have_http_status(:unauthorized)
       end
     end
@@ -192,7 +192,7 @@ RSpec.describe "Admin::Carriages", type: :request do
         delete "/admin/carriages/#{carriage.id}", headers: auth_header
       end
 
-      it "returns 422 and error message" do
+      it "returns UNPROCESSABLE_ENTITY and error message" do
         expect(response).to have_http_status(:unprocessable_entity)
         expect(json_response[:errors]).to include("Error message")
       end

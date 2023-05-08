@@ -71,7 +71,7 @@ RSpec.describe "Admin::Routes", type: :request do
         get "/admin/routes/#{route.id}", headers: auth_header
       end
 
-      it "returns 200, route, stations in route and available stations" do
+      it "returns OK, route, stations in route and available stations" do
         expect(response).to have_http_status(:ok)
 
         expect(json_response[:route][:data][:id].to_i).to eq(route.id)
@@ -89,7 +89,7 @@ RSpec.describe "Admin::Routes", type: :request do
         post "/admin/routes"
       end
 
-      it "returns 401" do
+      it "returns UNAUTHORIZED" do
         expect(response).to have_http_status(:unauthorized)
       end
     end
@@ -104,7 +104,7 @@ RSpec.describe "Admin::Routes", type: :request do
         post "/admin/routes", headers: auth_header
       end
 
-      it "returns 422 and error message" do
+      it "returns UNPROCESSABLE_ENTITY and error message" do
         expect(response).to have_http_status(:unprocessable_entity)
         expect(json_response[:errors]).not_to be_nil
       end
@@ -130,7 +130,7 @@ RSpec.describe "Admin::Routes", type: :request do
         }
       end
 
-      it "returns 401" do
+      it "returns UNAUTHORIZED" do
         expect(response).to have_http_status(:unauthorized)
       end
     end
@@ -144,7 +144,7 @@ RSpec.describe "Admin::Routes", type: :request do
              headers: auth_header
       end
 
-      it "returns 404 and contains error message" do
+      it "returns NOT_FOUND and contains error message" do
         expect(response).to have_http_status(:not_found)
         expect(json_response[:message]).to eq("Couldn't find Route with 'id'=0")
       end
@@ -159,7 +159,7 @@ RSpec.describe "Admin::Routes", type: :request do
              headers: auth_header
       end
 
-      it "returns 422 and contains error message that station must exist" do
+      it "returns UNPROCESSABLE_ENTITY and contains error message that station must exist" do
         expect(response).to have_http_status(:unprocessable_entity)
         expect(json_response[:errors]).to include(/Station must exist/)
       end
@@ -192,7 +192,7 @@ RSpec.describe "Admin::Routes", type: :request do
         delete "/admin/routes/#{route.id}/stations/#{route.stations.first.id}"
       end
 
-      it "returns 401" do
+      it "returns UNAUTHORIZED" do
         expect(response).to have_http_status(:unauthorized)
       end
     end
@@ -202,7 +202,7 @@ RSpec.describe "Admin::Routes", type: :request do
         delete "/admin/routes/0/stations/#{route.stations.first.id}", headers: auth_header
       end
 
-      it "returns 404 and contains error message" do
+      it "returns NOT_FOUND and contains error message" do
         expect(response).to have_http_status(:not_found)
         expect(json_response[:message]).to eq("Couldn't find Route with 'id'=0")
       end
@@ -213,7 +213,7 @@ RSpec.describe "Admin::Routes", type: :request do
         delete "/admin/routes/#{route.id}/stations/0", headers: auth_header
       end
 
-      it "returns 422 and contains error message" do
+      it "returns UNPROCESSABLE_ENTITY and contains error message" do
         expect(response).to have_http_status(:unprocessable_entity)
         expect(json_response[:errors]).to include(/Couldn't find StationOrderNumber/)
       end
@@ -224,7 +224,7 @@ RSpec.describe "Admin::Routes", type: :request do
         delete "/admin/routes/#{route.id}/stations/#{route.stations.first.id}", headers: auth_header
       end
 
-      it "returns 200, removed station and removes stations from route" do
+      it "returns OK, removed station and removes stations from route" do
         expect(response).to have_http_status(:ok)
 
         expect(json_response[:station][:data][:id]).to eq(request.params[:station_id])
@@ -242,7 +242,7 @@ RSpec.describe "Admin::Routes", type: :request do
         delete "/admin/routes/#{route.id}"
       end
 
-      it "returns 401" do
+      it "returns UNAUTHORIZED" do
         expect(response).to have_http_status(:unauthorized)
       end
     end
@@ -260,7 +260,7 @@ RSpec.describe "Admin::Routes", type: :request do
         delete "/admin/routes/#{route.id}", headers: auth_header
       end
 
-      it "returns 422 and error message" do
+      it "returns UNPROCESSABLE_ENTITY and error message" do
         expect(response).to have_http_status(:unprocessable_entity)
         expect(json_response[:errors]).to include("Error message")
       end

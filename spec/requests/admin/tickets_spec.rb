@@ -9,7 +9,7 @@ RSpec.describe "Admin::Tickets", type: :request do
         delete "/admin/tickets/#{ticket.id}"
       end
 
-      it "returns 401, does not destroy ticket" do
+      it "returns UNAUTHORIZED, does not destroy ticket" do
         expect(response).to have_http_status(:unauthorized)
         expect { ticket.reload }.not_to raise_error
       end
@@ -24,7 +24,7 @@ RSpec.describe "Admin::Tickets", type: :request do
                headers: auth_header
       end
 
-      it "returns 422 and errors, does not destroy ticket" do
+      it "returns UNPROCESSABLE_ENTITY and errors, does not destroy ticket" do
         expect(response).to have_http_status(:unprocessable_entity)
         expect(json_response[:errors]).not_to be_nil
         expect { ticket.reload }.not_to raise_error
@@ -37,7 +37,7 @@ RSpec.describe "Admin::Tickets", type: :request do
                headers: auth_header
       end
 
-      it "returns 200, message that ticket successfully destroyed and destroys ticket" do
+      it "returns OK, message that ticket successfully destroyed and destroys ticket" do
         expect(response).to have_http_status(:ok)
         expect(json_response[:message]).to eq("Ticket successfully destroyed")
         expect { ticket.reload }.to raise_error(ActiveRecord::RecordNotFound)

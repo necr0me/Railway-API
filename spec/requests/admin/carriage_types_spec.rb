@@ -10,7 +10,7 @@ RSpec.describe "Admin::CarriageTypes", type: :request do
         get "/admin/carriage_types"
       end
 
-      it "returns 401" do
+      it "returns UNAUTHORIZED" do
         expect(response).to have_http_status(:unauthorized)
       end
     end
@@ -51,7 +51,7 @@ RSpec.describe "Admin::CarriageTypes", type: :request do
         post "/admin/carriage_types", params: attributes_for(:carriage_type)
       end
 
-      it "returns 401" do
+      it "returns UNAUTHORIZED" do
         expect(response).to have_http_status(:unauthorized)
       end
     end
@@ -69,7 +69,7 @@ RSpec.describe "Admin::CarriageTypes", type: :request do
              headers: auth_header
       end
 
-      it "returns 422 and contains error messages" do
+      it "returns UNPROCESSABLE_ENTITY and contains error messages" do
         expect(response).to have_http_status(:unprocessable_entity)
 
         expect(json_response[:errors][:name]).to include(/is too short/)
@@ -100,7 +100,7 @@ RSpec.describe "Admin::CarriageTypes", type: :request do
         patch "/admin/carriage_types/#{carriage_type.id}", params: attributes_for(:carriage_type)
       end
 
-      it "returns 401" do
+      it "returns UNAUTHORIZED" do
         expect(response).to have_http_status(:unauthorized)
       end
     end
@@ -118,7 +118,7 @@ RSpec.describe "Admin::CarriageTypes", type: :request do
               headers: auth_header
       end
 
-      it "returns 422 and contains error message" do
+      it "returns UNPROCESSABLE_ENTITY and contains error message" do
         expect(response).to have_http_status(:unprocessable_entity)
 
         expect(json_response[:errors][:capacity]).to include(/must be greater than or equal to 0/)
@@ -138,7 +138,7 @@ RSpec.describe "Admin::CarriageTypes", type: :request do
               headers: auth_header
       end
 
-      it "returns 200 and updated carriage type" do
+      it "returns OK and updated carriage type" do
         expect(response).to have_http_status(:ok)
         expect(json_response[:carriage_type][:data][:id].to_i).to eq(carriage_type.id)
         expect(json_response[:carriage_type][:data][:attributes][:capacity].to_i).to eq(2)
@@ -152,7 +152,7 @@ RSpec.describe "Admin::CarriageTypes", type: :request do
         delete "/admin/carriage_types/#{carriage_type.id}"
       end
 
-      it "returns 401" do
+      it "returns UNAUTHORIZED" do
         expect(response).to have_http_status(:unauthorized)
       end
     end
@@ -162,7 +162,7 @@ RSpec.describe "Admin::CarriageTypes", type: :request do
         delete "/admin/carriage_types/#{carriage_type_with_carriage.id}", headers: auth_header
       end
 
-      it "returns 422 and contains error message that cant delete type that has any carriages" do
+      it "returns UNPROCESSABLE_ENTITY and contains error message that cant delete type that has any carriages" do
         expect(response).to have_http_status(:unprocessable_entity)
         expect(json_response[:errors]).to include("Can't destroy carriage type that has any carriages")
       end

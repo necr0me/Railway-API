@@ -12,7 +12,7 @@ RSpec.describe "Api::V1::TrainStops", type: :request do
         get "/api/v1/train_stops"
       end
 
-      it "returns 422 and error message" do
+      it "returns UNPROCESSABLE_ENTITY and error message" do
         expect(response).to have_http_status(:unprocessable_entity)
         expect(json_response[:errors]).to eq("Error message")
       end
@@ -24,7 +24,7 @@ RSpec.describe "Api::V1::TrainStops", type: :request do
         get "/api/v1/train_stops"
       end
 
-      it "returns 200 and list of passing train entities" do
+      it "returns OK and list of passing train entities" do
         expect(response).to have_http_status(:ok)
         expect(json_response[:found_trains][:data].size).to eq(TrainStop.count)
       end

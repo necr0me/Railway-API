@@ -20,12 +20,12 @@ RSpec.describe UserPolicy, type: :policy do
       it { is_expected.to forbid_actions(%i[create]) }
     end
 
-    context "when user is not correct user" do
+    context "when other users owns resourceR" do
       let(:user) { create(:user, email: "mail@gmail.com", password: "password") }
 
-      it { is_expected.to permit_actions(%i[activate reset_email reset_password reset_password update_password]) }
+      it { is_expected.to permit_actions(%i[show activate reset_email reset_password reset_password update_password]) }
 
-      it { is_expected.to forbid_actions(%i[create show destroy]) }
+      it { is_expected.to forbid_actions(%i[create destroy]) }
     end
   end
 
@@ -41,7 +41,9 @@ RSpec.describe UserPolicy, type: :policy do
     end
 
     context "when other users own resources" do
-      it { is_expected.to forbid_actions(%i[show destroy create]) }
+      it { is_expected.to permit_actions(%i[show activate reset_email update_email reset_password update_password]) }
+
+      it { is_expected.to forbid_actions(%i[destroy create]) }
     end
   end
 
@@ -57,7 +59,9 @@ RSpec.describe UserPolicy, type: :policy do
     end
 
     context "when other users own resources" do
-      it { is_expected.to forbid_actions(%i[show destroy create]) }
+      it { is_expected.to permit_actions(%i[show activate reset_email update_email reset_password update_password]) }
+
+      it { is_expected.to forbid_actions(%i[destroy create]) }
     end
   end
 end

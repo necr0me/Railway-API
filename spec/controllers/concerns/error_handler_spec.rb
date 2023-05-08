@@ -13,7 +13,7 @@ RSpec.describe ErrorHandler do
       get :action
     end
 
-    it "returns 404" do
+    it "returns NOT_FOUND" do
       expect(response).to have_http_status(:not_found)
     end
 
@@ -36,7 +36,7 @@ RSpec.describe ErrorHandler do
       get :action
     end
 
-    it "returns 422" do
+    it "returns UNPROCESSABLE_ENTITY" do
       expect(response).to have_http_status(:unprocessable_entity)
     end
 
@@ -59,7 +59,7 @@ RSpec.describe ErrorHandler do
       get :action
     end
 
-    it "returns 422" do
+    it "returns UNPROCESSABLE_ENTITY" do
       expect(response).to have_http_status(:unprocessable_entity)
     end
 
@@ -82,7 +82,7 @@ RSpec.describe ErrorHandler do
       get :action
     end
 
-    it "returns 403" do
+    it "returns FORBIDDEN" do
       expect(response).to have_http_status(:forbidden)
     end
 

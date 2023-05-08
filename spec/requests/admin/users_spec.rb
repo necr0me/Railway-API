@@ -9,7 +9,7 @@ RSpec.describe "Admin::Users", type: :request do
         delete "/admin/users/#{other_user.id}"
       end
 
-      it "returns 401" do
+      it "returns UNAUTHORIZED" do
         expect(response).to have_http_status(:unauthorized)
       end
     end
@@ -27,7 +27,7 @@ RSpec.describe "Admin::Users", type: :request do
         delete "/admin/users/#{other_user.id}", headers: auth_header
       end
 
-      it "returns 422 and error messages" do
+      it "returns UNPROCESSABLE_ENTITY and error messages" do
         expect(response).to have_http_status(:unprocessable_entity)
         expect(json_response[:errors]).not_to be_nil
       end

@@ -9,7 +9,7 @@ RSpec.describe "Api::V1::Carriages", type: :request do
         get "/api/v1/carriages/#{carriage.id}"
       end
 
-      it "returns 401" do
+      it "returns UNAUTHORIZED" do
         expect(response).to have_http_status(:unauthorized)
       end
     end
@@ -19,7 +19,7 @@ RSpec.describe "Api::V1::Carriages", type: :request do
         get "/api/v1/carriages/#{carriage.id}", headers: auth_header
       end
 
-      it "returns 200 and proper carriage" do
+      it "returns OK and proper carriage" do
         expect(response).to have_http_status(:ok)
         expect(json_response[:carriage][:data][:id].to_i).to eq(carriage.id)
       end

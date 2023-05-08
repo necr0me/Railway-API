@@ -9,7 +9,7 @@ RSpec.describe "Api::V1::Trains", type: :request do
         get "/api/v1/trains/#{train.id}"
       end
 
-      it "returns 401" do
+      it "returns UNAUTHORIZED" do
         expect(response).to have_http_status(:unauthorized)
       end
     end

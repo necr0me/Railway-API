@@ -17,7 +17,7 @@ RSpec.describe "Admin::TrainStops", type: :request do
              }
       end
 
-      it "returns 401" do
+      it "returns UNAUTHORIZED" do
         expect(response).to have_http_status(:unauthorized)
       end
     end
@@ -31,7 +31,7 @@ RSpec.describe "Admin::TrainStops", type: :request do
              }
       end
 
-      it "returns 422 and list of errors" do
+      it "returns UNPROCESSABLE_ENTITY and list of errors" do
         expect(response).to have_http_status(:unprocessable_entity)
         expect(json_response[:errors]).not_to be_nil
         expect(json_response[:errors].size).to be > 0
@@ -71,7 +71,7 @@ RSpec.describe "Admin::TrainStops", type: :request do
               }
       end
 
-      it "returns 401" do
+      it "returns UNAUTHORIZED" do
         expect(response).to have_http_status(:unauthorized)
       end
     end
@@ -87,7 +87,7 @@ RSpec.describe "Admin::TrainStops", type: :request do
               }
       end
 
-      it "returns 422 and errors list" do
+      it "returns UNPROCESSABLE_ENTITY and errors list" do
         expect(response).to have_http_status(:unprocessable_entity)
         expect(json_response[:errors]).not_to be_nil
         expect(json_response[:errors].size).to be > 0
@@ -105,7 +105,7 @@ RSpec.describe "Admin::TrainStops", type: :request do
               }
       end
 
-      it "returns 200 and updated passing train" do
+      it "returns OK and updated passing train" do
         expect(response).to have_http_status(:ok)
         expect(json_response[:train_stop][:data][:id].to_i).to eq(TrainStop.last.id)
       end
@@ -118,7 +118,7 @@ RSpec.describe "Admin::TrainStops", type: :request do
         delete "/admin/train_stops/#{train_stop.id}"
       end
 
-      it "returns 401" do
+      it "returns UNAUTHORIZED" do
         expect(response).to have_http_status(:unauthorized)
       end
     end
@@ -135,7 +135,7 @@ RSpec.describe "Admin::TrainStops", type: :request do
                headers: auth_header
       end
 
-      it "returns 422 and list of errors, and does not destroys passing train" do
+      it "returns UNPROCESSABLE_ENTITY and list of errors, and does not destroys passing train" do
         expect(response).to have_http_status(:unprocessable_entity)
         expect(json_response[:errors]).not_to be_nil
         expect(json_response[:errors].size).to be > 0
@@ -148,7 +148,7 @@ RSpec.describe "Admin::TrainStops", type: :request do
                headers: auth_header
       end
 
-      it "returns 200 and destroys passing train" do
+      it "returns OK and destroys passing train" do
         expect(response).to have_http_status(:ok)
 
         expect { train_stop.reload }.to raise_error(ActiveRecord::RecordNotFound)
