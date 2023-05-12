@@ -5,7 +5,7 @@ module Api
       before_action :authorize!, :authorize_ticket
 
       def index
-        render json: { tickets: current_user.tickets },
+        render json: { tickets: TicketSerializer.new(current_user.tickets, ticket_serializer_options) },
                status: :ok
       end
 
@@ -48,6 +48,10 @@ module Api
 
       def find_ticket
         @ticket = Ticket.find(params[:id].to_i)
+      end
+
+      def ticket_serializer_options
+        { params: { include_seats: false }, include: %i[seat.carriage profile] }
       end
     end
   end

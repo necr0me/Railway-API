@@ -5,8 +5,26 @@ RSpec.describe CarriageSerializer do
 
   describe "associations" do
     describe "seats" do
-      it "returns seats" do
-        expect(result[:relationships]).to include(:seats)
+      context "when params[:include_seats] is false" do
+        let(:serializer) { described_class.new(carriage, { params: { include_seats: false } }) }
+
+        it "does not returns seats" do
+          expect(result[:relationships]).not_to include(:seats)
+        end
+      end
+
+      context "when params is blank" do
+        it "returns seats" do
+          expect(result[:relationships]).to include(:seats)
+        end
+      end
+
+      context "when params[:include_seats] is true" do
+        let(:serializer) { described_class.new(carriage, { params: { include_seats: true } }) }
+
+        it "returns seats" do
+          expect(result[:relationships]).to include(:seats)
+        end
       end
     end
   end
@@ -62,7 +80,7 @@ RSpec.describe CarriageSerializer do
                                             type: carriage.type.name,
                                             capacity: carriage.capacity,
                                             available: carriage.train_id.nil?,
-                                            order_number: "%02d" % carriage.order_number.to_s,
+                                            order_number: format("%02d", carriage.order_number.to_s),
                                             carriage_type_id: carriage.type.id
                                           })
       end

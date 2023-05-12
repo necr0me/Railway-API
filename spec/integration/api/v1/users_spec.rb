@@ -90,7 +90,7 @@ RSpec.describe "api/v1/users", type: :request do
       end
 
       path "/api/v1/users/update_email" do
-        patch "Generates and sends activation link on new users email. By necr0me" do
+        put "Generates and sends activation link on new users email. By necr0me" do
           tags "Users"
           consumes "application/json"
           parameter name: :params, in: :body, schema: {
@@ -170,7 +170,7 @@ RSpec.describe "api/v1/users", type: :request do
       end
 
       path "/api/v1/users/update_password" do
-        patch "Updates user password. By necr0me" do
+        put "Updates user password. By necr0me" do
           tags "Users"
           consumes "application/json"
           parameter name: :params, in: :body, schema: {

@@ -39,9 +39,11 @@ Rails.application.routes.draw do
         post "activate"
 
         post "reset_email"
+        put "update_email"
         patch "update_email"
 
         post "reset_password"
+        put "update_password"
         patch "update_password"
       end
 

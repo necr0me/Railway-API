@@ -27,15 +27,15 @@ paths:
             application/json:
               carriage:
                 data:
-                  id: '4627'
+                  id: '6317'
                   type: carriage
                   attributes:
-                    name: Apollo
+                    name: Zeus
                     capacity: 8
-                    carriage_type_id: 5734
-                    order_number: '10'
+                    carriage_type_id: 7806
+                    order_number: '04'
                     available: true
-                    type: Bob Katz
+                    type: Kenney C. Strait
                   relationships:
                     train:
                       data: 
@@ -70,7 +70,7 @@ paths:
             application/json:
               profiles:
                 data:
-                - id: '1848'
+                - id: '2553'
                   type: profile
                   attributes:
                     name: John
@@ -141,7 +141,7 @@ paths:
               message: Profile successfully created
               profile:
                 data:
-                  id: '1850'
+                  id: '2555'
                   type: profile
                   attributes:
                     name: John
@@ -233,7 +233,7 @@ paths:
               message: Profile successfully updated
               profile:
                 data:
-                  id: '1851'
+                  id: '2556'
                   type: profile
                   attributes:
                     name: New name
@@ -313,14 +313,14 @@ paths:
           examples:
             application/json:
               stations:
-              - id: 7953
+              - id: 10509
                 name: Mogilev
-                created_at: '2023-05-08T11:11:25.556Z'
-                updated_at: '2023-05-08T11:11:25.556Z'
-              - id: 7954
+                created_at: '2023-05-12T11:01:06.421Z'
+                updated_at: '2023-05-12T11:01:06.421Z'
+              - id: 10510
                 name: Mosty
-                created_at: '2023-05-08T11:11:25.559Z'
-                updated_at: '2023-05-08T11:11:25.559Z'
+                created_at: '2023-05-12T11:01:06.423Z'
+                updated_at: '2023-05-12T11:01:06.423Z'
               pages: 1
   "/api/v1/stations/{station_id}":
     get:
@@ -340,10 +340,10 @@ paths:
           description: Station was found
           examples:
             application/json:
-              id: 7956
+              id: 10512
               name: Melbourne
-              created_at: '2023-05-08T11:11:25.573Z'
-              updated_at: '2023-05-08T11:11:25.573Z'
+              created_at: '2023-05-12T11:01:06.438Z'
+              updated_at: '2023-05-12T11:01:06.438Z'
         '404':
           description: Station not found
           examples:
@@ -364,22 +364,77 @@ paths:
           examples:
             application/json:
               tickets:
-              - id: 801
-                price: 1.5
-                seat_id: 13433
-                created_at: '2023-05-08T11:11:25.617Z'
-                updated_at: '2023-05-08T11:11:25.617Z'
-                profile_id: 1858
-                arrival_stop_id: 3661
-                departure_stop_id: 3661
-              - id: 802
-                price: 1.5
-                seat_id: 13433
-                created_at: '2023-05-08T11:11:25.621Z'
-                updated_at: '2023-05-08T11:11:25.621Z'
-                profile_id: 1858
-                arrival_stop_id: 3661
-                departure_stop_id: 3661
+                data:
+                - id: '1148'
+                  type: ticket
+                  attributes:
+                    train_id: 5151
+                    destination: 
+                    departure_point: Melbourne
+                    arrival_point: Melbourne
+                    price: 1.5
+                    arrival_time: '2023-05-12T11:01:06.469Z'
+                    departure_time: '2023-05-12T11:21:06.469Z'
+                  relationships:
+                    seat:
+                      data:
+                        id: '18561'
+                        type: seat
+                    profile:
+                      data:
+                        id: '2563'
+                        type: profile
+                - id: '1149'
+                  type: ticket
+                  attributes:
+                    train_id: 5151
+                    destination: 
+                    departure_point: Melbourne
+                    arrival_point: Melbourne
+                    price: 1.5
+                    arrival_time: '2023-05-12T11:01:06.469Z'
+                    departure_time: '2023-05-12T11:21:06.469Z'
+                  relationships:
+                    seat:
+                      data:
+                        id: '18561'
+                        type: seat
+                    profile:
+                      data:
+                        id: '2563'
+                        type: profile
+                included:
+                - id: '6319'
+                  type: carriage
+                  attributes:
+                    name: Hermes
+                    capacity: 8
+                    carriage_type_id: 7808
+                    order_number: '01'
+                    available: true
+                    type: Maurice Minor
+                  relationships:
+                    train:
+                      data: 
+                - id: '18561'
+                  type: seat
+                  attributes:
+                    id: 18561
+                    is_taken: true
+                    number: '17'
+                  relationships:
+                    carriage:
+                      data:
+                        id: '6319'
+                        type: carriage
+                - id: '2563'
+                  type: profile
+                  attributes:
+                    name: John
+                    surname: Doe
+                    patronymic: Doehovich
+                    phone_number: "+375331234567"
+                    passport_code: KH1234567
         '401':
           description: You are unauthorized
           examples:
@@ -540,12 +595,12 @@ paths:
                     attributes:
                       name: 
                   trains:
-                  - id: 3802
+                  - id: 5162
                     attributes:
                       destination: 
-                      departs_at: '2023-05-08T11:31:26.053Z'
-                      arrives_at: '2023-05-08T11:51:26.063Z'
-                      travel_time: 1200.010412
+                      departs_at: '2023-05-12T11:21:06.952Z'
+                      arrives_at: '2023-05-12T11:41:06.963Z'
+                      travel_time: 1200.010563
   "/api/v1/trains/{train_id}":
     get:
       summary: Show concrete train. By necr0me
@@ -568,119 +623,119 @@ paths:
             application/json:
               train:
                 data:
-                  id: '3803'
+                  id: '5163'
                   type: train
                   attributes:
                     destination: No destination
                   relationships:
                     carriages:
                       data:
-                      - id: '4644'
+                      - id: '6334'
                         type: carriage
-                      - id: '4645'
+                      - id: '6335'
                         type: carriage
-                      - id: '4646'
+                      - id: '6336'
                         type: carriage
                     stops:
                       data: []
                     route:
                       data: 
                 included:
-                - id: '4644'
-                  type: carriage
-                  attributes:
-                    name: Apollo
-                    capacity: 8
-                    carriage_type_id: 5751
-                    order_number: '01'
-                    available: false
-                    type: Stan Dup
-                  relationships:
-                    train:
-                      data:
-                        id: '3803'
-                        type: train
-                    seats:
-                      data:
-                      - id: '13448'
-                        type: seat
-                      - id: '13449'
-                        type: seat
-                      - id: '13450'
-                        type: seat
-                      - id: '13451'
-                        type: seat
-                      - id: '13452'
-                        type: seat
-                      - id: '13453'
-                        type: seat
-                      - id: '13454'
-                        type: seat
-                      - id: '13455'
-                        type: seat
-                - id: '4645'
+                - id: '6334'
                   type: carriage
                   attributes:
                     name: Hermes
                     capacity: 8
-                    carriage_type_id: 5752
-                    order_number: '02'
+                    carriage_type_id: 7823
+                    order_number: '01'
                     available: false
-                    type: Olive Yew
+                    type: Jay Walker
                   relationships:
                     train:
                       data:
-                        id: '3803'
+                        id: '5163'
                         type: train
                     seats:
                       data:
-                      - id: '13456'
+                      - id: '18576'
                         type: seat
-                      - id: '13457'
+                      - id: '18577'
                         type: seat
-                      - id: '13458'
+                      - id: '18578'
                         type: seat
-                      - id: '13459'
+                      - id: '18579'
                         type: seat
-                      - id: '13460'
+                      - id: '18580'
                         type: seat
-                      - id: '13461'
+                      - id: '18581'
                         type: seat
-                      - id: '13462'
+                      - id: '18582'
                         type: seat
-                      - id: '13463'
+                      - id: '18583'
                         type: seat
-                - id: '4646'
+                - id: '6335'
                   type: carriage
                   attributes:
-                    name: Hera
+                    name: Hermes
                     capacity: 8
-                    carriage_type_id: 5753
-                    order_number: '03'
+                    carriage_type_id: 7824
+                    order_number: '02'
                     available: false
-                    type: Rusty Pipes
+                    type: Sasha Klotz
                   relationships:
                     train:
                       data:
-                        id: '3803'
+                        id: '5163'
                         type: train
                     seats:
                       data:
-                      - id: '13464'
+                      - id: '18584'
                         type: seat
-                      - id: '13465'
+                      - id: '18585'
                         type: seat
-                      - id: '13466'
+                      - id: '18586'
                         type: seat
-                      - id: '13467'
+                      - id: '18587'
                         type: seat
-                      - id: '13468'
+                      - id: '18588'
                         type: seat
-                      - id: '13469'
+                      - id: '18589'
                         type: seat
-                      - id: '13470'
+                      - id: '18590'
                         type: seat
-                      - id: '13471'
+                      - id: '18591'
+                        type: seat
+                - id: '6336'
+                  type: carriage
+                  attributes:
+                    name: Hades
+                    capacity: 8
+                    carriage_type_id: 7825
+                    order_number: '03'
+                    available: false
+                    type: Jeff Healitt
+                  relationships:
+                    train:
+                      data:
+                        id: '5163'
+                        type: train
+                    seats:
+                      data:
+                      - id: '18592'
+                        type: seat
+                      - id: '18593'
+                        type: seat
+                      - id: '18594'
+                        type: seat
+                      - id: '18595'
+                        type: seat
+                      - id: '18596'
+                        type: seat
+                      - id: '18597'
+                        type: seat
+                      - id: '18598'
+                        type: seat
+                      - id: '18599'
                         type: seat
         '401':
           description: You are unauthorized
@@ -715,7 +770,7 @@ paths:
             application/json:
               user:
                 data:
-                  id: '8270'
+                  id: '11235'
                   type: user
                   attributes:
                     email: johndoe@gmail.com
@@ -749,7 +804,7 @@ paths:
           required:
           - token
           example:
-            token: 4900ade391edd9028cc97c91f4ee9a23
+            token: 6e13d2db3dd47192fb6f5d74f431d018
       produces:
       - application/json
       responses:
@@ -802,7 +857,7 @@ paths:
               errors:
               - Error message
   "/api/v1/users/update_email":
-    patch:
+    put:
       summary: Generates and sends activation link on new users email. By necr0me
       tags:
       - Users
@@ -823,7 +878,7 @@ paths:
           - token
           example:
             email: new_email@gmail.com
-            token: 3cc13db26f30e2a3e741c25f2fb7d21f
+            token: 3bee93df6415412850d08e7a48c138e3
       produces:
       - application/json
       security:
@@ -891,7 +946,7 @@ paths:
                 email:
                 - User with such email is not registered
   "/api/v1/users/update_password":
-    patch:
+    put:
       summary: Updates user password. By necr0me
       tags:
       - Users
@@ -912,7 +967,7 @@ paths:
           - token
           example:
             password: '12345678'
-            token: 303d1a05af884a4d070061c5250c9560
+            token: 70aeccfea7d8a0a998af35d2e27cb266
       produces:
       - application/json
       responses:
@@ -1052,7 +1107,7 @@ paths:
           examples:
             application/json:
               message: You have successfully logged in
-              access_token: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo4MjkwLCJleHAiOjE2ODM1NDYwODYsImlhdCI6MTY4MzU0NDI4Nn0.adeYnGPuHz05RzC1SEDAdRxDg2FPSngOBrF6dHC1pUw
+              access_token: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxMTI1NSwiZXhwIjoxNjgzODkxMDY3LCJpYXQiOjE2ODM4ODkyNjd9.glc6zCQlhJ3ef3mWkmqz0mvk5_r3T98mysIiH7srYLg
         '400':
           description: Error occurred during authentication
           examples:
@@ -1073,7 +1128,7 @@ paths:
           description: Tokens successfully updated
           examples:
             application/json:
-              access_token: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo4MjkyLCJleHAiOjE2ODM1NDYwODYsImlhdCI6MTY4MzU0NDI4Nn0.Tv0RDNlDS4Czn49VWNk4drm5-6NwaKve2OQLzw9Rs5c
+              access_token: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxMTI1NywiZXhwIjoxNjgzODkxMDY3LCJpYXQiOjE2ODM4ODkyNjd9.t_UWNLcE4f6hasJcF_mCfmKEl8XSd6aT5l-r4ykltBk
         '401':
           description: Error occurred during tokens update
           examples:

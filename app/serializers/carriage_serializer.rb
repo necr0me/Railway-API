@@ -3,7 +3,7 @@ class CarriageSerializer
 
   belongs_to :train
 
-  has_many :seats
+  has_many :seats, if: Proc.new { |_, params| params.blank? ? true : params[:include_seats] }
 
   attributes :name, :capacity, :carriage_type_id
 

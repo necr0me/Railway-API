@@ -23,7 +23,9 @@ RSpec.describe "Api::V1::Tickets", type: :request do
 
       it "returns OK and list of user's tickets" do
         expect(response).to have_http_status(:ok)
-        expect(json_response[:tickets].map { _1[:profile_id] }.uniq).to eq(user.profiles.pluck(:id))
+        expect(json_response[:tickets][:data].map do
+          _1[:relationships][:profile][:data][:id].to_i
+        end.uniq).to eq(user.profiles.pluck(:id))
       end
     end
   end
