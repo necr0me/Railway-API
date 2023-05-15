@@ -76,11 +76,12 @@ module Admin
     end
 
     def destroy
-      if @train.destroy
+      result = Trains::DestroyerService.call(train: @train)
+      if result.success?
         head :no_content
       else
         render json: { message: "Something went wrong",
-                       errors: @train.errors.full_messages },
+                       errors: result.error.full_messages },
                status: :unprocessable_entity
       end
     end
