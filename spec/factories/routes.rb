@@ -20,6 +20,21 @@ FactoryBot.define do
       end
     end
 
+    trait :route_with_specific_stations do
+      transient do
+        stations { [] }
+      end
+
+      after :create do |route, e|
+        e.stations.each_with_index do |station, index|
+          create(:station_order_number,
+                 station: station,
+                 route: route,
+                 order_number: index + 1)
+        end
+      end
+    end
+
     trait :route_with_trains do
       after :create do |route|
         3.times do

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_06_180944) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_16_113523) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -20,6 +20,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_06_180944) do
     t.integer "capacity", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.float "cost_per_hour", default: 1.0, null: false
   end
 
   create_table "carriages", force: :cascade do |t|
@@ -59,6 +60,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_06_180944) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "destination"
+    t.interval "standard_travel_time", default: "PT1M", null: false
   end
 
   create_table "seats", force: :cascade do |t|

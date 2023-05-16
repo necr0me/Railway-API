@@ -37,7 +37,7 @@ FactoryBot.define do
       after :create do |train, e|
         e.stops_at.each_with_index do |item, i|
           create(:train_stop,
-                 arrival_time: e.start_time + i * e.travel_time.minutes,
+                 arrival_time: e.start_time + (i - 1) * (e.stoppage_time).minutes + i * e.travel_time.minutes,
                  departure_time: e.start_time + i * (e.travel_time + e.stoppage_time).minutes,
                  station_id: item.id,
                  train_id: train.id)
