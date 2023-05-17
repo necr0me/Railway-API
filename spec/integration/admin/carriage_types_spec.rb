@@ -99,13 +99,15 @@ RSpec.describe "admin/carriage_types", type: :request, swagger_doc: "admin/swagg
             properties: {
               name: { type: :string },
               description: { type: :string },
-              capacity: { type: :integer }
+              capacity: { type: :integer },
+              cost_per_hour: { type: :number, format: :float }
             },
             required: %i[name capacity],
             example: {
               name: "Coupe",
               description: "Some description",
-              capacity: 32
+              capacity: 32,
+              cost_per_hour: 4.5
             }
           }
         },
@@ -114,7 +116,7 @@ RSpec.describe "admin/carriage_types", type: :request, swagger_doc: "admin/swagg
       produces "application/json"
       security [Bearer: {}]
 
-      let(:params) { { carriage_type: { name: "New name", description: "New description", capacity: 4 } } }
+      let(:params) { { carriage_type: attributes_for(:carriage_type) } }
 
       response "200", "Carriage type successfully updated" do
         include_context "with integration test"
@@ -140,6 +142,7 @@ RSpec.describe "admin/carriage_types", type: :request, swagger_doc: "admin/swagg
 
       response "422", "Error occurred during carriage type update" do
         let(:carriage_type) { create(:carriage_type, :type_with_carriage) }
+        let(:params) { { carriage_type: { capacity: carriage_type.capacity + 1 } } }
 
         include_context "with integration test"
       end

@@ -4,7 +4,8 @@ RSpec.describe CarriageTypes::UpdaterService do
     {
       name: "Coupe",
       description: "Coupe carriage with 32 seats",
-      capacity: 32
+      capacity: 32,
+      cost_per_hour: 1.0
     }
   end
 
@@ -36,7 +37,8 @@ RSpec.describe CarriageTypes::UpdaterService do
         {
           name: "x",
           description: "x" * 141,
-          capacity: -1
+          capacity: -1,
+          cost_per_hour: 1.0
         }
       end
 
@@ -57,7 +59,8 @@ RSpec.describe CarriageTypes::UpdaterService do
         {
           name: "Coupe",
           description: "Coupe carriage with 8 seats",
-          capacity: carriage_type.capacity
+          capacity: carriage_type.capacity,
+          cost_per_hour: carriage_type.cost_per_hour
         }
       end
 

@@ -234,6 +234,62 @@ RSpec.describe "Admin::Routes", type: :request do
     end
   end
 
+  describe "#update" do
+    include_context "with sequence cleaner"
+
+    let(:params) do
+      {
+        route: {
+          standard_travel_time: ActiveSupport::Duration.build(2.days.to_i + 2.hours.to_i).iso8601
+        }
+      }
+    end
+
+    context "when user is unauthorized" do
+      before do
+        patch "/admin/routes/#{route.id}", params: params
+      end
+
+      it "returns UNAUTHORIZED" do
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context "when error occurred during update" do
+      let(:errors) { instance_double(ActiveModel::Errors, full_messages: ["Error message"]) }
+      let(:routes) { Route.includes(:stations) }
+
+      before do
+        allow(Route).to receive(:includes).with(:stations).and_return(routes)
+        allow(routes).to receive(:find).and_return(route)
+        allow(route).to receive(:update).and_return(false)
+        allow(route).to receive(:errors).and_return(errors)
+
+        patch "/admin/routes/#{route.id}",
+              headers: auth_header,
+              params: params
+      end
+
+      it "returns UNPROCESSABLE_ENTITY and error message" do
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(json_response[:errors]).to include("Error message")
+      end
+    end
+
+    context "when user is authorized and route exists" do
+      before do
+        patch "/admin/routes/#{route.id}",
+              headers: auth_header,
+              params: params
+      end
+
+      it "returns OK and updates route" do
+        expect(response).to have_http_status(:ok)
+        expect(route.reload.standard_travel_time.iso8601).to eq(params[:route][:standard_travel_time])
+      end
+    end
+  end
+
   describe "#destroy" do
     include_context "with sequence cleaner"
 
