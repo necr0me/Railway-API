@@ -6,14 +6,14 @@ module Admin
     def index
       @stations = Station.where("name LIKE :prefix", prefix: "#{params[:station]}%")
       @pagy, @stations = pagy(@stations, page: params[:page] || 1)
-      render json: { stations: @stations,
+      render json: { stations: StationSerializer.new(@stations),
                      pages: @pagy.pages }
     end
 
     def create
       station = Station.create(station_params)
       if station.persisted?
-        render json: { station: station },
+        render json: { station: StationSerializer.new(station) },
                status: :created
       else
         render json: { message: "Something went wrong",
@@ -24,7 +24,7 @@ module Admin
 
     def update
       if @station.update(station_params)
-        render json: { station: @station },
+        render json: { station: StationSerializer.new(@station) },
                status: :ok
       else
         render json: { message: "Something went wrong",

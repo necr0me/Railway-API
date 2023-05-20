@@ -11,6 +11,8 @@ class CarriageSerializer
     format("%02d", object.order_number)
   end
 
+  attribute :free_seats, &:amount_of_free_seats
+
   attribute :available do |object|
     object.train_id.nil? ? true : false
   end
