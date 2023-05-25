@@ -11,7 +11,7 @@ module Admin
                status: :created
       else
         render json: { message: "Something went wrong",
-                       errors: train_stop.errors.full_messages },
+                       errors: train_stop.errors },
                status: :unprocessable_entity
       end
     end
@@ -23,7 +23,7 @@ module Admin
                status: :ok
       else
         render json: { message: "Something went wrong",
-                       errors: @train_stop.errors.full_messages },
+                       errors: @train_stop.errors },
                status: :unprocessable_entity
       end
     end
