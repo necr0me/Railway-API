@@ -50,6 +50,7 @@ class FoundTrainsSerializer
 
   def type_price_pair(type, pair)
     { type: type.name,
+      capacity: type.capacity,
       price: Tickets::PriceCalculatorService.call(ticket: Ticket.new(
         departure_point: pair.first,
         arrival_point: pair.last,

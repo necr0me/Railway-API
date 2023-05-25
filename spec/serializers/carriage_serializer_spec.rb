@@ -80,6 +80,7 @@ RSpec.describe CarriageSerializer do
                                             type: carriage.type.name,
                                             capacity: carriage.capacity,
                                             available: carriage.train_id.nil?,
+                                            free_seats: carriage.amount_of_free_seats,
                                             order_number: format("%02d", carriage.order_number.to_s),
                                             carriage_type_id: carriage.type.id
                                           })

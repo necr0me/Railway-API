@@ -5,10 +5,6 @@ RSpec.describe Users::Password::UpdateService do
   let(:token) { "token" }
   let(:password) { "12345678" }
 
-  describe "#call" do
-    it "calls #update"
-  end
-
   describe "#update" do
     context "when token is not presented" do
       let(:token) { "" }

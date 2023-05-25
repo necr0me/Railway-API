@@ -54,6 +54,9 @@ Rails.application.routes.draw do
       resources :carriages, only: %i[show]
 
       resources :trains, param: :train_id, only: %i[show]
+      resources :trains, only: [] do
+        get "stops", to: "trains#show_stops"
+      end
 
       resources :train_stops, only: %i[index]
 

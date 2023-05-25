@@ -12,7 +12,11 @@ module Api
       end
 
       def show
-        render json: { station: StationSerializer.new(@station) }
+        @pagy, @stops = pagy(@station.train_stops.arrives_after(Time.now.utc), page: params[:page] || 1)
+        render json: { station: StationSerializer.new(@station),
+                       stops: TrainStopSerializer.new(@stops).serializable_hash.merge(
+                         pages: @pagy.pages
+                       ) }
       end
 
       private

@@ -4,10 +4,6 @@ RSpec.describe Users::Email::ActivationService do
   let(:token) { user.confirmation_token }
   let(:user) { create(:unactivated_user) }
 
-  describe "#call" do
-    it "calls #activate"
-  end
-
   describe "#activate" do
     context "when token is not presented" do
       let(:token) { "" }

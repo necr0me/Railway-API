@@ -3,10 +3,6 @@ RSpec.describe Users::Email::ResetService do
 
   let(:user) { create(:user) }
 
-  describe "#call" do
-    it "calls #reset"
-  end
-
   describe "#reset" do
     context "when error occurs during token update" do
       before do

@@ -14,9 +14,11 @@ class TrainStop < ApplicationRecord
   # TODO: add validation of presence (optional)
   validate :arrival_cannot_be_later_than_departure
 
-  scope :arrives_after, ->(date) { where(arrival_time: date.at_end_of_day..) }
+  default_scope { order("departure_time ASC") }
+
+  scope :arrives_after, ->(date) { where(arrival_time: date..) }
   scope :arrives_at_the_day, ->(date) { where(arrival_time: date.at_beginning_of_day..date.at_end_of_day) }
-  scope :arrives_before, ->(date) { where(arrival_time: ..date.at_beginning_of_day) }
+  scope :arrives_before, ->(date) { where(arrival_time: ..date) }
 
   private
 

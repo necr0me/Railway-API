@@ -5,10 +5,6 @@ RSpec.describe Users::CreatorService do
   let(:unconfirmed_email) { "johndoe@gmail.com" }
   let(:password) { "password" }
 
-  describe "#call" do
-    it "calls #create"
-  end
-
   describe "#create" do
     context "when unconfirmed_email is blank" do
       let(:unconfirmed_email) { "" }

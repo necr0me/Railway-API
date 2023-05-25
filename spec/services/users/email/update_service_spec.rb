@@ -5,10 +5,6 @@ RSpec.describe Users::Email::UpdateService do
   let(:email) { "newemail@gmail.com" }
   let(:user) { create(:user, reset_email_token: token, reset_email_sent_at: DateTime.now.utc) }
 
-  describe "#call" do
-    it "calls #update"
-  end
-
   describe "#update" do
     context "when token is not presented" do
       let(:token) { "" }

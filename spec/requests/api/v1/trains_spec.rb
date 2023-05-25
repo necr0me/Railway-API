@@ -26,4 +26,21 @@ RSpec.describe "Api::V1::Trains", type: :request do
       end
     end
   end
+
+  describe "#show_stops" do
+    let(:train) { create(:train, :train_with_stops) }
+
+    before do
+      get "/api/v1/trains/#{train.id}/stops"
+    end
+
+    it "returns OK and train with its stops included and number of pages" do
+      expect(response).to have_http_status(:ok)
+
+      expect(json_response[:train][:data][:id].to_i).to eq(train.id)
+      expect(json_response[:stops][:data].map { _1[:id].to_i }).to eq(train.stops.pluck(:id))
+
+      expect(json_response[:stops][:pages]).to eq(1 + train.stops.count / Pagy::DEFAULT[:items].to_i)
+    end
+  end
 end

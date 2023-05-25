@@ -4,10 +4,6 @@ RSpec.describe Users::Password::ResetService do
   let(:email) { user.email }
   let(:user) { create(:user) }
 
-  describe "#call" do
-    it "calls #reset_password"
-  end
-
   describe "#reset_password" do
     context "when no user with such email" do
       let(:email) { "" }
