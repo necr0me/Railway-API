@@ -11,4 +11,7 @@ class Station < ApplicationRecord
             presence: true,
             length: { minimum: 2, maximum: 50 },
             uniqueness: true
+  validates :number_of_ways,
+            presence: true,
+            comparison: { greater_than: 0 }
 end

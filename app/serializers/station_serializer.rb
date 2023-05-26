@@ -3,5 +3,5 @@ class StationSerializer
 
   has_many :train_stops
 
-  attribute :name
+  attributes :name, :number_of_ways
 end

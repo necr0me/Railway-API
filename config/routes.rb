@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :users, only: %i[destroy]
 
-    resources :stations, only: %i[index create update destroy]
+    resources :stations
 
     resources :routes, only: %i[index]
     resources :routes, only: %i[show create update destroy], param: :route_id

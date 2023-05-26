@@ -1,6 +1,6 @@
 module Admin
   class StationsController < AdminController
-    before_action :find_station, only: %i[update destroy]
+    before_action :find_station, only: %i[show update destroy]
     before_action :authorize_station
 
     def index
@@ -8,6 +8,11 @@ module Admin
       @pagy, @stations = pagy(@stations, page: params[:page] || 1)
       render json: { stations: StationSerializer.new(@stations),
                      pages: @pagy.pages }
+    end
+
+    def show
+      render json: { station: StationSerializer.new(@station, { include: %i[train_stops] }) },
+             status: :ok
     end
 
     def create
@@ -46,7 +51,7 @@ module Admin
     private
 
     def station_params
-      params.require(:station).permit(:name)
+      params.require(:station).permit(:name, :number_of_ways)
     end
 
     def find_station
@@ -55,6 +60,10 @@ module Admin
 
     def authorize_station
       authorize(@station || Station)
+    end
+
+    def pagy_options
+      { items: params[:page] ? Pagy::DEFAULT[:items] : @station.train_stops.count }
     end
   end
 end
