@@ -99,5 +99,31 @@ RSpec.describe CarriageType, type: :model do
         end
       end
     end
+
+    describe "#cost_per_hour" do
+      context "when cost_per_hour is blank" do
+        let(:carriage_type) { build(:carriage_type, cost_per_hour: nil) }
+
+        it "is invalid" do
+          expect(carriage_type).not_to be_valid
+        end
+      end
+
+      context "when cost_per_hour is less than 0" do
+        let(:carriage_type) { build(:carriage_type, cost_per_hour: -1) }
+
+        it "is invalid" do
+          expect(carriage_type).not_to be_valid
+        end
+      end
+
+      context "when cost_per_hour bigger than 0" do
+        let(:carriage_type) { build(:carriage_type, cost_per_hour: 0.1) }
+
+        it "is valid" do
+          expect(carriage_type).to be_valid
+        end
+      end
+    end
   end
 end

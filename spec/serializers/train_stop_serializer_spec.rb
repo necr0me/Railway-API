@@ -21,6 +21,7 @@ RSpec.describe TrainStopSerializer do
                                           name: train_stop.station.name,
                                           arrival_time: train_stop.arrival_time,
                                           departure_time: train_stop.departure_time,
+                                          train_destination: train_stop.train.destination,
                                           way_number: train_stop.way_number
                                         })
     end

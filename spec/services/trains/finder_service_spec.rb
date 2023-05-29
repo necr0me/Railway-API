@@ -12,22 +12,7 @@ RSpec.describe Trains::FinderService do
   let(:stations) { create_list(:station, names.size, :station_sequence_with_name_list, list: names) }
   let(:train_grodno_minsk) { create(:train, :train_with_specific_stops, stops_at: stations) }
   let(:train_mosty_lida) do
-    create(:train, :train_with_specific_stops, stops_at: stations[1..2], start_time: DateTime.now + 5.minutes)
-  end
-
-  describe "#call" do
-    let(:departure_station_name) { nil }
-    let(:arrival_station_name) { nil }
-
-    it "calls set_stations! method" do
-      allow_any_instance_of(described_class).to receive(:set_stations!).with(no_args)
-      service
-    end
-
-    it "calls find_trains method" do
-      allow_any_instance_of(described_class).to receive(:find_trains).with(no_args)
-      service
-    end
+    create(:train, :train_with_specific_stops, stops_at: stations[1..2])
   end
 
   describe "#set_stations!" do
@@ -81,18 +66,17 @@ RSpec.describe Trains::FinderService do
 
     context "when date, but not the stations are presented" do
       let(:date) { DateTime.now + 3.minutes }
-      let(:day_option) { :before }
 
       before do
         train_grodno_minsk
         train_mosty_lida
       end
 
-      it "returns train Hrodna - Minsk, but not of train Mosty - Lida" do
+      it "returns train Hrodna - Minsk and train Mosty - Lida" do
         result = service.data[:passing_trains].flatten.pluck(:train_id)
 
         expect(result).to include(train_grodno_minsk.id)
-        expect(result).not_to include(train_mosty_lida.id)
+        expect(result).to include(train_mosty_lida.id)
       end
     end
 

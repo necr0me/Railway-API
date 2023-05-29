@@ -9,10 +9,10 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :users, only: %i[destroy]
 
-    resources :stations, only: %i[index create update destroy]
+    resources :stations
 
     resources :routes, only: %i[index]
-    resources :routes, only: %i[show create destroy], param: :route_id
+    resources :routes, only: %i[show create update destroy], param: :route_id
     resources :routes, only: [] do
       post 'stations', to: 'routes#add_station'
       delete 'stations/:station_id', to: 'routes#remove_station'
@@ -54,6 +54,9 @@ Rails.application.routes.draw do
       resources :carriages, only: %i[show]
 
       resources :trains, param: :train_id, only: %i[show]
+      resources :trains, only: [] do
+        get "stops", to: "trains#show_stops"
+      end
 
       resources :train_stops, only: %i[index]
 

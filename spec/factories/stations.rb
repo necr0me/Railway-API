@@ -25,8 +25,11 @@ FactoryBot.define do
 
   trait :station_with_train_stops do
     after :create do |station|
-      3.times do
-        create(:train_stop, station_id: station.id)
+      3.times do |i|
+        create(:train_stop,
+               station_id: station.id,
+               arrival_time: Time.now.utc + (i - 1) * 5.minutes + i * 5.minutes,
+               departure_time: Time.now.utc + i * (5 + 5).minutes)
       end
     end
   end

@@ -3,6 +3,7 @@ FactoryBot.define do
     name { Faker::FunnyName.name }
     description { Faker::Company.name }
     capacity { 8 }
+    cost_per_hour { 1.0 }
 
     trait :type_with_carriage do
       after :create do |carriage_type|

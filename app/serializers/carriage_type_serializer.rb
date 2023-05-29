@@ -3,5 +3,5 @@ class CarriageTypeSerializer
 
   has_many :carriages
 
-  attributes :name, :description, :capacity
+  attributes :name, :description, :capacity, :cost_per_hour
 end

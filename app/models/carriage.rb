@@ -12,4 +12,8 @@ class Carriage < ApplicationRecord
   validates :order_number, allow_nil: true, comparison: { greater_than_or_equal_to: 1 }
 
   delegate :capacity, to: :type
+
+  def amount_of_free_seats
+    seats.where(is_taken: false).count
+  end
 end

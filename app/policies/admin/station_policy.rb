@@ -4,6 +4,10 @@ module Admin
       moderator_or_admin?
     end
 
+    def show?
+      moderator_or_admin?
+    end
+
     def create?
       moderator_or_admin?
     end

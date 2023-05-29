@@ -83,7 +83,12 @@ RSpec.describe "api/v1/tickets", type: :request do
       security [Bearer: {}]
 
       let(:departure_stop) { create(:train_stop) }
-      let(:arrival_stop) { create(:train_stop, station: create(:station, name: "Sydney")) }
+      let(:arrival_stop) do
+        create(:train_stop,
+               station: create(:station, name: "Sydney"),
+               arrival_time: departure_stop.departure_time + 5.minutes,
+               departure_time: departure_stop.departure_time + 10.minutes)
+      end
 
       let(:other_profile) { create(:profile, passport_code: "KH#{'1' * 7}", phone_number: "4" * 7) }
 

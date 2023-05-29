@@ -7,4 +7,8 @@ class Train < ApplicationRecord
   before_destroy { carriages.update(order_number: nil) }
 
   delegate :destination, to: :route, allow_nil: true
+
+  def last_stop
+    stops.where.not(id: nil)&.last
+  end
 end

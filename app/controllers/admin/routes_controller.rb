@@ -60,6 +60,17 @@ module Admin
       end
     end
 
+    def update
+      if @route.update(route_params)
+        render json: { message: "Route successfully updated" },
+               status: :ok
+      else
+        render json: { message: "Something went wrong",
+                       errors: @route.errors.full_messages },
+               status: :unprocessable_entity
+      end
+    end
+
     def destroy
       if @route.destroy
         head :no_content
@@ -71,6 +82,10 @@ module Admin
     end
 
     private
+
+    def route_params
+      params.require(:route).permit(:standard_travel_time)
+    end
 
     def find_route
       @route = Route.includes(:stations).find(params[:route_id].to_i)

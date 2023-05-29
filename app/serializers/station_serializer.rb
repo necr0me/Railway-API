@@ -1,5 +1,7 @@
 class StationSerializer
   include JSONAPI::Serializer
 
-  attribute :name
+  has_many :train_stops
+
+  attributes :name, :number_of_ways
 end

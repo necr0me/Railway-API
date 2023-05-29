@@ -53,7 +53,7 @@ module Admin
     private
 
     def carriage_type_params
-      params.require(:carriage_type).permit(:name, :description, :capacity)
+      params.require(:carriage_type).permit(:name, :description, :capacity, :cost_per_hour)
     end
 
     def find_carriage_type

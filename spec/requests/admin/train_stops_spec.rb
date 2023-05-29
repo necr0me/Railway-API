@@ -27,7 +27,7 @@ RSpec.describe "Admin::TrainStops", type: :request do
         post "/admin/train_stops",
              headers: auth_header,
              params: {
-               train_stop: attributes_for(:train_stop)
+               train_stop: train_stop.attributes.merge(way_number: 0)
              }
       end
 

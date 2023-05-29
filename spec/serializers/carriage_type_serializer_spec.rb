@@ -21,7 +21,8 @@ RSpec.describe CarriageTypeSerializer do
       expect(result[:attributes]).to eq({
                                           name: carriage_type.name,
                                           description: carriage_type.description,
-                                          capacity: carriage_type.capacity
+                                          capacity: carriage_type.capacity,
+                                          cost_per_hour: carriage_type.cost_per_hour
                                         })
     end
   end

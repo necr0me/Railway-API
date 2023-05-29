@@ -71,6 +71,69 @@ RSpec.describe "admin/routes", type: :request, swagger_doc: "admin/swagger.yaml"
       end
     end
 
+    put "Update concrete route's standard_travel_time. By necr0me" do
+      tags "Routes"
+      consumes "application/json"
+      parameter name: :route_id, in: :path, type: :integer, required: true,
+                description: "Id of route"
+      parameter name: :params, in: :body, schema: {
+        type: :object,
+        properties: {
+          route: {
+            type: :object,
+            properties: {
+              standard_travel_time: { type: :integer }
+            },
+            required: %i[standard_travel_time],
+            example: {
+              standard_travel_time: 60.minutes.to_i
+            }
+          }
+        },
+        required: %i[route]
+      }
+      produces "application/json"
+      security [Bearer: {}]
+
+      let(:params) { { route: { standard_travel_time: 60.minutes.to_i } } }
+
+      response "200", "Route found" do
+        include_context "with integration test"
+      end
+
+      response "401", "You are unauthorized" do
+        let(:Authorization) { "invalid" }
+
+        include_context "with integration test"
+      end
+
+      response "403", "You are forbidden to perform this action" do
+        let(:user) { create(:user) }
+
+        include_context "with integration test"
+      end
+
+      response "404", "Route not found" do
+        let(:route_id) { -1 }
+
+        include_context "with integration test"
+      end
+
+      response "422", "Something went wrong during route update" do
+        let(:errors) { instance_double(ActiveModel::Errors, full_messages: ["Error message"]) }
+        let(:routes) { Route.includes(:stations) }
+
+        before do
+          allow(Route).to receive(:includes).with(:stations).and_return(routes)
+          allow(routes).to receive(:find).and_return(route)
+          allow(route).to receive(:update).and_return(false)
+          allow(route).to receive(:errors).and_return(errors)
+        end
+
+        include_context "with integration test"
+      end
+    end
+
     delete "Delete concrete route. By necr0me" do
       tags "Routes"
       parameter name: :route_id, in: :path, type: :integer, required: true,

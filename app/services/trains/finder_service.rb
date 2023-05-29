@@ -21,7 +21,6 @@ module Trains
       @arrival_station = Station.preload(:train_stops).find_by(name: arrival_station)
     end
 
-    # TODO: should return pair of PassingTrains (DONE)
     # think about queries performance
     def find_trains
       query = TrainStop.preload(:train, :station)
