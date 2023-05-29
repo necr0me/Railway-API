@@ -23,11 +23,11 @@ module Trains
         carriage.update!(train_id: nil, order_number: nil)
         carriage.seats.destroy_all
       end
-      success!
+      success!(data: carriage)
     end
 
     def decrement_order_numbers_after(carriage)
-      train.carriages.where('order_number > ?', carriage.order_number)
+      train.carriages.where("order_number > ?", carriage.order_number)
            .each { _1.update(order_number: _1.order_number - 1) }
     end
   end

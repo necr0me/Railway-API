@@ -1,6 +1,6 @@
 class Carriage < ApplicationRecord
   belongs_to :train, optional: true
-  belongs_to :type, class_name: 'CarriageType', foreign_key: :carriage_type_id,
+  belongs_to :type, class_name: "CarriageType", foreign_key: :carriage_type_id,
                     inverse_of: :carriages
   has_many :seats, dependent: :delete_all
 
@@ -12,4 +12,8 @@ class Carriage < ApplicationRecord
   validates :order_number, allow_nil: true, comparison: { greater_than_or_equal_to: 1 }
 
   delegate :capacity, to: :type
+
+  def amount_of_free_seats
+    seats.where(is_taken: false).count
+  end
 end

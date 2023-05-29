@@ -2,30 +2,46 @@ module Api
   module V1
     class ProfilesController < ApplicationController
       before_action :authorize!
+      before_action :find_profile, only: %i[update destroy]
+      before_action :authorize_profile
 
-      def show
-        render json: current_user.profile
+      def index
+        render json: { profiles: ProfileSerializer.new(current_user.profiles) },
+               status: :ok
       end
 
       def create
-        profile = current_user.create_profile(profile_params)
+        profile = current_user.profiles.create(profile_params)
         if profile.persisted?
-          render json: { profile: current_user.profile },
+          render json: { message: "Profile successfully created",
+                         profile: ProfileSerializer.new(profile) },
                  status: :created
         else
-          render json: { message: 'Something went wrong',
-                         errors: profile.errors.full_messages },
+          render json: { message: "Something went wrong",
+                         errors: profile.errors },
                  status: :unprocessable_entity
         end
       end
 
       def update
-        if current_user.profile.update(profile_params)
-          render json: { profile: current_user.profile },
+        if @profile.update(profile_params)
+          render json: { message: "Profile successfully updated",
+                         profile: ProfileSerializer.new(@profile) },
                  status: :ok
         else
-          render json: { message: 'Something went wrong',
-                         errors: current_user.profile.errors.full_messages },
+          render json: { message: "Something went wrong",
+                         errors: @profile.errors },
+                 status: :unprocessable_entity
+        end
+      end
+
+      def destroy
+        if @profile.destroy
+          render json: { message: "Profile successfully destroyed" },
+                 status: :ok
+        else
+          render json: { message: "Something went wrong",
+                         errors: @profile.errors },
                  status: :unprocessable_entity
         end
       end
@@ -40,6 +56,14 @@ module Api
           :phone_number,
           :passport_code
         )
+      end
+
+      def find_profile
+        @profile = Profile.find(params[:id].to_i)
+      end
+
+      def authorize_profile
+        authorize(@profile || Profile)
       end
     end
   end

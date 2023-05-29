@@ -1,60 +1,67 @@
-require 'rails_helper'
-
 RSpec.describe UserPolicy, type: :policy do
   subject { described_class.new(user, resource_user) }
 
   let(:resource_user) { create(:user) }
 
-  context 'being visitor' do
+  context "when user is nil" do
     let(:user) { nil }
 
-    it { is_expected.to forbid_actions(%i[show update destroy]) }
+    it { is_expected.to permit_actions(%i[create activate reset_password update_password]) }
+
+    it { is_expected.to forbid_actions(%i[show reset_email update_email destroy]) }
   end
 
-  context 'being user' do
-    context 'being correct user' do
+  context "when user role is :user" do
+    context "when user is correct" do
       let(:user) { resource_user }
 
-      it { is_expected.to permit_actions(%i[show update destroy]) }
+      it { is_expected.to permit_actions(%i[show activate reset_email update_email reset_password update_password destroy]) }
+
+      it { is_expected.to forbid_actions(%i[create]) }
     end
 
-    context 'being other user' do
-      let(:user) { create(:user, email: 'mail@gmail.com', password: 'password') }
+    context "when other users owns resourceR" do
+      let(:user) { create(:user, email: "mail@gmail.com", password: "password") }
 
-      it { is_expected.to forbid_actions(%i[show update destroy]) }
+      it { is_expected.to permit_actions(%i[show activate reset_email reset_password reset_password update_password]) }
+
+      it { is_expected.to forbid_actions(%i[create destroy]) }
     end
   end
 
-  context 'being moderator' do
-    let(:user) { create(:user, email: 'mail@gmail.com', password: 'password', role: 1) }
+  context "when user role is :moderator" do
+    let(:user) { create(:user, email: "mail@gmail.com", password: "password", role: 1) }
 
-    context 'own resources' do
+    context "when current user own resources" do
       let(:resource_user) { user }
 
-      it { is_expected.to permit_actions(%i[show update destroy]) }
+      it { is_expected.to permit_actions(%i[show activate reset_email update_email reset_password update_password destroy]) }
+
+      it { is_expected.to forbid_action(:create) }
     end
 
-    context 'other users resources' do
-      it { is_expected.to permit_action(:show) }
+    context "when other users own resources" do
+      it { is_expected.to permit_actions(%i[show activate reset_email update_email reset_password update_password]) }
 
-      it { is_expected.to forbid_actions(%i[update destroy]) }
+      it { is_expected.to forbid_actions(%i[destroy create]) }
     end
-
   end
 
-  context 'being admin' do
-    let(:user) { create(:user, email: 'mail@gmail.com', password: 'password', role: 2) }
+  context "when user role is :admin" do
+    let(:user) { create(:user, email: "mail@gmail.com", password: "password", role: 2) }
 
-    context 'own resources' do
+    context "when current user own resources" do
       let(:resource_user) { user }
 
-      it { is_expected.to permit_actions(%i[show update destroy]) }
+      it { is_expected.to permit_actions(%i[show activate reset_email update_email reset_password update_password destroy]) }
+
+      it { is_expected.to forbid_actions(%i[create]) }
     end
 
-    context 'other resources' do
-      it { is_expected.to permit_actions(%i[show destroy]) }
+    context "when other users own resources" do
+      it { is_expected.to permit_actions(%i[show activate reset_email update_email reset_password update_password]) }
 
-      it { is_expected.to forbid_action(:update) }
+      it { is_expected.to forbid_actions(%i[destroy create]) }
     end
   end
 end

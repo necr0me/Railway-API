@@ -10,16 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_21_161505) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_26_094738) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "carriage_types", force: :cascade do |t|
     t.string "name", null: false
-    t.string "description", null: false
+    t.string "description"
     t.integer "capacity", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.float "cost_per_hour", default: 1.0, null: false
   end
 
   create_table "carriages", force: :cascade do |t|
@@ -58,6 +59,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_21_161505) do
   create_table "routes", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "destination"
+    t.interval "standard_travel_time", default: "PT1M", null: false
   end
 
   create_table "seats", force: :cascade do |t|
@@ -84,7 +87,30 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_21_161505) do
     t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "number_of_ways", limit: 2, default: 1, null: false
     t.index ["name"], name: "index_stations_on_name", unique: true
+  end
+
+  create_table "tickets", force: :cascade do |t|
+    t.float "price"
+    t.integer "seat_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "profile_id", null: false
+    t.integer "arrival_stop_id", null: false
+    t.integer "departure_stop_id", null: false
+  end
+
+  create_table "train_stops", force: :cascade do |t|
+    t.datetime "departure_time", null: false
+    t.datetime "arrival_time", null: false
+    t.integer "way_number", null: false
+    t.bigint "train_id"
+    t.bigint "station_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["station_id"], name: "index_train_stops_on_station_id"
+    t.index ["train_id"], name: "index_train_stops_on_train_id"
   end
 
   create_table "trains", force: :cascade do |t|
@@ -95,12 +121,23 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_21_161505) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "email", null: false
+    t.string "email"
     t.string "password_digest", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "role", default: 0, null: false
+    t.string "unconfirmed_email"
+    t.string "confirmation_token"
+    t.boolean "activated", default: false, null: false
+    t.string "reset_email_token"
+    t.datetime "reset_email_sent_at", precision: nil
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at", precision: nil
+    t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["reset_email_token"], name: "index_users_on_reset_email_token", unique: true
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["unconfirmed_email"], name: "index_users_on_unconfirmed_email", unique: true
   end
 
   add_foreign_key "carriages", "carriage_types"
@@ -110,5 +147,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_21_161505) do
   add_foreign_key "seats", "carriages"
   add_foreign_key "station_order_numbers", "routes"
   add_foreign_key "station_order_numbers", "stations"
+  add_foreign_key "tickets", "profiles"
+  add_foreign_key "tickets", "seats"
+  add_foreign_key "tickets", "train_stops", column: "arrival_stop_id"
+  add_foreign_key "tickets", "train_stops", column: "departure_stop_id"
+  add_foreign_key "train_stops", "stations"
+  add_foreign_key "train_stops", "trains"
   add_foreign_key "trains", "routes"
 end

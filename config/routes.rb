@@ -5,26 +5,62 @@ Rails.application.routes.draw do
 
   # Defines the root path routes ("/")
   # root "articles#index"
+
+  namespace :admin do
+    resources :users, only: %i[destroy]
+
+    resources :stations
+
+    resources :routes, only: %i[index]
+    resources :routes, only: %i[show create update destroy], param: :route_id
+    resources :routes, only: [] do
+      post 'stations', to: 'routes#add_station'
+      delete 'stations/:station_id', to: 'routes#remove_station'
+    end
+
+    resources :carriage_types, only: %i[index create update destroy]
+
+    resources :carriages
+
+    resources :trains, param: :train_id
+    resources :trains, only: [] do
+      post 'carriages', to: 'trains#add_carriage'
+      delete 'carriages/:carriage_id', to: 'trains#remove_carriage'
+    end
+
+    resources :train_stops, only: %i[create update destroy]
+
+    resources :tickets, only: %i[destroy]
+  end
+
   namespace :api do
     namespace :v1 do
-      resources :users, only: %i[show update]
-      resource :profile, only: %i[show create update]
+      resource :users, only: %i[show] do
+        post "activate"
 
-      resources :stations
-      resources :routes, only: %i[show create destroy], param: :route_id
-      resources :routes, only: [] do
-        post 'add_station', to: 'routes#add_station'
-        delete 'remove_station/:station_id', to: 'routes#remove_station'
+        post "reset_email"
+        put "update_email"
+        patch "update_email"
+
+        post "reset_password"
+        put "update_password"
+        patch "update_password"
       end
 
-      resources :carriages
-      resources :carriage_types, except: :show
+      resources :profiles, only: %i[index create update destroy]
 
-      resources :trains, param: :train_id
+      resources :stations, only: %i[index show]
+
+      resources :carriages, only: %i[show]
+
+      resources :trains, param: :train_id, only: %i[show]
       resources :trains, only: [] do
-        post 'add_carriage', to: 'trains#add_carriage'
-        delete 'remove_carriage/:carriage_id', to: 'trains#remove_carriage'
+        get "stops", to: "trains#show_stops"
       end
+
+      resources :train_stops, only: %i[index]
+
+      resources :tickets, only: %i[index create destroy]
     end
   end
 
@@ -36,5 +72,4 @@ Rails.application.routes.draw do
     post 'sign_up', to: 'registrations#create'
     delete ':id', to: 'registrations#destroy'
   end
-
 end

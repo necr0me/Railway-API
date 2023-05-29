@@ -1,30 +1,41 @@
 module Users
   class RegistrationsController < ApplicationController
-    include UserParamable
-    include UserFindable
-
     before_action :authorize!, :find_user, only: :destroy
+    before_action :authorize_user
 
     def create
-      user = User.create(user_params)
-      if user.persisted?
-        render json: { message: 'You have successfully registered' },
+      result = Users::CreatorService.call(user_params: user_params)
+      if result.success?
+        render json: { message: "You have successfully registered. Check your email to activate your account." },
                status: :created
       else
-        render json: { errors: user.errors.full_messages },
+        render json: { errors: result.error },
                status: :unprocessable_entity
       end
     end
 
     def destroy
-      authorize @user
       if @user.destroy
         head :no_content
       else
-        render json: { message: 'Something went wrong',
+        render json: { message: "Something went wrong",
                        errors: @user.errors.full_messages },
                status: :unprocessable_entity
       end
+    end
+
+    private
+
+    def user_params
+      params.require(:user).permit(:unconfirmed_email, :password)
+    end
+
+    def find_user
+      @user = User.find(params[:id].to_i)
+    end
+
+    def authorize_user
+      authorize(@user || User)
     end
   end
 end

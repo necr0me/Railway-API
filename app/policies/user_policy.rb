@@ -1,14 +1,34 @@
 class UserPolicy < ApplicationPolicy
-  def show?
-    owned? || user&.moderator? || user&.admin?
+  def create?
+    user.nil?
   end
 
-  def update?
-    owned?
+  def show?
+    user.present?
+  end
+
+  def activate?
+    true
+  end
+
+  def reset_email?
+    user.present?
+  end
+
+  def update_email?
+    user.present?
+  end
+
+  def reset_password?
+    true
+  end
+
+  def update_password?
+    true
   end
 
   def destroy?
-    owned? || user&.admin?
+    owned?
   end
 
   private

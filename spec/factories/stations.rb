@@ -3,11 +3,9 @@ FactoryBot.define do
     name { "Melbourne" }
   end
 
-  trait :station_sequence_with_three_stations do
-    list = %w[Mogilev Mosty Hrodna]
-    sequence(:name) do |n|
-      "#{list[(n - 1) % 3]}"
-    end
+  trait :station_sequence_with_name_list do
+    transient { list { %w[Mogilev Mosty Minsk] } }
+    sequence(:name, 0) { |n| list[n].to_s }
   end
 
   trait :station_sequence_with_n_stations do
@@ -22,6 +20,17 @@ FactoryBot.define do
       create(:station_order_number,
              route_id: route.id,
              station_id: station.id)
+    end
+  end
+
+  trait :station_with_train_stops do
+    after :create do |station|
+      3.times do |i|
+        create(:train_stop,
+               station_id: station.id,
+               arrival_time: Time.now.utc + (i - 1) * 5.minutes + i * 5.minutes,
+               departure_time: Time.now.utc + i * (5 + 5).minutes)
+      end
     end
   end
 end

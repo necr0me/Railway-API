@@ -48,4 +48,10 @@ class ApplicationPolicy
 
     attr_reader :user, :scope
   end
+
+  protected
+
+  def owned_by_user?
+    user&.id == record&.user_id
+  end
 end
