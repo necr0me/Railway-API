@@ -3,7 +3,7 @@ require "swagger_helper"
 RSpec.describe "api/v1/train_stops", type: :request do
   path "api/v1/train_stops" do
     get "Retrieves all passing trains. By necr0me" do
-      tags "Passing trains"
+      tags "Train stops"
       produces "application/json"
 
       response "200", "Passing trains found" do

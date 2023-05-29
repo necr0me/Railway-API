@@ -61,9 +61,5 @@ module Admin
     def authorize_station
       authorize(@station || Station)
     end
-
-    def pagy_options
-      { items: params[:page] ? Pagy::DEFAULT[:items] : @station.train_stops.count }
-    end
   end
 end

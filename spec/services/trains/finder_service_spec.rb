@@ -12,7 +12,7 @@ RSpec.describe Trains::FinderService do
   let(:stations) { create_list(:station, names.size, :station_sequence_with_name_list, list: names) }
   let(:train_grodno_minsk) { create(:train, :train_with_specific_stops, stops_at: stations) }
   let(:train_mosty_lida) do
-    create(:train, :train_with_specific_stops, stops_at: stations[1..2], start_time: DateTime.now + 5.minutes)
+    create(:train, :train_with_specific_stops, stops_at: stations[1..2])
   end
 
   describe "#set_stations!" do

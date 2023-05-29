@@ -27,16 +27,16 @@ paths:
             application/json:
               carriage:
                 data:
-                  id: '8224'
+                  id: '2591'
                   type: carriage
                   attributes:
-                    name: Hades
+                    name: Athena
                     capacity: 8
-                    carriage_type_id: 10124
-                    order_number: '29'
+                    carriage_type_id: 3182
+                    order_number: '11'
                     free_seats: 0
                     available: true
-                    type: Jed Dye
+                    type: Bonnie Ann Clyde
                   relationships:
                     train:
                       data: 
@@ -71,7 +71,7 @@ paths:
             application/json:
               profiles:
                 data:
-                - id: '3499'
+                - id: '1070'
                   type: profile
                   attributes:
                     name: John
@@ -142,7 +142,7 @@ paths:
               message: Profile successfully created
               profile:
                 data:
-                  id: '3501'
+                  id: '1072'
                   type: profile
                   attributes:
                     name: John
@@ -234,7 +234,7 @@ paths:
               message: Profile successfully updated
               profile:
                 data:
-                  id: '3502'
+                  id: '1073'
                   type: profile
                   attributes:
                     name: New name
@@ -315,17 +315,19 @@ paths:
             application/json:
               stations:
                 data:
-                - id: '15309'
+                - id: '4983'
                   type: station
                   attributes:
                     name: Mogilev
+                    number_of_ways: 1
                   relationships:
                     train_stops:
                       data: []
-                - id: '15310'
+                - id: '4984'
                   type: station
                   attributes:
                     name: Mosty
+                    number_of_ways: 1
                   relationships:
                     train_stops:
                       data: []
@@ -350,10 +352,11 @@ paths:
             application/json:
               station:
                 data:
-                  id: '15312'
+                  id: '4986'
                   type: station
                   attributes:
                     name: Melbourne
+                    number_of_ways: 1
                   relationships:
                     train_stops:
                       data: []
@@ -381,70 +384,70 @@ paths:
             application/json:
               tickets:
                 data:
-                - id: '1794'
+                - id: '541'
                   type: ticket
                   attributes:
-                    train_id: 7194
+                    train_id: 2568
                     destination: 
                     departure_point: Melbourne
                     arrival_point: Melbourne
                     price: 1.5
-                    arrival_time: '2023-05-25T11:10:04.704Z'
-                    departure_time: '2023-05-25T11:30:04.704Z'
+                    arrival_time: '2023-05-29T14:00:08.516Z'
+                    departure_time: '2023-05-29T14:20:08.516Z'
                   relationships:
                     seat:
                       data:
-                        id: '25498'
+                        id: '8175'
                         type: seat
                     profile:
                       data:
-                        id: '3509'
+                        id: '1080'
                         type: profile
-                - id: '1795'
+                - id: '542'
                   type: ticket
                   attributes:
-                    train_id: 7194
+                    train_id: 2568
                     destination: 
                     departure_point: Melbourne
                     arrival_point: Melbourne
                     price: 1.5
-                    arrival_time: '2023-05-25T11:10:04.704Z'
-                    departure_time: '2023-05-25T11:30:04.704Z'
+                    arrival_time: '2023-05-29T14:00:08.516Z'
+                    departure_time: '2023-05-29T14:20:08.516Z'
                   relationships:
                     seat:
                       data:
-                        id: '25498'
+                        id: '8175'
                         type: seat
                     profile:
                       data:
-                        id: '3509'
+                        id: '1080'
                         type: profile
                 included:
-                - id: '8226'
+                - id: '2593'
                   type: carriage
                   attributes:
-                    name: Athena
+                    name: Hermes
                     capacity: 8
-                    carriage_type_id: 10126
-                    order_number: '10'
+                    carriage_type_id: 3184
+                    order_number: '24'
                     free_seats: 0
                     available: true
-                    type: Melanie Letters
+                    type: Brook Lynn Bridge
                   relationships:
                     train:
                       data: 
-                - id: '25498'
+                - id: '8175'
                   type: seat
                   attributes:
-                    id: 25498
+                    id: 8175
                     is_taken: true
-                    number: '09'
+                    number: '30'
                   relationships:
                     carriage:
                       data:
-                        id: '8226'
+                        id: '2593'
                         type: carriage
-                - id: '3509'
+                - id: '1080'
                   type: profile
                   attributes:
                     name: John
@@ -593,7 +596,7 @@ paths:
     get:
       summary: Retrieves all passing trains. By necr0me
       tags:
-      - Passing trains
+      - Train stops
       produces:
       - application/json
       responses:
@@ -612,14 +615,14 @@ paths:
                     attributes:
                       name: 
                   trains:
-                  - id: 7205
+                  - id: 2579
                     attributes:
                       destination: 
                       departs_to: Melbourne
-                      departs_at: '2023-05-25T11:30:05.108Z'
+                      departs_at: '2023-05-29T14:20:08.951Z'
                       arrives_to: Melbourne
-                      arrives_at: '2023-05-25T11:50:05.117Z'
-                      travel_time: 1200.008761
+                      arrives_at: '2023-05-29T14:40:08.966Z'
+                      travel_time: 1200.014839
   "/api/v1/trains/{train_id}":
     get:
       summary: Show concrete train. By necr0me
@@ -642,122 +645,122 @@ paths:
             application/json:
               train:
                 data:
-                  id: '7206'
+                  id: '2580'
                   type: train
                   attributes:
                     destination: No destination
                   relationships:
                     carriages:
                       data:
-                      - id: '8241'
+                      - id: '2608'
                         type: carriage
-                      - id: '8242'
+                      - id: '2609'
                         type: carriage
-                      - id: '8243'
+                      - id: '2610'
                         type: carriage
                     stops:
                       data: []
                     route:
                       data: 
                 included:
-                - id: '8241'
+                - id: '2608'
                   type: carriage
                   attributes:
-                    name: Apollo
+                    name: Demeter
                     capacity: 8
-                    carriage_type_id: 10141
+                    carriage_type_id: 3199
                     order_number: '01'
                     free_seats: 8
                     available: false
-                    type: Ed Ible
+                    type: Frank N. Beans
                   relationships:
                     train:
                       data:
-                        id: '7206'
+                        id: '2580'
                         type: train
                     seats:
                       data:
-                      - id: '25513'
+                      - id: '8190'
                         type: seat
-                      - id: '25514'
+                      - id: '8191'
                         type: seat
-                      - id: '25515'
+                      - id: '8192'
                         type: seat
-                      - id: '25516'
+                      - id: '8193'
                         type: seat
-                      - id: '25517'
+                      - id: '8194'
                         type: seat
-                      - id: '25518'
+                      - id: '8195'
                         type: seat
-                      - id: '25519'
+                      - id: '8196'
                         type: seat
-                      - id: '25520'
+                      - id: '8197'
                         type: seat
-                - id: '8242'
+                - id: '2609'
                   type: carriage
                   attributes:
-                    name: Hestia
+                    name: Demeter
                     capacity: 8
-                    carriage_type_id: 10142
+                    carriage_type_id: 3200
                     order_number: '02'
                     free_seats: 8
                     available: false
-                    type: Sam Urai
+                    type: Jack Dupp
                   relationships:
                     train:
                       data:
-                        id: '7206'
+                        id: '2580'
                         type: train
                     seats:
                       data:
-                      - id: '25521'
+                      - id: '8198'
                         type: seat
-                      - id: '25522'
+                      - id: '8199'
                         type: seat
-                      - id: '25523'
+                      - id: '8200'
                         type: seat
-                      - id: '25524'
+                      - id: '8201'
                         type: seat
-                      - id: '25525'
+                      - id: '8202'
                         type: seat
-                      - id: '25526'
+                      - id: '8203'
                         type: seat
-                      - id: '25527'
+                      - id: '8204'
                         type: seat
-                      - id: '25528'
+                      - id: '8205'
                         type: seat
-                - id: '8243'
+                - id: '2610'
                   type: carriage
                   attributes:
-                    name: Aphrodite
+                    name: Dionysus
                     capacity: 8
-                    carriage_type_id: 10143
+                    carriage_type_id: 3201
                     order_number: '03'
                     free_seats: 8
                     available: false
-                    type: Lynn Guini
+                    type: Owen Cash
                   relationships:
                     train:
                       data:
-                        id: '7206'
+                        id: '2580'
                         type: train
                     seats:
                       data:
-                      - id: '25529'
+                      - id: '8206'
                         type: seat
-                      - id: '25530'
+                      - id: '8207'
                         type: seat
-                      - id: '25531'
+                      - id: '8208'
                         type: seat
-                      - id: '25532'
+                      - id: '8209'
                         type: seat
-                      - id: '25533'
+                      - id: '8210'
                         type: seat
-                      - id: '25534'
+                      - id: '8211'
                         type: seat
-                      - id: '25535'
+                      - id: '8212'
                         type: seat
-                      - id: '25536'
+                      - id: '8213'
                         type: seat
         '401':
           description: You are unauthorized
@@ -796,7 +799,7 @@ paths:
             application/json:
               train:
                 data:
-                  id: '7209'
+                  id: '2583'
                   type: train
                   attributes:
                     destination: Grodno - Minsk
@@ -805,106 +808,106 @@ paths:
                       data: []
                     stops:
                       data:
-                      - id: '7573'
+                      - id: '2642'
                         type: train_stop
-                      - id: '7574'
+                      - id: '2643'
                         type: train_stop
-                      - id: '7575'
+                      - id: '2644'
                         type: train_stop
-                      - id: '7576'
+                      - id: '2645'
                         type: train_stop
-                      - id: '7577'
+                      - id: '2646'
                         type: train_stop
                     route:
                       data:
-                        id: '3483'
+                        id: '1038'
                         type: route
               stops:
                 data:
-                - id: '7573'
+                - id: '2642'
                   type: train_stop
                   attributes:
                     name: Grodno
                     train_destination: Grodno - Minsk
-                    arrival_time: '2023-05-25T12:05:05.415Z'
-                    departure_time: '2023-05-25T12:10:05.415Z'
+                    arrival_time: '2023-05-29T14:55:09.280Z'
+                    departure_time: '2023-05-29T15:00:09.280Z'
                     way_number: 1
                   relationships:
                     station:
                       data:
-                        id: '15329'
+                        id: '5003'
                         type: station
                     train:
                       data:
-                        id: '7209'
+                        id: '2583'
                         type: train
-                - id: '7574'
+                - id: '2643'
                   type: train_stop
                   attributes:
                     name: Mosty
                     train_destination: Grodno - Minsk
-                    arrival_time: '2023-05-25T12:15:05.415Z'
-                    departure_time: '2023-05-25T12:20:05.415Z'
+                    arrival_time: '2023-05-29T15:05:09.280Z'
+                    departure_time: '2023-05-29T15:10:09.280Z'
                     way_number: 1
                   relationships:
                     station:
                       data:
-                        id: '15330'
+                        id: '5004'
                         type: station
                     train:
                       data:
-                        id: '7209'
+                        id: '2583'
                         type: train
-                - id: '7575'
+                - id: '2644'
                   type: train_stop
                   attributes:
                     name: Volkovysk
                     train_destination: Grodno - Minsk
-                    arrival_time: '2023-05-25T12:25:05.415Z'
-                    departure_time: '2023-05-25T12:30:05.415Z'
+                    arrival_time: '2023-05-29T15:15:09.280Z'
+                    departure_time: '2023-05-29T15:20:09.280Z'
                     way_number: 1
                   relationships:
                     station:
                       data:
-                        id: '15331'
+                        id: '5005'
                         type: station
                     train:
                       data:
-                        id: '7209'
+                        id: '2583'
                         type: train
-                - id: '7576'
+                - id: '2645'
                   type: train_stop
                   attributes:
                     name: Baranovici
                     train_destination: Grodno - Minsk
-                    arrival_time: '2023-05-25T12:35:05.415Z'
-                    departure_time: '2023-05-25T12:40:05.415Z'
+                    arrival_time: '2023-05-29T15:25:09.280Z'
+                    departure_time: '2023-05-29T15:30:09.280Z'
                     way_number: 1
                   relationships:
                     station:
                       data:
-                        id: '15332'
+                        id: '5006'
                         type: station
                     train:
                       data:
-                        id: '7209'
+                        id: '2583'
                         type: train
-                - id: '7577'
+                - id: '2646'
                   type: train_stop
                   attributes:
                     name: Minsk
                     train_destination: Grodno - Minsk
-                    arrival_time: '2023-05-25T12:45:05.415Z'
-                    departure_time: '2023-05-25T12:50:05.415Z'
+                    arrival_time: '2023-05-29T15:35:09.280Z'
+                    departure_time: '2023-05-29T15:40:09.280Z'
                     way_number: 1
                   relationships:
                     station:
                       data:
-                        id: '15333'
+                        id: '5007'
                         type: station
                     train:
                       data:
-                        id: '7209'
+                        id: '2583'
                         type: train
                 pages: 1
         '404':
@@ -928,7 +931,7 @@ paths:
             application/json:
               user:
                 data:
-                  id: '15011'
+                  id: '4724'
                   type: user
                   attributes:
                     email: johndoe@gmail.com
@@ -962,7 +965,7 @@ paths:
           required:
           - token
           example:
-            token: 9023ea463342a5bc5904c439e5a76346
+            token: 21b62d29175a7e586f29ff1e90e8da3e
       produces:
       - application/json
       responses:
@@ -1036,7 +1039,7 @@ paths:
           - token
           example:
             email: new_email@gmail.com
-            token: d3f97f2964f715af77180fd45b2560d8
+            token: d8e4dd1b1e0d8189b67cc8eae3b4c200
       produces:
       - application/json
       security:
@@ -1125,7 +1128,7 @@ paths:
           - token
           example:
             password: '12345678'
-            token: 9c63252a58207ad28c532605cc0a72b2
+            token: a88e2d9446156e4e68bfd272b13cd1c7
       produces:
       - application/json
       responses:
@@ -1265,7 +1268,7 @@ paths:
           examples:
             application/json:
               message: You have successfully logged in
-              access_token: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxNTAzMSwiZXhwIjoxNjg1MDE0ODA1LCJpYXQiOjE2ODUwMTMwMDV9.WBRWmTgF6GBc9mhKt4SsjmonwdOnqB9OUz9GvoIYKmU
+              access_token: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo0NzQ0LCJleHAiOjE2ODUzNzA2MDksImlhdCI6MTY4NTM2ODgwOX0.3BSV5VQxJvVI2EHcIQeij17eA1jufFOpVZ0V0XfBAds
         '400':
           description: Error occurred during authentication
           examples:
@@ -1286,7 +1289,7 @@ paths:
           description: Tokens successfully updated
           examples:
             application/json:
-              access_token: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxNTAzMywiZXhwIjoxNjg1MDE0ODA1LCJpYXQiOjE2ODUwMTMwMDV9.KJ5XuF-qKdxw4sax-w7EGtCoMUhlqctHip6Jil080f4
+              access_token: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo0NzQ2LCJleHAiOjE2ODUzNzA2MDksImlhdCI6MTY4NTM2ODgwOX0.o9h2ohRSYmG_RQXN6ezq9RR9sc0IVQMjKc_J89TDwcg
         '401':
           description: Error occurred during tokens update
           examples:

@@ -8,7 +8,7 @@ RSpec.describe "admin/train_stops", type: :request, swagger_doc: "admin/swagger.
 
   path "admin/train_stops" do
     post "Creates new passing train. By necr0me" do
-      tags "Passing trains"
+      tags "Train stops"
       consumes "application/json"
       parameter name: :params, in: :body, schema: {
         type: :object,
@@ -69,7 +69,17 @@ RSpec.describe "admin/train_stops", type: :request, swagger_doc: "admin/swagger.
       end
 
       response "422", "Error occurred during passing train create" do
-        let(:params) { { train_stop: attributes_for(:train_stop) } }
+        let(:params) do
+          {
+            train_stop: {
+              arrival_time: DateTime.now,
+              departure_time: DateTime.now - 20.minutes,
+              way_number: 0,
+              station_id: station.id,
+              train_id: train.id
+            }
+          }
+        end
 
         include_context "with integration test"
       end
@@ -80,7 +90,7 @@ RSpec.describe "admin/train_stops", type: :request, swagger_doc: "admin/swagger.
     let(:train_stop_id) { train_stop.id }
 
     put "Updates passing train. By necr0me" do
-      tags "Passing trains"
+      tags "Train stops"
       consumes "application/json"
       parameter name: :train_stop_id, in: :path, type: :integer, required: true,
                 description: "Id of passing train record that you want to update"
@@ -143,7 +153,7 @@ RSpec.describe "admin/train_stops", type: :request, swagger_doc: "admin/swagger.
     end
 
     delete "Deletes passing train. By necr0me" do
-      tags "Passing trains"
+      tags "Train stops"
       parameter name: :train_stop_id, in: :path, type: :integer, required: true,
                 description: "Id of passing train record that you want to destroy"
       produces "application/json"

@@ -60,6 +60,32 @@ RSpec.describe "Admin::Stations", type: :request do
     end
   end
 
+  describe "#show" do
+    context "when user is unauthorized" do
+      before do
+        get "/admin/stations/#{station.id}"
+      end
+
+      it "returns UNAUTHORIZED" do
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context "when everything is ok" do
+      let(:station) { create(:station, :station_with_train_stops) }
+
+      before do
+        get "/admin/stations/#{station.id}", headers: auth_header
+      end
+
+      it "returns OK and station with all train stops" do
+        expect(response).to have_http_status(:ok)
+        expect(json_response[:station][:data][:id].to_i).to eq(station.id)
+        expect(json_response[:station][:included].map { _1[:id].to_i }).to eq(station.train_stops.pluck(:id))
+      end
+    end
+  end
+
   describe "#create" do
     context "when user is unauthorized" do
       before do

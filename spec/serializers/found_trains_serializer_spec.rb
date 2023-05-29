@@ -19,7 +19,7 @@ RSpec.describe FoundTrainsSerializer do
 
   before do
     create(:train, :train_with_specific_stops, stops_at: stations)
-    create(:train, :train_with_specific_stops, stops_at: stations[1..2], start_time: DateTime.now + 5.minutes)
+    create(:train, :train_with_specific_stops, stops_at: stations[1..2])
   end
 
   describe "attributes" do

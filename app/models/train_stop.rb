@@ -16,7 +16,9 @@ class TrainStop < ApplicationRecord
   validate :arrival_cannot_be_less_than_departure_of_previous_stop,
            :departure_cannot_be_greater_than_arrival_of_next_stop, on: :update
 
-  validate :departure_cannot_be_less_than_arrival
+  validate :departure_cannot_be_less_than_arrival,
+           :way_should_exist,
+           :way_should_be_free
 
   default_scope { order("departure_time ASC") }
 
@@ -56,5 +58,17 @@ class TrainStop < ApplicationRecord
     return unless next_stop.present? && departure_time > next_stop.arrival_time
 
     errors.add(:departure_time, message: "can't be greater than arrival time of next stop")
+  end
+
+  def way_should_exist
+    return unless way_number > station&.number_of_ways || way_number < 1
+
+    errors.add(:way_number, message: "does not exist")
+  end
+
+  def way_should_be_free
+    return if TrainStops::WayCheckerService.call(station: station, train_stop: self).success?
+
+    errors.add(:way_number, message: "#{way_number} is taken")
   end
 end

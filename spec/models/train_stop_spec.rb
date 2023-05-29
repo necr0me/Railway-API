@@ -45,6 +45,53 @@ RSpec.describe TrainStop, type: :model do
   end
 
   describe "validations" do
+    describe "way number" do
+      let(:station) { create(:station) }
+      let(:train_stop) { build(:train_stop, station: station) }
+
+      let(:stop_one) { create(:train_stop, arrival_time: Time.now.utc, departure_time: Time.now.utc + 2.minutes) }
+      let(:stop_two) do
+        create(:train_stop, arrival_time: Time.now.utc + 3.minutes, departure_time: Time.now.utc + 5.minutes)
+      end
+
+      context "when way number < 1" do
+        it "is invalid" do
+          train_stop.way_number = 0
+          expect(train_stop).not_to be_valid
+        end
+      end
+
+      context "when way number greater than number of ways on station" do
+        it "is invalid" do
+          train_stop.way_number = station.number_of_ways + 1
+          expect(train_stop).not_to be_valid
+        end
+      end
+
+      context "when way number >= 1 and less than number of ways on station" do
+        it "is valid" do
+          train_stop.way_number = station.number_of_ways
+          expect(train_stop).to be_valid
+        end
+      end
+
+      context "when train stop time intersects with other train stops" do
+        it "is invalid" do
+          train_stop.arrival_time = stop_one.departure_time
+          train_stop.departure_time = stop_two.arrival_time
+          expect(train_stop).not_to be_valid
+        end
+      end
+
+      context "when train stop time does not intersect with other train stops" do
+        it "is valid" do
+          train_stop.arrival_time = stop_two.departure_time
+          train_stop.departure_time = stop_two.departure_time + 1.minute
+          expect(train_stop).not_to be_valid
+        end
+      end
+    end
+
     describe "departure time and arrival time" do
       context "when departure time > arrival time" do
         it "is invalid" do

@@ -8,7 +8,8 @@ RSpec.describe StationSerializer do
       expect(result[:type]).to eq(:station)
       expect(result[:id]).to eq(station.id.to_s)
 
-      expect(result[:attributes]).to eq({ name: station.name })
+      expect(result[:attributes]).to eq({ name: station.name,
+                                          number_of_ways: station.number_of_ways })
     end
   end
 end

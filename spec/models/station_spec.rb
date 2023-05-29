@@ -99,5 +99,28 @@ RSpec.describe Station, type: :model do
         end
       end
     end
+
+    describe "#number_of_ways" do
+      context "when number of ways is blank" do
+        it "is invalid" do
+          station.number_of_ways = nil
+          expect(station).not_to be_valid
+        end
+      end
+
+      context "when number of ways is 0 or less" do
+        it "is invalid" do
+          station.number_of_ways = 0
+          expect(station).not_to be_valid
+        end
+      end
+
+      context "when number of ways greater than 0" do
+        it "is valid" do
+          station.number_of_ways = 1
+          expect(station).to be_valid
+        end
+      end
+    end
   end
 end

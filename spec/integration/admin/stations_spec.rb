@@ -76,6 +76,38 @@ RSpec.describe "admin/stations", type: :request, swagger_doc: "admin/swagger.yam
   path "/admin/stations/{station_id}" do
     let(:station_id) { station.id }
 
+    get "Find concrete station. By necr0me" do
+      tags "Stations"
+      parameter name: :station_id, in: :path, type: :integer, required: true,
+                description: "Id of station"
+      produces "application/json"
+      security [Bearer: {}]
+
+      let(:station) { create(:station, :station_with_train_stops) }
+
+      response "200", "Station was found" do
+        include_context "with integration test"
+      end
+
+      response "401", "You are unauthorized" do
+        let(:Authorization) { "invalid" }
+
+        include_context "with integration test"
+      end
+
+      response "403", "You are forbidden to perform this action" do
+        let(:user) { create(:user) }
+
+        include_context "with integration test"
+      end
+
+      response "404", "Station not found" do
+        let(:station_id) { -1 }
+
+        include_context "with integration test"
+      end
+    end
+
     put "Update concrete station. By necr0me" do
       tags "Stations"
       consumes "application/json"
