@@ -4,7 +4,8 @@ module Admin
     before_action :authorize_carriage_type
 
     def index
-      @pagy, @types = pagy(CarriageType.all, pagy_options)
+      @types = CarriageType.search(params[:carriage_type])
+      @pagy, @types = pagy(@types, pagy_options)
       render json: { carriage_types: CarriageTypeSerializer.new(@types),
                      pages: @pagy.pages },
              status: :ok

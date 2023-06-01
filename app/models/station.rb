@@ -14,4 +14,8 @@ class Station < ApplicationRecord
   validates :number_of_ways,
             presence: true,
             comparison: { greater_than: 0 }
+
+  def self.search(term)
+    where("LOWER(name) like :prefix", prefix: "#{term&.downcase}%")
+  end
 end

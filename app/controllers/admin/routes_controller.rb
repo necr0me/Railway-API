@@ -4,14 +4,16 @@ module Admin
     before_action :authorize_route
 
     def index
-      @pagy, @routes = pagy(Route.all, pagy_options)
+      @routes = Route.search(params[:route], type: params[:search])
+      @pagy, @routes = pagy(@routes, pagy_options)
       render json: { routes: RouteSerializer.new(@routes, serializer_options),
                      pages: @pagy.pages }
     end
 
     def show
+      @available_stations = Station.where.not(id: @route.stations.pluck(:id))
       render json: { route: RouteSerializer.new(@route, { include: [:stations] }),
-                     available_stations: StationSerializer.new(Station.where.not(id: @route.stations.pluck(:id))) },
+                     available_stations: StationSerializer.new(@available_stations) },
              status: :ok
     end
 

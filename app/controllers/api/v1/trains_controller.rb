@@ -5,7 +5,7 @@ module Api
       before_action :find_train, :authorize_train
 
       def show
-        render json: { train: TrainSerializer.new(@train, { include: %i[carriages] }) },
+        render json: { train: TrainSerializer.new(@train, { include: %i[carriages stops] }) },
                status: :ok
       end
 

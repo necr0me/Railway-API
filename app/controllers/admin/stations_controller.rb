@@ -4,7 +4,7 @@ module Admin
     before_action :authorize_station
 
     def index
-      @stations = Station.where("name LIKE :prefix", prefix: "#{params[:station]}%")
+      @stations = Station.search(params[:station])
       @pagy, @stations = pagy(@stations, page: params[:page] || 1)
       render json: { stations: StationSerializer.new(@stations),
                      pages: @pagy.pages }

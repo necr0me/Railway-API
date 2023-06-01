@@ -4,8 +4,9 @@ module Admin
     before_action :authorize_carriage
 
     def index
-      @pagy, @carriages = pagy(Carriage.all, page: params[:page] || 1)
-      render json: { carriages: CarriageSerializer.new(@carriages),
+      @carriages = Carriage.search(params[:carriage])
+      @pagy, @carriages = pagy(@carriages, page: params[:page] || 1)
+      render json: { carriages: CarriageSerializer.new(@carriages, { params: { include_seats: false }}),
                      pages: @pagy.pages },
              status: :ok
     end
