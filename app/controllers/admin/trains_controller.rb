@@ -35,7 +35,7 @@ module Admin
     def update
       if @train.update(train_params)
         render json: { message: "Train was successfully updated",
-                       train: @train },
+                       train: TrainSerializer.new(@train, { include: %i[route.stations] }) },
                status: :ok
       else
         render json: { message: "Something went wrong",

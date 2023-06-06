@@ -37,7 +37,8 @@ module Admin
       )
       if result.success?
         render json: { message: "Station was successfully added to route",
-                       station: StationSerializer.new(result.data) },
+                       station: StationSerializer.new(result.data),
+                       route: RouteSerializer.new(Route.find(params[:route_id])) },
                status: :created
       else
         render json: { message: "Something went wrong",
@@ -53,7 +54,8 @@ module Admin
       )
       if result.success?
         render json: { message: "Station was successfully removed from route",
-                       station: StationSerializer.new(result.data) },
+                       station: StationSerializer.new(result.data),
+                       route: RouteSerializer.new(Route.find(params[:route_id])) },
                status: :ok
       else
         render json: { message: "Something went wrong",
@@ -64,7 +66,8 @@ module Admin
 
     def update
       if @route.update(route_params)
-        render json: { message: "Route successfully updated" },
+        render json: { message: "Route successfully updated",
+                       route: RouteSerializer.new(@route) },
                status: :ok
       else
         render json: { message: "Something went wrong",

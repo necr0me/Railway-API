@@ -29,7 +29,7 @@ module Routes
     end
 
     def update_destination!(route)
-      destination = route.stations.empty? ? nil : "#{route.stations.first.name} - #{route.stations.last.name}"
+      destination = route.stations.empty? ? "" : "#{route.stations.first.name} - #{route.stations.last.name}"
       route.update!(destination: destination)
     end
   end

@@ -2,7 +2,7 @@ class RouteSerializer
   include JSONAPI::Serializer
 
   attribute :destination do |route|
-    route.destination.empty? ? "No destination" : route.destination
+    route.destination.empty? ? "Нет" : route.destination
   end
 
   attribute :standard_travel_time do |route|

@@ -17,6 +17,8 @@ class Train < ApplicationRecord
   end
 
   def self.search(term)
-    where(id: joins(:route).where("LOWER(destination) like :prefix", prefix: "#{term&.downcase}%").map(&:id))
+    return all if term.blank?
+
+    where(id: joins(:route).where("LOWER(destination) like :prefix", prefix: "#{term.downcase}%").map(&:id))
   end
 end
