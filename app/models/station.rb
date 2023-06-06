@@ -3,7 +3,7 @@ class Station < ApplicationRecord
   has_many :routes, through: :station_order_numbers
 
   has_many :train_stops, class_name: "TrainStop", dependent: :destroy
-  has_many :passing_trains, class_name: "Train", through: :train_stops
+  has_many :passing_trains, class_name: "Train", through: :train_stops, source: :train
 
   auto_strip_attributes :name, squish: true
 

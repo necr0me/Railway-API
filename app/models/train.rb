@@ -8,6 +8,10 @@ class Train < ApplicationRecord
 
   delegate :destination, to: :route, allow_nil: true
 
+  def first_stop
+    stops.where.not(id: nil)&.first
+  end
+
   def last_stop
     stops.where.not(id: nil)&.last
   end
@@ -20,5 +24,17 @@ class Train < ApplicationRecord
     return all if term.blank?
 
     where(id: joins(:route).where("LOWER(destination) like :prefix", prefix: "#{term.downcase}%").map(&:id))
+  end
+
+  def amount_of_free_seats
+    carriages.inject(0) { |sum, carriage| sum + carriage.amount_of_free_seats }
+  end
+
+  def free?
+    amount_of_free_seats.positive?
+  end
+
+  def travels?
+    stops.count > 1
   end
 end

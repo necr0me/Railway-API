@@ -58,7 +58,7 @@ RSpec.describe Trains::FinderService do
       end
 
       it "returns starting and ending stations of all created trains" do
-        result = service.data[:passing_trains].flatten.pluck(:train_id)
+        result = service.data[:trains].flatten.pluck(:train_id)
 
         expect(result).to include(train_grodno_minsk.id, train_mosty_lida.id)
       end
@@ -73,7 +73,7 @@ RSpec.describe Trains::FinderService do
       end
 
       it "returns train Hrodna - Minsk and train Mosty - Lida" do
-        result = service.data[:passing_trains].flatten.pluck(:train_id)
+        result = service.data[:trains].flatten.pluck(:train_id)
 
         expect(result).to include(train_grodno_minsk.id)
         expect(result).to include(train_mosty_lida.id)
@@ -87,7 +87,7 @@ RSpec.describe Trains::FinderService do
       before { train_grodno_minsk }
 
       it "returns trains that passing through selected station" do
-        result = service.data[:passing_trains].flatten.pluck(:train_id)
+        result = service.data[:trains].flatten.pluck(:train_id)
 
         expect(result).to include(train_grodno_minsk.id, train_mosty_lida.id)
       end
@@ -100,7 +100,7 @@ RSpec.describe Trains::FinderService do
       before { train_grodno_minsk }
 
       it "returns trains that passing through selected station" do
-        result = service.data[:passing_trains].flatten.pluck(:train_id)
+        result = service.data[:trains].flatten.pluck(:train_id)
 
         expect(result).to include(train_grodno_minsk.id, train_mosty_lida.id)
       end
@@ -112,7 +112,7 @@ RSpec.describe Trains::FinderService do
       let(:date) { DateTime.now }
 
       it "returns Hrodna - Minsk train, but not Mosty - Lida" do
-        result = service.data[:passing_trains].flatten.pluck(:train_id)
+        result = service.data[:trains].flatten.pluck(:train_id)
 
         expect(result).to include(train_grodno_minsk.id)
         expect(result).not_to include(train_mosty_lida.id)
@@ -178,7 +178,7 @@ RSpec.describe Trains::FinderService do
       passing_trains = TrainStop.where(station_id: departure_station.id).where(
         train_id: arrival_station_trains.pluck(:train_id)
       )
-      result = service.send(:collect_train_ids, passing_trains, arrival_station_trains)
+      result = service.send(:find_invalid_stops, passing_trains, arrival_station_trains)
 
       expect(result).to include(train_grodno_minsk.id)
     end
@@ -188,11 +188,11 @@ RSpec.describe Trains::FinderService do
     let(:departure_station_name) { nil }
     let(:arrival_station_name) { nil }
 
-    it "returns hash that contains keys like :departure_station, :arrival_station and :passing_trains" do
+    it "returns hash that contains keys like :departure_station, :arrival_station and :trains" do
       result = service.send(:finalize_result, TrainStop.all)
 
       expect(result).to be_a(Hash)
-      expect(result.keys).to include(*%i[departure_station arrival_station passing_trains])
+      expect(result.keys).to include(*%i[departure_station arrival_station trains])
     end
   end
 
@@ -213,7 +213,7 @@ RSpec.describe Trains::FinderService do
     context "when starting and ending stations are presented" do
       it "returns Proc, that returns array of 2 elements: starting station stop and ending station stop" do
         service.send(:set_stations!)
-        pair_func = service.send(:pair_func)
+        pair_func = service.send(:build_pair)
         arrival_station = service.send(:arrival_station)
 
         expect(pair_func).to be_a(Proc)
@@ -227,7 +227,7 @@ RSpec.describe Trains::FinderService do
 
       it "returns Proc, that returns array of 2 elements: train starting station stop and ending station stop" do
         service.send(:set_stations!)
-        pair_func = service.send(:pair_func)
+        pair_func = service.send(:build_pair)
 
         expect(pair_func).to be_a(Proc)
         expect(pair_func.call(stop)).to eq([stop.train.stops.first, stop])
@@ -240,7 +240,7 @@ RSpec.describe Trains::FinderService do
 
       it "returns Proc, that returns array of 2 elements: train starting station stop and train ending station stop" do
         service.send(:set_stations!)
-        pair_func = service.send(:pair_func)
+        pair_func = service.send(:build_pair)
 
         expect(pair_func).to be_a(Proc)
         expect(pair_func.call(stop)).to eq([stop, stop.train.stops.last])

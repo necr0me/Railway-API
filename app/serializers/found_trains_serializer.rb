@@ -20,7 +20,7 @@ class FoundTrainsSerializer
             name: result[:arrival_station]&.name
           }
         },
-        trains: result[:passing_trains].map { |pair| parse_pair(pair) }
+        trains: result[:trains].map { |pair| parse_pair(pair) }
       }
     }
   end
