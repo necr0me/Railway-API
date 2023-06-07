@@ -1,5 +1,7 @@
 module Tickets
   class PriceCalculatorService < ApplicationService
+    UPPER_SEAT_COEFFICIENT = 0.75
+
     def initialize(ticket:)
       @ticket = ticket
       @travel_time = ticket.arrival_time - ticket.departure_time
@@ -13,10 +15,8 @@ module Tickets
 
     attr_reader :ticket, :travel_time
 
-    UPPER_SEAT_COEFFICIENT = 0.75
-
     MAX_LEFT_TIME = 6.hours
-    LEFT_TIME_MAX_COEFFICIENT = 0.3
+    LEFT_TIME_MAX_COEFFICIENT = 0.15
 
     def calculate
       ticket.price = coefficient_for_travel_time * price_by_travel_time

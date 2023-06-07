@@ -2,7 +2,7 @@ module Trains
   class FinderService < ApplicationService
     def initialize(departure_station:, arrival_station:, date: nil, day_option: :at_the_day)
       @departure_station = departure_station
-      @arrival_station = arrival_station
+      @arrival_station = arrival_station == departure_station ? nil : arrival_station
       @date = date
       @day_option = day_option
     end
@@ -45,7 +45,7 @@ module Trains
     def find_invalid_stops(arrival_stops, departure_stops)
       departure_stops.inject([]) do |array, stop, train_id = stop.train_id|
         other_stop = arrival_stops.find_by(train_id: train_id)
-        array << other_stop if other_stop.arrival_time < stop.departure_time
+        other_stop.present? && other_stop.arrival_time < stop.departure_time ? array << other_stop : array
       end&.pluck(:train_id)
     end
 
