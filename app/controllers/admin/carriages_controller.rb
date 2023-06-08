@@ -6,13 +6,13 @@ module Admin
     def index
       @carriages = Carriage.search(params[:carriage])
       @pagy, @carriages = pagy(@carriages, page: params[:page] || 1)
-      render json: { carriages: CarriageSerializer.new(@carriages, { params: { include_seats: false }}),
+      render json: { carriages: CarriageSerializer.new(@carriages, { params: { include_seats: false } }),
                      pages: @pagy.pages },
              status: :ok
     end
 
     def show
-      render json: { carriage: CarriageSerializer.new(@carriage, { include: %i[seats] }) },
+      render json: { carriage: CarriageSerializer.new(@carriage, serializer_options) },
              status: :ok
     end
 
@@ -63,6 +63,10 @@ module Admin
 
     def authorize_carriage
       authorize(@carriage || Carriage)
+    end
+
+    def serializer_options
+      { include: %i[seats seats.ticket seats.ticket.profile], params: { include_ticket: true, include_seats: true } }
     end
   end
 end
