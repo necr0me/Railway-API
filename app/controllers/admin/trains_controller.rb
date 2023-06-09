@@ -4,7 +4,7 @@ module Admin
     before_action :authorize_train
 
     def index
-      @trains = Train.search(params[:train])
+      @trains = Train.search(params[:train], type: params[:search])
       @pagy, @trains = pagy(@trains, page: params[:page] || 1)
       render json: { trains: TrainSerializer.new(@trains),
                      pages: @pagy.pages },

@@ -21,7 +21,7 @@ module Users
         @user = User.find_by(confirmation_token: token)
         return fail!(error: { confirmation_token: ["Неправильный токен подтверждения"] }) if @user.blank?
 
-        return fail!(error: @user.errors) unless update_user
+        return fail!(error: @user.errors.to_hash(full_messages: true)) unless update_user
 
         success!(data: @user)
       end

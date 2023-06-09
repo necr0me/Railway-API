@@ -18,7 +18,7 @@ module Api
                  status: :created
         else
           render json: { message: "Что-то пошло не так",
-                         errors: profile.errors },
+                         errors: profile.errors.to_hash(full_messages: true) },
                  status: :unprocessable_entity
         end
       end
@@ -41,7 +41,7 @@ module Api
                  status: :ok
         else
           render json: { message: "Что-то пошло не так",
-                         errors: @profile.errors },
+                         errors: @profile.errors.full_messages },
                  status: :unprocessable_entity
         end
       end

@@ -26,7 +26,7 @@ module Users
 
         return fail!(error: { password: ["Новый пароль такой же как старый"] }) if @user.authenticate(password)
 
-        return fail!(error: @user.errors) unless update_user
+        return fail!(error: @user.errors.to_hash(full_messages: true)) unless update_user
 
         success!
       end

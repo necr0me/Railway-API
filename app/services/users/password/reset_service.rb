@@ -21,7 +21,7 @@ module Users
         return fail!(error: { email: ["Пользователь с данным email не зарегистрирован"] }) if @user.blank?
         return fail!(error: { email: ["Аккаунт не активирован"] }) unless @user.activated?
 
-        return fail!(error: @user.errors) unless update_user
+        return fail!(error: @user.errors.to_hash(full_messages: true)) unless update_user
 
         UserMailer.reset_password(@user).deliver_now
         success!

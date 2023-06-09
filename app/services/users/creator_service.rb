@@ -16,10 +16,10 @@ module Users
       return fail!(error: { unconfirmed_email: ["Email пуст"] }) if user_params[:unconfirmed_email].blank? # Remove?
 
       user = User.new(user_params)
-      return fail!(error: user.errors) unless user.valid?
+      return fail!(error: user.errors.to_hash(full_messages: true)) unless user.valid?
 
       user.confirmation_token = TokenGeneratorService.call.data
-      return fail!(error: user.errors) unless user.save
+      return fail!(error: user.errors.to_hash(full_messages: true)) unless user.save
 
       UserMailer.account_activation(user).deliver_now
       success!

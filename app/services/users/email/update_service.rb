@@ -24,7 +24,7 @@ module Users
 
         return fail!(error: { unconfirmed_email: ["Новый email точно такой же как старый"] }) if @user.email == email
 
-        return fail!(error: @user.errors) unless update_user
+        return fail!(error: @user.errors.to_hash(full_messages: true)) unless update_user
 
         UserMailer.account_activation(@user).deliver_now
         success!

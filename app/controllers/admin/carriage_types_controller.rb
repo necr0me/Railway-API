@@ -19,7 +19,7 @@ module Admin
                status: :created
       else
         render json: { message: "Что-то пошло не так",
-                       errors: carriage_type.errors },
+                       errors: carriage_type.errors.to_hash(full_messages: true) },
                status: :unprocessable_entity
       end
     end

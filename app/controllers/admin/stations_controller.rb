@@ -22,7 +22,7 @@ module Admin
                status: :created
       else
         render json: { message: "Что-то пошло не так",
-                       errors: station.errors },
+                       errors: station.errors.to_hash(full_messages: true) },
                status: :unprocessable_entity
       end
     end
@@ -33,7 +33,7 @@ module Admin
                status: :ok
       else
         render json: { message: "Что-то пошло не так",
-                       errors: @station.errors },
+                       errors: @station.errors.to_hash(full_messages: true) },
                status: :unprocessable_entity
       end
     end
@@ -43,7 +43,7 @@ module Admin
         head :no_content
       else
         render json: { message: "Что-то пошло не так",
-                       errors: @station.errors },
+                       errors: @station.errors.full_messages },
                status: :unprocessable_entity
       end
     end

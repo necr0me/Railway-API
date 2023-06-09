@@ -20,10 +20,15 @@ class Train < ApplicationRecord
     stops.length <= 1 ? 0 : stops.last.arrival_time - stops.first.departure_time
   end
 
-  def self.search(term)
+  def self.search(term, type: nil)
     return all if term.blank?
 
-    where(id: joins(:route).where("LOWER(destination) like :prefix", prefix: "#{term.downcase}%").map(&:id))
+    if type&.to_sym == :advanced
+      where(id: TrainStop.joins(:station).where("LOWER(name) like :prefix", prefix: "#{term.downcase}%").uniq
+                         .map(&:train_id))
+    else
+      where(id: joins(:route).where("LOWER(destination) like :prefix", prefix: "#{term.downcase}%").map(&:id))
+    end
   end
 
   def amount_of_free_seats

@@ -24,7 +24,7 @@ module Admin
                status: :created
       else
         render json: { message: "Что-то пошло не так",
-                       errors: carriage.errors },
+                       errors: carriage.errors.to_hash(full_messages: true) },
                status: :unprocessable_entity
       end
     end
@@ -36,7 +36,7 @@ module Admin
                status: :ok
       else
         render json: { message: "Что-то пошло не так",
-                       errors: @carriage.errors },
+                       errors: @carriage.errors.to_hash(full_messages: true) },
                status: :unprocessable_entity
       end
     end
