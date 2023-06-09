@@ -15,14 +15,14 @@ module Users
       attr_reader :token, :email
 
       def update
-        return fail!(error: { reset_email_token: ["Token is not presented"] }) if token.blank?
+        return fail!(error: { reset_email_token: ["Нет токена"] }) if token.blank?
 
         @user = User.find_by(reset_email_token: token)
-        return fail!(error: { reset_email_token: ["Token is invalid"] }) if @user.blank?
+        return fail!(error: { reset_email_token: ["Неправильный токен"] }) if @user.blank?
 
-        return fail!(error: { reset_email_token: ["Token has expired"] }) if token_expired?
+        return fail!(error: { reset_email_token: ["Срок действия токена истёк"] }) if token_expired?
 
-        return fail!(error: { unconfirmed_email: ["New email same as old one"] }) if @user.email == email
+        return fail!(error: { unconfirmed_email: ["Новый email точно такой же как старый"] }) if @user.email == email
 
         return fail!(error: @user.errors) unless update_user
 

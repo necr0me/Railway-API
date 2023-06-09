@@ -17,14 +17,14 @@ module Users
       attr_reader :token, :password
 
       def update
-        return fail!(error: { reset_password_token: ["Token is not presented"] }) if token.blank?
+        return fail!(error: { reset_password_token: ["Нет токена"] }) if token.blank?
 
         @user = User.find_by(reset_password_token: token)
-        return fail!(error: { reset_password_token: ["Token is invalid"] }) if @user.blank?
+        return fail!(error: { reset_password_token: ["Неправильный токен"] }) if @user.blank?
 
-        return fail!(error: { reset_password_token: ["Token has expired"] }) if token_expired?
+        return fail!(error: { reset_password_token: ["Срок действия токена истёк"] }) if token_expired?
 
-        return fail!(error: { password: ["New password is the same as old one"] }) if @user.authenticate(password)
+        return fail!(error: { password: ["Новый пароль такой же как старый"] }) if @user.authenticate(password)
 
         return fail!(error: @user.errors) unless update_user
 

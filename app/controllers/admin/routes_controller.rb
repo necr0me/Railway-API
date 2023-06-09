@@ -20,11 +20,11 @@ module Admin
     def create
       route = Route.create
       if route.persisted?
-        render json: { message: "Route was created",
+        render json: { message: "Маршрут создан",
                        route: RouteSerializer.new(route) },
                status: :created
       else
-        render json: { message: "Something went wrong",
+        render json: { message: "Что-то пошло не так",
                        errors: route.errors.full_messages },
                status: :unprocessable_entity
       end
@@ -36,12 +36,12 @@ module Admin
         station_id: params[:station_id]
       )
       if result.success?
-        render json: { message: "Station was successfully added to route",
+        render json: { message: "Станция успешно добавлена в маршрут",
                        station: StationSerializer.new(result.data),
                        route: RouteSerializer.new(Route.find(params[:route_id])) },
                status: :created
       else
-        render json: { message: "Something went wrong",
+        render json: { message: "Что-то пошло не так",
                        errors: [result.error] },
                status: :unprocessable_entity
       end
@@ -53,12 +53,12 @@ module Admin
         station_id: params[:station_id]
       )
       if result.success?
-        render json: { message: "Station was successfully removed from route",
+        render json: { message: "Станция успешно удалена из маршрута",
                        station: StationSerializer.new(result.data),
                        route: RouteSerializer.new(Route.find(params[:route_id])) },
                status: :ok
       else
-        render json: { message: "Something went wrong",
+        render json: { message: "Что-то пошло не так",
                        errors: [result.error] },
                status: :unprocessable_entity
       end
@@ -66,11 +66,11 @@ module Admin
 
     def update
       if @route.update(route_params)
-        render json: { message: "Route successfully updated",
+        render json: { message: "Маршрут успешно обновлен",
                        route: RouteSerializer.new(@route) },
                status: :ok
       else
-        render json: { message: "Something went wrong",
+        render json: { message: "Что-то пошло не так",
                        errors: @route.errors.full_messages },
                status: :unprocessable_entity
       end
@@ -80,7 +80,7 @@ module Admin
       if @route.destroy
         head :no_content
       else
-        render json: { message: "Something went wrong",
+        render json: { message: "Что-то пошло не так",
                        errors: @route.errors.full_messages },
                status: :unprocessable_entity
       end

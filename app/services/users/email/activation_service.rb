@@ -16,10 +16,10 @@ module Users
       attr_reader :token
 
       def activate
-        return fail!(error: { confirmation_token: ["Token is not presented"] }) if token.blank?
+        return fail!(error: { confirmation_token: ["Токен отсутствует"] }) if token.blank?
 
         @user = User.find_by(confirmation_token: token)
-        return fail!(error: { confirmation_token: ["Confirmation token is invalid"] }) if @user.blank?
+        return fail!(error: { confirmation_token: ["Неправильный токен подтверждения"] }) if @user.blank?
 
         return fail!(error: @user.errors) unless update_user
 

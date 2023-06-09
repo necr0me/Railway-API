@@ -18,7 +18,7 @@ module Jwt
 
       user_id = decode_result.data&.first&.[]("user_id")
       user = User.includes(:refresh_token).find(user_id)
-      return fail!(error: "Tokens aren't matching") if user.refresh_token.value != refresh_token
+      return fail!(error: "Токены не совпадают") if user.refresh_token.value != refresh_token
 
       tokens_result = TokensGeneratorService.call(user_id: user_id)
       tokens_result.success? ? success!(data: tokens_result.data) : fail!(error: tokens_result.error)

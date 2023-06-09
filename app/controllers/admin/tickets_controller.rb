@@ -4,10 +4,10 @@ module Admin
 
     def destroy
       if @ticket.destroy
-        render json: { message: "Ticket successfully destroyed" },
+        render json: { message: "Билет успешно удален" },
                status: :ok
       else
-        render json: { message: "Something went wrong",
+        render json: { message: "Что-то пошло не так",
                        errors: @ticket.errors.full_messages },
                status: :unprocessable_entity
       end

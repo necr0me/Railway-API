@@ -34,7 +34,7 @@ class User < ApplicationRecord
   def unconfirmed_email_must_be_unique
     return if unconfirmed_email.nil? || User.find_by(email: unconfirmed_email).blank?
 
-    errors.add(:unconfirmed_email, "Email has already been taken")
+    errors.add(:unconfirmed_email, "Email уже занят")
   end
 
   def set_default_role

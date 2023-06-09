@@ -13,7 +13,7 @@ module CarriageTypes
     attr_reader :type
 
     def destroy
-      return fail!(error: "Can't destroy carriage type that has any carriages") if type.carriages.count.nonzero?
+      return fail!(error: "Невозможно удалить тип у которого есть хотя бы один вагон") if type.carriages.count.nonzero?
 
       type.destroy!
       success!

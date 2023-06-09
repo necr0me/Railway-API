@@ -16,17 +16,17 @@ module ErrorHandler
     end
 
     def record_not_unique
-      render json: { message: "Seems like record with this data already exists" },
+      render json: { message: "Похоже, что запись с такими же атрибутами уже существует" },
              status: :unprocessable_entity
     end
 
     def invalid_foreign_key
-      render json: { message: "Seems like this entity does not exist" },
+      render json: { message: "Похоже, что данная запись не существует" },
              status: :unprocessable_entity
     end
 
     def access_forbidden
-      render json: { message: "You are not allowed to do this action" },
+      render json: { message: "Вы не можете совершить данное действие" },
              status: :forbidden
     end
   end

@@ -14,11 +14,11 @@ module Admin
     def create
       carriage_type = CarriageType.create(carriage_type_params)
       if carriage_type.persisted?
-        render json: { message: "Carriage type successfully created",
+        render json: { message: "Тип вагона успешно создан",
                        carriage_type: CarriageTypeSerializer.new(carriage_type) },
                status: :created
       else
-        render json: { message: "Something went wrong",
+        render json: { message: "Что-то пошло не так",
                        errors: carriage_type.errors },
                status: :unprocessable_entity
       end
@@ -30,11 +30,11 @@ module Admin
         carriage_type_params: carriage_type_params
       )
       if result.success?
-        render json: { message: "Carriage type successfully updated",
+        render json: { message: "Тип вагона успешно обновлен",
                        carriage_type: CarriageTypeSerializer.new(result.data) },
                status: :ok
       else
-        render json: { message: "Something went wrong",
+        render json: { message: "Что-то пошло не так",
                        errors: result.error },
                status: :unprocessable_entity
       end
@@ -45,7 +45,7 @@ module Admin
       if result.success?
         head :no_content
       else
-        render json: { message: "Something went wrong",
+        render json: { message: "Что-то пошло не так",
                        errors: [result.error] },
                status: :unprocessable_entity
       end

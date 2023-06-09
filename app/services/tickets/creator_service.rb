@@ -17,7 +17,7 @@ module Tickets
         tickets_params[:passengers].each do |passenger|
           seat = Seat.find(passenger[:seat_id])
           if seat.is_taken
-            fail!(error: "Seat ##{seat.number} is taken")
+            fail!(error: "Место ##{seat.number} занято")
             raise ActiveRecord::Rollback
           end
 

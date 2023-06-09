@@ -18,8 +18,8 @@ module Users
       def reset_password
         @user = User.find_by(unconfirmed_email: email)
         @user ||= User.find_by(email: email)
-        return fail!(error: { email: ["User with such email is not registered"] }) if @user.blank?
-        return fail!(error: { email: ["Account is not activated"] }) unless @user.activated?
+        return fail!(error: { email: ["Пользователь с данным email не зарегистрирован"] }) if @user.blank?
+        return fail!(error: { email: ["Аккаунт не активирован"] }) unless @user.activated?
 
         return fail!(error: @user.errors) unless update_user
 

@@ -6,7 +6,8 @@ module Users
     def create
       result = Users::CreatorService.call(user_params: user_params)
       if result.success?
-        render json: { message: "You have successfully registered. Check your email to activate your account." },
+        render json: { message: "Аккаунт успешно зарегистрирован. " \
+                                "Проверьте указанную при регистрации почту для активации аккаунта." },
                status: :created
       else
         render json: { errors: result.error },
@@ -18,7 +19,7 @@ module Users
       if @user.destroy
         head :no_content
       else
-        render json: { message: "Something went wrong",
+        render json: { message: "Что-то пошло не так",
                        errors: @user.errors.full_messages },
                status: :unprocessable_entity
       end

@@ -21,7 +21,7 @@ module Admin
         render json: { station: StationSerializer.new(station) },
                status: :created
       else
-        render json: { message: "Something went wrong",
+        render json: { message: "Что-то пошло не так",
                        errors: station.errors },
                status: :unprocessable_entity
       end
@@ -32,7 +32,7 @@ module Admin
         render json: { station: StationSerializer.new(@station) },
                status: :ok
       else
-        render json: { message: "Something went wrong",
+        render json: { message: "Что-то пошло не так",
                        errors: @station.errors },
                status: :unprocessable_entity
       end
@@ -42,7 +42,7 @@ module Admin
       if @station.destroy
         head :no_content
       else
-        render json: { message: "Something went wrong",
+        render json: { message: "Что-то пошло не так",
                        errors: @station.errors },
                status: :unprocessable_entity
       end

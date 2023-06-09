@@ -13,7 +13,7 @@ module Users
     attr_reader :user_params
 
     def create
-      return fail!(error: { unconfirmed_email: ["Email is blank"] }) if user_params[:unconfirmed_email].blank? # Remove?
+      return fail!(error: { unconfirmed_email: ["Email пуст"] }) if user_params[:unconfirmed_email].blank? # Remove?
 
       user = User.new(user_params)
       return fail!(error: user.errors) unless user.valid?

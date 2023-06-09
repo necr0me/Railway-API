@@ -9,7 +9,7 @@ module Authorization
       if @result.success?
         current_user
       else
-        render json: { message: "You're not logged in",
+        render json: { message: "Вы не авторизованы",
                        errors: [@result.error] },
                status: :unauthorized
       end
