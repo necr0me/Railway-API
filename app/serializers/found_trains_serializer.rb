@@ -55,7 +55,7 @@ class FoundTrainsSerializer
       capacity: type.capacity,
       prices: {
         lower: basic_seat_price,
-        upper: basic_seat_price * Tickets::PriceCalculatorService::UPPER_SEAT_COEFFICIENT
+        upper: basic_seat_price * Tickets::PriceCalculatorService::UPPER_SEAT_COEFFICIENTS[type.name.to_sym]
       }
     }
   end

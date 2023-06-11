@@ -1,6 +1,6 @@
 module Tickets
   class PriceCalculatorService < ApplicationService
-    UPPER_SEAT_COEFFICIENT = 0.75
+    UPPER_SEAT_COEFFICIENTS = Hash.new(1.0).merge({ "Купе": 0.75, "Плацкарт": 0.75 }).freeze
 
     def initialize(ticket:)
       @ticket = ticket
@@ -22,9 +22,13 @@ module Tickets
       ticket.price = coefficient_for_travel_time * price_by_travel_time
       ticket.price *= coefficient_for_left_time if out_of_left_time?
       ticket.price *= coefficient_for_distance
-      ticket.price *= UPPER_SEAT_COEFFICIENT if even_seat?
+      ticket.price *= upper_seat_coefficient if even_seat?
 
       success!(data: ticket)
+    end
+
+    def upper_seat_coefficient
+      UPPER_SEAT_COEFFICIENTS[ticket.seat.carriage.type.name.to_sym]
     end
 
     def price_by_travel_time
