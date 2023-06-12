@@ -6,7 +6,7 @@ ru:
         password_digest: "Дайджест пароля"
         password: "Пароль"
         role: "Роль"
-        unconfirmed_email: "Неподтвержденный e-mail"
+        unconfirmed_email: "E-mail"
         confirmation_token: "Токен активации"
         activated: "Активирован"
         reset_email_token: "Токен сброса e-mail"

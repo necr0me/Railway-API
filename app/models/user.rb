@@ -8,7 +8,7 @@ class User < ApplicationRecord
   validates :email, uniqueness: true,
                     format: URI::MailTo::EMAIL_REGEXP, length: { maximum: 64 }, allow_nil: true
 
-  validates :unconfirmed_email, uniqueness: { message: "Email has already been taken" },
+  validates :unconfirmed_email, uniqueness: { message: "уже занят" },
                                 format: URI::MailTo::EMAIL_REGEXP, length: { maximum: 64 }, allow_nil: true
   validate :unconfirmed_email_must_be_unique
 
@@ -34,7 +34,7 @@ class User < ApplicationRecord
   def unconfirmed_email_must_be_unique
     return if unconfirmed_email.nil? || User.find_by(email: unconfirmed_email).blank?
 
-    errors.add(:unconfirmed_email, "Email уже занят")
+    errors.add(:unconfirmed_email, message: "Данный e-mail уже занят")
   end
 
   def set_default_role
