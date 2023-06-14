@@ -17,8 +17,8 @@ module Trains
     attr_reader :departure_station, :arrival_station, :date, :day_option
 
     def set_stations!
-      @departure_station = Station.find_by(name: departure_station)
-      @arrival_station = Station.preload(:train_stops).find_by(name: arrival_station)
+      @departure_station = Station.find_by("name ILIKE ?", departure_station)
+      @arrival_station = Station.preload(:train_stops).find_by("name ILIKE ?", arrival_station)
     end
 
     def find_trains
