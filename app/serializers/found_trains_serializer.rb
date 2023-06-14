@@ -52,9 +52,9 @@ class FoundTrainsSerializer
     basic_seat_price = calculate_price(type, pair)
     {
       type: type.name,
-      capacity: type.capacity,
+      type_id: type.id,
       prices: {
-        lower: basic_seat_price,
+        bottom: basic_seat_price,
         upper: basic_seat_price * Tickets::PriceCalculatorService::UPPER_SEAT_COEFFICIENTS[type.name.to_sym]
       }
     }
