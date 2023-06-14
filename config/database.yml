@@ -85,6 +85,8 @@ test:
 #
 production:
   <<: *default
+  host: <%= Rails.application.credentials.dig(:pg_deployed, :host) %>
+  port: <%= Rails.application.credentials.dig(:pg_deployed, :port) %>
   database: <%= Rails.application.credentials.dig(:pg_deployed, :database) %>
   username: <%= Rails.application.credentials.dig(:pg_deployed, :username) %>
   password: <%= Rails.application.credentials.dig(:pg_deployed, :password) %>
