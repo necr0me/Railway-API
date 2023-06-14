@@ -67,7 +67,7 @@ module Admin
 
     def pagy_options
       {
-        items: params[:page] ? Pagy::DEFAULT[:items] : CarriageType.count,
+        items: params[:page] ? Pagy::DEFAULT[:items] : [CarriageType.count, 1].max,
         page: params[:page] || 1
       }
     end

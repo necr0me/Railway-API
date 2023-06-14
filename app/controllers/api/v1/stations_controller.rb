@@ -31,7 +31,7 @@ module Api
 
       def pagy_options
         {
-          items: params[:page] ? Pagy::DEFAULT[:items] : Station.count,
+          items: params[:page] ? Pagy::DEFAULT[:items] : [Station.count, 1].max,
           page: params[:page] || 1
         }
       end

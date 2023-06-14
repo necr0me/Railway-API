@@ -102,7 +102,7 @@ module Admin
 
     def pagy_options
       {
-        items: params[:page] ? Pagy::DEFAULT[:items] : Route.count,
+        items: params[:page] ? Pagy::DEFAULT[:items] : [Route.count, 1].max,
         page: params[:page] || 1
       }
     end
