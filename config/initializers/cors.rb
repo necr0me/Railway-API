@@ -7,7 +7,7 @@
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    origins %w[http://localhost:5173 http://localhost:4173 https://railway-tickets.onrender.com/]
+    origins %w[http://localhost:5173 http://localhost:4173 https://railway-tickets.onrender.com]
 
     resource '*',
       headers: :any,
