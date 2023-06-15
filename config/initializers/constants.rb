@@ -5,7 +5,7 @@ module Constants
       "refresh" => Rails.application.credentials.jwt[:secret_refresh_key]
     }
     JWT_EXPIRATION_TIMES = {
-      "access" => 30.minutes,
+      "access" => 2.hours,
       "refresh" => 30.days
     }
     JWT_ALGORITHM = "HS256"
