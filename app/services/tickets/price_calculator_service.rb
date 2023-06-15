@@ -40,7 +40,7 @@ module Tickets
     end
 
     def coefficient_for_left_time
-      1 + [(ticket.departure_time - Time.now.utc) / MAX_LEFT_TIME * LEFT_TIME_MAX_COEFFICIENT,
+      1 + [(Time.now.utc - ticket.departure_time) / MAX_LEFT_TIME * LEFT_TIME_MAX_COEFFICIENT,
            LEFT_TIME_MAX_COEFFICIENT].min&.round(2)
     end
 
