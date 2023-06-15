@@ -40,7 +40,7 @@ module Tickets
     end
 
     def train_departs_in_5_minutes?
-      return if TrainStop.find(tickets_params[:arrival_stop_id]).departure_time + 5.minutes < Time.now.utc
+      return if Time.now.utc + 5.minutes < TrainStop.find(tickets_params[:arrival_stop_id]).departure_time
 
       fail!(error: "Невозможно купить билет за 5 минут до отправления")
       raise ActiveRecord::Rollback
