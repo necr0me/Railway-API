@@ -22,11 +22,15 @@ class TrainStop < ApplicationRecord
 
   default_scope { order("departure_time ASC") }
 
-  scope :arrives_after, ->(date) { where(arrival_time: (date.day == Time.now.utc.day ? Time.now.utc : date)..) }
-  scope :arrives_at_the_day, lambda { |date|
-    where(arrival_time: (date.day == Time.now.utc.day ? Time.now.utc : date.at_beginning_of_day)..date.at_end_of_day)
+  scope :arrives_after, lambda { |date|
+    where(arrival_time: [Time.now.utc.getlocal(date.zone), date].max..)
   }
-  scope :arrives_before, ->(date) { where(arrival_time: Time.now.utc..date.at_end_of_day) }
+  scope :arrives_at_the_day, lambda { |date|
+    where(arrival_time: [Time.now.utc.getlocal(date.zone), date.at_beginning_of_day].max..date.at_end_of_day)
+  }
+  scope :arrives_before, lambda { |date|
+    where(arrival_time: Time.now.utc.getlocal(date.zone)..date.at_end_of_day)
+  }
 
   def first?
     id == train.first_stop.id

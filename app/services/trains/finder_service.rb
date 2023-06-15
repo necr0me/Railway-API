@@ -30,7 +30,7 @@ module Trains
               else
                 query
               end
-      query = query.send("arrives_#{day_option}", Time.at(date.to_i)) unless date.nil?
+      query = query.send("arrives_#{day_option}", DateTime.parse(date)) unless date.nil?
       success!(data: finalize_result(query))
     end
 
