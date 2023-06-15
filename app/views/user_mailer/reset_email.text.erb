@@ -1,6 +1,6 @@
 Привет, <%= @user.email %>!
 
-Чтобы сбросить почту, перейдите по этой ссылке: http://localhost:5173/account/email/update/<%= @user.reset_email_token %>
+Чтобы сбросить почту, перейдите по этой ссылке: <%= Constants::Url::FRONT_END[Rails.env] %>/account/email/update/<%= @user.reset_email_token %>
 
 Ссылка действительна в течение 4 часов.
 

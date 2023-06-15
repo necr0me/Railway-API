@@ -68,7 +68,7 @@
     <div class="mail-container">
       <div class="text-container">
         <div class="centered-table">
-          <div class="header"><h3><a href="http://localhost:5173/">Railway</a></h3></div> <!-- TODO: change hardcoded link on constant -->
+          <div class="header"><h3><a href="<%= Constants::Url::FRONT_END[Rails.env] %>/">Railway</a></h3></div>
           <div class="text-content">
             <%= yield %>
           </div>

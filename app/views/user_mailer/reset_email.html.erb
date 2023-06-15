@@ -1,7 +1,7 @@
 <p>Здравствуйте, <strong><%= @user.email %></strong>!</p>
 
 <p> Чтобы сбросить почту, нажмите на
-  <a href="http://localhost:5173/account/email/update/<%= @user.reset_email_token %>">
+  <a href="<%= Constants::Url::FRONT_END[Rails.env] %>/account/email/update/<%= @user.reset_email_token %>">
     ссылку
   </a>.
 </p>

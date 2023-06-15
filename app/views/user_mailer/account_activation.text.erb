@@ -1,3 +1,3 @@
 Добро пожаловать, <%= @user.unconfirmed_email %>!
 
-Для активации аккаунта нажмите перейдите по этой ссылке: http://localhost:5173/account/activate/<%= @user.confirmation_token %>
+Для активации аккаунта нажмите перейдите по этой ссылке: <%= Constants::Url::FRONT_END[Rails.env] %>/account/activate/<%= @user.confirmation_token %>

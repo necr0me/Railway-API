@@ -1,7 +1,7 @@
 <p> Добро пожаловать, <strong><%= @user.unconfirmed_email %>!</strong></p>
 
 <p> Для активации вашего аккаунта, нажмите на
-  <a href="http://localhost:5173/account/activate/<%= @user.confirmation_token %> ">
+  <a href="<%= Constants::Url::FRONT_END[Rails.env] %>/account/activate/<%= @user.confirmation_token %> ">
     ссылку
   </a>
 </p>

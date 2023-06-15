@@ -1,13 +1,20 @@
 module Constants
   module Jwt
     JWT_SECRET_KEYS = {
-      'access' => Rails.application.credentials.jwt[:secret_access_key],
-      'refresh' => Rails.application.credentials.jwt[:secret_refresh_key]
+      "access" => Rails.application.credentials.jwt[:secret_access_key],
+      "refresh" => Rails.application.credentials.jwt[:secret_refresh_key]
     }
     JWT_EXPIRATION_TIMES = {
-      'access' => 30.minutes,
-      'refresh' => 30.days
+      "access" => 30.minutes,
+      "refresh" => 30.days
     }
-    JWT_ALGORITHM = 'HS256'
+    JWT_ALGORITHM = "HS256"
+  end
+
+  module Url
+    FRONT_END = {
+      "development" => "http://localhost:5173",
+      "production" => "https://railway-tickets.onrender.com"
+    }
   end
 end
