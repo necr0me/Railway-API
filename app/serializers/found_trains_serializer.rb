@@ -20,7 +20,7 @@ class FoundTrainsSerializer
             name: result[:arrival_station]&.name
           }
         },
-        trains: result[:passing_trains].map { |pair| parse_pair(pair) }
+        trains: result[:trains].map { |pair| parse_pair(pair) }
       }
     }
   end
@@ -49,16 +49,26 @@ class FoundTrainsSerializer
   end
 
   def type_price_pair(type, pair)
-    { type: type.name,
-      capacity: type.capacity,
-      price: Tickets::PriceCalculatorService.call(ticket: Ticket.new(
-        departure_point: pair.first,
-        arrival_point: pair.last,
-        seat: type.carriages.first.seats.first
-      )).data&.price }
+    basic_seat_price = calculate_price(type, pair)
+    {
+      type: type.name,
+      type_id: type.id,
+      prices: {
+        bottom: basic_seat_price,
+        upper: basic_seat_price * Tickets::PriceCalculatorService::UPPER_SEAT_COEFFICIENTS[type.name.to_sym]
+      }
+    }
   end
 
   def calculate_free_seats(train_id, type)
     type.carriages.where(train_id: train_id).inject(0) { |sum, carriage| sum + carriage.amount_of_free_seats }
+  end
+
+  def calculate_price(type, pair)
+    Tickets::PriceCalculatorService.call(ticket: Ticket.new(
+      departure_point: pair.first,
+      arrival_point: pair.last,
+      seat: type.carriages.where.not(train_id: nil).first.seats.first
+    )).data&.price
   end
 end

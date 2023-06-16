@@ -12,10 +12,10 @@ module Api
       def activate
         result = Users::Email::ActivationService.call(token: params[:token])
         if result.success?
-          render json: { message: "Account #{result.data.email} was successfully activated" },
+          render json: { message: "Аккаунт #{result.data.email} был успешно активирован" },
                  status: :ok
         else
-          render json: { message: "Something went wrong during account activation",
+          render json: { message: "Что-то пошло не так в процессе активации",
                          errors: result.error },
                  status: :unprocessable_entity
         end
@@ -24,10 +24,10 @@ module Api
       def reset_email
         result = Users::Email::ResetService.call(user: current_user)
         if result.success?
-          render json: { message: "Email reset link was sent on #{current_user.email}." },
+          render json: { message: "Ссылка для сброса e-mail отправлена на #{current_user.email}" },
                  status: :ok
         else
-          render json: { message: "Something went wrong",
+          render json: { message: "Что-то пошло не так",
                          errors: result.error },
                  status: :bad_request
         end
@@ -39,10 +39,10 @@ module Api
           email: params[:email]
         )
         if result.success?
-          render json: { message: "Activation link was sent on #{params[:email]}." },
+          render json: { message: "Ссылка для активации нового e-mail отправлена на #{params[:email]}" },
                  status: :ok
         else
-          render json: { message: "Something went wrong",
+          render json: { message: "Что-то пошло не так",
                          errors: result.error },
                  status: :unprocessable_entity
         end
@@ -51,10 +51,10 @@ module Api
       def reset_password
         result = Users::Password::ResetService.call(email: params[:email])
         if result.success?
-          render json: { message: "Password reset link was sent on #{params[:email]}" },
+          render json: { message: "Ссылка для сброса пароля отправлена на #{params[:email]}" },
                  status: :ok
         else
-          render json: { message: "Something went wrong",
+          render json: { message: "Что-то пошло не так",
                          errors: result.error },
                  status: :bad_request
         end
@@ -63,10 +63,10 @@ module Api
       def update_password
         result = Users::Password::UpdateService.call(token: params[:token], password: params[:password])
         if result.success?
-          render json: { message: "Password was successfully updated" },
+          render json: { message: "Пароль успешно обновлен" },
                  status: :ok
         else
-          render json: { message: "Something went wrong",
+          render json: { message: "Что-то пошло не так",
                          errors: result.error },
                  status: :unprocessable_entity
         end

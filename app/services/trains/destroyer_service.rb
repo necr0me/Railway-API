@@ -15,7 +15,7 @@ module Trains
     def destroy
       train.transaction do
         train.carriages.preload(:seats).each { |carriage| carriage.seats.preload(:ticket).destroy_all }
-        train.destroy ? success! : fail!(error: train.errors)
+        train.destroy ? success! : fail!(error: train.errors.full_messages)
       end
     end
   end

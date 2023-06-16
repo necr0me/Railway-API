@@ -1,13 +1,79 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <style>
-      /* Email styles need to be inline */
+        @import url('https://fonts.cdnfonts.com/css/roboto');
+        .mail-container {
+            padding: 10vh 0;
+
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .text-container {
+            background-color: white;
+            min-width: 500px;
+            width: fit-content;
+
+            font-family: "Roboto";
+            font-size: 16px;
+            color: black;
+
+            border: 1px solid rgba(0, 0, 0, 0.12);
+        }
+
+        .header {
+            height: 50px;
+            background-color: #1976d2;
+            margin-bottom: 20px;
+
+            display: flex;
+            align-items: center;
+        }
+
+        .header > h3 {
+            padding-left: 20px;
+            font-family: "Roboto";
+        }
+
+        .header > h3 > a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .header > h3 > a:hover {
+            transition: opacity .3s;
+            opacity: 0.65;
+        }
+
+        .text-content  {
+            padding: 0px 20px 10px 20px;
+        }
+
+        .divider {
+            height: 1px;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.12);
+        }
+
+        .caption {
+            font-size: 11px;
+            color: gray;
+        }
     </style>
   </head>
 
   <body>
-    <%= yield %>
+    <div class="mail-container">
+      <div class="text-container">
+        <div class="centered-table">
+          <div class="header"><h3><a href="<%= Constants::Url::FRONT_END[Rails.env] %>/">Railway</a></h3></div>
+          <div class="text-content">
+            <%= yield %>
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
 </html>

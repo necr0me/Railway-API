@@ -6,7 +6,7 @@ module Admin
       if @user.destroy
         head :no_content
       else
-        render json: { message: "Something went wrong",
+        render json: { message: "Что-то пошло не так",
                        errors: @user.errors.full_messages },
                status: :unprocessable_entity
       end

@@ -21,7 +21,7 @@ module TrainStops
         before_arrival?(stop) || after_departure?(stop)
       end
 
-      empty ? success! : fail!(error: { way_number: ["#{train_stop.way_number} is taken"] })
+      empty ? success! : fail!(error: { way_number: ["Путь #{train_stop.way_number} занят"] })
     end
 
     def before_arrival?(stop)

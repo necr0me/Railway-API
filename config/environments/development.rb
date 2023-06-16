@@ -37,8 +37,7 @@ Rails.application.configure do
   config.action_mailer.raise_delivery_errors = false
 
   config.action_mailer.delivery_method = :test
-  host = 'localhost:3000' #replace with your own url
-  config.action_mailer.default_url_options = { host: host, protocol: "http" }
+  config.action_mailer.default_url_options = { host: 'localhost:3000' }
 
   # SMTP settings for gmail
   # config.action_mailer.smtp_settings = {

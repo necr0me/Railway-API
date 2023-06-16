@@ -16,4 +16,8 @@ class Carriage < ApplicationRecord
   def amount_of_free_seats
     seats.where(is_taken: false).count
   end
+
+  def self.search(term)
+    where("LOWER(name) like :prefix", prefix: "#{term&.downcase}%")
+  end
 end

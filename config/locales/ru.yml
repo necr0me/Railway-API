@@ -1,0 +1,46 @@
+ru:
+  activerecord:
+    attributes:
+      user:
+        email: "E-mail"
+        password_digest: "Дайджест пароля"
+        password: "Пароль"
+        role: "Роль"
+        unconfirmed_email: "E-mail"
+        confirmation_token: "Токен активации"
+        activated: "Активирован"
+        reset_email_token: "Токен сброса e-mail"
+        reset_email_sent_at: "Время отправки токена сброса"
+        reset_password_token: "Токен сброса пароля"
+        reset_password_sent_at: "Время отправки токена сброса"
+      profile:
+        name: "Имя"
+        surname: "Фамилия"
+        patronymic: "Отчество"
+        phone_number: "Номер телефона"
+        passport_code: "Код паспорта"
+      station:
+        name: "Название"
+        number_of_ways: "Количество путей"
+      route:
+        destination: "Направление"
+      station_order_number:
+        order_number: "Порядковый номер"
+      carriage_type:
+        name: "Название"
+        description: "Описание"
+        capacity: "Вместительность"
+        cost_per_hour: "Стоимость в час"
+      carriage:
+        name: "Название"
+        order_number: "Порядковый номер"
+      seat:
+        number: "Номер"
+        is_taken: "Занято"
+      train_stop:
+        arrival_time: "Время прибытия"
+        departure_time: "Время отправления"
+        way_number: "Номер пути"
+      ticket:
+        price: "Стоимость"
+

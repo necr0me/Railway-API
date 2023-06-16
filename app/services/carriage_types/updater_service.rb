@@ -16,9 +16,9 @@ module CarriageTypes
     def update
       if type.capacity == params[:capacity] || type.carriages.count.zero?
         type.update(params)
-        type.errors.empty? ? success!(data: type) : fail!(error: type.errors)
+        type.errors.empty? ? success!(data: type) : fail!(error: type.errors.to_hash(full_messages: true))
       else
-        fail!(error: { capacity: ["Can't update carriage type capacity that has any carriages"] })
+        fail!(error: { capacity: ["Невозможно обновить вместительность типа, у которого есть хотя бы один вагон"] })
       end
     end
   end

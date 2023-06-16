@@ -15,7 +15,7 @@ module Trains
 
     def add_carriage
       carriage = Carriage.find(carriage_id)
-      return fail!(error: "Carriage already in train") if carriage.train_id.present?
+      return fail!(error: "Вагон уже в составе поезда") if carriage.train_id.present?
 
       ActiveRecord::Base.transaction do
         carriage.update!(train_id: train.id, order_number: train.carriages.count + 1)

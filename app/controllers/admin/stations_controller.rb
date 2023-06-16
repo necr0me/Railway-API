@@ -4,7 +4,7 @@ module Admin
     before_action :authorize_station
 
     def index
-      @stations = Station.where("name LIKE :prefix", prefix: "#{params[:station]}%")
+      @stations = Station.search(params[:station])
       @pagy, @stations = pagy(@stations, page: params[:page] || 1)
       render json: { stations: StationSerializer.new(@stations),
                      pages: @pagy.pages }
@@ -21,8 +21,8 @@ module Admin
         render json: { station: StationSerializer.new(station) },
                status: :created
       else
-        render json: { message: "Something went wrong",
-                       errors: station.errors },
+        render json: { message: "Что-то пошло не так",
+                       errors: station.errors.to_hash(full_messages: true) },
                status: :unprocessable_entity
       end
     end
@@ -32,8 +32,8 @@ module Admin
         render json: { station: StationSerializer.new(@station) },
                status: :ok
       else
-        render json: { message: "Something went wrong",
-                       errors: @station.errors },
+        render json: { message: "Что-то пошло не так",
+                       errors: @station.errors.to_hash(full_messages: true) },
                status: :unprocessable_entity
       end
     end
@@ -42,8 +42,8 @@ module Admin
       if @station.destroy
         head :no_content
       else
-        render json: { message: "Something went wrong",
-                       errors: @station.errors },
+        render json: { message: "Что-то пошло не так",
+                       errors: @station.errors.full_messages },
                status: :unprocessable_entity
       end
     end

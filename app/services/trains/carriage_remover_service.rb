@@ -15,8 +15,8 @@ module Trains
 
     def remove_carriage
       carriage = Carriage.find(carriage_id)
-      return fail!(error: "Can't remove carriage that not in train") if carriage.train_id.nil?
-      return fail!(error: "Can't remove carriage from different train") if carriage.train_id != train.id
+      return fail!(error: "Невозможно удалить вагона из состава поезда, в котором его нет") if carriage.train_id.nil?
+      return fail!(error: "Невозможно удалить вагон из другого состава поезда") if carriage.train_id != train.id
 
       ActiveRecord::Base.transaction do
         decrement_order_numbers_after(carriage)

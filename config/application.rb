@@ -38,5 +38,7 @@ module RailwayApi
 
     config.middleware.use ActionDispatch::Cookies
     config.middleware.use ActionDispatch::Session::CookieStore
+
+    config.i18n.default_locale = :ru
   end
 end

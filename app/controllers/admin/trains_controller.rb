@@ -4,7 +4,8 @@ module Admin
     before_action :authorize_train
 
     def index
-      @pagy, @trains = pagy(Train.all, page: params[:page] || 1)
+      @trains = Train.search(params[:train], type: params[:search])
+      @pagy, @trains = pagy(@trains, page: params[:page] || 1)
       render json: { trains: TrainSerializer.new(@trains),
                      pages: @pagy.pages },
              status: :ok
@@ -21,11 +22,11 @@ module Admin
     def create
       train = Train.create(route_id: params.dig(:train, :route_id))
       if train.persisted?
-        render json: { message: "Train was successfully created",
+        render json: { message: "Поезд успешно создан",
                        train: TrainSerializer.new(train) },
                status: :created
       else
-        render json: { message: "Something went wrong",
+        render json: { message: "Что-то пошло не так",
                        errors: train.errors.full_messages },
                status: :unprocessable_entity
       end
@@ -33,11 +34,11 @@ module Admin
 
     def update
       if @train.update(train_params)
-        render json: { message: "Train was successfully updated",
-                       train: @train },
+        render json: { message: "Поезд успешно обновлен",
+                       train: TrainSerializer.new(@train, { include: %i[route.stations] }) },
                status: :ok
       else
-        render json: { message: "Something went wrong",
+        render json: { message: "Что-то пошло не так",
                        errors: @train.errors.full_messages },
                status: :unprocessable_entity
       end
@@ -49,11 +50,11 @@ module Admin
         carriage_id: params[:carriage_id]
       )
       if result.success?
-        render json: { message: "Carriage was successfully added to train",
+        render json: { message: "Вагон успешно добавлен в состав поезда",
                        carriage: CarriageSerializer.new(result.data) },
                status: :ok
       else
-        render json: { message: "Something went wrong",
+        render json: { message: "Что-то пошло не так",
                        errors: [result.error] },
                status: :unprocessable_entity
       end
@@ -65,11 +66,11 @@ module Admin
         carriage_id: params[:carriage_id]
       )
       if result.success?
-        render json: { message: "Carriage was successfully removed from train",
+        render json: { message: "Вагон успешно удалён из состава поезда",
                        carriage: CarriageSerializer.new(result.data) },
                status: :ok
       else
-        render json: { message: "Something went wrong",
+        render json: { message: "Что-то пошло не так",
                        errors: [result.error] },
                status: :unprocessable_entity
       end
@@ -80,7 +81,7 @@ module Admin
       if result.success?
         head :no_content
       else
-        render json: { message: "Something went wrong",
+        render json: { message: "Что-то пошло не так",
                        errors: result.error.full_messages },
                status: :unprocessable_entity
       end

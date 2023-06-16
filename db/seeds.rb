@@ -15,3 +15,5 @@
 #                        Trains (3?)
 #                        Seats for carriages
 #                        TrainStop (for each train on route)
+
+User.create(email: "johndoe@gmail.com", password: "12345678", role: :admin, activated: true)

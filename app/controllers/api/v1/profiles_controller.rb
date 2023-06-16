@@ -13,35 +13,35 @@ module Api
       def create
         profile = current_user.profiles.create(profile_params)
         if profile.persisted?
-          render json: { message: "Profile successfully created",
+          render json: { message: "Пассажир успешно добавлен",
                          profile: ProfileSerializer.new(profile) },
                  status: :created
         else
-          render json: { message: "Something went wrong",
-                         errors: profile.errors },
+          render json: { message: "Что-то пошло не так",
+                         errors: profile.errors.to_hash(full_messages: true) },
                  status: :unprocessable_entity
         end
       end
 
       def update
         if @profile.update(profile_params)
-          render json: { message: "Profile successfully updated",
+          render json: { message: "Информация о пассажире успешно обновлена",
                          profile: ProfileSerializer.new(@profile) },
                  status: :ok
         else
-          render json: { message: "Something went wrong",
-                         errors: @profile.errors },
+          render json: { message: "Что-то пошло не так",
+                         errors: @profile.errors.to_hash(full_messages: true) },
                  status: :unprocessable_entity
         end
       end
 
       def destroy
         if @profile.destroy
-          render json: { message: "Profile successfully destroyed" },
+          render json: { message: "Пассажир успешно удален" },
                  status: :ok
         else
-          render json: { message: "Something went wrong",
-                         errors: @profile.errors },
+          render json: { message: "Что-то пошло не так",
+                         errors: @profile.errors.full_messages },
                  status: :unprocessable_entity
         end
       end

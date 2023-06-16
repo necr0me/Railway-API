@@ -5,7 +5,7 @@ module Api
       before_action :authorize_station
 
       def index
-        @stations = Station.where("name LIKE :prefix", prefix: "#{params[:station]}%")
+        @stations = Station.search(params[:station])
         @pagy, @stations = pagy(@stations, pagy_options)
         render json: { stations: StationSerializer.new(@stations),
                        pages: @pagy.pages }
@@ -31,7 +31,7 @@ module Api
 
       def pagy_options
         {
-          items: params[:page] ? Pagy::DEFAULT[:items] : Station.count,
+          items: params[:page] ? Pagy::DEFAULT[:items] : [Station.count, 1].max,
           page: params[:page] || 1
         }
       end

@@ -11,11 +11,11 @@ module Users
           expires: Constants::Jwt::JWT_EXPIRATION_TIMES["refresh"],
           httponly: true
         }
-        render json: { message: "You have successfully logged in",
+        render json: { message: "Вы успешно вошли",
                        access_token: access_token },
                status: :created
       else
-        render json: { message: "Something went wrong",
+        render json: { message: "Что-то пошло не так",
                        errors: result.error },
                status: :bad_request
       end
@@ -30,7 +30,7 @@ module Users
           expires: Constants::Jwt::JWT_EXPIRATION_TIMES["refresh"],
           httponly: true
         }
-        render json: { access_token: access_token },
+        render json: { access_token: access_token, },
                status: :ok
       else
         render json: { errors: [result.error] },
@@ -40,8 +40,8 @@ module Users
 
     def destroy
       current_user.refresh_token&.destroy
-      cookies.delete :refresh_token
-      render json: { message: "You have successfully logged out." },
+      cookies.delete(:refresh_token)
+      render json: { message: "Вы успешно вышли" },
              status: :ok
     end
 

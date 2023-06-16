@@ -4,7 +4,8 @@ module Admin
     before_action :authorize_carriage_type
 
     def index
-      @pagy, @types = pagy(CarriageType.all, pagy_options)
+      @types = CarriageType.search(params[:carriage_type])
+      @pagy, @types = pagy(@types, pagy_options)
       render json: { carriage_types: CarriageTypeSerializer.new(@types),
                      pages: @pagy.pages },
              status: :ok
@@ -13,12 +14,12 @@ module Admin
     def create
       carriage_type = CarriageType.create(carriage_type_params)
       if carriage_type.persisted?
-        render json: { message: "Carriage type successfully created",
+        render json: { message: "Тип вагона успешно создан",
                        carriage_type: CarriageTypeSerializer.new(carriage_type) },
                status: :created
       else
-        render json: { message: "Something went wrong",
-                       errors: carriage_type.errors },
+        render json: { message: "Что-то пошло не так",
+                       errors: carriage_type.errors.to_hash(full_messages: true) },
                status: :unprocessable_entity
       end
     end
@@ -29,11 +30,11 @@ module Admin
         carriage_type_params: carriage_type_params
       )
       if result.success?
-        render json: { message: "Carriage type successfully updated",
+        render json: { message: "Тип вагона успешно обновлен",
                        carriage_type: CarriageTypeSerializer.new(result.data) },
                status: :ok
       else
-        render json: { message: "Something went wrong",
+        render json: { message: "Что-то пошло не так",
                        errors: result.error },
                status: :unprocessable_entity
       end
@@ -44,7 +45,7 @@ module Admin
       if result.success?
         head :no_content
       else
-        render json: { message: "Something went wrong",
+        render json: { message: "Что-то пошло не так",
                        errors: [result.error] },
                status: :unprocessable_entity
       end
@@ -66,7 +67,7 @@ module Admin
 
     def pagy_options
       {
-        items: params[:page] ? Pagy::DEFAULT[:items] : CarriageType.count,
+        items: params[:page] ? Pagy::DEFAULT[:items] : [CarriageType.count, 1].max,
         page: params[:page] || 1
       }
     end

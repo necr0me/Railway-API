@@ -12,10 +12,10 @@ module Api
       def create
         result = Tickets::CreatorService.call(tickets_params: tickets_params)
         if result.success?
-          render json: { message: "Tickets successfully created" },
+          render json: { message: "Билеты успешно куплены" },
                  status: :created
         else
-          render json: { message: "Something went wrong",
+          render json: { message: "Что-то пошло не так",
                          errors: [result.error].flatten },
                  status: :unprocessable_entity
         end
@@ -23,10 +23,10 @@ module Api
 
       def destroy
         if @ticket.destroy
-          render json: { message: "Ticket successfully destroyed" },
+          render json: { message: "Билет успешно удален" },
                  status: :ok
         else
-          render json: { message: "Something went wrong",
+          render json: { message: "Что-то пошло не так",
                          errors: @ticket.errors.full_messages },
                  status: :unprocessable_entity
         end

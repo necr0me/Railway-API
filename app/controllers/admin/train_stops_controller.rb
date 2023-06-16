@@ -6,34 +6,34 @@ module Admin
     def create
       train_stop = TrainStop.create(train_stop_params)
       if train_stop.persisted?
-        render json: { message: "Train stop successfully created",
+        render json: { message: "Остановка успешно создана",
                        train_stop: TrainStopSerializer.new(train_stop) },
                status: :created
       else
-        render json: { message: "Something went wrong",
-                       errors: train_stop.errors },
+        render json: { message: "Что-то пошло не так",
+                       errors: train_stop.errors.to_hash(full_messages: true) },
                status: :unprocessable_entity
       end
     end
 
     def update
       if @train_stop.update(train_stop_params)
-        render json: { message: "Train stop successfully updated",
+        render json: { message: "Остановка успешно обновлена",
                        train_stop: TrainStopSerializer.new(@train_stop) },
                status: :ok
       else
-        render json: { message: "Something went wrong",
-                       errors: @train_stop.errors },
+        render json: { message: "Что-то пошло не так",
+                       errors: @train_stop.errors.to_hash(full_messages: true) },
                status: :unprocessable_entity
       end
     end
 
     def destroy
       if @train_stop.destroy
-        render json: { message: "Train stop successfully removed" },
+        render json: { message: "Остановка успешно удалена" },
                status: :ok
       else
-        render json: { message: "Something went wrong",
+        render json: { message: "Что-то пошло не так",
                        errors: @train_stop.errors.full_messages },
                status: :unprocessable_entity
       end

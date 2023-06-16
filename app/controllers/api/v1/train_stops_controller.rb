@@ -11,7 +11,10 @@ module Api
           day_option: params[:day_option]
         )
         if result.success?
-          render json: { found_trains: FoundTrainsSerializer.new(result.data).serializable_hash },
+          @pagy, @trains = pagy_array(result.data[:trains], { page: params[:page] || 1 })
+          result.data[:trains] = @trains
+          render json: { found_trains: FoundTrainsSerializer.new(result.data).serializable_hash,
+                         pages: @pagy.pages },
                  status: :ok
         else
           render json: { errors: result.error },

@@ -1,7 +1,7 @@
-Hi, <%= @user.email %>
+Привет, <%= @user.email %>!
 
-If you want to reset your email, click on this link: http://localhost:5173/account/email/update/<%= @user.reset_email_token %>
+Чтобы сбросить почту, перейдите по этой ссылке: <%= Constants::Url::FRONT_END[Rails.env] %>/account/email/update/<%= @user.reset_email_token %>
 
-Email reset link is valid 4 hours.
+Ссылка действительна в течение 4 часов.
 
-If you didn't requested for email reset - ignore this message.
+Если вы не запрашивали сброс почты - проигнорируйте данное письмо.

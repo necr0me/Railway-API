@@ -18,7 +18,7 @@ module Users
           UserMailer.reset_email(user).deliver_now
           success!
         else
-          fail!(error: user.errors)
+          fail!(error: user.errors.to_hash(full_messages: true))
         end
       end
 

@@ -15,7 +15,7 @@ module Auth
     attr_reader :authorization_header
 
     def authorize
-      return fail!(error: "Authorization header is not presented") if authorization_header.nil?
+      return fail!(error: "Заголовок 'Authorization' не представлен") if authorization_header.nil?
 
       token = token_from_header
       result = Jwt::DecoderService.call(token: token, type: "access")
